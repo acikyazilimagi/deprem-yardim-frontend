@@ -31,8 +31,8 @@ function LeafletMap({ onClickMarker, data }: Props) {
             url={`http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
           />
           <MarkerClusterGroup>
-            {data.map((marker: MarkerData) => (
-              <>
+            {data.map((marker: MarkerData, index) => (
+              <React.Fragment key={index}>
                 <Marker
                   key={marker.place_id}
                   position={[
@@ -61,7 +61,7 @@ function LeafletMap({ onClickMarker, data }: Props) {
                   latitudeExtractor={(m: any) => m[0]}
                   intensityExtractor={(m: any) => parseFloat(m[2])}
                 />
-              </>
+              </React.Fragment>
             ))}
           </MarkerClusterGroup>
         </>
