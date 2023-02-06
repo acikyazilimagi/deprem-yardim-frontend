@@ -11,28 +11,38 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
   ssr: false,
 });
 
+const MapLegend = dynamic(() => import("./MapLegend"), {
+  ssr: false,
+});
+
 function LeafletMap({ onClickMarker }: any) {
   return (
-    <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
-      {({ TileLayer, Marker }: any) => (
-        <>
-          <TileLayer url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}" />
-          <MarkerClusterGroup>
-            {markers.map((marker: any) => (
-              <Marker
-                key={marker.name}
-                position={[marker.lat, marker.lng]}
-                eventHandlers={{
-                  click: (e: any) => {
-                    onClickMarker(e, marker);
-                  },
-                }}
-              />
-            ))}
-          </MarkerClusterGroup>
-        </>
-      )}
-    </Map>
+    <>
+      <MapLegend />
+      <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
+        {({ TileLayer, Marker }: any) => (
+          <>
+            <TileLayer
+              url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MarkerClusterGroup>
+              {markers.map((marker: any) => (
+                <Marker
+                  key={marker.name}
+                  position={[marker.lat, marker.lng]}
+                  eventHandlers={{
+                    click: (e: any) => {
+                      onClickMarker(e, marker);
+                    },
+                  }}
+                />
+              ))}
+            </MarkerClusterGroup>
+          </>
+        )}
+      </Map>
+    </>
   );
 }
 
