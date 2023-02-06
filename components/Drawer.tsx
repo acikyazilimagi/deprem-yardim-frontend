@@ -2,6 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import styles from "./Drawer.module.css";
+import Tag from "./Tag";
 
 export default function MyDrawer() {
   const [isOpen, setOpen] = React.useState(false);
@@ -21,12 +23,19 @@ export default function MyDrawer() {
 
   const list = () => (
     <Box
-      sx={{ width: 250 }}
+      sx={{ width: 372, display: "flex", flexDirection: "column" }}
       role="presentation"
       onClick={toggleDrawer()}
       onKeyDown={toggleDrawer()}
     >
-      Rendered item
+      <div className={styles.content}>
+        <Tag color="#74080A">Yoğun</Tag>
+        <h3>Kahramanmaraş, Tavşantepe, Hürriyet Mahallesi, Erşan Sokak</h3>
+        <p> {`36°30'18.2"N 36°16'17.6"E`}</p>
+      </div>
+      <div className={styles.closeButton} onClick={() => toggleDrawer()}>
+        X
+      </div>
     </Box>
   );
 

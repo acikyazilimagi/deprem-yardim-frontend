@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import styles from "./Map.module.css";
 
 const Map = () => {
-  console.log(styles.leafletMap);
   return (
     <MapContainer
       center={[37.2544, 37.3315]}

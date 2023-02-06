@@ -1,0 +1,20 @@
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-family: sans-serif;
+  color: #000;
+  border: none;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  background-color: #f2f2f2;
+}
+
+.content {
+  padding: 48px;
+}
