@@ -37,6 +37,7 @@
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@vgrid/react-leaflet-heatmap-layer": "^4.0.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "leaflet": "^1.9.3",
@@ -55,8 +56,8 @@
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
-    "msw": "^1.0.0",
     "lint-staged": "^13.1.0",
+    "msw": "^1.0.0",
     "prettier": "^2.8.3"
   },
   "msw": {
