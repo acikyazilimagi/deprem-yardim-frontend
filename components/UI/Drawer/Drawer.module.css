@@ -12,3 +12,8 @@
 .content {
   padding: 48px;
 }
+
+.drawer  {
+  position: relative;
+  z-index: 99999;
+}

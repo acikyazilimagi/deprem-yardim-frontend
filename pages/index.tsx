@@ -2,10 +2,25 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 
 import Container from "@mui/material/Container";
-import MyDrawer from "@/components/UI/Drawer/Drawer";
 import LeafletMap from "@/components/UI/Map";
+import { useState } from "react";
+import Drawer from "@/components/UI/Drawer/Drawer";
 
 export default function Home() {
+  const [isOpen, setisOpen] = useState(true);
+
+  const toggleDrawer =
+    () => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+
+      setisOpen((prev) => !prev);
+    };
   return (
     <>
       <Head>
@@ -14,12 +29,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MyDrawer />
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           <LeafletMap />
         </Container>
+        <Drawer isOpen={isOpen} toggler={toggleDrawer} />
       </main>
     </>
   );
