@@ -6,27 +6,32 @@ import LeafletMap from "@/components/UI/Map";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { IMarker } from "@/components/UI/Map/utils";
 
-export default function Home() {
+import { Data, MarkerData } from "../mocks/types";
+
+export default function Home({ results }: { results: MarkerData[] }) {
   const [isOpen, setisOpen] = useState(false);
-  const [drawerData, setDrawerData] = useState<IMarker>();
+  const [drawerData, setDrawerData] = useState<any>();
 
   const toggleDrawer = useCallback(
-    () => (event: React.KeyboardEvent | React.MouseEvent, markerData?: any) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      )
-        return;
+    () =>
+      (
+        event: React.KeyboardEvent | React.MouseEvent,
+        markerData?: MarkerData
+      ) => {
+        if (
+          event.type === "keydown" &&
+          ((event as React.KeyboardEvent).key === "Tab" ||
+            (event as React.KeyboardEvent).key === "Shift")
+        )
+          return;
 
-      setisOpen((prev) => !prev);
+        setisOpen((prev) => !prev);
 
-      if (markerData) {
-        setDrawerData(markerData);
-      }
-    },
+        if (markerData) {
+          setDrawerData(markerData);
+        }
+      },
     []
   );
 
@@ -41,7 +46,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <LeafletMap onClickMarker={toggleDrawer()} />
+          <LeafletMap onClickMarker={toggleDrawer()} data={results} />
         </Container>
         {drawerData && (
           <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
@@ -50,4 +55,19 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  // Server-side requests are mocked by `mocks/server.ts`.
+  const res = await fetch(
+    "https://public-sdc.trendyol.com/discovery-web-websfxgeolocation-santral/geocode?address=gaziantep"
+  );
+  const data = (await res.json()) as Data;
+  const results = data.results;
+
+  return {
+    props: {
+      results,
+    },
+  };
 }

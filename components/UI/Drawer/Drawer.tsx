@@ -9,7 +9,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
-import { IMarker } from "@/components/UI/Map/utils";
 
 export default function Drawer({
   isOpen,
@@ -17,14 +16,15 @@ export default function Drawer({
   data,
 }: {
   isOpen: boolean;
+  // eslint-disable-next-line no-unused-vars
   toggler: (e: any) => void;
-  data: IMarker;
+  data: any;
 }) {
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
 
   function openGoogleMap(lat: string, lng: string) {
-    window.open(`https://www.google.com/maps/@${lat},${lng},14z`, "_blank");
+    window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
   }
 
   function copyBillboard(url: string) {
@@ -33,7 +33,7 @@ export default function Drawer({
   }
 
   const list = useMemo(() => {
-    const { intensity, lat, lng, name } = data;
+    const { geometry, formatted_address } = data;
     return (
       <Box
         sx={{
@@ -46,13 +46,18 @@ export default function Drawer({
         onKeyDown={(e: any) => toggler(e)}
       >
         <div className={styles.content}>
-          <Tag color={Tags[intensity]?.color}>{Tags[intensity]?.intensity}</Tag>
-          <h3>{name}</h3>
-          <p> {`${lat}"N ${lng}"E`}</p>
+          <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag>
+          <h3>{formatted_address}</h3>
+          <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
           <div className={styles.contentButton}>
             <Button
               variant="contained"
-              onClick={() => openGoogleMap(lat.toString(), lng.toString())}
+              onClick={() =>
+                openGoogleMap(
+                  geometry.location.lat.toString(),
+                  geometry.location.lng.toString()
+                )
+              }
             >
               Google Haritalar ile gör
             </Button>

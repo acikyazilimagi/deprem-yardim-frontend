@@ -14,6 +14,10 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  require("../mocks");
+}
+
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   return (

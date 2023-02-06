@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
-  "homepage": "YOUR_GIT_REPO_URL",
+  "homepage": "https://github.com/acikkaynak/deprem-yardim-frontend",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acikkaynak/deprem-yardim-frontend"
+  },
+  "bugs": {
+    "url": "https://github.com/acikkaynak/deprem-yardim-frontend/issues"
+  },
   "engines": {
     "node": ">=14.0.0",
     "yarn": ">=1.22.0",
@@ -13,8 +20,10 @@
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prettier": "prettier --write .",
+    "lint": "next lint --max-warnings=0",
+    "lint:fix": "next lint --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -46,7 +55,11 @@
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "husky": "^8.0.3",
+    "msw": "^1.0.0",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.3"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
