@@ -4,7 +4,7 @@ import styles from "@/styles/Home.module.css";
 
 import Container from "@mui/material/Container";
 // import LeafletMap from "@/components/UI/Map";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 
@@ -40,6 +40,11 @@ export default function Home({ results }: { results: MarkerData[] }) {
     []
   );
 
+  const memoizedMap = useMemo(
+    () => <LeafletMap onClickMarker={toggleDrawer()} data={results} />,
+    []
+  );
+
   return (
     <>
       <Head>
@@ -55,7 +60,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
         </div>
 
         <Container maxWidth={false} disableGutters>
-          <LeafletMap onClickMarker={toggleDrawer()} data={results} />
+          {memoizedMap}
         </Container>
         <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         <FooterBanner />
