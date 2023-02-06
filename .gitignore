@@ -44,3 +44,6 @@ jspm_packages
 *.njsproj
 *.sln
 *.sw?
+
+# misc
+.DS_Store
