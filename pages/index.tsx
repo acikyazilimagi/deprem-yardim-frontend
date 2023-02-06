@@ -43,7 +43,7 @@ export default function Home() {
           <LeafletMap onClickMarker={toggleDrawer()} />
         </Container>
         {drawerData && (
-          <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer} />
+          <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         )}
       </main>
     </>

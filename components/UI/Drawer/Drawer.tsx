@@ -15,7 +15,7 @@ export default function Drawer({
   data,
 }: {
   isOpen: boolean;
-  toggler: () => void;
+  toggler: (e: any) => void;
   data: IMarker;
 }) {
   const size = useWindowSize();
@@ -30,27 +30,27 @@ export default function Drawer({
           flexDirection: "column",
         }}
         role="presentation"
-        onClick={() => toggler()}
-        onKeyDown={() => toggler()}
+        onClick={(e: any) => toggler(e)}
+        onKeyDown={(e: any) => toggler(e)}
       >
         <div className={styles.content}>
           <Tag color={Tags[intensity]?.color}>{Tags[intensity]?.intensity}</Tag>
           <h3>{name}</h3>
           <p> {`${lat}"N ${lng}"E`}</p>
         </div>
-        <CloseIcon className={styles.closeButton} onClick={() => toggler()} />
+        <CloseIcon className={styles.closeButton} />
       </Box>
     );
   }, []);
 
   return (
     <div>
-      <Button onClick={() => toggler()}>Left</Button>
+      <Button onClick={(e: any) => toggler(e)}>Left</Button>
       <MuiDrawer
         className="drawer"
         anchor={size.width > 768 ? "left" : "bottom"}
         open={isOpen}
-        onClose={() => toggler()}
+        onClose={(e: any) => toggler(e)}
       >
         {list}
       </MuiDrawer>
