@@ -14,7 +14,10 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 
 type Props = {
   data: MarkerData[];
-  onClickMarker: (e: any, markerData: MarkerData) => void;
+  onClickMarker: (
+    e: React.KeyboardEvent | React.MouseEvent,
+    markerData: MarkerData
+  ) => void;
 };
 
 function LeafletMap({ onClickMarker, data }: Props) {
