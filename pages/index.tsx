@@ -3,24 +3,26 @@ import styles from "@/styles/Home.module.css";
 
 import Container from "@mui/material/Container";
 import LeafletMap from "@/components/UI/Map";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 
 export default function Home() {
-  const [isOpen, setisOpen] = useState(true);
+  const [isOpen, setisOpen] = useState(false);
 
-  const toggleDrawer =
+  const toggleDrawer = useCallback(
     () => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
           (event as React.KeyboardEvent).key === "Shift")
-      ) {
+      )
         return;
-      }
 
       setisOpen((prev) => !prev);
-    };
+    },
+    []
+  );
+
   return (
     <>
       <Head>
