@@ -10,6 +10,7 @@ import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 
 import { Data, MarkerData } from "../mocks/types";
 import dynamic from "next/dynamic";
+import UpperTagWrapper from "@/components/UI/Tag/UpperTagWrapper";
 
 export default function Home({ results }: { results: MarkerData[] }) {
   const [isOpen, setisOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
         <div className={styles.logo}>
           <Image src="/logo.svg" width={64} height="64" alt="Afet Haritası" />
         </div>
-
+        <UpperTagWrapper />
         <Container maxWidth={false} disableGutters>
           <LeafletMap onClickMarker={toggleDrawer()} data={results} />
         </Container>

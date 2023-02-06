@@ -1,0 +1,39 @@
+.upperRightTags {
+  background: white;
+  padding: 6px 12px 6px 8px;
+  border-radius: 5px;
+  font-size: 14px;
+  flex: auto;
+  align-items: center;
+  margin-right: 5px;
+  min-width: 120px;
+  font-weight: bold;
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .upperRightTags {
+    display: none;
+  }
+}
+
+.TagWrapper {
+  position: absolute;
+  z-index: 999;
+  top: 2%;
+  right: 1%;
+  gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90%;
+}
+.TagsCircle {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  align-self: center;
+  padding-top: 4;
+  border: 0.1px solid lightgray;
+}
