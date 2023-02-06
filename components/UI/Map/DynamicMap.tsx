@@ -27,6 +27,7 @@ const Map = ({ children, className, ...rest }: any) => {
   }, []);
 
   return (
+
     <MapContainer className={mapClassName} {...rest}>
       {children(ReactLeaflet, Leaflet, HeatmapLayer)}
     </MapContainer>

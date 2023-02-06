@@ -15,7 +15,9 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 type Props = {
   data: MarkerData[];
   onClickMarker: (
+    // eslint-disable-next-line no-unused-vars
     e: React.KeyboardEvent | React.MouseEvent,
+    // eslint-disable-next-line no-unused-vars
     markerData: MarkerData
   ) => void;
 };

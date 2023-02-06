@@ -16,6 +16,7 @@ export default function Drawer({
   data,
 }: {
   isOpen: boolean;
+  // eslint-disable-next-line no-unused-vars
   toggler: (e: any) => void;
   data: any;
 }) {
