@@ -7,7 +7,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
-import { Marker, TileLayer } from "react-leaflet";
+import { Marker, MarkerProps, TileLayer } from "react-leaflet";
 import { DEFAULT_CENTER, DEFAULT_IMPORTANCY, DEFAULT_ZOOM } from "./utils";
 const HeatmapLayer = HeatmapLayerFactory<[number, number, number]>();
 
@@ -25,6 +25,14 @@ type Props = {
   onClusterClick: SpiderfyEventHandlerFn;
 };
 
+type ExtendedMarkerProps = MarkerProps & {
+  markerData: MarkerData;
+};
+
+function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
+  return <Marker {...props} />;
+}
+
 function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   return (
     <>
@@ -36,7 +44,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
         <MarkerClusterGroup eventHandlers={{ spiderfied: onClusterClick }}>
           {data.map((marker: MarkerData) => (
             <Fragment key={marker.place_id}>
-              <Marker
+              <ExtendedMarker
                 key={marker.place_id}
                 position={[
                   marker.geometry.location.lat,

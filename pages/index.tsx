@@ -39,15 +39,18 @@ export default function Home({ results }: HomeProps) {
     []
   );
 
-  const togglePopUp = useCallback((e: any) => {
-    e.cluster.zoomToBounds({ padding: [20, 20] });
+  const togglePopUp = useCallback(
+    (e: any) => {
+      e.cluster.zoomToBounds({ padding: [20, 20] });
 
-    setPopUpData({
-      count: e.markers.length ?? 0,
-      baseMarker: e.markers[0].options.markerData,
-      markers: e.markers,
-    });
-  }, [setPopUpData]);
+      setPopUpData({
+        count: e.markers.length ?? 0,
+        baseMarker: e.markers[0].options.markerData,
+        markers: e.markers,
+      });
+    },
+    [setPopUpData]
+  );
 
   return (
     <>
@@ -60,8 +63,12 @@ export default function Home({ results }: HomeProps) {
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          {/* @ts-expect-error */}
-          <LeafletMap onClickMarker={handleMarkerClick()} data={results} onClusterClick={togglePopUp} />
+          <LeafletMap
+            // @ts-expect-error
+            onClickMarker={handleMarkerClick()}
+            data={results}
+            onClusterClick={togglePopUp}
+          />
         </Container>
         <Drawer toggler={handleMarkerClick()} />
         <ClusterPopup />

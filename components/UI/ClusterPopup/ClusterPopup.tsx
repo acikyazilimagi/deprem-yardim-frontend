@@ -19,15 +19,15 @@ export interface ClusterPopupProps {
   data?: any;
 }
 
-function openGoogleMap(lat: string, lng: string) {
+function openGoogleMap(lat?: string | number, lng?: string | number) {
   window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
 }
 
 export function ClusterPopup() {
   const data = usePopUpData();
-  const lat = data?.baseMarker.geometry.location.lat;
-  const lng = data?.baseMarker.geometry.location.lng;
-  const tag = findTagByClusterCount(data?.count);
+  const lat = data?.baseMarker.geometry.location.lat ?? 0;
+  const lng = data?.baseMarker.geometry.location.lng ?? 0;
+  const tag = findTagByClusterCount(data?.count ?? 0);
 
   if (!data) return null;
 
