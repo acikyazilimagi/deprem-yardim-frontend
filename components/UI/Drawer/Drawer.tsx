@@ -45,7 +45,6 @@ export default function Drawer({
           flexDirection: "column",
         }}
         role="presentation"
-        onClick={(e: any) => toggler(e)}
         onKeyDown={(e: any) => toggler(e)}
       >
         <div className={styles.content}>
@@ -90,7 +89,10 @@ export default function Drawer({
             />
           </div>
         </div>
-        <CloseIcon className={styles.closeButton} />
+        <CloseIcon
+          onClick={(e: any) => toggler(e)}
+          className={styles.closeButton}
+        />
       </Box>
     );
   }, [data, size.width, toggler]);
@@ -103,7 +105,6 @@ export default function Drawer({
         onClose={() => setOpenBillboardSnackbar(false)}
         message="Adres Kopyalandı"
       />
-      <Button onClick={(e: any) => toggler(e)}>Left</Button>
       <MuiDrawer
         className="drawer"
         anchor={size.width > 768 ? "left" : "bottom"}

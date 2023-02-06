@@ -12,6 +12,10 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
   ssr: false,
 });
 
+const MapLegend = dynamic(() => import("./MapLegend"), {
+  ssr: false,
+});
+
 type Props = {
   data: MarkerData[];
   onClickMarker: (
@@ -24,49 +28,52 @@ type Props = {
 
 function LeafletMap({ onClickMarker, data }: Props) {
   return (
-    <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
-      {({ TileLayer, Marker }: any, _: any, HeatmapLayer: any) => (
-        <>
-          <TileLayer
-            url={`http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
-          />
-          <MarkerClusterGroup>
-            {data.map((marker: MarkerData, index) => (
-              <React.Fragment key={index}>
-                <Marker
-                  key={marker.place_id}
-                  position={[
-                    marker.geometry.location.lat,
-                    marker.geometry.location.lng,
-                  ]}
-                  eventHandlers={{
-                    click: (e: any) => {
-                      onClickMarker(e, marker);
-                    },
-                  }}
-                />
-
-                <HeatmapLayer
-                  fitBoundsOnLoad
-                  fitBoundsOnUpdate
-                  radius={15}
-                  points={[
-                    [
+    <>
+      <MapLegend />
+      <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
+        {({ TileLayer, Marker }: any, _: any, HeatmapLayer: any) => (
+          <>
+            <TileLayer
+              url={`http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
+            />
+            <MarkerClusterGroup>
+              {data.map((marker: MarkerData, index) => (
+                <React.Fragment key={index}>
+                  <Marker
+                    key={marker.place_id}
+                    position={[
                       marker.geometry.location.lat,
                       marker.geometry.location.lng,
-                      DEFAULT_IMPORTANCY,
-                    ],
-                  ]}
-                  longitudeExtractor={(m: any) => m[1]}
-                  latitudeExtractor={(m: any) => m[0]}
-                  intensityExtractor={(m: any) => parseFloat(m[2])}
-                />
-              </React.Fragment>
-            ))}
-          </MarkerClusterGroup>
-        </>
-      )}
-    </Map>
+                    ]}
+                    eventHandlers={{
+                      click: (e: any) => {
+                        onClickMarker(e, marker);
+                      },
+                    }}
+                  />
+
+                  <HeatmapLayer
+                    fitBoundsOnLoad
+                    fitBoundsOnUpdate
+                    radius={15}
+                    points={[
+                      [
+                        marker.geometry.location.lat,
+                        marker.geometry.location.lng,
+                        DEFAULT_IMPORTANCY,
+                      ],
+                    ]}
+                    longitudeExtractor={(m: any) => m[1]}
+                    latitudeExtractor={(m: any) => m[0]}
+                    intensityExtractor={(m: any) => parseFloat(m[2])}
+                  />
+                </React.Fragment>
+              ))}
+            </MarkerClusterGroup>
+          </>
+        )}
+      </Map>
+    </>
   );
 }
 
