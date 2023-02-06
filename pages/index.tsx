@@ -5,12 +5,14 @@ import ResponsiveAppBar from "@/components/ResponsiveAppBar";
 
 import dynamic from "next/dynamic";
 import Container from "@mui/material/Container";
-import MyDrawer from "@/components/Drawer";
+import MyDrawer from "@/components/UI/Drawer/Drawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const LeafletMap = dynamic(() => import("@/components/Map"), { ssr: false });
+  const LeafletMap = dynamic(() => import("@/components/UI/Map/Map"), {
+    ssr: false,
+  });
 
   return (
     <>

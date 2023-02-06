@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import styles from "./Drawer.module.css";
-import Tag from "./Tag";
-
+import Tag from "../Tag/Tag";
+import CloseIcon from "@mui/icons-material/Close";
 export default function MyDrawer() {
   const [isOpen, setOpen] = React.useState(false);
 
@@ -33,9 +33,10 @@ export default function MyDrawer() {
         <h3>Kahramanmaraş, Tavşantepe, Hürriyet Mahallesi, Erşan Sokak</h3>
         <p> {`36°30'18.2"N 36°16'17.6"E`}</p>
       </div>
-      <div className={styles.closeButton} onClick={() => toggleDrawer()}>
-        X
-      </div>
+      <CloseIcon
+        className={styles.closeButton}
+        onClick={() => toggleDrawer()}
+      />
     </Box>
   );
 
