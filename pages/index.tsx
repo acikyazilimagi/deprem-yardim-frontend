@@ -1,35 +1,35 @@
-import styles from "@/styles/Home.module.css";
-import Head from "next/head";
-import Image from "next/image";
-
-import Container from "@mui/material/Container";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { useCallback, useState } from "react";
-
+import { Data, MarkerData } from "@/mocks/types";
+import styles from "@/styles/Home.module.css";
+import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import { Data, MarkerData } from "../mocks/types";
+import Head from "next/head";
+import Image from "next/image";
+import { KeyboardEvent, MouseEvent, useCallback, useState } from "react";
+
+interface HomeProps {
+  results: MarkerData[];
+}
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-export default function Home({ results }: { results: MarkerData[] }) {
-  const [isOpen, setisOpen] = useState(false);
+export default function Home({ results }: HomeProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [drawerData, setDrawerData] = useState<any>();
+
   const toggleDrawer = useCallback(
-    (
-      event: React.KeyboardEvent | React.MouseEvent,
-      markerData?: MarkerData
-    ) => {
+    () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
       if (
         event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
       )
         return;
 
-      setisOpen((prev) => !prev);
+      setIsOpen((prev) => !prev);
 
       if (markerData) {
         setDrawerData(markerData);
@@ -53,9 +53,10 @@ export default function Home({ results }: { results: MarkerData[] }) {
         </div>
 
         <Container maxWidth={false} disableGutters>
-          <LeafletMap onClickMarker={toggleDrawer} data={results} />
+          {/* @ts-expect-error */}
+          <LeafletMap onClickMarker={toggleDrawer()} data={results} />
         </Container>
-        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer} />
+        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         <FooterBanner />
       </main>
     </>
