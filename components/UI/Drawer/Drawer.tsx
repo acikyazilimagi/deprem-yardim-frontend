@@ -17,7 +17,7 @@ export default function Drawer({
   data,
 }: {
   isOpen: boolean;
-  toggler: (e: any) => void;
+  toggler: () => void;
   data: IMarker;
 }) {
   const size = useWindowSize();
@@ -42,8 +42,8 @@ export default function Drawer({
           flexDirection: "column",
         }}
         role="presentation"
-        onClick={(e: any) => toggler(e)}
-        onKeyDown={(e: any) => toggler(e)}
+        onClick={(e: any) => toggler()}
+        onKeyDown={(e: any) => toggler()}
       >
         <div className={styles.content}>
           <Tag color={Tags[intensity]?.color}>{Tags[intensity]?.intensity}</Tag>
@@ -78,7 +78,7 @@ export default function Drawer({
         <CloseIcon className={styles.closeButton} />
       </Box>
     );
-  }, []);
+  }, [data, size.width, toggler]);
 
   return (
     <div>
@@ -88,12 +88,12 @@ export default function Drawer({
         onClose={() => setOpenBillboardSnackbar(false)}
         message="Adres Kopyalandı"
       />
-      <Button onClick={(e: any) => toggler(e)}>Left</Button>
+      <Button onClick={(e: any) => toggler()}>Left</Button>
       <MuiDrawer
         className="drawer"
         anchor={size.width > 768 ? "left" : "bottom"}
         open={isOpen}
-        onClose={(e: any) => toggler(e)}
+        onClose={(e: any) => toggler()}
       >
         {list}
       </MuiDrawer>
