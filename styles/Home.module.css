@@ -9,6 +9,11 @@
   border-radius: 20%;
 }
 
+.logoWrapper {
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .main {
   display: flex;
   flex-direction: column;
