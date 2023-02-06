@@ -25,7 +25,6 @@ const maps:any = {
         url:"http://yol.kgm.gov.tr/wmts/kar_muc/gm_grid/{z}/{x}/{y}.png",
         att:"KGM"
       }
-
 }
 const markers = [
   {
@@ -48,6 +47,7 @@ const markers = [
 function LeafletMap({ onClickMarker }: any) {
   const [firstMap, setFirstMap] = useState("osm")
   const [display, setDisplay] = useState(true)
+  console.log(styles.mapbtns)
   return (
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker }: any) => (
