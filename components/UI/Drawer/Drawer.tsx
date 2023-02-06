@@ -42,7 +42,6 @@ export default function Drawer({
           flexDirection: "column",
         }}
         role="presentation"
-        onClick={(e: any) => toggler(e)}
         onKeyDown={(e: any) => toggler(e)}
       >
         <div className={styles.content}>
@@ -87,7 +86,7 @@ export default function Drawer({
             />
           </div>
         </div>
-        <CloseIcon className={styles.closeButton} />
+        <CloseIcon onClick={(e: any) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
   }, [data, size.width, toggler]);
