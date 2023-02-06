@@ -53,3 +53,13 @@ export const Tags: TTags = {
     color: "#74080A",
   },
 };
+
+export function findTagByClusterCount(clusterCount: number): Tag {
+  const tag = Object.values(Tags).find(
+    (tag) =>
+      clusterCount >= (tag.minClus ?? 0) &&
+      clusterCount <= (tag.maxClus ?? Number.MAX_SAFE_INTEGER)
+  );
+
+  return tag || Tags.safe;
+}

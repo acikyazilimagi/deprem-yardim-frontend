@@ -1,0 +1,7 @@
+.popupContainer {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 1.5rem;
+  cursor: pointer;
+  z-index: 1000;
+}

@@ -1637,6 +1637,11 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
+"@types/formatcoords@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/formatcoords/-/formatcoords-1.1.0.tgz#61e447b2c7330ceef930bb897f1a53d73712910f"
+  integrity sha512-T20OHYACraNS/xCoBEmvtUYLc/eYjXaGGDpPFVAyuwarE9KHSGX8DVb3KNBKZ5RQz7fB7qXazZj13520eDSODw==
+
 "@types/geojson@*":
   version "7946.0.10"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.10.tgz#6dfbf5ea17142f7f9a043809f1cd4c448cb68249"
@@ -3193,6 +3198,11 @@ for-each@^0.3.3:
   integrity sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==
   dependencies:
     is-callable "^1.1.3"
+
+formatcoords@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/formatcoords/-/formatcoords-1.1.3.tgz#752f056ab2fe34c1d4ae8a19048ce0c38e16ed03"
+  integrity sha512-Ittg5/AsYFCOtcFGPLSmVpP56a8Ionmv4Ys69UmCAdvBnqVzvVVbkZMnjWEmXrZvnmoGQE8YI3RhnxbMQFdYSw==
 
 fs-extra@^11.0.0:
   version "11.1.0"

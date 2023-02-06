@@ -1,3 +1,4 @@
+import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { Data, MarkerData } from "@/mocks/types";
@@ -17,7 +18,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 export default function Home({ results }: HomeProps) {
-  const { toggleDrawer, setDrawerData } = useMapActions();
+  const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -38,6 +39,16 @@ export default function Home({ results }: HomeProps) {
     []
   );
 
+  const togglePopUp = useCallback((e: any) => {
+    e.cluster.zoomToBounds({ padding: [20, 20] });
+
+    setPopUpData({
+      count: e.markers.length ?? 0,
+      baseMarker: e.markers[0].options.markerData,
+      markers: e.markers,
+    });
+  }, [setPopUpData]);
+
   return (
     <>
       <Head>
@@ -50,9 +61,10 @@ export default function Home({ results }: HomeProps) {
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           {/* @ts-expect-error */}
-          <LeafletMap onClickMarker={handleMarkerClick()} data={results} />
+          <LeafletMap onClickMarker={handleMarkerClick()} data={results} onClusterClick={togglePopUp} />
         </Container>
         <Drawer toggler={handleMarkerClick()} />
+        <ClusterPopup />
         <FooterBanner />
       </main>
     </>
