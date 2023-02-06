@@ -840,6 +840,18 @@
     "@typescript-eslint/types" "5.51.0"
     eslint-visitor-keys "^3.3.0"
 
+"@vgrid/react-leaflet-heatmap-layer@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@vgrid/react-leaflet-heatmap-layer/-/react-leaflet-heatmap-layer-4.0.3.tgz#a65e23931391d8653e7224ceffe44399bf41278b"
+  integrity sha512-DSkRhJvH74YeGWvw7xbZwxJ8K/A9C57i8oDpLB7w6+eCfMnPFCH+qCSJfrV/zauRG3s2OTRSnnUpWJbOj4IiBA==
+  dependencies:
+    "@vgrid/simpleheat" "^0.5.0"
+
+"@vgrid/simpleheat@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@vgrid/simpleheat/-/simpleheat-0.5.0.tgz#5472a379711f16a2a55727c0b03e20ff3420d1be"
+  integrity sha512-OXw+jBCAD2j2Oj/+sp/VtYOEr+sB+BR2C3wuFHoOh0ARfOIJeILM/B0CAObJDo2LBSGoppy+Qlih05cdFfPc0A==
+
 "@xmldom/xmldom@^0.8.3":
   version "0.8.6"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.6.tgz#8a1524eb5bd5e965c1e3735476f0262469f71440"
