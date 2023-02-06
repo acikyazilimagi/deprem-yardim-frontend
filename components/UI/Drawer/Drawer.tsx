@@ -70,14 +70,14 @@ export default function Drawer({
             <TextField
               fullWidth
               variant="standard"
-              value={`https://www.google.com/maps/@${data?.lat},${data?.lng},14z`}
+              value={`https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
                     <IconButton
                       onClick={() =>
                         copyBillboard(
-                          `https://www.google.com/maps/@${data?.lat},${data?.lng},14z`
+                          `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
                         )
                       }
                     >
