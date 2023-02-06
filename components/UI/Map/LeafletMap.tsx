@@ -11,47 +11,37 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 });
 
 const DEFAULT_CENTER = [37.0588348, 37.3450317];
-const DEFAULT_ZOOM = 9;
+const DEFAULT_ZOOM = 13;
 
-const markers = [
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    name: "Marker 1",
-  },
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    name: "Marker 2",
-  },
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    name: "Marker 3",
-  },
-];
-
-function LeafletMap({ onClickMarker }: any) {
+function LeafletMap() {
   return (
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
-      {({ TileLayer, Marker }: any) => (
+      {({ TileLayer, Marker, Popup }: any) => (
         <>
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
-            {markers.map((marker: any) => (
-              <Marker
-                key={marker.name}
-                position={[marker.lat, marker.lng]}
-                eventHandlers={{
-                  click: (e: any) => {
-                    onClickMarker(e, marker);
-                  },
-                }}
-              />
-            ))}
+            <Marker
+              position={DEFAULT_CENTER}
+              eventHandlers={{
+                click: () => {
+                  console.log("clicked");
+                },
+              }}
+            >
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
+            <Marker position={DEFAULT_CENTER}></Marker>
           </MarkerClusterGroup>
         </>
       )}
