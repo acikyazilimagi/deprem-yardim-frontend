@@ -17,17 +17,23 @@ const markers = [
   {
     lat: 37.0588348,
     lng: 37.3450317,
+    id: 1,
     name: "Marker 1",
+    intensity: "high",
   },
   {
     lat: 37.0588348,
     lng: 37.3450317,
+    id: 2,
     name: "Marker 2",
+    intensity: "low",
   },
   {
     lat: 37.0588348,
     lng: 37.3450317,
+    id: 3,
     name: "Marker 3",
+    intensity: "mid",
   },
 ];
 
