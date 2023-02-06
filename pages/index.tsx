@@ -5,6 +5,7 @@ import ResponsiveAppBar from "@/components/ResponsiveAppBar";
 
 import dynamic from "next/dynamic";
 import Container from "@mui/material/Container";
+import MyDrawer from "@/components/Drawer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function Home() {
       <ResponsiveAppBar />
       <main className={styles.main}>
         <Container>
+          <MyDrawer />
           <h2 className={inter.className}>
             Map <span>-&gt;</span>
           </h2>
