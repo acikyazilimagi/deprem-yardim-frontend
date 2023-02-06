@@ -15,20 +15,24 @@ export default function Home({ results }: { results: MarkerData[] }) {
   const [drawerData, setDrawerData] = useState<any>();
 
   const toggleDrawer = useCallback(
-    () => (event: React.KeyboardEvent | React.MouseEvent, markerData?: any) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      )
-        return;
+    () =>
+      (
+        event: React.KeyboardEvent | React.MouseEvent,
+        markerData?: MarkerData
+      ) => {
+        if (
+          event.type === "keydown" &&
+          ((event as React.KeyboardEvent).key === "Tab" ||
+            (event as React.KeyboardEvent).key === "Shift")
+        )
+          return;
 
-      setisOpen((prev) => !prev);
+        setisOpen((prev) => !prev);
 
-      if (markerData) {
-        setDrawerData(markerData);
-      }
-    },
+        if (markerData) {
+          setDrawerData(markerData);
+        }
+      },
     []
   );
 

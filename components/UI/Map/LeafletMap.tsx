@@ -14,7 +14,12 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 
 type Props = {
   data: MarkerData[];
-  onClickMarker: (e: any, markerData: MarkerData) => void;
+  onClickMarker: (
+    // eslint-disable-next-line no-unused-vars
+    e: React.KeyboardEvent | React.MouseEvent,
+    // eslint-disable-next-line no-unused-vars
+    markerData: MarkerData
+  ) => void;
 };
 
 function LeafletMap({ onClickMarker, data }: Props) {
@@ -22,7 +27,9 @@ function LeafletMap({ onClickMarker, data }: Props) {
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker }: any) => (
         <>
-          <TileLayer url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}" />
+          <TileLayer
+            url={`http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
+          />
           <MarkerClusterGroup>
             {data.map((marker: MarkerData) => (
               <Marker
