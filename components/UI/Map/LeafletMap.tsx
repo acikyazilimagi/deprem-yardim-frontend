@@ -13,35 +13,45 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 const DEFAULT_CENTER = [37.0588348, 37.3450317];
 const DEFAULT_ZOOM = 9;
 
-function LeafletMap() {
+const markers = [
+  {
+    lat: 37.0588348,
+    lng: 37.3450317,
+    name: "Marker 1",
+  },
+  {
+    lat: 37.0588348,
+    lng: 37.3450317,
+    name: "Marker 2",
+  },
+  {
+    lat: 37.0588348,
+    lng: 37.3450317,
+    name: "Marker 3",
+  },
+];
+
+function LeafletMap({ onClickMarker }: any) {
   return (
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
-      {({ TileLayer, Marker, Popup }: any) => (
+      {({ TileLayer, Marker }: any) => (
         <>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
-            <Marker
-              position={DEFAULT_CENTER}
-              eventHandlers={{
-                click: () => {
-                  console.log("clicked");
-                },
-              }}
-            >
-              <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-              </Popup>
-            </Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
-            <Marker position={DEFAULT_CENTER}></Marker>
+            {markers.map((marker: any) => (
+              <Marker
+                key={marker.name}
+                position={[marker.lat, marker.lng]}
+                eventHandlers={{
+                  click: (e: any) => {
+                    onClickMarker(e, marker);
+                  },
+                }}
+              />
+            ))}
           </MarkerClusterGroup>
         </>
       )}

@@ -8,9 +8,9 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 
 export default function Home() {
   const [isOpen, setisOpen] = useState(true);
-
+  const [drawerData, setDrawerData] = useState<any>();
   const toggleDrawer =
-    () => (event: React.KeyboardEvent | React.MouseEvent) => {
+    () => (event: React.KeyboardEvent | React.MouseEvent, drawerData?: any) => {
       if (
         event.type === "keydown" &&
         ((event as React.KeyboardEvent).key === "Tab" ||
@@ -18,8 +18,10 @@ export default function Home() {
       ) {
         return;
       }
-
       setisOpen((prev) => !prev);
+      if (drawerData) {
+        setDrawerData(drawerData);
+      }
     };
   return (
     <>
@@ -32,9 +34,9 @@ export default function Home() {
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <LeafletMap />
+          <LeafletMap onClickMarker={toggleDrawer()} />
         </Container>
-        <Drawer isOpen={isOpen} toggler={toggleDrawer} />
+        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer} />
       </main>
     </>
   );
