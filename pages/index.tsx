@@ -57,9 +57,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
         <Container maxWidth={false} disableGutters>
           <LeafletMap onClickMarker={toggleDrawer()} data={results} />
         </Container>
-        {drawerData && (
-          <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
-        )}
+        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         <FooterBanner />
       </main>
     </>

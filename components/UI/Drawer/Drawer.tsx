@@ -33,6 +33,9 @@ export default function Drawer({
   }
 
   const list = useMemo(() => {
+    if (!data) {
+      return null;
+    }
     const { geometry, formatted_address } = data;
     return (
       <Box
@@ -66,14 +69,14 @@ export default function Drawer({
             <TextField
               fullWidth
               variant="standard"
-              value={`https://www.google.com/maps/@${data?.lat},${data?.lng},14z`}
+              value={`https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
                     <IconButton
                       onClick={() =>
                         copyBillboard(
-                          `https://www.google.com/maps/@${data?.lat},${data?.lng},14z`
+                          `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
                         )
                       }
                     >
@@ -86,9 +89,9 @@ export default function Drawer({
             />
           </div>
         </div>
-        <CloseIcon 
-          onClick={(e: any) => toggler(e)} 
-          className={styles.closeButton} 
+        <CloseIcon
+          onClick={(e: any) => toggler(e)}
+          className={styles.closeButton}
         />
       </Box>
     );
@@ -102,7 +105,6 @@ export default function Drawer({
         onClose={() => setOpenBillboardSnackbar(false)}
         message="Adres Kopyalandı"
       />
-      <Button onClick={(e: any) => toggler(e)}>Left</Button>
       <MuiDrawer
         className="drawer"
         anchor={size.width > 768 ? "left" : "bottom"}
