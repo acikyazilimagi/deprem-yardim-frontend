@@ -5,10 +5,12 @@ import Container from "@mui/material/Container";
 import LeafletMap from "@/components/UI/Map";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
+import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import { IMarker } from "@/components/UI/Map/utils";
 
 export default function Home() {
   const [isOpen, setisOpen] = useState(false);
-  const [drawerData, setDrawerData] = useState();
+  const [drawerData, setDrawerData] = useState<IMarker>();
 
   const toggleDrawer = useCallback(
     () => (event: React.KeyboardEvent | React.MouseEvent, markerData?: any) => {
@@ -41,7 +43,10 @@ export default function Home() {
         <Container maxWidth={false} disableGutters>
           <LeafletMap onClickMarker={toggleDrawer()} />
         </Container>
-        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer} />
+        {drawerData && (
+          <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
+        )}
+        <FooterBanner/>
       </main>
     </>
   );

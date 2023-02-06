@@ -5,37 +5,11 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 import dynamic from "next/dynamic";
+import { DEFAULT_CENTER, DEFAULT_ZOOM, markers } from "./utils";
 
 const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
   ssr: false,
 });
-
-const DEFAULT_CENTER = [37.0588348, 37.3450317];
-const DEFAULT_ZOOM = 13;
-
-const markers = [
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    id: 1,
-    name: "Marker 1",
-    intensity: "high",
-  },
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    id: 2,
-    name: "Marker 2",
-    intensity: "low",
-  },
-  {
-    lat: 37.0588348,
-    lng: 37.3450317,
-    id: 3,
-    name: "Marker 3",
-    intensity: "mid",
-  },
-];
 
 function LeafletMap({ onClickMarker }: any) {
   return (
