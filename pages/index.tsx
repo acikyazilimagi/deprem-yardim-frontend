@@ -6,33 +6,36 @@ import Container from "@mui/material/Container";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { IMarker } from "@/components/UI/Map/utils";
-import { CleaningServices } from "@mui/icons-material";
+
 import { Data, MarkerData } from "../mocks/types";
 import dynamic from "next/dynamic";
 
 export default function Home({ results }: { results: MarkerData[] }) {
   const [isOpen, setisOpen] = useState(false);
-  const [drawerData, setDrawerData] = useState<IMarker>();
+  const [drawerData, setDrawerData] = useState<any>();
 
   const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
     ssr: false,
   });
   const toggleDrawer = useCallback(
-    () => (event: React.KeyboardEvent | React.MouseEvent, markerData?: any) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      )
-        return;
+    () =>
+      (
+        event: React.KeyboardEvent | React.MouseEvent,
+        markerData?: MarkerData
+      ) => {
+        if (
+          event.type === "keydown" &&
+          ((event as React.KeyboardEvent).key === "Tab" ||
+            (event as React.KeyboardEvent).key === "Shift")
+        )
+          return;
 
-      setisOpen((prev) => !prev);
+        setisOpen((prev) => !prev);
 
-      if (markerData) {
-        setDrawerData(markerData);
-      }
-    },
+        if (markerData) {
+          setDrawerData(markerData);
+        }
+      },
     []
   );
 
