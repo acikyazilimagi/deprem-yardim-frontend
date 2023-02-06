@@ -1,4 +1,3 @@
-import { MarkerData } from "@/mocks/types";
 import React, { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import { default as MuiDrawer } from "@mui/material/Drawer";
@@ -17,16 +16,15 @@ interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
 }
 
+function generateGoogleMapsUrl(lat: number, lng: number): string {
+  return `https://www.google.com/maps/@${lat},${lng},22z`;
+}
+
 export default function Drawer({ toggler }: DrawerProps) {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
-
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
-
-  function openGoogleMap(lat: string, lng: string) {
-    window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
-  }
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
@@ -56,28 +54,36 @@ export default function Drawer({ toggler }: DrawerProps) {
             <Button
               variant="contained"
               onClick={() =>
-                openGoogleMap(
-                  geometry.location.lat.toString(),
-                  geometry.location.lng.toString()
+                window.open(
+                  generateGoogleMapsUrl(
+                    geometry.location.lat,
+                    geometry.location.lng
+                  ),
+                  "_blank"
                 )
               }
             >
               Google Haritalar ile gör
             </Button>
           </div>
-
           <div>
             <TextField
               fullWidth
               variant="standard"
-              value={`https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`}
+              value={generateGoogleMapsUrl(
+                geometry.location.lat,
+                geometry.location.lng
+              )}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
                     <IconButton
                       onClick={() =>
                         copyBillboard(
-                          `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                          generateGoogleMapsUrl(
+                            geometry.location.lat,
+                            geometry.location.lng
+                          )
                         )
                       }
                     >
