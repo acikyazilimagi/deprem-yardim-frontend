@@ -32,3 +32,8 @@ export type Data = {
   results: MarkerData[];
   status: string;
 };
+
+export type ClusterPopupData = {
+  count: number;
+  baseMarker: MarkerData;
+};
