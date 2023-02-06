@@ -11,11 +11,15 @@ function MapLegend() {
     setIsLegendOpen(!isLegendOpen);
   }
 
+  let legendToggleStatusClass = styles.legend;
+
+  if (isLegendOpen) {
+    legendToggleStatusClass += ` ${styles.open}`;
+  }
+
   return (
     <>
-      <div
-        className={`${styles.legend}${isLegendOpen ? " " + styles.open : ""}`}
-      >
+      <div className={legendToggleStatusClass}>
         {!isLegendOpen && (
           <ArrowBackIosIcon color="action" onClick={toggleLegend} />
         )}
