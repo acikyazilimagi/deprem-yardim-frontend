@@ -2,3 +2,22 @@
   width: 100%;
   height: 100%;
 }
+.mapbtns{
+  background-color:white;
+  border:none;
+  cursor:pointer;
+  border-radius:5px; 
+  padding:15px; 
+  margin-right:10px;
+}
+.dropdownMenu{
+  position:absolute; 
+  min-width:85px; 
+  cursor:pointer;
+  border:none;
+  padding-top:8px;
+  top:20px;
+  right:20px;
+  z-index:999;
+  background-color:white
+}
