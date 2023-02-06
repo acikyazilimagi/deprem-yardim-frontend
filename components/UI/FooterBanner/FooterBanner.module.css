@@ -6,5 +6,31 @@
   font-size: 0.7rem;
   position: absolute;
   text-align: center;
+}
+
+.showButton {
   background-color: #f2f2f2;
+  font-weight: "bold";
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 4px;
+  border-radius: 12px;
+  margin-right: 12px;
+}
+
+.hideButton {
+  font-weight: "bold";
+  background-color: #f2f2f2;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.bottom {
+  background-color: #f2f2f2;
+  border: 0.5px #000 solid;
+  margin-top: 12px;
 }
