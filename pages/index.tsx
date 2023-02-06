@@ -5,6 +5,7 @@ import Container from "@mui/material/Container";
 import LeafletMap from "@/components/UI/Map";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
+import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { IMarker } from "@/components/UI/Map/utils";
 
 export default function Home() {
@@ -45,6 +46,7 @@ export default function Home() {
         {drawerData && (
           <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         )}
+        <FooterBanner/>
       </main>
     </>
   );
