@@ -18,7 +18,8 @@
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
+    "build": "npm run partytown && next build",
+    "partytown": "partytown copylib public/~partytown",
     "start": "next start",
     "lint": "next lint --max-warnings=0",
     "lint:fix": "next lint --fix",
@@ -27,6 +28,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@builder.io/partytown": "^0.7.5",
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
