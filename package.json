@@ -2,6 +2,13 @@
   "name": "deprem-yardim-frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "Apache-2.0",
+  "homepage": "YOUR_GIT_REPO_URL",
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
