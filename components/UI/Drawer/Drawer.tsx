@@ -6,11 +6,18 @@ import styles from "./Drawer.module.css";
 import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
+import { useWindowSize } from "@/hooks/useWindowsSize";
 
 export default function Drawer({ isOpen, toggler }: any) {
+  const size = useWindowSize();
+
   const list = () => (
     <Box
-      sx={{ width: 372, display: "flex", flexDirection: "column" }}
+      sx={{
+        width: size.width > 768 ? 372 : "full",
+        display: "flex",
+        flexDirection: "column",
+      }}
       role="presentation"
       onClick={toggler()}
       onKeyDown={toggler()}
@@ -29,7 +36,7 @@ export default function Drawer({ isOpen, toggler }: any) {
       <Button onClick={toggler()}>Left</Button>
       <MuiDrawer
         className="drawer"
-        anchor={"left"}
+        anchor={size.width > 768 ? "left" : "bottom"}
         open={isOpen}
         onClose={toggler()}
       >
