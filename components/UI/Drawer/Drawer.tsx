@@ -8,7 +8,7 @@ import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 
-export default function Drawer({ isOpen, toggler }: any) {
+export default function Drawer({ isOpen, toggler, data }: any) {
   const size = useWindowSize();
 
   const list = () => (
@@ -23,9 +23,11 @@ export default function Drawer({ isOpen, toggler }: any) {
       onKeyDown={toggler()}
     >
       <div className={styles.content}>
-        <Tag color={Tags["high"].color}> {Tags["high"].intensity} </Tag>
-        <h3>Kahramanmaraş, Tavşantepe, Hürriyet Mahallesi, Erşan Sokak</h3>
-        <p> {`36°30'18.2"N 36°16'17.6"E`}</p>
+        <Tag color={Tags[data?.intensity]?.color}>
+          {Tags[data?.intensity]?.intensity}
+        </Tag>
+        <h3>{data?.name}</h3>
+        <p> {`${data?.lat}"N ${data?.lng}"E`}</p>
       </div>
       <CloseIcon className={styles.closeButton} onClick={() => toggler()} />
     </Box>
