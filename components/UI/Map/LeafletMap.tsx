@@ -1,11 +1,12 @@
 import React from "react";
 import Map from "@/components/UI/Map/Map";
 
-const DEFAULT_CENTER = [38.907132, -77.036546];
+const DEFAULT_CENTER = [37.2544, 37.3315];
+const DEFAULT_ZOOM = 9;
 
-function LeafletMap(props: any) {
+function LeafletMap() {
   return (
-    <Map center={DEFAULT_CENTER} zoom={12}>
+    <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker }: any) => (
         <>
           <TileLayer
