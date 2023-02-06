@@ -2934,13 +2934,6 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-leaflet-cluster@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-leaflet-cluster/-/react-leaflet-cluster-2.1.0.tgz#9e5299efb7b16eff75511a47ed4a5d763dcf55b5"
-  integrity sha512-16X7XQpRThQFC4PH4OpXHimGg19ouWmjxjtpxOeBKpvERSvIRqTx7fvhTwkEPNMFTQ8zTfddz6fRTUmUEQul7g==
-  dependencies:
-    leaflet.markercluster "^1.5.3"
-
 react-leaflet@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-leaflet/-/react-leaflet-4.2.0.tgz#6c2ee4b576209d9fe40e78006cfa37196c216eaa"

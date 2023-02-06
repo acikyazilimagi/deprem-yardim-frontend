@@ -11,10 +11,11 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 });
 
 const DEFAULT_CENTER = [37.0588348, 37.3450317];
+const DEFAULT_ZOOM = 9;
 
 function LeafletMap() {
   return (
-    <Map center={DEFAULT_CENTER} zoom={12}>
+    <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker, Popup }: any) => (
         <>
           <TileLayer
@@ -22,7 +23,14 @@ function LeafletMap() {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
-            <Marker position={DEFAULT_CENTER}>
+            <Marker
+              position={DEFAULT_CENTER}
+              eventHandlers={{
+                click: () => {
+                  console.log("clicked");
+                },
+              }}
+            >
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
               </Popup>
