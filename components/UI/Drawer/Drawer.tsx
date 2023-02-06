@@ -86,7 +86,9 @@ export default function Drawer({
             />
           </div>
         </div>
-        <CloseIcon onClick={(e: any) => toggler(e)} className={styles.closeButton} />
+        <CloseIcon 
+          onClick={(e: any) => toggler(e)} 
+          className={styles.closeButton} />
       </Box>
     );
   }, [data, size.width, toggler]);
