@@ -7,17 +7,20 @@ const DEFAULT_ZOOM = 9;
 function LeafletMap() {
   return (
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
-      {({ TileLayer, Marker, Popup }: any) => (
+      {({ TileLayer, Marker }: any) => (
         <>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          <Marker position={DEFAULT_CENTER}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          <Marker
+            eventHandlers={{
+              click: () => {
+                console.log("clicked");
+              },
+            }}
+            position={DEFAULT_CENTER}
+          />
         </>
       )}
     </Map>
