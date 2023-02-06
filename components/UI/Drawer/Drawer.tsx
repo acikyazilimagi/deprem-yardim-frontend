@@ -11,6 +11,10 @@ import { useWindowSize } from "@/hooks/useWindowsSize";
 export default function Drawer({ isOpen, toggler, data }: any) {
   const size = useWindowSize();
 
+  function openGoogleMap(lat: string, lng: string) {
+     window.open(`https://www.google.com/maps/@${lat},${lng},14z`, '_blank');
+  }
+
   const list = () => (
     <Box
       sx={{
@@ -28,6 +32,7 @@ export default function Drawer({ isOpen, toggler, data }: any) {
         </Tag>
         <h3>{data?.name}</h3>
         <p> {`${data?.lat}"N ${data?.lng}"E`}</p>
+        <Button onClick={() => openGoogleMap(data?.lat, data?.lng)}> Google Map&apos;te Göster</Button>
       </div>
       <CloseIcon className={styles.closeButton} onClick={() => toggler()} />
     </Box>
