@@ -1,16 +1,22 @@
 import Head from "next/head";
 import { Inter } from "@next/font/google";
+import { useState } from "react";
 import styles from "@/styles/Home.module.css";
 import ResponsiveAppBar from "@/components/ResponsiveAppBar";
-
 import dynamic from "next/dynamic";
 import Container from "@mui/material/Container";
 import MyDrawer from "@/components/Drawer";
+import { Position } from "@/components/Map";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const LeafletMap = dynamic(() => import("@/components/Map"), { ssr: false });
+
+  const [mapCenter, setMapCenter] = useState<Position>({
+    lat: 37.2544,
+    lng: 37.3315,
+  });
 
   return (
     <>
@@ -27,7 +33,14 @@ export default function Home() {
           <h2 className={inter.className}>
             Map <span>-&gt;</span>
           </h2>
-          <LeafletMap />
+          <h2 className={inter.className}>
+            <button
+              onClick={() => setMapCenter({ lat: 37.1544, lng: 37.2315 })}
+            >
+              Change Map Center
+            </button>
+          </h2>
+          <LeafletMap position={mapCenter} />
         </Container>
       </main>
     </>
