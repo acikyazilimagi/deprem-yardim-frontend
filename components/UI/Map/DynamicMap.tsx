@@ -27,7 +27,7 @@ const Map = ({ children, className, ...rest }: any) => {
   }, []);
 
   return (
-    <MapContainer className={mapClassName} {...rest}>
+    <MapContainer className={mapClassName} {...rest} attributionControl={false}>
       {children(ReactLeaflet, Leaflet)}
     </MapContainer>
   );
