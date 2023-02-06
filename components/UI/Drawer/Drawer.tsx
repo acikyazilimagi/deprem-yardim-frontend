@@ -49,12 +49,19 @@ export default function Drawer({
           <Tag color={Tags[intensity]?.color}>{Tags[intensity]?.intensity}</Tag>
           <h3>{name}</h3>
           <p> {`${lat}"N ${lng}"E`}</p>
-          <Button onClick={() => openGoogleMap(lat.toString(), lng.toString())}>
-            {" "}
-            Google Map&apos;te Göster
-          </Button>
+          <div className={styles.contentButton}>
+            <Button
+              variant="contained"
+              onClick={() => openGoogleMap(lat.toString(), lng.toString())}
+            >
+              Google Haritalar ile gör
+            </Button>
+          </div>
+
           <div>
             <TextField
+              fullWidth
+              variant="standard"
               value={`https://www.google.com/maps/@${data?.lat},${data?.lng},14z`}
               InputProps={{
                 endAdornment: (

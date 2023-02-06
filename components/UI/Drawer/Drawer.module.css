@@ -13,6 +13,10 @@
   padding: 48px;
 }
 
+.contentButton {
+  margin-bottom: 24px;
+}
+
 @media screen and (max-width: 768px) {
   .content {
     padding: 24px;
