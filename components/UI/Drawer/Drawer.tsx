@@ -11,16 +11,16 @@ import { useWindowSize } from "@/hooks/useWindowsSize";
 import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { KeyboardEvent, MouseEvent } from "react";
+import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 
 interface DrawerProps {
-  isOpen: boolean;
-
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
-
-  data: MarkerData;
 }
 
-export default function Drawer({ isOpen, toggler, data }: DrawerProps) {
+export default function Drawer({ toggler }: DrawerProps) {
+  const isOpen = useIsDrawerOpen();
+  const data = useDrawerData();
+
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
 
