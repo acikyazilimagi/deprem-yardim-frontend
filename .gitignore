@@ -36,3 +36,11 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 .next
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
