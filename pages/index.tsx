@@ -4,9 +4,13 @@ import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 import ResponsiveAppBar from "@/components/ResponsiveAppBar";
 
+import dynamic from "next/dynamic";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const LeafletMap = dynamic(() => import("@/components/Map"), { ssr: false });
+
   return (
     <>
       <Head>
@@ -40,7 +44,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-
+        <LeafletMap />
         <div className={styles.center}>
           <Image
             className={styles.logo}
