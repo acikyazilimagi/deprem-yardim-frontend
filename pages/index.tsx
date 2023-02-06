@@ -42,7 +42,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
 
   const memoizedMap = useMemo(
     () => <LeafletMap onClickMarker={toggleDrawer()} data={results} />,
-    []
+    [results, toggleDrawer]
   );
 
   return (
