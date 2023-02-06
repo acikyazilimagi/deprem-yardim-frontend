@@ -33,6 +33,9 @@ export default function Drawer({
   }
 
   const list = useMemo(() => {
+    if (!data) {
+      return null;
+    }
     const { geometry, formatted_address } = data;
     return (
       <Box
