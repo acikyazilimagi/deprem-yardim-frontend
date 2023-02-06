@@ -23,14 +23,14 @@ export default function Drawer({
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
 
-    function openGoogleMap(lat: string, lng: string) {
-        window.open(`https://www.google.com/maps/@${lat},${lng},14z`, '_blank');
-    }
+  function openGoogleMap(lat: string, lng: string) {
+    window.open(`https://www.google.com/maps/@${lat},${lng},14z`, '_blank');
+  }
 
-    function copyBillboard(url: string) {
-        navigator.clipboard.writeText(url);
-        setOpenBillboardSnackbar(true);
-    }
+  function copyBillboard(url: string) {
+    navigator.clipboard.writeText(url);
+    setOpenBillboardSnackbar(true);
+  }
 
   const list = useMemo(() => {
     const { intensity, lat, lng, name } = data;
