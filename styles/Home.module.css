@@ -1,3 +1,12 @@
+.logo {
+  position: fixed;
+  right: 20px;
+  bottom: 70px;
+  z-index: 999;
+}
+.logo img {
+  border-radius: 20%;
+}
 .main {
   display: flex;
   flex-direction: column;
@@ -103,7 +112,6 @@
   transform: translateZ(0);
 }
 
-.logo,
 .thirteen {
   position: relative;
 }
@@ -261,7 +269,6 @@
     filter: invert(1);
   }
 
-  .logo,
   .thirteen img {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
   }
