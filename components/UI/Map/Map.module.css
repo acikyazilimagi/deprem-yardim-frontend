@@ -23,6 +23,8 @@
 }
 
 .legend_item {
+  border: none;
+  outline: none;
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.09);
   border-radius: 4px;
