@@ -10,7 +10,6 @@
   z-index: 999;
   border-radius: 3px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -23,7 +22,6 @@
   border-radius: 4px;
   color: #000;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
