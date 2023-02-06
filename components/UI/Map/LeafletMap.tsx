@@ -22,10 +22,7 @@ function LeafletMap({ onClickMarker, data }: Props) {
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker }: any) => (
         <>
-          <TileLayer
-            url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
+          <TileLayer url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}" />
           <MarkerClusterGroup>
             {data.map((marker: MarkerData) => (
               <Marker

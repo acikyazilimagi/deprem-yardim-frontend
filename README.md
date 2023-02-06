@@ -1,11 +1,12 @@
 ## Projeye destek olmak icin
 
-Iletisim kanallari: 
+Iletisim kanallari:
+
 - [Discord kanali](https://t.co/MzLdlNPOmY)
 
 Katkida bulunmak icin:
-- [Contributing](CONTRIBUTING.md)
 
+- [Contributing](CONTRIBUTING.md)
 
 ====
 

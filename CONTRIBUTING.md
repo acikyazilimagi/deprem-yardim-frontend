@@ -9,15 +9,14 @@
 - Bir hatayı düzeltmek için PR açın
 - Dökümantasyondaki bir hatayı düzeltmek için PR açın
 
-
 ## Başlamadan önce
+
 ### Projeyi kurmak
 
 Gereksinimler:
 
 - Node 17.0^
 - Yarn 1.22^
-
 
 ```bash
 # Projeyi klonlayın
@@ -27,14 +26,11 @@ git clone
 cd deprem-yardim-frontend
 
 # Gereksinimleri yükleyin
-yarn 
+yarn
 
 # Geliştirme ortamını başlatın
 yarn dev
 ```
-
-
-
 
 ### Kodu formatlama
 
@@ -61,7 +57,6 @@ Mesaj başlığı zorunludur ve bir tür, isteğe bağlı bir kapsam ve bir aç�
 Bu kurallara uymak, her sürüm için açık bir değişiklik günlüğü oluşturur.
 
 PR başlığını da commit mesajları için izlemek iyi bir fikirdir. Bu şekilde, PR birleştirildiğinde, PR başlığı son commit mesajı olarak kullanılabilir ve geçmişin düzgün biçimlendirilmiş bir şekilde oluşturulmasını sağlar.
-
 
 #### Tip
 
