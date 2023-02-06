@@ -4,9 +4,11 @@
   bottom: 70px;
   z-index: 999;
 }
+
 .logo img {
   border-radius: 20%;
 }
+
 .main {
   display: flex;
   flex-direction: column;
@@ -255,6 +257,16 @@
     );
     z-index: 1;
   }
+
+  .logo {
+    right: 10px;
+    bottom: 115px;
+  }
+
+  .logo img {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 /* Tablet and Smaller Desktop */
@@ -278,6 +290,7 @@
   from {
     transform: rotate(360deg);
   }
+
   to {
     transform: rotate(0deg);
   }
