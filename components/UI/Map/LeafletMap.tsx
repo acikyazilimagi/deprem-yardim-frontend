@@ -11,7 +11,7 @@ const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
 });
 
 const DEFAULT_CENTER = [37.0588348, 37.3450317];
-const DEFAULT_ZOOM = 9;
+const DEFAULT_ZOOM = 13;
 
 const markers = [
   {
@@ -37,7 +37,7 @@ function LeafletMap({ onClickMarker }: any) {
       {({ TileLayer, Marker }: any) => (
         <>
           <TileLayer
-            url="http://yol.kgm.gov.tr/wmts/kar_muc/gm_grid/{z}/{x}/{y}.png"
+            url="http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
