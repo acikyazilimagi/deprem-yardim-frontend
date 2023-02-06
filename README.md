@@ -1,1 +1,1 @@
-# -deprem-yardim-frontend
+# deprem-yardim-frontend
