@@ -13,6 +13,12 @@
   padding: 48px;
 }
 
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 24px;
+  }
+}
+
 .drawer  {
   position: relative;
   z-index: 99999;

@@ -7,7 +7,7 @@ import { useState } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 
 export default function Home() {
-  const [isOpen, setisOpen] = useState(true);
+  const [isOpen, setisOpen] = useState(false);
   const [drawerData, setDrawerData] = useState<any>();
   const toggleDrawer =
     () => (event: React.KeyboardEvent | React.MouseEvent, drawerData?: any) => {
