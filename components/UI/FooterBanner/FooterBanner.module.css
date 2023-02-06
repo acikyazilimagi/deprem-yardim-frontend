@@ -1,0 +1,14 @@
+.wrapper {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 1000;
+  position: absolute;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.text {
+  padding: 8px;
+  font-size: 14px;
+}
