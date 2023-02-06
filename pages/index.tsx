@@ -9,15 +9,16 @@ import { useCallback, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { Data, MarkerData } from "../mocks/types";
+import { useMapActions } from "@/stores/mapStore";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
 export default function Home({ results }: { results: MarkerData[] }) {
-  const [isOpen, setisOpen] = useState(false);
-  const [drawerData, setDrawerData] = useState<any>();
-  const toggleDrawer = useCallback(
+  const { toggleDrawer, setDrawerData } = useMapActions();
+
+  const handleMarkerClick = useCallback(
     (
       event: React.KeyboardEvent | React.MouseEvent,
       markerData?: MarkerData
@@ -29,7 +30,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
       )
         return;
 
-      setisOpen((prev) => !prev);
+      toggleDrawer();
 
       if (markerData) {
         setDrawerData(markerData);
@@ -49,9 +50,9 @@ export default function Home({ results }: { results: MarkerData[] }) {
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <LeafletMap onClickMarker={toggleDrawer} data={results} />
+          <LeafletMap onClickMarker={handleMarkerClick} data={results} />
         </Container>
-        <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer} />
+        <Drawer toggler={handleMarkerClick} />
         <FooterBanner />
       </main>
     </>

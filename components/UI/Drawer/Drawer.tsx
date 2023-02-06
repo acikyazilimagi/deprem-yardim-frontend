@@ -9,17 +9,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 
 export default function Drawer({
-  isOpen,
   toggler,
-  data,
 }: {
-  isOpen: boolean;
   // eslint-disable-next-line no-unused-vars
   toggler: (e: any) => void;
-  data: any;
 }) {
+  const isOpen = useIsDrawerOpen();
+  const data = useDrawerData();
+
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
 
