@@ -20,13 +20,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar /> */}
+      <MyDrawer />
+
       <main className={styles.main}>
         <Container>
-          <MyDrawer />
-          <h2 className={inter.className}>
-            Map <span>-&gt;</span>
-          </h2>
           <LeafletMap />
         </Container>
       </main>
