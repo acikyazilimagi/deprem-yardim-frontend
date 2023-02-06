@@ -1,3 +1,4 @@
+import { MarkerData } from "@/mocks/types";
 import React, { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import { default as MuiDrawer } from "@mui/material/Drawer";
@@ -9,14 +10,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 
-export default function Drawer({
-  toggler,
-}: {
-  // eslint-disable-next-line no-unused-vars
-  toggler: (e: any) => void;
-}) {
+interface DrawerProps {
+  toggler: (_e: KeyboardEvent | MouseEvent) => void;
+}
+
+export default function Drawer({ toggler }: DrawerProps) {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
 
@@ -45,7 +46,7 @@ export default function Drawer({
           flexDirection: "column",
         }}
         role="presentation"
-        onKeyDown={(e: any) => toggler(e)}
+        onKeyDown={(e) => toggler(e)}
       >
         <div className={styles.content}>
           <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag>
@@ -89,10 +90,7 @@ export default function Drawer({
             />
           </div>
         </div>
-        <CloseIcon
-          onClick={(e: any) => toggler(e)}
-          className={styles.closeButton}
-        />
+        <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
   }, [data, size.width, toggler]);
@@ -109,7 +107,7 @@ export default function Drawer({
         className="drawer"
         anchor={size.width > 768 ? "left" : "bottom"}
         open={isOpen}
-        onClose={(e: any) => toggler(e)}
+        onClose={(e) => toggler(e as MouseEvent)}
       >
         {list}
       </MuiDrawer>

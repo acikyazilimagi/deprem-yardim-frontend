@@ -1,32 +1,30 @@
-import styles from "@/styles/Home.module.css";
-import Head from "next/head";
-import Image from "next/image";
-
-import Container from "@mui/material/Container";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { useCallback, useState } from "react";
-
-import dynamic from "next/dynamic";
-import { Data, MarkerData } from "../mocks/types";
+import { Data, MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
+import styles from "@/styles/Home.module.css";
+import Container from "@mui/material/Container";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { KeyboardEvent, MouseEvent, useCallback } from "react";
+
+interface HomeProps {
+  results: MarkerData[];
+}
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-export default function Home({ results }: { results: MarkerData[] }) {
+export default function Home({ results }: HomeProps) {
   const { toggleDrawer, setDrawerData } = useMapActions();
 
   const handleMarkerClick = useCallback(
-    (
-      event: React.KeyboardEvent | React.MouseEvent,
-      markerData?: MarkerData
-    ) => {
+    () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
       if (
         event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
       )
         return;
 
@@ -50,9 +48,10 @@ export default function Home({ results }: { results: MarkerData[] }) {
 
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <LeafletMap onClickMarker={handleMarkerClick} data={results} />
+          {/* @ts-expect-error */}
+          <LeafletMap onClickMarker={handleMarkerClick()} data={results} />
         </Container>
-        <Drawer toggler={handleMarkerClick} />
+        <Drawer toggler={handleMarkerClick()} />
         <FooterBanner />
       </main>
     </>

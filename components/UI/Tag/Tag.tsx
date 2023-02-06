@@ -1,6 +1,6 @@
 import { styled } from "@mui/material/styles";
 
-const Tag = styled("div")(({ theme, color }: any) => ({
+const Tag = styled("div")(({ theme, color }) => ({
   backgroundColor: color || theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   padding: theme.spacing(1, 1.2),
