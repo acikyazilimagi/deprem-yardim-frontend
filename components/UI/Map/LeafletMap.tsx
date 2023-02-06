@@ -37,7 +37,7 @@ function LeafletMap({ onClickMarker }: any) {
       {({ TileLayer, Marker }: any) => (
         <>
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="http://yol.kgm.gov.tr/wmts/kar_muc/gm_grid/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
