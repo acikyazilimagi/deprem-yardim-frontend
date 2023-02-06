@@ -2,13 +2,14 @@
   bottom: 24px;
   z-index: 999;
   padding: 2px 1rem;
+  margin: 10px;
   font-weight: 500;
   font-size: 0.7rem;
   position: absolute;
   text-align: center;
-  background-color: #f2f2f2;
+  background-color: rgba(104, 13, 13, 0.6);
+  color: white;
   display: flex;
-  border: 1px solid #666;
 }
 
 .footer span:nth-child(2) {
