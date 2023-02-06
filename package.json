@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
-  "homepage": "YOUR_GIT_REPO_URL",
+  "homepage": "https://github.com/acikkaynak/deprem-yardim-frontend",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acikkaynak/deprem-yardim-frontend"
+  },
+  "bugs": {
+    "url": "https://github.com/acikkaynak/deprem-yardim-frontend/issues"
+  },
   "engines": {
     "node": ">=14.0.0",
     "yarn": ">=1.22.0",
