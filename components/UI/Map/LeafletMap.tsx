@@ -5,13 +5,19 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 import dynamic from "next/dynamic";
-import { DEFAULT_CENTER, DEFAULT_ZOOM, markers } from "./utils";
+import { DEFAULT_CENTER, DEFAULT_ZOOM } from "./utils";
+import { MarkerData } from "../../../mocks/types";
 
 const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
   ssr: false,
 });
 
-function LeafletMap({ onClickMarker }: any) {
+type Props = {
+  data: MarkerData[];
+  onClickMarker: (e: any, markerData: MarkerData) => void;
+};
+
+function LeafletMap({ onClickMarker, data }: Props) {
   return (
     <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
       {({ TileLayer, Marker }: any) => (
@@ -21,10 +27,13 @@ function LeafletMap({ onClickMarker }: any) {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
           <MarkerClusterGroup>
-            {markers.map((marker: any) => (
+            {data.map((marker: MarkerData) => (
               <Marker
-                key={marker.name}
-                position={[marker.lat, marker.lng]}
+                key={marker.place_id}
+                position={[
+                  marker.geometry.location.lat,
+                  marker.geometry.location.lng,
+                ]}
                 eventHandlers={{
                   click: (e: any) => {
                     onClickMarker(e, marker);
