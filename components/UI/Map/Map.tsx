@@ -1,21 +1,14 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import styles from "./Map.module.css";
+import dynamic from "next/dynamic";
 
-const Map = () => {
+const DynamicMap = dynamic(() => import("./DynamicMap"), {
+  ssr: false,
+});
+
+const Map = (props: any) => {
   return (
-    <MapContainer
-      center={[37.2544, 37.3315]}
-      zoom={9}
-      scrollWheelZoom={false}
-      className={styles.leafletMap}
-    >
-      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Marker position={[51.505, -0.09]}>
-        A pretty CSS3 popup. <br /> Easily customizable.
-      </Marker>
-    </MapContainer>
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <DynamicMap {...props} />
+    </div>
   );
 };
 

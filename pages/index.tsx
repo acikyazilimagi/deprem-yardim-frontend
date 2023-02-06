@@ -1,19 +1,11 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
-import ResponsiveAppBar from "@/components/ResponsiveAppBar";
 
-import dynamic from "next/dynamic";
 import Container from "@mui/material/Container";
 import MyDrawer from "@/components/UI/Drawer/Drawer";
-
-const inter = Inter({ subsets: ["latin"] });
+import LeafletMap from "@/components/UI/Map";
 
 export default function Home() {
-  const LeafletMap = dynamic(() => import("@/components/UI/Map/Map"), {
-    ssr: false,
-  });
-
   return (
     <>
       <Head>
@@ -22,11 +14,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <ResponsiveAppBar /> */}
       <MyDrawer />
 
       <main className={styles.main}>
-        <Container>
+        <Container maxWidth={false} disableGutters>
           <LeafletMap />
         </Container>
       </main>
