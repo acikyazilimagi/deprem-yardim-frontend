@@ -1,14 +1,16 @@
 import Map from "@/components/UI/Map/Map";
+import L, { LeafletMouseEvent } from "leaflet";
 import { MarkerData } from "@/mocks/types";
-import { LeafletMouseEvent } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
+import densitySvg from "./DensitySvg";
 import dynamic from "next/dynamic";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import { Marker, TileLayer } from "react-leaflet";
 import { DEFAULT_CENTER, DEFAULT_IMPORTANCY, DEFAULT_ZOOM } from "./utils";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
+
 const HeatmapLayer = HeatmapLayerFactory<[number, number, number]>();
 
 const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
@@ -25,6 +27,15 @@ type Props = {
   onClickMarker: (_e: LeafletMouseEvent, _markerData: MarkerData) => void;
 };
 
+const createClusterCustomIcon = function (cluster: any) {
+  const count = cluster.getChildCount();
+  return L.divIcon({
+    html: `${densitySvg(count)}`,
+    className: "customMarker",
+    iconSize: L.point(40, 40, true),
+  });
+};
+
 function LeafletMap({ onClickMarker, data }: Props) {
   return (
     <>
@@ -33,7 +44,7 @@ function LeafletMap({ onClickMarker, data }: Props) {
         <TileLayer
           url={`http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
-        <MarkerClusterGroup>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
           {data.map((marker: MarkerData) => (
             <Fragment key={marker.place_id}>
               <Marker
