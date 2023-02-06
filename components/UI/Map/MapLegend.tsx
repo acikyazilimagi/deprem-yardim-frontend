@@ -20,10 +20,11 @@ function MapLegend() {
   return (
     <>
       <div className={legendToggleStatusClass}>
-        {!isLegendOpen && (
+        {isLegendOpen ? (
+          <CloseIcon color="action" onClick={toggleLegend} />
+        ) : (
           <ArrowBackIosIcon color="action" onClick={toggleLegend} />
         )}
-        {isLegendOpen && <CloseIcon color="action" onClick={toggleLegend} />}
         {Object.keys(Tags).map((intensity, index) => (
           <div className={styles.legend_item} key={index}>
             <div
