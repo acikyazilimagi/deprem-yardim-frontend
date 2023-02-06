@@ -8,14 +8,8 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
-import Image from "next/image";
-import { KeyboardEvent, MouseEvent, useCallback, useState } from "react";
+import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { Partytown } from "@builder.io/partytown/react";
-
-
-
-
-
 
 interface HomeProps {
   results: MarkerData[];
