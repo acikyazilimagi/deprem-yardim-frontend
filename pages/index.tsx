@@ -3,17 +3,21 @@ import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
 import Container from "@mui/material/Container";
-import LeafletMap from "@/components/UI/Map";
+// import LeafletMap from "@/components/UI/Map";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 
 import { Data, MarkerData } from "../mocks/types";
+import dynamic from "next/dynamic";
 
 export default function Home({ results }: { results: MarkerData[] }) {
   const [isOpen, setisOpen] = useState(false);
   const [drawerData, setDrawerData] = useState<any>();
 
+  const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
+    ssr: false,
+  });
   const toggleDrawer = useCallback(
     () =>
       (
