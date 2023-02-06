@@ -26,3 +26,4 @@ const useMapStore = create<MapState>()((set) => ({
 export const useIsDrawerOpen = () => useMapStore((state) => state.isDrawerOpen);
 export const useDrawerData = () => useMapStore((state) => state.drawerData);
 export const useMapActions = () => useMapStore((state) => state.actions);
+export const usePopUpData = () => useMapStore((state) => state.popUpData);

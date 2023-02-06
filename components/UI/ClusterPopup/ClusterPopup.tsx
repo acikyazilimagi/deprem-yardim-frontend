@@ -1,3 +1,4 @@
+import { usePopUpData } from "@/stores/mapStore";
 import theme from "@/utils/theme";
 import LaunchIcon from "@mui/icons-material/Launch";
 import {
@@ -22,10 +23,13 @@ function openGoogleMap(lat: string, lng: string) {
   window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
 }
 
-export function ClusterPopup({ data }: ClusterPopupProps) {
+export function ClusterPopup() {
+  const data = usePopUpData();
   const lat = data?.baseMarker.geometry.location.lat;
   const lng = data?.baseMarker.geometry.location.lng;
   const tag = findTagByClusterCount(data?.count);
+
+  if (!data) return null;
 
   return (
     <Card variant="outlined" className={styles.popupContainer}>
