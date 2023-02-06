@@ -12,11 +12,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 4px;
+  padding: 6px;
+  background: rgba(242, 242, 242, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(242, 242, 242, 0.3);
 }
 
 .legend_item {
-  padding: 6px 12px 6px 8px;
   background: #ffffff;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.09);
   border-radius: 4px;
@@ -28,14 +34,39 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
+  padding: 0;
+  border-radius: 50%;
 }
 
 .legend_item__color {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  margin-right: 12px;
   border: 1px solid #b9b9b9;
+  margin-right: 0px;
+}
+
+@media (min-width: 1056px) {
+  .open {
+    gap: 12px;
+  }
+
+  .legend_item__text {
+    display: none;
+  }
+
+  .open .legend_item__text {
+    display: block;
+  }
+
+  .open .legend_item__color {
+    margin-right: 12px;
+  }
+
+  .open .legend_item {
+    padding: 6px 12px 6px 8px;
+    border-radius: 4px;
+  }
 }
 
 @media (max-width: 1055px) {
@@ -50,6 +81,10 @@
     border: 1px solid rgba(242, 242, 242, 0.3);
   }
 
+  .legend svg {
+    display: none;
+  }
+
   .legend_item {
     padding: 0;
     border-radius: 50%;
@@ -62,4 +97,8 @@
   .legend_item__text {
     display: none;
   }
+}
+
+.legend svg {
+  cursor: pointer;
 }
