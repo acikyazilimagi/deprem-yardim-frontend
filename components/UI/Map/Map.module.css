@@ -16,15 +16,16 @@
 }
 
 .legend_item {
-  padding: 6px 12px 6px 8px;
+  border: none;
+  outline: none;
   background: #ffffff;
+  padding: 6px 12px 6px 8px;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.09);
   border-radius: 4px;
   color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: capitalize;
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
