@@ -1,12 +1,20 @@
 .logo {
   position: fixed;
-  right: 20px;
-  bottom: 70px;
+  right: 10px;
+  bottom: 80px;
   z-index: 999;
 }
 
 .logo img {
   border-radius: 20%;
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  font-weight: 500;
+  align-items: flex-end;
 }
 
 .main {

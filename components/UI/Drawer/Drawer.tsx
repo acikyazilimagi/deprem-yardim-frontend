@@ -7,10 +7,10 @@ import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
-import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { Snackbar, TextField } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
+import { OpenInNew } from "@mui/icons-material";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -62,8 +62,10 @@ export default function Drawer({ toggler }: DrawerProps) {
                   "_blank"
                 )
               }
+              className={styles.externalLinkButton}
             >
-              Google Haritalar ile gör
+              Google Haritalar ile Gör
+              <OpenInNew className={styles.openInNewIcon} />
             </Button>
           </div>
           <div>
@@ -75,25 +77,22 @@ export default function Drawer({ toggler }: DrawerProps) {
                 geometry.location.lng
               )}
               InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton
-                      onClick={() =>
-                        copyBillboard(
-                          generateGoogleMapsUrl(
-                            geometry.location.lat,
-                            geometry.location.lng
-                          )
-                        )
-                      }
-                    >
-                      <FileCopyIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+                sx: { paddingRight: "1rem" },
                 readOnly: true,
               }}
             />
+            <Button
+              variant="outlined"
+              className={styles.clipboard}
+              size="small"
+              onClick={() =>
+                copyBillboard(
+                  `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                )
+              }
+            >
+              ADRESİ KOPYALA
+            </Button>
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
