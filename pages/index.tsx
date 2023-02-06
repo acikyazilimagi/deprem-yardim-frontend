@@ -46,7 +46,7 @@ export default function Home() {
         {drawerData && (
           <Drawer data={drawerData} isOpen={isOpen} toggler={toggleDrawer()} />
         )}
-        <FooterBanner/>
+        <FooterBanner />
       </main>
     </>
   );
