@@ -47,7 +47,7 @@ export default function Home({ results }: { results: MarkerData[] }) {
 
       <main className={styles.main}>
         <div className={styles.logo}>
-          <Image src="/logo.svg" width={100} height="100" alt="Afet Haritası" />
+          <Image src="/logo.svg" width={64} height="64" alt="Afet Haritası" />
         </div>
 
         <Container maxWidth={false} disableGutters>

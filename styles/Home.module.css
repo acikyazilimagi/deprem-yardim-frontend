@@ -4,6 +4,9 @@
   bottom: 70px;
   z-index: 999;
 }
+.logo img {
+  border-radius: 20%;
+}
 .main {
   display: flex;
   flex-direction: column;
