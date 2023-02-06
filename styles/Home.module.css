@@ -1,12 +1,33 @@
 .logo {
+  text-decoration: none;
+  color: crimson;
+}
+
+.logoContainer {
   position: fixed;
-  right: 10px;
-  bottom: 80px;
+  right: 20px;
+  bottom: 100px;
   z-index: 999;
 }
 
-.logo img {
+.logoContainer img {
+  animation: pulse 2s infinite;
+  background: black;
   border-radius: 20%;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  transform: scale(1);
+}
+
+.logoContainer p {
+  cursor: arrow;
+  margin: 10px;
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .logoWrapper {
@@ -14,7 +35,6 @@
   flex-direction: column;
   font-size: 14px;
   font-weight: 500;
-  align-items: flex-end;
 }
 
 .main {
@@ -266,14 +286,13 @@
     z-index: 1;
   }
 
-  .logo {
-    right: 10px;
-    bottom: 115px;
-  }
-
   .logo img {
     width: 50px;
     height: 50px;
+  }
+
+  .logoContainer p {
+    font-size: 14px;
   }
 }
 
@@ -301,5 +320,22 @@
 
   to {
     transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
