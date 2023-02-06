@@ -6,13 +6,12 @@ import LeafletMap from "@/components/UI/Map";
 import { useState, useCallback } from "react";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { IMarker } from "@/components/UI/Map/utils";
-import { CleaningServices } from "@mui/icons-material";
+
 import { Data, MarkerData } from "../mocks/types";
 
 export default function Home({ results }: { results: MarkerData[] }) {
   const [isOpen, setisOpen] = useState(false);
-  const [drawerData, setDrawerData] = useState<IMarker>();
+  const [drawerData, setDrawerData] = useState<any>();
 
   const toggleDrawer = useCallback(
     () => (event: React.KeyboardEvent | React.MouseEvent, markerData?: any) => {
