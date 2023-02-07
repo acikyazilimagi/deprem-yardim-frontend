@@ -73,7 +73,6 @@ const Drawer = ({ toggler }: DrawerProps) => {
           width: size.width > 768 ? 372 : "full",
           display: "flex",
           height: "100%",
-          justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
         }}
