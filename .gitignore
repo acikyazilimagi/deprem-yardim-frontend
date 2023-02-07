@@ -53,3 +53,13 @@ public/~partytown/*
 public/sw.js.map
 public/sw.js
 public/workbox-*
+
+#mobiles
+/ios
+/android
+
+#resources
+/resources/ios
+/resources/android
+
+/out
