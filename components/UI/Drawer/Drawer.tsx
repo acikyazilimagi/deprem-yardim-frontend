@@ -11,7 +11,7 @@ import formatcoords from "formatcoords";
 import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
 
-interface GoogleMapsButton {
+interface MapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
   urlCallback: (lat: number, lng: number) => void;
@@ -23,8 +23,16 @@ export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/@${lat},${lng},22z`;
 };
 
+export const generateAppleMapsUrl = (lat: number, lng: number) => {
+  return `http://maps.apple.com/?ll=${lat},${lng}&z=18`;
+};
+
 export const openGoogleMapsUrl = (lat: number, lng: number) => {
   window.open(generateGoogleMapsUrl(lat, lng), "_blank");
+};
+
+export const openAppleMapsUrl = (lat: number, lng: number) => {
+  window.open(generateAppleMapsUrl(lat, lng), "_blank");
 };
 
 export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
@@ -34,10 +42,16 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
   );
 };
 
-export const googleMapsButtons: GoogleMapsButton[] = [
+export const mapsButtons: MapsButton[] = [
   {
     label: "Google Haritalarda Aç",
     urlCallback: openGoogleMapsUrl,
+    icon: <OpenInNew className={styles.btnIcon} />,
+    color: "primary",
+  },
+  {
+    label: "Apple Haritalarda Aç",
+    urlCallback: openAppleMapsUrl,
     icon: <OpenInNew className={styles.btnIcon} />,
     color: "primary",
   },
@@ -95,7 +109,7 @@ const Drawer = () => {
           <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
           <p>{formattedCoordinates}</p>
           <div className={styles.contentButtons}>
-            {googleMapsButtons.map((button) => (
+            {mapsButtons.map((button) => (
               <Button
                 key={button.label}
                 variant="contained"

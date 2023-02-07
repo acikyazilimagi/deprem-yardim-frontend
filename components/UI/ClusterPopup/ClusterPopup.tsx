@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
-import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
+import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
+import styles from "./ClusterPopup.module.css";
 
 const ResponsiveChip = styled(Chip)`
   min-width: 20px !important;
@@ -99,8 +100,8 @@ export function ClusterPopup() {
       </CardContent>
       <CardActions>
         <Stack direction="row">
-          <Stack rowGap="8px" direction="row">
-            {googleMapsButtons.map((button) => (
+          <Stack rowGap="8px" direction="row" className={styles.cardButtons}>
+            {mapsButtons.map((button) => (
               <Button
                 key={button.label}
                 variant="outlined"

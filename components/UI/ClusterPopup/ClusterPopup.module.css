@@ -1,0 +1,5 @@
+@media screen and (max-width: 768px) {
+  .cardButtons {
+    flex-direction: column;
+  }
+}
