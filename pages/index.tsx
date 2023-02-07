@@ -11,8 +11,6 @@ import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 
 import {
   KeyboardEvent,
@@ -24,6 +22,7 @@ import {
 import { Partytown } from "@builder.io/partytown/react";
 import dataTransformer from "@/utils/dataTransformer";
 import useDebounce from "@/hooks/useDebounce";
+import { HelpButton } from "@/components/UI/Button/HelpButton";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -109,23 +108,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.logoContainer}>
-          <Link
-            href="https://www.depremyardim.com/"
-            target="_blank"
-            className={styles.logo}
-          >
-            <div className={styles.logoWrapper}>
-              <p>Yardım İstemek İçin Tıkla</p>
-              <Image
-                src="/logo.svg"
-                width={64}
-                height="64"
-                alt="Afet Haritası"
-              />
-            </div>
-          </Link>
-        </div>
+        <HelpButton />
         <Container maxWidth={false} disableGutters>
           <LeafletMap
             // @ts-expect-error
