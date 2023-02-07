@@ -9,6 +9,10 @@ interface MapProps {
   children: ReactNode;
 }
 
+const corner1 = Leaflet.latLng(33.9825, 25.20902);
+const corner2 = Leaflet.latLng(43.32683, 46.7742);
+const bounds = Leaflet.latLngBounds(corner1, corner2);
+
 const Map = ({ children, className, ...rest }: MapProps) => {
   const mapClassName = [styles.map, className].filter(Boolean).join(" ");
 
@@ -25,7 +29,12 @@ const Map = ({ children, className, ...rest }: MapProps) => {
   }, []);
 
   return (
-    <ReactLeaflet.MapContainer className={mapClassName} {...rest}>
+    <ReactLeaflet.MapContainer
+      maxBoundsViscosity={1}
+      maxBounds={bounds}
+      className={mapClassName}
+      {...rest}
+    >
       {children}
     </ReactLeaflet.MapContainer>
   );
