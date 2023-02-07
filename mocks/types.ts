@@ -24,7 +24,7 @@ export type MarkerData = {
   name: string;
   photos: Photo[];
   place_id: number;
-  reference: string;
+  reference: number;
   types: string[];
   source: Raw;
 };
