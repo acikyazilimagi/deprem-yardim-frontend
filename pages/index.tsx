@@ -81,7 +81,10 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!!error} fallback={FallbackComponent}>
+          <RenderIf
+            condition={error ? false : true}
+            fallback={FallbackComponent}
+          >
             <LeafletMap
               data={isLoading || !results ? [] : results}
               onClusterClick={togglePopUp}
