@@ -37,3 +37,41 @@ export type ClusterPopupData = {
   count: number;
   baseMarker: MarkerData;
 };
+
+export type LocationsResponse = {
+  count: number;
+  next?: string;
+  previous?: string;
+  results: {
+    id: string;
+    formatted_address: string;
+    loc: [number, number];
+    viewport: {
+      northeast: Point;
+      southwest: Point;
+    };
+    raw: {
+      full_text?: string;
+      tweet_id?: string;
+      name?: string;
+      screen_name?: string;
+    };
+    resolution: {
+      address?: string;
+      city?: string;
+      distinct?: string;
+      neighbourhood?: string;
+      street?: string;
+      no?: number;
+      name_surname?: any;
+      tel?: string;
+    };
+  }[];
+};
+
+export type CoordinatesURLParameters = {
+  ne_lat: number;
+  ne_lng: number;
+  sw_lat: number;
+  sw_lng: number;
+};
