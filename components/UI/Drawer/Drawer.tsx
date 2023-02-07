@@ -73,9 +73,16 @@ const Drawer = () => {
           e.preventDefault();
         }
       };
+      const onTouchMove = (e: any) => {
+        if (e.scale !== 1) {
+          e.preventDefault();
+        }
+      };
       window.addEventListener("wheel", onWheelTrigger, { passive: false });
+      window.addEventListener("touchmove", onTouchMove, { passive: false });
       return () => {
         window.removeEventListener("wheel", onWheelTrigger);
+        window.removeEventListener("touchmove", onTouchMove);
       };
     }
   }, [isOpen]);
