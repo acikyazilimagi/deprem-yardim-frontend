@@ -18,7 +18,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 export default function Home() {
-  const { data: results, isLoading } = useSWR<MarkerData[]>(
+  const { data: results, isLoading } = useSWR<MarkerData[] | undefined>(
     BASE_URL,
     dataFetcher
   );
