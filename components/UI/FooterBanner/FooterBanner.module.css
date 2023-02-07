@@ -21,14 +21,30 @@
 }
 
 .footer .dismissible {
+  position: relative;
   display: flex;
   border-radius: 8px;
-  background-color: rgba(104, 13, 13, 0.6);
-  padding: 2px 1rem;
+  background-color: rgba(104, 13, 13, 0.9);
+  padding: 1.7rem 0.8rem 0.8rem 0.8rem;
+  text-align: center;
+  width: 24rem;
+  z-index: 999;
+  bottom: 0.5rem;
+  margin: auto;
+  font-size: 0.7rem;
 }
 
 .footer .dismissible span {
   margin: auto;
+}
+
+.footer .dismissible .closeButton {
+  position: absolute;
+  right: 1px;
+  top: 3px;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
 }
 
 .footer .dismissible svg {
@@ -42,6 +58,10 @@
   .footer {
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+  .footer .dismissible {
+    width: 100%;
+    bottom: 4rem;
   }
 
   .footerWrapper {

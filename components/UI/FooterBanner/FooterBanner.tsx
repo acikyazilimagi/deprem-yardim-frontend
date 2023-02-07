@@ -1,4 +1,4 @@
-import { HelpButton } from "@/components/UI/Button/HelpButton";
+import { Logo } from "@/components/UI/Button/Logo";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
@@ -22,12 +22,9 @@ export default function FooterBanner() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerWrapper}>
-        <HelpButton />
+        <Logo />
         <RenderIf condition={!hideFooter}>
           <span className={styles.dismissible}>
-            <span>
-              <HighlightOffIcon onClick={handleOffIconClick} />
-            </span>
             <span>
               <b>Açıklama:</b> Twitter, Instagram, Whatsapp ve çeşitli web
               siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını
@@ -35,6 +32,9 @@ export default function FooterBanner() {
               hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili
               kurum ve STK&apos;lara yardımcı olmak ve afet zamanlarında açık
               bir veri platformu sağlamak.
+            </span>
+            <span className={styles.closeButton}>
+              <HighlightOffIcon onClick={handleOffIconClick} />
             </span>
           </span>
         </RenderIf>

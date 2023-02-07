@@ -1,3 +1,4 @@
+import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { CopyAll, DriveEta, OpenInNew } from "@mui/icons-material";
@@ -7,13 +8,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, {
-  KeyboardEvent,
-  MouseEvent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
 
 interface DrawerProps {
@@ -57,7 +52,7 @@ export const googleMapsButtons: GoogleMapsButton[] = [
   },
 ];
 
-const Drawer = ({ toggler }: DrawerProps) => {
+const Drawer = () => {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
   const size = useWindowSize();
@@ -72,6 +67,8 @@ const Drawer = ({ toggler }: DrawerProps) => {
     navigator.clipboard.writeText(url);
     setOpenBillboardSnackbar(true);
   }
+
+  const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
     if (!data) {

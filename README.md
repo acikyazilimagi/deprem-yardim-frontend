@@ -1,5 +1,7 @@
 ## Projeye destek olmak için
 
+[For English](README_ENG.md)
+
 İletişim kanalları:
 
 - [Discord Kanalı](https://discord.com/invite/itdepremyardim)
