@@ -158,11 +158,14 @@ const Drawer = ({ toggler }: DrawerProps) => {
               </div>
             )}
             {!showSavedData && (
-              <iframe
-                frameBorder={0}
-                style={{ width: "100%", minHeight: "1000px" }}
-                src={`https://twitframe.com/show?url=https://twitter.com/${source?.name}/status/${source?.tweet_id}`}
-              ></iframe>
+              <div className={styles.sourceContentIframeWrapper}>
+                <iframe
+                  frameBorder={0}
+                  className={styles.sourceContentIframe}
+                  width={"100%"}
+                  src={`https://twitframe.com/show?url=https://twitter.com/${source?.name}/status/${source?.tweet_id}&conversation=none`}
+                ></iframe>
+              </div>
             )}
           </div>
         </div>
