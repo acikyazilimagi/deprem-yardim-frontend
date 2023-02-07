@@ -36,34 +36,31 @@ export default function Home() {
 
   const [data, setData] = useState<LocationsResponse | undefined>(undefined);
   const [results, setResults] = useState<MarkerData[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
 
   const [url, setURL] = useState(baseURL);
-  const debouncedURL = useDebounce(url, 500);
+  const debouncedURL = useDebounce(url, 1000);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(coordinates as any);
-    setURL(baseURL + "?" + urlParams.toString());
+    if (coordinates) {
+      const urlParams = new URLSearchParams(coordinates as any);
+      setURL(baseURL + "?" + urlParams.toString());
+    }
   }, [coordinates]);
 
   useEffect(() => {
-    // not sure if we need this?
     if (debouncedURL) {
       fetch(debouncedURL)
         .then((res) => res.json())
         .then((res) => {
-          setData(res);
+          setResults(dataTransformer(res));
+          setLoaded(true);
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, [debouncedURL]);
-
-  useEffect(() => {
-    if (!data?.results) return;
-
-    setResults(dataTransformer(data));
-  }, [data]);
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -110,12 +107,14 @@ export default function Home() {
       <main className={styles.main}>
         <HelpButton />
         <Container maxWidth={false} disableGutters>
-          <LeafletMap
-            // @ts-expect-error
-            onClickMarker={handleMarkerClick()}
-            data={results}
-            onClusterClick={togglePopUp}
-          />
+          {loaded && (
+            <LeafletMap
+              // @ts-expect-error
+              onClickMarker={handleMarkerClick()}
+              data={results}
+              onClusterClick={togglePopUp}
+            />
+          )}
         </Container>
         <Drawer toggler={handleMarkerClick()} />
         <ClusterPopup />
