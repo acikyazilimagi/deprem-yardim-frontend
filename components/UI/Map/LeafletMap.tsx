@@ -81,14 +81,15 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const data = useMarkerData();
-  console.log("Data", data);
   const points: Point[] = useMemo(
     () =>
-      data.map((marker: MarkerData) => [
-        marker.geometry.location.lat,
-        marker.geometry.location.lng,
-        DEFAULT_IMPORTANCY,
-      ]),
+      points
+        ? points
+        : data.map((marker: MarkerData) => [
+            marker.geometry.location.lat,
+            marker.geometry.location.lng,
+            DEFAULT_IMPORTANCY,
+          ]),
     [data]
   );
 

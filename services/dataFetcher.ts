@@ -6,7 +6,6 @@ export const dataFetcher = (url: string) =>
     .then((res) => res.json())
     .then((res) => {
       const transformedData = res.results ? dataTransformer(res) : [];
-      console.log("Fetched", transformedData);
       setMarkerData(transformedData);
       return transformedData;
     })
