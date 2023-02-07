@@ -78,10 +78,6 @@ export default function Home() {
   const togglePopUp = useCallback(
     (e: any) => {
       const markers = e.layer.getAllChildMarkers();
-      // console.log(e.);
-      // console.log9
-      // e.cluster.zoomToBounds({ padding: [20, 20] });
-
       setPopUpData({
         count: markers.length ?? 0,
         baseMarker: markers[0].options.markerData,
@@ -96,8 +92,11 @@ export default function Home() {
       <Head>
         <Partytown debug={true} forward={["dataLayer.push"]} />
         <title>Afet Haritası | Anasayfa</title>
-        <meta name="description" content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak.
-" />
+        <meta
+          name="description"
+          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak.
+"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

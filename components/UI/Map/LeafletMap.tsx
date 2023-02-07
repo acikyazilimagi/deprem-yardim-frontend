@@ -47,7 +47,8 @@ const MapEvents = () => {
     zoomend: () => {
       setCoordinates(map.getBounds());
 
-      if (mapZoomLevelRef.current > map.getZoom()) {
+      const isZoomOut = mapZoomLevelRef.current > map.getZoom();
+      if (isZoomOut) {
         setPopUpData(null);
       }
     },

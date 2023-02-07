@@ -37,6 +37,11 @@ export default function Drawer({ toggler }: DrawerProps) {
       return null;
     }
     const { geometry, formatted_address, source } = data;
+    const formattedCoordinates = formatcoords([
+      geometry.location.lat,
+      geometry.location.lng,
+    ]).format();
+
     return (
       <Box
         sx={{
@@ -50,12 +55,7 @@ export default function Drawer({ toggler }: DrawerProps) {
         <div className={styles.content}>
           {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
-          <p>
-            {formatcoords([
-              geometry.location.lat,
-              geometry.location.lng,
-            ]).format()}
-          </p>
+          <p>{formattedCoordinates}</p>
           <div className={styles.contentButton}>
             <Button
               variant="contained"
