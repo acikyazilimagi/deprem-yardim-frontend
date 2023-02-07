@@ -1,10 +1,9 @@
-import { useState } from "react";
-import styles from "./Map.module.css";
-import { Tags } from "../Tag/Tag.types";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { ArrowForwardIos } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, ClickAwayListener, Popper, Typography } from "@mui/material";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
+import { Tags } from "../Tag/Tag.types";
+import styles from "./Map.module.css";
 
 const MapLegend = () => {
   const [isLegendOpen, setIsLegendOpen] = useState<boolean>(false);
@@ -30,22 +29,11 @@ const MapLegend = () => {
   return (
     <>
       <div className={legendToggleStatusClass}>
-        {isLegendOpen ? (
-          <CloseIcon
-            color="action"
-            onClick={() => setIsLegendOpen((previous) => !previous)}
-          />
-        ) : (
-          <ArrowBackIosIcon
-            color="action"
-            onClick={() => setIsLegendOpen((previous) => !previous)}
-          />
-        )}
         {Object.keys(Tags).map((intensity) => (
           <div key={intensity}>
             <Button
               className={styles.legend_item}
-              aria-describedby={id}
+              aria-label={Tags[intensity].intensity}
               onClick={(event) => handleClick(event, intensity)}
             >
               <div
@@ -70,6 +58,17 @@ const MapLegend = () => {
             </Popper>
           </div>
         ))}
+        {isLegendOpen ? (
+          <CloseIcon
+            color="action"
+            onClick={() => setIsLegendOpen((previous) => !previous)}
+          />
+        ) : (
+          <ArrowForwardIos
+            color="action"
+            onClick={() => setIsLegendOpen((previous) => !previous)}
+          />
+        )}
       </div>
     </>
   );

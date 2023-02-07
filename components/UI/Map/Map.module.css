@@ -5,8 +5,8 @@
 
 .legend {
   gap: 4px;
-  top: 10px;
-  right: 10px;
+  bottom: 10px;
+  left: 10px;
   z-index: 999;
   display: flex;
   padding: 6px;
@@ -94,6 +94,8 @@
 
   .legend_item__color {
     margin-right: 0;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .legend_item__text {
