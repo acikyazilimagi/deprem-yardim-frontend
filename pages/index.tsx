@@ -10,7 +10,6 @@ import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import useSWR from "swr";
 import TechnicalError from "./TechnicalError";
 // import { Partytown } from "@builder.io/partytown/react";
@@ -24,45 +23,9 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
-  const {
-    data: results,
-    isLoading,
-    error,
-  } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
-  const { toggleDrawer, setDrawerData, setPopUpData, setDevice } =
-    useMapActions();
+  const { error } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
+  const { setDevice } = useMapActions();
   setDevice(deviceType);
-
-  const handleMarkerClick = useCallback(
-    (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
-      if (
-        event.type === "keydown" &&
-        ((event as KeyboardEvent).key === "Tab" ||
-          (event as KeyboardEvent).key === "Shift")
-      )
-        return;
-
-      toggleDrawer();
-
-      if (markerData) {
-        setDrawerData(markerData);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  const togglePopUp = useCallback(
-    (e: any) => {
-      const markers = e.layer.getAllChildMarkers();
-      setPopUpData({
-        count: markers.length ?? 0,
-        baseMarker: markers[0].options.markerData,
-        markers: markers,
-      });
-    },
-    [setPopUpData]
-  );
 
   return (
     <>
@@ -82,15 +45,10 @@ export default function Home({ deviceType }: Props) {
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<TechnicalError />}>
-            <LeafletMap
-              data={isLoading || !results ? [] : results}
-              onClusterClick={togglePopUp}
-              // @ts-expect-error
-              onClickMarker={handleMarkerClick}
-            />
+            <LeafletMap />
           </RenderIf>
         </Container>
-        <Drawer toggler={handleMarkerClick} />
+        <Drawer />
         <ClusterPopup />
         <FooterBanner />
       </main>

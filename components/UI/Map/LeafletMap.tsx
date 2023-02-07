@@ -1,18 +1,19 @@
 import Map from "@/components/UI/Map/Map";
 import { MarkerData } from "@/mocks/types";
-import { useMapActions, useDevice } from "@/stores/mapStore";
+import { useMapActions, useDevice, useMarkerData } from "@/stores/mapStore";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import {
-  LeafletMouseEvent,
-  SpiderfyEventHandlerFn,
-  latLng,
-  latLngBounds,
-} from "leaflet";
+import { latLng, latLngBounds } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import React, { Fragment, useCallback, useMemo, useRef } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useMemo,
+  useRef,
+  MouseEvent,
+} from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import {
@@ -22,6 +23,7 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
   DEFAULT_ZOOM,
 } from "./utils";
+import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 
 type Point = [number, number, number];
 
@@ -38,12 +40,6 @@ const MapLegend = dynamic(() => import("./MapLegend"), {
 // const ImpactedCities = dynamic(() => import("./ImpactedCities"), {
 //   ssr: false,
 // });
-
-type Props = {
-  data: MarkerData[];
-  onClickMarker: (_e: LeafletMouseEvent, _markerData: MarkerData) => void;
-  onClusterClick: SpiderfyEventHandlerFn;
-};
 
 type ExtendedMarkerProps = MarkerProps & {
   markerData: MarkerData;
@@ -82,7 +78,8 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
+function LeafletMap() {
+  const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
       data.map((marker: MarkerData) => [
@@ -97,6 +94,9 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
   const device = useDevice();
+
+  const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
+
   return (
     <>
       <MapLegend />
@@ -129,7 +129,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
         {/* @ts-expect-error */}
-        <MarkerClusterGroup onClick={onClusterClick}>
+        <MarkerClusterGroup onClick={handleClusterClick}>
           {data.map((marker: MarkerData) => (
             <Fragment key={marker.place_id}>
               <ExtendedMarker
@@ -140,7 +140,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
                 ]}
                 eventHandlers={{
                   click: (e) => {
-                    onClickMarker(e, marker);
+                    handleMarkerClick(e as any as MouseEvent, marker);
                   },
                 }}
                 markerData={marker}
