@@ -19,7 +19,6 @@
   color: #636363;
 }
 
-
 .contentButtons {
   margin-bottom: 24px;
   display: flex;
@@ -33,7 +32,7 @@
   }
 }
 
-.drawer  {
+.drawer {
   position: relative;
   z-index: 99999;
 }
