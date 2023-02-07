@@ -10,7 +10,6 @@ export default function FooterBanner() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerWrapper}>
-        <HelpButton />
         <RenderIf condition={!hideFooter}>
           <span className={styles.dismissible}>
             <span>
@@ -26,6 +25,7 @@ export default function FooterBanner() {
             </span>
           </span>
         </RenderIf>
+        <HelpButton />
       </div>
     </footer>
   );
