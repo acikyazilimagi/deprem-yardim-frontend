@@ -1,7 +1,7 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { Data, MarkerData } from "@/mocks/types";
+import { LocationsResponse, MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
@@ -10,19 +10,18 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import { KeyboardEvent, MouseEvent, useCallback } from "react";
+import { KeyboardEvent, MouseEvent, useCallback, useMemo } from "react";
 import { Partytown } from "@builder.io/partytown/react";
-
-interface HomeProps {
-  results: MarkerData[];
-}
+import dataTransformer from "@/utils/dataTransformer";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-export default function Home({ results }: HomeProps) {
+export default function Home({ data }: { data: LocationsResponse }) {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+
+  const results = useMemo(() => dataTransformer(data), [data]);
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -101,16 +100,12 @@ export default function Home({ results }: HomeProps) {
 }
 
 export async function getServerSideProps() {
-  // Server-side requests are mocked by `mocks/server.ts`.
-  const res = await fetch(
-    "https://public-sdc.trendyol.com/discovery-web-websfxgeolocation-santral/geocode?address=gaziantep"
-  );
-  const data = (await res.json()) as Data;
-  const results = data.results;
+  const res = await fetch("https://api.afetharita.com/tweets/locations");
+  const data = await res.json();
 
   return {
     props: {
-      results,
+      data,
     },
   };
 }
