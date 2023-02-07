@@ -65,7 +65,7 @@ const PopOver = ({ title, color }: PopOverProps) => {
     <>
       <Button
         className={styles.legend_item}
-        aria-describedby={id}
+        aria-label={title}
         onClick={handleClick}
       >
         <div
