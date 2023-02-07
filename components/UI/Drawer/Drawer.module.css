@@ -13,6 +13,11 @@
   padding: 48px;
 }
 
+.content > p:first-of-type {
+  font-weight: 600;
+  color: #636363;
+}
+
 .contentButtons {
   margin-bottom: 24px;
   display: flex;
@@ -33,6 +38,7 @@
 
 .clipboard {
   margin-top: 0.75rem;
+  margin-bottom: 10px;
 }
 
 .clipboardLabel {
@@ -57,7 +63,7 @@
 }
 
 .sourceContentTitle {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
   font-weight: bold;
   font-size: 18px;
@@ -68,4 +74,11 @@
   overflow: auto;
   border: 1px solid #c9c6c6;
   padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  transition: 500ms ease-in-out;
+}
+
+.sourceContentText:hover {
+  background-color: #f3f3f3;
 }
