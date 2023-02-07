@@ -22,6 +22,7 @@ import {
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
   DEFAULT_ZOOM,
+  DEFAULT_ZOOM_MOBILE,
 } from "./utils";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 
@@ -103,12 +104,13 @@ function LeafletMap() {
 
       <Map
         center={DEFAULT_CENTER}
-        zoom={DEFAULT_ZOOM}
+        zoom={device === "desktop" ? DEFAULT_ZOOM : DEFAULT_ZOOM_MOBILE}
         minZoom={
           device === "desktop"
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        zoomDelta={0.5}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
