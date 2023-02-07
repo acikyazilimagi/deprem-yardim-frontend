@@ -5,7 +5,7 @@
 
 .legend {
   gap: 4px;
-  bottom: 10px;
+  bottom: 30px;
   left: 10px;
   z-index: 999;
   display: flex;
