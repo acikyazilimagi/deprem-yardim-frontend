@@ -12,6 +12,12 @@ export const handlers = [
           results: [
             {
               formatted_address: "Gaziantep, Türkiye",
+              source: {
+                full_text: "full_text",
+                tweet_id: "tweet_id",
+                name: "name",
+                screen_name: "screen_name",
+              },
               geometry: {
                 location: {
                   lat: 37.065953,
@@ -48,9 +54,14 @@ export const handlers = [
               reference: "ChIJL4zx97TmMRUR0KprETWLLsA",
               types: ["locality", "political"],
             },
-
             {
               formatted_address: "Gaziantep, Türkiye",
+              source: {
+                full_text: "full_text",
+                tweet_id: "tweet_id",
+                name: "name",
+                screen_name: "screen_name",
+              },
               geometry: {
                 location: {
                   lat: 37.066053,
@@ -89,6 +100,12 @@ export const handlers = [
             },
             {
               formatted_address: "Gaziantep, Türkiye",
+              source: {
+                full_text: "full_text",
+                tweet_id: "tweet_id",
+                name: "name",
+                screen_name: "screen_name",
+              },
               geometry: {
                 location: {
                   lat: 37.085953,

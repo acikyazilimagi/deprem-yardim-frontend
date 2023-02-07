@@ -7,7 +7,7 @@ import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
-import { Snackbar, TextField } from "@mui/material";
+import { Snackbar, TextField, Typography } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
@@ -35,7 +35,7 @@ export default function Drawer({ toggler }: DrawerProps) {
     if (!data) {
       return null;
     }
-    const { geometry, formatted_address } = data;
+    const { geometry, formatted_address, source } = data;
     return (
       <Box
         sx={{
@@ -81,18 +81,40 @@ export default function Drawer({ toggler }: DrawerProps) {
                 readOnly: true,
               }}
             />
-            <Button
-              variant="outlined"
-              className={styles.clipboard}
-              size="small"
-              onClick={() =>
-                copyBillboard(
-                  `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
-                )
-              }
-            >
-              ADRESİ KOPYALA
-            </Button>
+            <div className={styles.actionButtons}>
+              <Button
+                variant="outlined"
+                className={styles.clipboard}
+                size="small"
+                onClick={() =>
+                  copyBillboard(
+                    `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                  )
+                }
+              >
+                ADRESİ KOPYALA
+              </Button>
+              <Button
+                variant="outlined"
+                className={styles.clipboard}
+                size="small"
+                onClick={() =>
+                  window.open(
+                    `https://twitter.com/anyuser/status/${source.tweet_id}`
+                  )
+                }
+              >
+                Kaynak
+              </Button>
+            </div>
+          </div>
+          <div className={styles.sourceContent}>
+            <Typography className={styles.sourceContentTitle}>
+              Yardım İçeriği
+            </Typography>
+            <div className={styles.sourceContentText}>
+              <Typography>{source?.full_text}</Typography>
+            </div>
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
