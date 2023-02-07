@@ -18,6 +18,7 @@ import React, {
   useRef,
 } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
+import { useDebouncedCallback } from "use-debounce";
 import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_CENTER,
@@ -68,10 +69,14 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
+  const debounced = useDebouncedCallback((value: any) => {
+    setCoordinates(value);
+  }, 1000);
+
   const map = useMapEvents({
-    moveend: () => setCoordinates(map.getBounds()),
+    moveend: () => debounced(map.getBounds()),
     zoomend: () => {
-      setCoordinates(map.getBounds());
+      debounced(map.getBounds());
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {

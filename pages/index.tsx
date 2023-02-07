@@ -16,7 +16,6 @@ import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
-import useDebounce from "@/hooks/useDebounce";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -35,9 +34,8 @@ export default function Home({ deviceType }: Props) {
     setURL(BASE_URL + "?" + urlParams.toString());
   }, [coordinates]);
 
-  const debouncedURL = useDebounce(url, 500);
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    debouncedURL,
+    url,
     dataFetcher
   );
   const { setDevice } = useMapActions();
