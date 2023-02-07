@@ -3,7 +3,7 @@ import { Point } from "./types";
 export type Data = {
   count: number;
   results: {
-    id: string;
+    id: number;
     formatted_address: string;
     loc: [number, number];
     viewport: {
