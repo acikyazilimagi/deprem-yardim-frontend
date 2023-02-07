@@ -1,7 +1,13 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
-import { CopyAll, DriveEta, OpenInNew } from "@mui/icons-material";
+import {
+  CopyAll,
+  DriveEta,
+  OpenInNew,
+  Google,
+  Apple,
+} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Snackbar, Switch, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -16,7 +22,7 @@ interface MapsButton {
   // eslint-disable-next-line no-unused-vars
   urlCallback: (lat: number, lng: number) => void;
   icon: React.ReactNode;
-  color: "primary" | "secondary";
+  color: "primary" | "secondary" | "inherit";
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
@@ -46,14 +52,14 @@ export const mapsButtons: MapsButton[] = [
   {
     label: "Google Haritalarda Aç",
     urlCallback: openGoogleMapsUrl,
-    icon: <OpenInNew className={styles.btnIcon} />,
+    icon: <Google className={styles.btnIcon} />,
     color: "primary",
   },
   {
     label: "Apple Haritalarda Aç",
     urlCallback: openAppleMapsUrl,
-    icon: <OpenInNew className={styles.btnIcon} />,
-    color: "primary",
+    icon: <Apple className={styles.btnIcon} />,
+    color: "inherit",
   },
   {
     label: "Yol Tarifi Al",
@@ -121,7 +127,7 @@ const Drawer = () => {
                 }}
                 color={button.color}
                 className={styles.externalLinkButton}
-                endIcon={button.icon}
+                startIcon={button.icon}
               >
                 {button.label}
               </Button>
