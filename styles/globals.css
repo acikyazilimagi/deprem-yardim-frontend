@@ -105,3 +105,10 @@ a {
     color-scheme: dark;
   }
 }
+
+/* Mobile */
+@media (max-width: 700px) {
+  .leaflet-top {
+    margin-top: 60px;
+  }
+}
