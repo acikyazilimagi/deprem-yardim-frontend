@@ -1,11 +1,23 @@
 import RenderIf from "@/components/UI/Common/RenderIf";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./FooterBanner.module.css";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { HelpButton } from "@/components/UI/Button/HelpButton";
 
 export default function FooterBanner() {
-  const [hideFooter, setHideFooter] = useState(false);
+  const [hideFooter, setHideFooter] = useState(true);
+
+  const handleOffIconClick = () => {
+    setHideFooter(true);
+    localStorage.setItem("hideFooter", "true");
+  };
+
+  useEffect(() => {
+    const localHideFooter = localStorage.getItem("hideFooter");
+    if (!localHideFooter) {
+      setHideFooter(false);
+    }
+  }, []);
 
   return (
     <footer className={styles.footer}>
@@ -21,7 +33,7 @@ export default function FooterBanner() {
               bir veri platformu sağlamak.
             </span>
             <span>
-              <HighlightOffIcon onClick={() => setHideFooter(true)} />
+              <HighlightOffIcon onClick={handleOffIconClick} />
             </span>
           </span>
         </RenderIf>
