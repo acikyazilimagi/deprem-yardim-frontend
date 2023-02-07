@@ -31,10 +31,10 @@ const useMapStore = create<MapState>()((set) => ({
     setCoordinates: (data: any) =>
       set(() => ({
         coordinates: {
-          ne_lat: `${data.getSouthWest().lat}`,
-          ne_lng: `${data.getSouthWest().lng}`,
-          sw_lat: `${data.getNorthEast().lat}`,
-          sw_lng: `${data.getNorthEast().lng}`,
+          ne_lat: `${data.getNorthEast().lat}`,
+          ne_lng: `${data.getNorthEast().lng}`,
+          sw_lat: `${data.getSouthWest().lat}`,
+          sw_lng: `${data.getSouthWest().lng}`,
         },
       })),
   },
