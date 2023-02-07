@@ -17,18 +17,18 @@ Düğmeler ile amacına uygun ilerlemek isteyebilirsiniz.
 
 ## Renkli Yuvarlakların Anlamları
 
-**YEŞİL**: 
+**YEŞİL**:
 **ALAYEŞİL**: Düşük yoğunluk
 **SARI**: Orta-alt yoğunluk
 **TURUNCU**: Orta yoğunluk
 **ALAKIZIL**: Orta-üst yoğunluk
 **KIZIL**: Yüksek yoğunluk
 
-
 # UYARI
+
 Yardım İçeriği bölümünde bir bilgi, bir twit karşınıza çıkmıyor ise şunları deneyiniz.
 
-1- Kaynak düğmesine tıklayıp bilgiye ulaşabilirsiniz. 
+1- Kaynak düğmesine tıklayıp bilgiye ulaşabilirsiniz.
 2- Kayıtlı veriyi göster düğmesini etkin kılınız.
 
 Bunların dışında bilgi bir biçimde erişilemez olmuştur.
