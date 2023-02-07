@@ -1,23 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/Home.module.css";
-import { Campaign } from "@mui/icons-material";
 import { memo } from "react";
 
-const _HelpButton = () => {
+const _Logo = () => {
   return (
-    <div className={styles.helpButtonContainer}>
+    <div className={styles.logoContainer}>
       <Link
         href="https://www.depremyardim.com/"
         target="_blank"
         className={styles.logo}
       >
         <div className={styles.logoWrapper}>
-          <Campaign sx={{ color: "white" }} />
+          {/* <p>Yardım İstemek İçin Tıkla</p> */}
+          <Image src="/logo.svg" width={64} height={64} alt="Afet Haritası" />
         </div>
       </Link>
     </div>
   );
 };
 
-export const HelpButton = memo(_HelpButton);
+export const Logo = memo(_Logo);
