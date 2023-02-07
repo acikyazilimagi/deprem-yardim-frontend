@@ -50,27 +50,29 @@ export type LocationsResponse = {
   count: number;
   next?: string;
   previous?: string;
-  results: {
-    id: string;
-    formatted_address: string;
-    loc: [number, number];
-    viewport: {
-      northeast: Point;
-      southwest: Point;
-    };
-    raw: Raw;
-    resolution: {
-      address?: string;
-      city?: string;
-      distinct?: string;
-      neighbourhood?: string;
-      street?: string;
-      no?: number;
-      name_surname?: any;
-      tel?: string;
-    };
-  }[];
+  results: LocationsResponseResult;
 };
+
+export type LocationsResponseResult = {
+  id: string;
+  formatted_address: string;
+  loc: [number, number];
+  viewport: {
+    northeast: Point;
+    southwest: Point;
+  };
+  raw: Raw;
+  resolution: {
+    address?: string;
+    city?: string;
+    distinct?: string;
+    neighbourhood?: string;
+    street?: string;
+    no?: number;
+    name_surname?: any;
+    tel?: string;
+  };
+}[];
 
 export type CoordinatesURLParameters = {
   ne_lat: number;

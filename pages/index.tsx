@@ -1,13 +1,12 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
-import { useCoordinates, useMapActions } from "@/stores/mapStore";
+import { MarkerData } from "@/mocks/types";
+import { useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import useDebounce from "@/hooks/useDebounce";
 import dataTransformer from "@/utils/dataTransformer";
 import { Partytown } from "@builder.io/partytown/react";
 import {
@@ -22,38 +21,26 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const baseURL = "https://api.afetharita.com/tweets/locations";
+const baseURL =
+  "https://api.afetharita.com/tweets/areas?ne_lat=36.2354052&ne_lng=36.169436&sw_lat=36.2354052&sw_lng=36.169436";
 
 export default function Home() {
   const [results, setResults] = useState<MarkerData[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
 
-  const [url, setURL] = useState(baseURL);
-  const debouncedURL = useDebounce(url, 1000);
-
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
-  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
   useEffect(() => {
-    if (coordinates) {
-      const urlParams = new URLSearchParams(coordinates as any);
-      setURL(baseURL + "?" + urlParams.toString());
-    }
-  }, [coordinates]);
-
-  useEffect(() => {
-    if (debouncedURL) {
-      fetch(debouncedURL)
-        .then((res) => res.json())
-        .then((res) => {
-          setResults(dataTransformer(res));
-          setLoaded(true);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [debouncedURL]);
+    fetch(baseURL)
+      .then((res) => res.json())
+      .then((res) => {
+        setResults(dataTransformer(res));
+        setLoaded(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const handleMarkerClick = useCallback(
     (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
