@@ -33,7 +33,7 @@ const MapLegend = () => {
           <div key={intensity}>
             <Button
               className={styles.legend_item}
-              aria-describedby={id}
+              aria-label={Tags[intensity].intensity}
               onClick={(event) => handleClick(event, intensity)}
             >
               <div
