@@ -11,10 +11,6 @@ import formatcoords from "formatcoords";
 import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
 
-interface DrawerProps {
-  toggler: (_e: KeyboardEvent | MouseEvent) => void;
-}
-
 interface GoogleMapsButton {
   label: string;
   urlCallback: (lat: number, lng: number) => void;
