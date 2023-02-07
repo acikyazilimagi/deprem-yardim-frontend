@@ -7,7 +7,7 @@ const HELPER_ID = "map-helper";
 
 function MapHelper() {
   const device = useDevice();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [openHelper, setOpenHelper] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
