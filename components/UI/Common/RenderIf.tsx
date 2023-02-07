@@ -1,28 +1,36 @@
 import { ReactNode } from "react";
+import type { FC } from "react";
 
 interface RenderIfProps {
-  condition: "loading" | "error" | "success";
-
+  condition: "loading" | "error" | "success" | "DONT_RENDER";
   children: ReactNode;
-
   fallback?: ReactNode;
-
   loading?: ReactNode;
 }
 
-const RenderIf = ({
+const RenderCondition: FC<RenderIfProps> = ({
   condition,
   children,
   fallback,
   loading,
-}: RenderIfProps) => {
-  if (condition === "success") {
-    return <>{children}</>;
-  } else if (condition === "loading") {
+}) => {
+  if (condition === "DONT_RENDER") {
+    return null;
+  }
+
+  if (condition === "loading" && loading) {
     return <>{loading}</>;
-  } else {
+  }
+
+  if (condition === "error" && fallback) {
     return <>{fallback}</>;
   }
+
+  if (condition === "success" && children) {
+    return <>{children}</>;
+  }
+
+  return null;
 };
 
-export default RenderIf;
+export default RenderCondition;

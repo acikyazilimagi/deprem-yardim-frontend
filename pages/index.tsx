@@ -1,5 +1,5 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
-import RenderIf from "@/components/UI/Common/RenderIf";
+import RenderCondition from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
@@ -37,13 +37,13 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf
+          <RenderCondition
             condition={error ? "error" : isLoading ? "loading" : "success"}
             fallback={<TechnicalError />}
             loading={<LoadingSpinner />}
           >
             <LeafletMap />
-          </RenderIf>
+          </RenderCondition>
         </Container>
         <Drawer />
         <ClusterPopup />
