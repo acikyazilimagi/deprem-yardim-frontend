@@ -12,13 +12,7 @@ const MapLegend = () => {
     id: string;
   } | null>(null);
 
-  let legendToggleStatusClass = styles.legend;
-
   const id = anchorEl ? "simple-popover" : undefined;
-
-  if (isLegendOpen) {
-    legendToggleStatusClass += ` ${styles.open}`;
-  }
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>, id: string) => {
     if (anchorEl && anchorEl.el === event.currentTarget)
@@ -28,7 +22,7 @@ const MapLegend = () => {
 
   return (
     <>
-      <div className={legendToggleStatusClass}>
+      <div className={`${styles.legend} ${isLegendOpen ? styles.open : ""}`}>
         {Object.keys(Tags).map((intensity) => (
           <div key={intensity}>
             <Button
