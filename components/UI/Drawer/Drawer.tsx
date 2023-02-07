@@ -64,6 +64,9 @@ const Drawer = ({ toggler }: DrawerProps) => {
         sx={{
           width: size.width > 768 ? 372 : "full",
           display: "flex",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center", 
           flexDirection: "column",
         }}
         role="presentation"
@@ -103,7 +106,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
                 geometry.location.lng
               )}
               InputProps={{
-                sx: { paddingRight: "1rem" },
+                sx: { paddingRight: "1rem", marginTop: "10px" },
                 readOnly: true,
               }}
             />
