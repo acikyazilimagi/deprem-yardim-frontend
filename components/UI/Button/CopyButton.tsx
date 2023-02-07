@@ -1,3 +1,5 @@
+import React from "react";
+
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { IconButton } from "@mui/material";
 
@@ -11,9 +13,20 @@ export interface CopyButtonProps extends IconButtonProps {
   data: string;
 }
 
-export function CopyButton({ data, ...props }: CopyButtonProps) {
+export function CopyButton({
+  data,
+  onClick = () => {},
+  ...props
+}: CopyButtonProps) {
+  const handleCopyButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    copyBillboard(data);
+    onClick(event);
+  };
   return (
-    <IconButton {...props} onClick={() => copyBillboard(data)}>
+    <IconButton {...props} onClick={handleCopyButtonClick}>
       <FileCopyIcon />
     </IconButton>
   );
