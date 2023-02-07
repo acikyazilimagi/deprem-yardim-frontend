@@ -8,7 +8,7 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import dataTransformer from "@/utils/dataTransformer";
-import { Partytown } from "@builder.io/partytown/react";
+// import { Partytown } from "@builder.io/partytown/react";
 import {
   KeyboardEvent,
   MouseEvent,
@@ -21,8 +21,10 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const baseURL =
-  "https://api.afetharita.com/tweets/areas?ne_lat=36.2354052&ne_lng=36.169436&sw_lat=36.2354052&sw_lng=36.169436";
+// const baseURL =
+//   "https://api.afetharita.com/tweets/areas?ne_lat=100&ne_lng=0&sw_lat=100&sw_lng=0";
+
+const baseURL = "https://jsonplaceholder.typicode.com/posts";
 
 export default function Home() {
   const [results, setResults] = useState<MarkerData[]>([]);
@@ -34,7 +36,7 @@ export default function Home() {
     fetch(baseURL)
       .then((res) => res.json())
       .then((res) => {
-        setResults(dataTransformer(res.results || []));
+        setResults(dataTransformer(res));
         setLoaded(true);
       })
       .catch((error) => {
@@ -76,7 +78,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <Partytown debug={true} forward={["dataLayer.push"]} />
+        {/* <Partytown debug={true} forward={["dataLayer.push"]} /> */}
         <title>Afet Haritası | Anasayfa</title>
         <meta
           name="description"
