@@ -1,0 +1,70 @@
+name: "Deploy Android apk"
+description: "Deploy apk for android devices"
+inputs:
+  app-name:
+    description: "Name of output"
+    required: true
+  app-root-directory:
+    description: "Root directory"
+    required: false
+    default: "./"
+  key-store:
+    description: "Key store base64 representation"
+    required: true
+  key-store-password:
+    description: "Password of the key store"
+    required: true
+  retention-days:
+    description: "Retention day"
+    required: false
+    default: "90"
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout source
+      uses: actions/checkout@v2
+    - name: Setup java
+      uses: actions/setup-java@v1
+      with:
+        distribution: "zulu"
+        java-version: "11"
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - name: Install app dependencies, Build Capacitor App, Build resources, Add Android App
+      shell: bash
+      working-directory: ${{inputs.app-root-directory}}
+      run: |
+        yarn install
+        npm run resources
+        yarn build:android
+    - name: Build app bundle
+      shell: bash
+      working-directory: ${{inputs.app-root-directory}}
+      run: |
+        cd android
+        gradle bundle
+        gradle assembleDebug
+    - name: Upload debug apk
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{inputs.app-name}}-Debug
+        path: ${{inputs.app-root-directory}}android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: ${{ inputs.retention-days }}
+    - name: Extract Android signing key from env
+      working-directory: ${{inputs.app-root-directory}}
+      shell: bash
+      run: |
+        echo "${{ inputs.key-store }}" > android/${{inputs.app-name}}.jks.base64
+        base64 -d android/${{inputs.app-name}}.jks.base64 > android/${{inputs.app-name}}.decrypted.jks
+    - name: Sign dev build
+      working-directory: ${{inputs.app-root-directory}}
+      shell: bash
+      run: jarsigner -keystore android/${{inputs.app-name}}.decrypted.jks -storepass "${{ inputs.key-store-password }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
+    - name: Upload release bundle
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{inputs.app-name}}-Release
+        path: ${{inputs.app-root-directory}}android/app/build/outputs/bundle/release/app-release-signed.aab
+        retention-days: ${{ inputs.retention-days }}
