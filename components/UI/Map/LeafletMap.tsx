@@ -92,6 +92,8 @@ function LeafletMap() {
     []
   );
 
+  console.log(points);
+
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
