@@ -14,6 +14,7 @@ import React, {
   useState,
 } from "react";
 import styles from "./Drawer.module.css";
+import formatcoords from "formatcoords";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -67,7 +68,12 @@ const Drawer = ({ toggler }: DrawerProps) => {
         <div className={styles.content}>
           {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
-          <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
+          <p>
+            {formatcoords([
+              geometry.location.lat,
+              geometry.location.lng,
+            ]).format()}
+          </p>
           <div className={styles.contentButtons}>
             {googleMapsButtons.map((button) => (
               <Button
