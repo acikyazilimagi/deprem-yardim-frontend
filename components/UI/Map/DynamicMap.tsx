@@ -7,7 +7,6 @@ const { MapContainer } = ReactLeaflet;
 
 interface MapProps {
   className?: string;
-
   children: ReactNode;
 }
 

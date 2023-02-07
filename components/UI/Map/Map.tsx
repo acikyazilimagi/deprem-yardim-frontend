@@ -1,3 +1,4 @@
+import { MapOptions } from "leaflet";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
@@ -5,11 +6,7 @@ const DynamicMap = dynamic(() => import("./DynamicMap"), {
   ssr: false,
 });
 
-interface MapProps {
-  center: number[];
-
-  zoom: number;
-
+interface MapProps extends MapOptions {
   children: ReactNode;
 }
 

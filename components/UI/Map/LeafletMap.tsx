@@ -8,7 +8,13 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { Fragment } from "react";
 import { Marker, MarkerProps, TileLayer } from "react-leaflet";
-import { DEFAULT_CENTER, DEFAULT_IMPORTANCY, DEFAULT_ZOOM } from "./utils";
+import {
+  DEFAULT_CENTER,
+  DEFAULT_IMPORTANCY,
+  DEFAULT_MAX_BOUNDS,
+  DEFAULT_MIN_ZOOM,
+  DEFAULT_ZOOM,
+} from "./utils";
 const HeatmapLayer = HeatmapLayerFactory<[number, number, number]>();
 
 const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
@@ -37,7 +43,12 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   return (
     <>
       <MapLegend />
-      <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
+      <Map
+        center={DEFAULT_CENTER}
+        zoom={DEFAULT_ZOOM}
+        maxBounds={DEFAULT_MAX_BOUNDS}
+        minZoom={DEFAULT_MIN_ZOOM}
+      >
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
