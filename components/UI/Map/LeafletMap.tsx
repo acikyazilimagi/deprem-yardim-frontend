@@ -1,6 +1,6 @@
 import Map from "@/components/UI/Map/Map";
 import { MarkerData } from "@/mocks/types";
-import { useMapActions } from "@/stores/mapStore";
+import { useMapActions, useDevice } from "@/stores/mapStore";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import {
   LeafletMouseEvent,
@@ -18,7 +18,8 @@ import ResetViewControl from "@20tab/react-leaflet-resetview";
 import {
   DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
-  DEFAULT_MIN_ZOOM,
+  DEFAULT_MIN_ZOOM_DESKTOP,
+  DEFAULT_MIN_ZOOM_MOBILE,
   DEFAULT_ZOOM,
 } from "./utils";
 
@@ -95,7 +96,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
-
+  const device = useDevice();
   return (
     <>
       <MapLegend />
@@ -103,7 +104,11 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
       <Map
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
-        minZoom={DEFAULT_MIN_ZOOM}
+        minZoom={
+          device === "desktop"
+            ? DEFAULT_MIN_ZOOM_DESKTOP
+            : DEFAULT_MIN_ZOOM_MOBILE
+        }
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
