@@ -14,6 +14,8 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import useSWR from "swr";
+import MapHelper from "@/components/UI/Map/MapHelper";
+import React from "react";
 // import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
@@ -47,7 +49,7 @@ export default function Home({ deviceType }: Props) {
       </Head>
 
       <main className={styles.main}>
-        {/* <HelpButton /> FooterBanner'a taşındı */}
+        {/* FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap />
@@ -58,6 +60,7 @@ export default function Home({ deviceType }: Props) {
         <ClusterPopup />
         <FooterBanner />
         <HelpButton />
+        <MapHelper />
       </main>
     </>
   );
