@@ -1,16 +1,19 @@
-import React, { useMemo, useState } from "react";
-import Box from "@mui/material/Box";
-import { default as MuiDrawer } from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import styles from "./Drawer.module.css";
-// import Tag from "../Tag/Tag";
-// import { Tags } from "../Tag/Tag.types";
-import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { Snackbar, TextField, Typography } from "@mui/material";
-import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Snackbar, TextField, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { default as MuiDrawer } from "@mui/material/Drawer";
+import React, {
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
+import styles from "./Drawer.module.css";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -29,11 +32,15 @@ const googleMapsButtons = [
   { label: "Yol Tarifi Al", urlCallback: generateGoogleMapsDirectionUrl },
 ];
 
-export default function Drawer({ toggler }: DrawerProps) {
+const Drawer = ({ toggler }: DrawerProps) => {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
+  const anchor = useMemo(
+    () => (size.width > 768 ? "left" : "bottom"),
+    [size.width]
+  );
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
@@ -44,7 +51,9 @@ export default function Drawer({ toggler }: DrawerProps) {
     if (!data) {
       return null;
     }
+
     const { geometry, formatted_address, source } = data;
+
     return (
       <Box
         sx={{
@@ -134,6 +143,8 @@ export default function Drawer({ toggler }: DrawerProps) {
     );
   }, [data, size.width, toggler]);
 
+  const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
+
   return (
     <div>
       <Snackbar
@@ -144,12 +155,14 @@ export default function Drawer({ toggler }: DrawerProps) {
       />
       <MuiDrawer
         className="drawer"
-        anchor={size.width > 768 ? "left" : "bottom"}
+        anchor={anchor}
         open={isOpen}
-        onClose={(e) => toggler(e as MouseEvent)}
+        onClose={handleClose}
       >
         {list}
       </MuiDrawer>
     </div>
   );
-}
+};
+
+export default React.memo(Drawer);

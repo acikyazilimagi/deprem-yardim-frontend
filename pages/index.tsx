@@ -1,13 +1,15 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData, CoordinatesURLParameters } from "@/mocks/types";
-import { useMapActions, useCoordinates } from "@/stores/mapStore";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
+import { useCoordinates, useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-
+import useDebounce from "@/hooks/useDebounce";
+import dataTransformer from "@/utils/dataTransformer";
+import { Partytown } from "@builder.io/partytown/react";
 import {
   KeyboardEvent,
   MouseEvent,
@@ -15,9 +17,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Partytown } from "@builder.io/partytown/react";
-import dataTransformer from "@/utils/dataTransformer";
-import useDebounce from "@/hooks/useDebounce";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -57,7 +56,7 @@ export default function Home() {
   }, [debouncedURL]);
 
   const handleMarkerClick = useCallback(
-    () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
+    (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
       if (
         event.type === "keydown" &&
         ((event as KeyboardEvent).key === "Tab" ||
@@ -108,13 +107,13 @@ export default function Home() {
           {loaded && (
             <LeafletMap
               // @ts-expect-error
-              onClickMarker={handleMarkerClick()}
+              onClickMarker={handleMarkerClick}
               data={results}
               onClusterClick={togglePopUp}
             />
           )}
         </Container>
-        <Drawer toggler={handleMarkerClick()} />
+        <Drawer toggler={handleMarkerClick} />
         <ClusterPopup />
         <FooterBanner />
       </main>
