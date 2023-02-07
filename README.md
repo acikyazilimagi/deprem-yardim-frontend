@@ -42,13 +42,13 @@ At the same time, people can request help on the website. For this record, the s
 
 ## Başlangıç
 
-### 1. Repo'yu klonla/Clon the repo:
+### 1. Repo'yu klonla/Clone the repo:
 
 ```bash
 git clone https://github.com/acikkaynak/deprem-yardim-frontend.git
 ```
 
-### 2. Bağımlılıkları yükle/Upload dependencies:
+### 2. Bağımlılıkları yükle/Install dependencies:
 
 **yarn** kullanmanız önerilir.
 
