@@ -1,7 +1,7 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
-import { OpenInNew } from "@mui/icons-material";
+import { CopyAll, DriveEta, OpenInNew } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Snackbar, Switch, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -10,6 +10,14 @@ import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
 import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
+
+interface GoogleMapsButton {
+  label: string;
+  // eslint-disable-next-line no-unused-vars
+  urlCallback: (lat: number, lng: number) => void;
+  icon: React.ReactNode;
+  color: "primary" | "secondary";
+}
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/@${lat},${lng},22z`;
@@ -26,9 +34,19 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
   );
 };
 
-export const googleMapsButtons = [
-  { label: "Google Haritalar", urlCallback: openGoogleMapsUrl },
-  { label: "Yol Tarifi", urlCallback: openGoogleMapsDirectionUrl },
+export const googleMapsButtons: GoogleMapsButton[] = [
+  {
+    label: "Google Haritalarda Aç",
+    urlCallback: openGoogleMapsUrl,
+    icon: <OpenInNew className={styles.btnIcon} />,
+    color: "primary",
+  },
+  {
+    label: "Yol Tarifi Al",
+    urlCallback: openGoogleMapsDirectionUrl,
+    icon: <DriveEta className={styles.btnIcon} />,
+    color: "secondary",
+  },
 ];
 
 const Drawer = () => {
@@ -63,17 +81,18 @@ const Drawer = () => {
     return (
       <Box
         sx={{
-          width: size.width > 768 ? 372 : "full",
+          width: size.width > 768 ? 400 : "full",
           display: "flex",
           height: "100%",
           padding: "1rem",
           flexDirection: "column",
+          overflow: "hidden",
         }}
         role="presentation"
         onKeyDown={(e) => toggler(e)}
       >
         <div className={styles.content}>
-          <h3 style={{ maxWidth: "35ch" }}>{formatted_address}</h3>
+          <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
           <p>{formattedCoordinates}</p>
           <div className={styles.contentButtons}>
             {googleMapsButtons.map((button) => (
@@ -86,10 +105,11 @@ const Drawer = () => {
                     geometry.location.lng
                   );
                 }}
+                color={button.color}
                 className={styles.externalLinkButton}
+                endIcon={button.icon}
               >
                 {button.label}
-                <OpenInNew className={styles.openInNewIcon} />
               </Button>
             ))}
           </div>
@@ -117,8 +137,9 @@ const Drawer = () => {
                     `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
                   )
                 }
+                startIcon={<CopyAll className={styles.btnIcon} />}
               >
-                ADRESİ KOPYALA
+                Kopyala
               </Button>
               <Button
                 variant="outlined"
@@ -130,6 +151,8 @@ const Drawer = () => {
                     `https://twitter.com/anyuser/status/${source.tweet_id}`
                   )
                 }
+                startIcon={<OpenInNew className={styles.btnIcon} />}
+                color="secondary"
               >
                 Kaynak
               </Button>
