@@ -1,12 +1,13 @@
+import { useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData } from "@/mocks/types";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions } from "@/stores/mapStore";
+import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
@@ -15,6 +16,7 @@ import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
+import useDebounce from "@/hooks/useDebounce";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -25,8 +27,17 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [url, setURL] = useState(BASE_URL);
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(coordinates as any);
+    setURL(BASE_URL + "?" + urlParams.toString());
+  }, [coordinates]);
+
+  const debouncedURL = useDebounce(url, 500);
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    BASE_URL,
+    debouncedURL,
     dataFetcher
   );
   const { setDevice } = useMapActions();
