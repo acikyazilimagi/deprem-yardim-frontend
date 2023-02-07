@@ -125,6 +125,7 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        zoomDelta={0.5}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
@@ -133,7 +134,6 @@ function LeafletMap() {
         <MapEvents />
         {/* <ImpactedCities /> */}
         <HeatmapLayer
-          fitBoundsOnLoad
           fitBoundsOnUpdate
           radius={15}
           points={points}

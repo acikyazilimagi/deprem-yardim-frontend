@@ -16,6 +16,7 @@ const _HelpButton = () => {
           <Campaign sx={{ color: "white" }} />
         </div>
       </Link>
+      YARDIM BUTONU
     </div>
   );
 };
