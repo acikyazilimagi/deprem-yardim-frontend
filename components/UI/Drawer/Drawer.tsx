@@ -8,7 +8,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, { MouseEvent, useCallback, useMemo, useState } from "react";
+import React, {
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import styles from "./Drawer.module.css";
 
 interface GoogleMapsButton {
@@ -59,6 +65,20 @@ const Drawer = () => {
     [size.width]
   );
   const [showSavedData, setShowSavedData] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const onWheelTrigger = (e: WheelEvent) => {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      };
+      window.addEventListener("wheel", onWheelTrigger, { passive: false });
+      return () => {
+        window.removeEventListener("wheel", onWheelTrigger);
+      };
+    }
+  }, [isOpen]);
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);

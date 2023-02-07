@@ -30,7 +30,7 @@ const Head = () => {
       <meta name="twitter:image" content="" />
       <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"
       />
       <link rel="icon" href="/favicon.ico" />
     </NextHead>
