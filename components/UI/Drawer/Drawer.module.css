@@ -15,8 +15,10 @@
 
 .content > p:first-of-type {
   font-weight: 600;
+  font-size: 0.9em;
   color: #636363;
 }
+
 
 .contentButtons {
   margin-bottom: 24px;
