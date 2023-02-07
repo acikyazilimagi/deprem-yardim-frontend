@@ -45,7 +45,7 @@ const MapLegend = () => {
           <div key={intensity}>
             <Button
               className={styles.legend_item}
-              aria-describedby={id}
+              aria-label={Tags[intensity].intensity}
               onClick={(event) => handleClick(event, intensity)}
             >
               <div
@@ -71,54 +71,6 @@ const MapLegend = () => {
           </div>
         ))}
       </div>
-    </>
-  );
-};
-
-interface PopOverProps {
-  title: string;
-
-  color: string;
-}
-
-const PopOver = ({ title, color }: PopOverProps) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const id = anchorEl ? "simple-popover" : undefined;
-
-  return (
-    <>
-      <Button
-        className={styles.legend_item}
-        aria-label={title}
-        onClick={handleClick}
-      >
-        <div
-          className={styles.legend_item__color}
-          style={{ backgroundColor: color }}
-        />
-        <span className={styles.legend_item__text}>{title}</span>
-      </Button>
-      <Popover
-        id={id}
-        open={!!anchorEl}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
-        <Typography sx={{ p: 2 }}>{title}</Typography>
-      </Popover>
     </>
   );
 };
