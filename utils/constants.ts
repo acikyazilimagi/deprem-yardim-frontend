@@ -1,2 +1,3 @@
-export const BASE_URL =
-  "https://api.afetharita.com/tweets/areas?ne_lat=100&ne_lng=0&sw_lat=100&sw_lng=0";
+import getBaseURL from "./baseURL";
+
+export const BASE_URL = `${getBaseURL()}/api/area?lat=41.40338&lng=2.17403&radius=1000`;
