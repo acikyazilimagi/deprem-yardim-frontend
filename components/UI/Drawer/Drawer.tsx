@@ -12,7 +12,7 @@ import React, {
   MouseEvent,
   useCallback,
   useMemo,
-  useState
+  useState,
 } from "react";
 import styles from "./Drawer.module.css";
 
