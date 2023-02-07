@@ -38,12 +38,12 @@ export default function Home({ deviceType }: Props) {
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <RenderIf
-            condition={!error && !isLoading}
+            condition={error ? "error" : isLoading ? "loading" : "success"}
             fallback={<TechnicalError />}
+            loading={<LoadingSpinner />}
           >
             <LeafletMap />
           </RenderIf>
-          {isLoading && <LoadingSpinner />}
         </Container>
         <Drawer />
         <ClusterPopup />

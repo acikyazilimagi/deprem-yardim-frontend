@@ -1,22 +1,27 @@
 import { ReactNode } from "react";
 
 interface RenderIfProps {
-  condition: boolean;
+  condition: "loading" | "error" | "success";
 
   children: ReactNode;
 
   fallback?: ReactNode;
+
+  loading?: ReactNode;
 }
 
-const RenderIf = ({ condition, children, fallback }: RenderIfProps) => {
-  if (condition) {
+const RenderIf = ({
+  condition,
+  children,
+  fallback,
+  loading,
+}: RenderIfProps) => {
+  if (condition === "success") {
     return <>{children}</>;
+  } else if (condition === "loading") {
+    return <>{loading}</>;
   } else {
-    if (fallback) {
-      return <>{fallback}</>;
-    } else {
-      return <></>;
-    }
+    return <>{fallback}</>;
   }
 };
 
