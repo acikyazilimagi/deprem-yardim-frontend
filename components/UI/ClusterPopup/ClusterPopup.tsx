@@ -19,10 +19,6 @@ import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 
-export interface ClusterPopupProps {
-  data?: any;
-}
-
 const ResponsiveChip = styled(Chip)`
   min-width: 20px !important;
   min-height: 20px !important;
