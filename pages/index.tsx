@@ -7,23 +7,16 @@ import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import dataTransformer from "@/utils/dataTransformer";
+import useSWR from "swr";
+import { KeyboardEvent, MouseEvent, useCallback } from "react";
+import { dataFetcher } from "@/services/dataFetcher";
+import { BASE_URL } from "@/utils/constants";
 import RenderIf from "@/components/UI/Common/RenderIf";
 // import { Partytown } from "@builder.io/partytown/react";
-import {
-  KeyboardEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
-
-const baseURL =
-  "https://api.afetharita.com/tweets/areas?ne_lat=100&ne_lng=0&sw_lat=100&sw_lng=0";
 
 const FallbackComponent = (
   <h2>
@@ -32,22 +25,13 @@ const FallbackComponent = (
 );
 
 export default function Home() {
-  const [results, setResults] = useState<MarkerData[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const {
+    data: results,
+    isLoading,
+    error,
+  } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
 
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
-
-  useEffect(() => {
-    fetch(baseURL)
-      .then((res) => res.json())
-      .then((res) => {
-        setResults(dataTransformer(res));
-        setLoaded(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const handleMarkerClick = useCallback(
     (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -97,9 +81,12 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={loaded} fallback={FallbackComponent}>
+          <RenderIf
+            condition={error ? false : true}
+            fallback={FallbackComponent}
+          >
             <LeafletMap
-              data={results}
+              data={isLoading || !results ? [] : results}
               onClusterClick={togglePopUp}
               // @ts-expect-error
               onClickMarker={handleMarkerClick}

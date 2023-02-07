@@ -1,4 +1,4 @@
-import { LocationsResponseResult, MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/mocks/types";
 import { Data } from "@/mocks/TypesAreasEndpoint";
 
 export default function dataTransformer(data: Data): MarkerData[] {
