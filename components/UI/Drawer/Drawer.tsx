@@ -1,6 +1,7 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
+import getBaseURL from "@/utils/baseURL";
 import { CopyAll, DriveEta, OpenInNew } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Snackbar, Switch, TextField, Typography } from "@mui/material";
@@ -10,6 +11,7 @@ import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
 import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
+import useSWR from "swr";
 
 interface GoogleMapsButton {
   label: string;
@@ -58,6 +60,15 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
+  const { data: itemData } = useSWR(
+    data ? `${getBaseURL()}/api/items/${data?.reference}` : null,
+    async () => {
+      const response = await fetch(
+        `${getBaseURL()}/api/items/${data?.reference}`
+      );
+      return response.json();
+    }
+  );
   const [showSavedData, setShowSavedData] = useState(false);
 
   function copyBillboard(url: string) {
@@ -68,11 +79,11 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    if (!data) {
+    if (!itemData && !data) {
       return null;
     }
 
-    const { geometry, formatted_address, source } = data;
+    const { geometry, formatted_address, source } = itemData;
     const formattedCoordinates = formatcoords([
       geometry.location.lat,
       geometry.location.lng,
@@ -89,7 +100,7 @@ const Drawer = () => {
           overflow: "hidden",
         }}
         role="presentation"
-        onKeyDown={(e) => toggler(e)}
+        onKeyDown={(e) => toggler(e, itemData)}
       >
         <div className={styles.content}>
           <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
@@ -188,12 +199,18 @@ const Drawer = () => {
             )}
           </div>
         </div>
-        <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
+        <CloseIcon
+          onClick={(e) => toggler(e, itemData)}
+          className={styles.closeButton}
+        />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData]);
+  }, [data, size.width, toggler, showSavedData, itemData]);
 
-  const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
+  const handleClose = useCallback(
+    (e: MouseEvent) => toggler(e, itemData),
+    [toggler, itemData]
+  );
 
   return (
     <div>
