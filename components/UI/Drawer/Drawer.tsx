@@ -15,7 +15,7 @@ interface GoogleMapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
   urlCallback: (lat: number, lng: number) => void;
-  icon: JSX.Element;
+  icon: React.ReactNode;
   color: "primary" | "secondary";
 }
 
