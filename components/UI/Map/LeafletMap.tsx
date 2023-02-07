@@ -58,7 +58,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   return (
     <>
       <MapLegend />
-      <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
+      <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM} preferCanvas>
         <MapEvents />
         {/* <ImpactedCities /> */}
         <HeatmapLayer
