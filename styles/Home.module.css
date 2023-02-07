@@ -4,9 +4,11 @@
 }
 
 .logoContainer {
+  right: 0;
+  bottom: 50px;
   display: flex;
+  position: absolute;
   justify-content: flex-end;
-  margin-bottom: 10px;
 }
 
 .logoContainer img {
@@ -293,7 +295,9 @@
   }
 
   .logoContainer {
-    justify-content: center;
+    display: block;
+    position: relative;
+    bottom: 0;
   }
 
   .logoWrapper {
