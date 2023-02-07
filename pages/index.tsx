@@ -7,6 +7,8 @@ import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { Partytown } from "@builder.io/partytown/react";
@@ -65,6 +67,19 @@ export default function Home({ results }: HomeProps) {
       </Head>
 
       <main className={styles.main}>
+        <div className={styles.logoContainer}>
+          <Link href="https://www.depremyardim.com/" className={styles.logo}>
+            <div className={styles.logoWrapper}>
+              <p>Yardım İstemek İçin Tıkla</p>
+              <Image
+                src="/logo.svg"
+                width={64}
+                height="64"
+                alt="Afet Haritası"
+              />
+            </div>
+          </Link>
+        </div>
         <Container maxWidth={false} disableGutters>
           <LeafletMap
             // @ts-expect-error

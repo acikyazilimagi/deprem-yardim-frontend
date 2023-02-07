@@ -3,14 +3,11 @@ import styles from "./Map.module.css";
 import { Tags } from "../Tag/Tag.types";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CloseIcon from "@mui/icons-material/Close";
-import { Popover, Typography } from "@mui/material";
+import { Button, Popover, Typography } from "@mui/material";
+import { MouseEvent } from "react";
 
-function MapLegend() {
+const MapLegend = () => {
   const [isLegendOpen, setIsLegendOpen] = useState(false);
-
-  function toggleLegend() {
-    setIsLegendOpen(!isLegendOpen);
-  }
 
   let legendToggleStatusClass = styles.legend;
 
@@ -22,12 +19,18 @@ function MapLegend() {
     <>
       <div className={legendToggleStatusClass}>
         {isLegendOpen ? (
-          <CloseIcon color="action" onClick={toggleLegend} />
+          <CloseIcon
+            color="action"
+            onClick={() => setIsLegendOpen((previous) => !previous)}
+          />
         ) : (
-          <ArrowBackIosIcon color="action" onClick={toggleLegend} />
+          <ArrowBackIosIcon
+            color="action"
+            onClick={() => setIsLegendOpen((previous) => !previous)}
+          />
         )}
-        {Object.keys(Tags).map((intensity, index) => (
-          <div key={index}>
+        {Object.keys(Tags).map((intensity) => (
+          <div key={intensity}>
             <PopOver
               title={Tags[intensity].intensity}
               color={Tags[intensity].color}
@@ -37,12 +40,18 @@ function MapLegend() {
       </div>
     </>
   );
+};
+
+interface PopOverProps {
+  title: string;
+
+  color: string;
 }
 
-function PopOver({ title, color }: { title: string; color: string }) {
+const PopOver = ({ title, color }: PopOverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -50,11 +59,11 @@ function PopOver({ title, color }: { title: string; color: string }) {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = anchorEl ? "simple-popover" : undefined;
+
   return (
     <>
-      <button
+      <Button
         className={styles.legend_item}
         aria-describedby={id}
         onClick={handleClick}
@@ -62,12 +71,12 @@ function PopOver({ title, color }: { title: string; color: string }) {
         <div
           className={styles.legend_item__color}
           style={{ backgroundColor: color }}
-        ></div>
+        />
         <span className={styles.legend_item__text}>{title}</span>
-      </button>
+      </Button>
       <Popover
         id={id}
-        open={open}
+        open={!!anchorEl}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
@@ -79,6 +88,6 @@ function PopOver({ title, color }: { title: string; color: string }) {
       </Popover>
     </>
   );
-}
+};
 
 export default MapLegend;

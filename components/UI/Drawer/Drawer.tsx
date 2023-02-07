@@ -7,14 +7,7 @@ import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
-import {
-  IconButton,
-  InputAdornment,
-  Snackbar,
-  TextField,
-  Typography,
-} from "@mui/material";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { Snackbar, TextField } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
