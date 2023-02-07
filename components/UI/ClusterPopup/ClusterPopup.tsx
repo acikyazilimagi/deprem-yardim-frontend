@@ -71,7 +71,7 @@ export function ClusterPopup() {
           </Grid>
           <Grid item xs alignItems="center">
             <Typography variant="subtitle2" sx={{ py: 0 }}>
-              {data?.count ?? 0} kişi enkaz altında
+              {data?.count ?? 0} kişi talepte bulundu
             </Typography>
           </Grid>
           <Grid item xs="auto">
