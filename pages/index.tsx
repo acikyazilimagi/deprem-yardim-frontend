@@ -34,7 +34,7 @@ export default function Home() {
     fetch(baseURL)
       .then((res) => res.json())
       .then((res) => {
-        setResults(dataTransformer(res));
+        setResults(dataTransformer(res.results || []));
         setLoaded(true);
       })
       .catch((error) => {
