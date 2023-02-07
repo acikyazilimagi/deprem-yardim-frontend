@@ -66,6 +66,10 @@
     "msw": "^1.0.0",
     "prettier": "^2.8.3"
   },
+  "lint-staged": {
+    "**": "npx prettier --write .",
+    "**/*.{js,ts,tsx}": "npx next lint --max-warnings=0"
+  },
   "msw": {
     "workerDirectory": "public"
   }
