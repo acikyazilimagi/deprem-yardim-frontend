@@ -68,7 +68,11 @@ export default function Home({ results }: HomeProps) {
 
       <main className={styles.main}>
         <div className={styles.logoContainer}>
-          <Link href="https://www.depremyardim.com/" className={styles.logo}>
+          <Link
+            href="https://www.depremyardim.com/"
+            target="_blank"
+            className={styles.logo}
+          >
             <div className={styles.logoWrapper}>
               <p>Yardım İstemek İçin Tıkla</p>
               <Image

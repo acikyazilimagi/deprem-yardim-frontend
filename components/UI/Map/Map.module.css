@@ -4,48 +4,48 @@
 }
 
 .legend {
-  position: fixed;
+  gap: 4px;
   top: 10px;
   right: 10px;
   z-index: 999;
-  border-radius: 3px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
   padding: 6px;
-  background: rgba(242, 242, 242, 0.5);
+  position: fixed;
+  align-items: center;
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 400ms;
+  justify-content: center;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(242, 242, 242, 0.3);
 }
 
 .legend_item {
-  border: none;
-  outline: none;
-  background: #ffffff;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.09);
-  border-radius: 4px;
   color: #000;
+  border: none;
   display: flex;
+  padding: 6px;
+  outline: none;
+  min-width: auto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 22px;
-  padding: 0;
-  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.09);
 }
 
 .legend_item__color {
   width: 22px;
   height: 22px;
+  margin-right: 0;
   border-radius: 50%;
   border: 1px solid #b9b9b9;
-  margin-right: 0px;
 }
 
 @media (min-width: 1056px) {
@@ -66,8 +66,8 @@
   }
 
   .open .legend_item {
-    padding: 6px 12px 6px 8px;
     border-radius: 4px;
+    padding: 6px 12px 6px 8px;
   }
 }
 
@@ -75,11 +75,11 @@
   .legend {
     gap: 4px;
     padding: 6px;
-    background: rgba(242, 242, 242, 0.5);
     border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
+    background: rgba(242, 242, 242, 0.5);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(242, 242, 242, 0.3);
   }
 
@@ -93,7 +93,7 @@
   }
 
   .legend_item__color {
-    margin-right: 0px;
+    margin-right: 0;
   }
 
   .legend_item__text {

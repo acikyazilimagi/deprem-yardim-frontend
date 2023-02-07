@@ -24,15 +24,11 @@
 }
 
 .logoWrapper {
+  color: #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.logoWrapper {
-  display: flex;
-  flex-direction: column;
   font-size: 14px;
   font-weight: 500;
 }
@@ -284,6 +280,23 @@
       rgb(var(--background-end-rgb)) 40%
     );
     z-index: 1;
+  }
+
+  .logoContainer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    z-index: 999;
+  }
+
+  .logoWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .logo img {
