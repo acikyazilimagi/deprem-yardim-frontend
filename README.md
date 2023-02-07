@@ -31,6 +31,11 @@ git clone https://github.com/acikkaynak/deprem-yardim-frontend.git
 
 **yarn** kullanmanız önerilir.
 
+yarn **yüklemek** için:
+```bash
+npm install --global yarn
+```
+yarn ile **package**ları yüklemek için:
 ```bash
 yarn
 ```
