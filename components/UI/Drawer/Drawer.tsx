@@ -6,12 +6,13 @@ import { Snackbar, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
+import formatcoords from "formatcoords";
 import React, {
   KeyboardEvent,
   MouseEvent,
   useCallback,
   useMemo,
-  useState,
+  useState
 } from "react";
 import styles from "./Drawer.module.css";
 
@@ -53,6 +54,10 @@ const Drawer = ({ toggler }: DrawerProps) => {
     }
 
     const { geometry, formatted_address, source } = data;
+    const formattedCoordinates = formatcoords([
+      geometry.location.lat,
+      geometry.location.lng,
+    ]).format();
 
     return (
       <Box
@@ -67,7 +72,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
         <div className={styles.content}>
           {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
-          <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
+          <p>{formattedCoordinates}</p>
           <div className={styles.contentButtons}>
             {googleMapsButtons.map((button) => (
               <Button

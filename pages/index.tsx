@@ -76,12 +76,11 @@ export default function Home() {
 
   const togglePopUp = useCallback(
     (e: any) => {
-      e.cluster.zoomToBounds({ padding: [20, 20] });
-
+      const markers = e.layer.getAllChildMarkers();
       setPopUpData({
-        count: e.markers.length ?? 0,
-        baseMarker: e.markers[0].options.markerData,
-        markers: e.markers,
+        count: markers.length ?? 0,
+        baseMarker: markers[0].options.markerData,
+        markers: markers,
       });
     },
     [setPopUpData]
