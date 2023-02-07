@@ -16,6 +16,10 @@
   position: relative;
 }
 
+.footerWrapper :first-child {
+  bottom: 0;
+}
+
 .footer .dismissible {
   display: flex;
   border-radius: 8px;
@@ -39,6 +43,7 @@
     margin-bottom: 0;
     padding-bottom: 0;
   }
+
   .footerWrapper {
     gap: 8px;
     display: flex;
