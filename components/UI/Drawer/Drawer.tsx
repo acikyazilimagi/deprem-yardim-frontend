@@ -17,9 +17,18 @@ interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
 }
 
-function generateGoogleMapsUrl(lat: number, lng: number): string {
+const generateGoogleMapsUrl = (lat: number, lng: number): string => {
   return `https://www.google.com/maps/@${lat},${lng},22z`;
-}
+};
+
+const generateGoogleMapsDirectionUrl = (lat: number, lng: number): string => {
+  return `https://www.google.com/maps?saddr=My+Location&daddr=${lat},${lng}`;
+};
+
+const googleMapsButtons = [
+  { label: "Google Haritalar ile Gör", urlCallback: generateGoogleMapsUrl },
+  { label: "Yol Tarifi Al", urlCallback: generateGoogleMapsDirectionUrl },
+];
 
 export default function Drawer({ toggler }: DrawerProps) {
   const isOpen = useIsDrawerOpen();
@@ -56,23 +65,26 @@ export default function Drawer({ toggler }: DrawerProps) {
           {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
           <p>{formattedCoordinates}</p>
-          <div className={styles.contentButton}>
-            <Button
-              variant="contained"
-              onClick={() =>
-                window.open(
-                  generateGoogleMapsUrl(
-                    geometry.location.lat,
-                    geometry.location.lng
-                  ),
-                  "_blank"
-                )
-              }
-              className={styles.externalLinkButton}
-            >
-              Google Haritalar ile Gör
-              <OpenInNew className={styles.openInNewIcon} />
-            </Button>
+          <div className={styles.contentButtons}>
+            {googleMapsButtons.map((button) => (
+              <Button
+                key={button.label}
+                variant="contained"
+                onClick={() =>
+                  window.open(
+                    button.urlCallback(
+                      geometry.location.lat,
+                      geometry.location.lng
+                    ),
+                    "_blank"
+                  )
+                }
+                className={styles.externalLinkButton}
+              >
+                {button.label}
+                <OpenInNew className={styles.openInNewIcon} />
+              </Button>
+            ))}
           </div>
           <div>
             <TextField
