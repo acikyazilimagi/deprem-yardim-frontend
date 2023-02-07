@@ -1,11 +1,11 @@
 import { setMarkerData } from "@/stores/mapStore";
-import dataTransformer from "@/utils/dataTransformer";
+import { dataTransformerV2 } from "@/utils/dataTransformer";
 
 export const dataFetcher = (url: string) =>
   fetch(url)
     .then((res) => res.json())
     .then((res) => {
-      const transformedData = res.results ? dataTransformer(res) : [];
+      const transformedData = res.results ? dataTransformerV2(res) : [];
       setMarkerData(transformedData);
       return transformedData;
     })

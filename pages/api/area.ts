@@ -18,12 +18,8 @@ const handler = async (
     count,
     results: results.map((item: any) => ({
       id: item.id,
-      resoltion: item.resolution,
-      formatted_address: item.formatted_address,
-      geometry: item.geometry,
       loc: item.loc,
       viewport: item.viewPort,
-      raw: item.raw,
     })),
   });
 };

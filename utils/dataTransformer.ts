@@ -43,3 +43,21 @@ export default function dataTransformer(data: Data): MarkerData[] {
     };
   });
 }
+
+export function dataTransformerV2(data: Data): any[] {
+  return data.results.map((result) => {
+    const id = result.id;
+    const loc = result?.loc;
+    const viewport = result?.viewport;
+    return {
+      geometry: {
+        viewport,
+        location: {
+          lat: loc?.[0] || 0,
+          lng: loc?.[1] || 0,
+        },
+      },
+      reference: id,
+    };
+  });
+}
