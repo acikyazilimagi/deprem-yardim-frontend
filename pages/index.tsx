@@ -31,15 +31,14 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const baseURL = "https://api.afetharita.com/tweets/locations";
 
 export default function Home() {
-  const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
-  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
-
-  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
   const [results, setResults] = useState<MarkerData[]>([]);
   const [loaded, setLoaded] = useState<boolean>(false);
 
   const [url, setURL] = useState(baseURL);
   const debouncedURL = useDebounce(url, 1000);
+
+  const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
   useEffect(() => {
     if (coordinates) {
