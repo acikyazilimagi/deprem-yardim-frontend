@@ -1,5 +1,6 @@
-import { usePopUpData } from "@/stores/mapStore";
+import { useMapActions, usePopUpData } from "@/stores/mapStore";
 import theme from "@/utils/theme";
+import { Close } from "@mui/icons-material";
 import LaunchIcon from "@mui/icons-material/Launch";
 import {
   Button,
@@ -8,6 +9,7 @@ import {
   CardContent,
   Chip,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 import formatcoords from "formatcoords";
@@ -24,6 +26,7 @@ function openGoogleMap(lat?: string | number, lng?: string | number) {
 }
 
 export function ClusterPopup() {
+  const { setPopUpData } = useMapActions();
   const data = usePopUpData();
   const lat = data?.baseMarker.geometry.location.lat ?? 0;
   const lng = data?.baseMarker.geometry.location.lng ?? 0;
@@ -34,7 +37,12 @@ export function ClusterPopup() {
   return (
     <Card variant="outlined" className={styles.popupContainer}>
       <CardContent sx={{ pb: 1 }}>
-        <Grid container>
+        <Grid container gap={3} alignItems="center">
+          <Grid item xs="auto">
+            <IconButton aria-label="close" onClick={() => setPopUpData(null)}>
+              <Close fontSize="medium" />
+            </IconButton>
+          </Grid>
           <Grid item xs>
             <Typography variant="subtitle2" sx={{ pb: 1, pt: 0.25 }}>
               {data?.count ?? 0} kişi enkaz altında
