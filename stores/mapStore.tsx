@@ -29,19 +29,14 @@ const useMapStore = create<MapState>()((set) => ({
     setDrawerData: (data: MarkerData) => set(() => ({ drawerData: data })),
     setPopUpData: (data: any) => set(() => ({ popUpData: data })),
     setCoordinates: (data: any) =>
-      set(() => {
-        const southWest = data.getSouthWest();
-        const northEast = data.getNorthEast();
-
-        return {
-          coordinates: {
-            ne_lat: `${southWest.lat}`,
-            ne_lng: `${southWest.lng}`,
-            sw_lat: `${northEast.lat}`,
-            sw_lng: `${northEast.lng}`,
-          },
-        };
-      }),
+      set(() => ({
+        coordinates: {
+          ne_lat: `${data.getSouthWest().lat}`,
+          ne_lng: `${data.getSouthWest().lng}`,
+          sw_lat: `${data.getNorthEast().lat}`,
+          sw_lng: `${data.getNorthEast().lng}`,
+        },
+      })),
   },
 }));
 
