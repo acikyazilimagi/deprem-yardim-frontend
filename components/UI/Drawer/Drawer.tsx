@@ -2,7 +2,7 @@ import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Snackbar, TextField, Typography } from "@mui/material";
+import { Snackbar, Switch, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
@@ -49,6 +49,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
+  const [showSavedData, setShowSavedData] = useState(false);
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
@@ -145,15 +146,31 @@ const Drawer = ({ toggler }: DrawerProps) => {
             <Typography className={styles.sourceContentTitle}>
               Yardım İçeriği
             </Typography>
-            <div className={styles.sourceContentText}>
-              <Typography>{source?.full_text}</Typography>
+            <div className={styles.sourceContentSwitch}>
+              <p>Kayıtlı veriyi göster</p>
+              <Switch
+                checked={showSavedData}
+                onChange={() => setShowSavedData((s) => !s)}
+              />
             </div>
+            {showSavedData && (
+              <div className={styles.sourceContentText}>
+                <Typography>{source?.full_text}</Typography>
+              </div>
+            )}
+            {!showSavedData && (
+              <iframe
+                frameBorder={0}
+                style={{ width: "100%", minHeight: "1000px" }}
+                src={`https://twitframe.com/show?url=https://twitter.com/${source?.name}/status/${source?.tweet_id}`}
+              ></iframe>
+            )}
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler]);
+  }, [data, size.width, toggler, showSavedData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 

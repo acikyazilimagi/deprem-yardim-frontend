@@ -10,7 +10,7 @@
 }
 
 .content {
-  padding: 48px;
+  padding: 24px;
 }
 
 .content > p:first-of-type {
@@ -64,15 +64,20 @@
 
 .sourceContentTitle {
   margin-top: 20px;
-  margin-bottom: 10px;
   font-weight: bold;
   font-size: 18px;
+}
+
+.sourceContentSwitch {
+  display: flex;
+  align-items: center;
 }
 
 .sourceContentText {
   max-height: 300px;
   overflow: auto;
   border: 1px solid #c9c6c6;
+  border-radius: 10px;
   padding: 10px;
   border-radius: 5px;
   text-align: left;
