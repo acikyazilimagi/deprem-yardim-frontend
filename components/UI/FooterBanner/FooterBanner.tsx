@@ -27,7 +27,6 @@ export default function FooterBanner() {
         </RenderIf>
         <HelpButton />
       </div>
-      <HelpButton />
     </footer>
   );
 }
