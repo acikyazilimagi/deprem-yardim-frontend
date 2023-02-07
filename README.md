@@ -1,5 +1,7 @@
 ## Projeye destek olmak için
 
+### FOR ENGLISH
+
 İletişim kanalları:
 
 - [Discord Kanalı](https://t.co/MzLdlNPOmY)
