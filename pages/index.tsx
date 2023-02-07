@@ -73,14 +73,12 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          {!isLoading && results && (
-            <LeafletMap
-              // @ts-expect-error
-              onClickMarker={handleMarkerClick}
-              data={results}
-              onClusterClick={togglePopUp}
-            />
-          )}
+          <LeafletMap
+            // @ts-expect-error
+            onClickMarker={handleMarkerClick}
+            data={isLoading || !results ? [] : results}
+            onClusterClick={togglePopUp}
+          />
         </Container>
         <Drawer toggler={handleMarkerClick} />
         <ClusterPopup />
