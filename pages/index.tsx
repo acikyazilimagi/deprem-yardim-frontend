@@ -1,6 +1,7 @@
 import { HelpButton } from "@/components/UI/Button/HelpButton";
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
+import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
@@ -24,7 +25,10 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
-  const { error } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
+  const { error, isLoading } = useSWR<MarkerData[] | undefined>(
+    BASE_URL,
+    dataFetcher
+  );
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
@@ -48,6 +52,7 @@ export default function Home({ deviceType }: Props) {
           <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap />
           </RenderIf>
+          {isLoading && <LoadingSpinner />}
         </Container>
         <Drawer />
         <ClusterPopup />
