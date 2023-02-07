@@ -27,3 +27,21 @@
   position: relative;
   z-index: 99999;
 }
+
+.clipboard {
+  margin-top: 0.75rem;
+}
+
+.clipboardLabel {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.openInNewIcon {
+  font-size: 0.9rem;
+  margin-left: 0.46875rem;
+}
+
+.externalLinkButton {
+  text-transform: none;
+}

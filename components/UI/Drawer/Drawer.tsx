@@ -7,25 +7,24 @@ import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
-import { IconButton, InputAdornment, Snackbar, TextField } from "@mui/material";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
+import { Snackbar, TextField } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
+import { OpenInNew } from "@mui/icons-material";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
 }
 
+function generateGoogleMapsUrl(lat: number, lng: number): string {
+  return `https://www.google.com/maps/@${lat},${lng},22z`;
+}
+
 export default function Drawer({ toggler }: DrawerProps) {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
-
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
-
-  function openGoogleMap(lat: string, lng: string) {
-    window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
-  }
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
@@ -55,38 +54,45 @@ export default function Drawer({ toggler }: DrawerProps) {
             <Button
               variant="contained"
               onClick={() =>
-                openGoogleMap(
-                  geometry.location.lat.toString(),
-                  geometry.location.lng.toString()
+                window.open(
+                  generateGoogleMapsUrl(
+                    geometry.location.lat,
+                    geometry.location.lng
+                  ),
+                  "_blank"
                 )
               }
+              className={styles.externalLinkButton}
             >
-              Google Haritalar ile gör
+              Google Haritalar ile Gör
+              <OpenInNew className={styles.openInNewIcon} />
             </Button>
           </div>
-
           <div>
             <TextField
               fullWidth
               variant="standard"
-              value={`https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`}
+              value={generateGoogleMapsUrl(
+                geometry.location.lat,
+                geometry.location.lng
+              )}
               InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton
-                      onClick={() =>
-                        copyBillboard(
-                          `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
-                        )
-                      }
-                    >
-                      <FileCopyIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+                sx: { paddingRight: "1rem" },
                 readOnly: true,
               }}
             />
+            <Button
+              variant="outlined"
+              className={styles.clipboard}
+              size="small"
+              onClick={() =>
+                copyBillboard(
+                  `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                )
+              }
+            >
+              ADRESİ KOPYALA
+            </Button>
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
