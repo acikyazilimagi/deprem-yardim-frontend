@@ -20,3 +20,11 @@
   vertical-align: middle;
   cursor: pointer;
 }
+
+/* Mobile */
+@media (max-width: 700px) {
+  .footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
