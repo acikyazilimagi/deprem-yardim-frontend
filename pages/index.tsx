@@ -12,17 +12,12 @@ import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
 import RenderIf from "@/components/UI/Common/RenderIf";
+import TechnicalError from "./TechnicalError";
 // import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
-
-const FallbackComponent = (
-  <h2>
-    Teknik bir aksaklık söz konusu. Sistem kısa zamanda devreye girecektir
-  </h2>
-);
 
 export default function Home() {
   const {
@@ -30,7 +25,6 @@ export default function Home() {
     isLoading,
     error,
   } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
-
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
   const handleMarkerClick = useCallback(
@@ -81,10 +75,7 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf
-            condition={error ? false : true}
-            fallback={FallbackComponent}
-          >
+          <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap
               data={isLoading || !results ? [] : results}
               onClusterClick={togglePopUp}
