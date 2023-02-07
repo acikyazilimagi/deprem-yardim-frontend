@@ -8,7 +8,7 @@ To Contribute:
 
 - [Contributing](CONTRIBUTING_ENG.md)
 
-## Technologies and Systems Used In This Project 
+## Technologies and Systems Used In This Project
 
 - [Next.js 13](https://github.com/vercel/next.js/)
 - [React 18](https://github.com/facebook/react)

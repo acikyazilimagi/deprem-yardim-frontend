@@ -58,7 +58,6 @@ By complying with these rules, you can create an open change log for all version
 
 It is advised to watching PR header for commit messages. This way, when a PR is merged, PR header can be used as commit message and allows the change history to be formatted appropriately.
 
-
 #### Type
 
 Type states the type of your change. Allowed types are:
