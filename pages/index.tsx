@@ -53,6 +53,7 @@ export default function Home() {
   useEffect(() => {
     // FIXME: Use debounce correctly (It's 07 am :) )
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedURL]);
 
   useEffect(() => {
