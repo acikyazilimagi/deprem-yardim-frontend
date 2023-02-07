@@ -119,7 +119,6 @@ function LeafletMap() {
         <MapEvents />
         {/* <ImpactedCities /> */}
         <HeatmapLayer
-          fitBoundsOnLoad
           fitBoundsOnUpdate
           radius={15}
           points={points}
