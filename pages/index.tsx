@@ -1,12 +1,8 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import {
-  LocationsResponse,
-  MarkerData,
-  CoordinatesURLParameters,
-} from "@/mocks/types";
-import { useMapActions, useCoordinates } from "@/stores/mapStore";
+import { Data, MarkerData } from "@/mocks/types";
+import { useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -14,57 +10,19 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  KeyboardEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { Partytown } from "@builder.io/partytown/react";
-import dataTransformer from "@/utils/dataTransformer";
-import useDebounce from "@/hooks/useDebounce";
+
+interface HomeProps {
+  results: MarkerData[];
+}
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const baseURL = "https://api.afetharita.com/tweets/locations";
-
-export default function Home() {
+export default function Home({ results }: HomeProps) {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
-  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
-
-  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
-  const [results, setResults] = useState<MarkerData[]>([]);
-
-  const [url, setURL] = useState(baseURL);
-  const debouncedURL = useDebounce(url, 500);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(coordinates as any);
-    setURL(baseURL + "?" + urlParams.toString());
-  }, [coordinates]);
-
-  useEffect(() => {
-    // not sure if we need this?
-    if (debouncedURL) {
-      fetch(debouncedURL)
-        .then((res) => res.json())
-        .then((res) => {
-          setData(res);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [debouncedURL]);
-
-  useEffect(() => {
-    if (!data?.results) return;
-
-    setResults(dataTransformer(data));
-  }, [data]);
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -140,4 +98,19 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  // Server-side requests are mocked by `mocks/server.ts`.
+  const res = await fetch(
+    "https://public-sdc.trendyol.com/discovery-web-websfxgeolocation-santral/geocode?address=gaziantep"
+  );
+  const data = (await res.json()) as Data;
+  const results = data.results;
+
+  return {
+    props: {
+      results,
+    },
+  };
 }
