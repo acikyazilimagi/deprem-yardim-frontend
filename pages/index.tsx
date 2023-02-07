@@ -41,25 +41,24 @@ export default function Home() {
   const [url, setURL] = useState(baseURL);
   const debouncedURL = useDebounce(url, 500);
 
-  const fetchData = useCallback(async () => {
-    try {
-      const response = await fetch(url);
-      setData(await response.json());
-    } catch (error) {
-      console.error(error);
-    }
-  }, [url]);
-
-  useEffect(() => {
-    // FIXME: Use debounce correctly (It's 07 am :) )
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedURL]);
-
   useEffect(() => {
     const urlParams = new URLSearchParams(coordinates as any);
     setURL(baseURL + "?" + urlParams.toString());
   }, [coordinates]);
+
+  useEffect(() => {
+    // not sure if we need this?
+    if (debouncedURL) {
+      fetch(debouncedURL)
+        .then((res) => res.json())
+        .then((res) => {
+          setData(res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [debouncedURL]);
 
   useEffect(() => {
     if (!data?.results) return;
