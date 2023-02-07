@@ -32,7 +32,11 @@
     "dev:android": "npx cap run android"
   },
   "dependencies": {
+    "@20tab/react-leaflet-resetview": "^1.1.0",
     "@builder.io/partytown": "^0.7.5",
+    "@capacitor/android": "^4.6.3",
+    "@capacitor/cli": "^4.6.3",
+    "@capacitor/core": "^4.6.3",
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
@@ -44,9 +48,6 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@vgrid/react-leaflet-heatmap-layer": "^4.0.3",
-    "@capacitor/android": "^4.6.3",
-    "@capacitor/cli": "^4.6.3",
-    "@capacitor/core": "^4.6.3",
     "capacitor-resources": "^2.0.5",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
