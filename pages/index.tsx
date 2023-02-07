@@ -8,20 +8,28 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import useSWR from "swr";
-import { Partytown } from "@builder.io/partytown/react";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
+import RenderIf from "@/components/UI/Common/RenderIf";
+// import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
+const FallbackComponent = (
+  <h2>
+    Teknik bir aksaklık söz konusu. Sistem kısa zamanda devreye girecektir
+  </h2>
+);
+
 export default function Home() {
-  const { data: results, isLoading } = useSWR<MarkerData[] | undefined>(
-    BASE_URL,
-    dataFetcher
-  );
+  const {
+    data: results,
+    isLoading,
+    error,
+  } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
 
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
@@ -59,7 +67,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <Partytown debug={true} forward={["dataLayer.push"]} />
+        {/* <Partytown debug={true} forward={["dataLayer.push"]} /> */}
         <title>Afet Haritası | Anasayfa</title>
         <meta
           name="description"
@@ -73,12 +81,14 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <LeafletMap
-            // @ts-expect-error
-            onClickMarker={handleMarkerClick}
-            data={isLoading || !results ? [] : results}
-            onClusterClick={togglePopUp}
-          />
+          <RenderIf condition={!!error} fallback={FallbackComponent}>
+            <LeafletMap
+              data={isLoading || !results ? [] : results}
+              onClusterClick={togglePopUp}
+              // @ts-expect-error
+              onClickMarker={handleMarkerClick}
+            />
+          </RenderIf>
         </Container>
         <Drawer toggler={handleMarkerClick} />
         <ClusterPopup />
