@@ -296,8 +296,12 @@
 
   .logoContainer {
     display: block;
-    position: relative;
-    bottom: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + -8rem));
+    height: 100%;
+    bottom: -20rem;
   }
 
   .logoWrapper {
