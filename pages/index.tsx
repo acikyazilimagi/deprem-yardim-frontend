@@ -37,7 +37,10 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<TechnicalError />}>
+          <RenderIf
+            condition={!error && !isLoading}
+            fallback={<TechnicalError />}
+          >
             <LeafletMap />
           </RenderIf>
           {isLoading && <LoadingSpinner />}
