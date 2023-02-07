@@ -68,3 +68,10 @@ export type LocationsResponse = {
     };
   }[];
 };
+
+export type CoordinatesURLParameters = {
+  ne_lat: number;
+  ne_lng: number;
+  sw_lat: number;
+  sw_lng: number;
+};
