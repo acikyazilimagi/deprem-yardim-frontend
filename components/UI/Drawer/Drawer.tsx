@@ -3,8 +3,8 @@ import Box from "@mui/material/Box";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import styles from "./Drawer.module.css";
-import Tag from "../Tag/Tag";
-import { Tags } from "../Tag/Tag.types";
+// import Tag from "../Tag/Tag";
+// import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { Snackbar, TextField, Typography } from "@mui/material";
@@ -47,7 +47,7 @@ export default function Drawer({ toggler }: DrawerProps) {
         onKeyDown={(e) => toggler(e)}
       >
         <div className={styles.content}>
-          <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag>
+          {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
           <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
           <div className={styles.contentButton}>
