@@ -51,3 +51,5 @@ jspm_packages
 #partytown
 public/~partytown/*
 public/sw.js.map
+public/sw.js
+public/workbox-*

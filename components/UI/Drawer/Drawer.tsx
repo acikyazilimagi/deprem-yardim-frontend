@@ -1,4 +1,4 @@
-import { useWindowSize } from "@/hooks/useWindowsSize";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,8 +13,6 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import Tag from "../Tag/Tag";
-import { Tags } from "../Tag/Tag.types";
 import styles from "./Drawer.module.css";
 
 interface DrawerProps {
@@ -58,7 +56,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
         onKeyDown={(e) => toggler(e)}
       >
         <div className={styles.content}>
-          <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag>
+          {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
           <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
           <div className={styles.contentButton}>
