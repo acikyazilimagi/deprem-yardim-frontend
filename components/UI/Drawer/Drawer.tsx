@@ -113,7 +113,7 @@ export default function Drawer({ toggler }: DrawerProps) {
               Yardım İçeriği
             </Typography>
             <div className={styles.sourceContentText}>
-              <Typography>{source.full_text}</Typography>
+              <Typography>{source?.full_text}</Typography>
             </div>
           </div>
         </div>
