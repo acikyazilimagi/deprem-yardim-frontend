@@ -1,8 +1,12 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { LocationsResponse, MarkerData } from "@/mocks/types";
-import { useMapActions } from "@/stores/mapStore";
+import {
+  LocationsResponse,
+  MarkerData,
+  CoordinatesURLParameters,
+} from "@/mocks/types";
+import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -24,25 +28,34 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const url = "https://api.afetharita.com/tweets/locations";
+const baseURL = "https://api.afetharita.com/tweets/locations";
 
 export default function Home() {
   const [data, setData] = useState<LocationsResponse | undefined>(undefined);
   const [results, setResults] = useState<MarkerData[]>([]);
+  const [url, setURL] = useState(baseURL);
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(url);
       setData(await response.json());
     } catch (error) {
       console.error(error);
     }
-  }
+  }, [url]);
 
   useEffect(() => {
+
+  },[url])
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(coordinates as any);
+    setURL(baseURL + urlParams.toString());
+
     fetchData();
-  }, []);
+  }, [coordinates]);
 
   useEffect(() => {
     if (!data?.results) return;
