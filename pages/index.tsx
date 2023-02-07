@@ -10,7 +10,13 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
-import { KeyboardEvent, MouseEvent, useCallback, useMemo } from "react";
+import {
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Partytown } from "@builder.io/partytown/react";
 import dataTransformer from "@/utils/dataTransformer";
 
@@ -18,10 +24,31 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-export default function Home({ data }: { data: LocationsResponse }) {
+const url = "https://api.afetharita.com/tweets/locations";
+
+export default function Home() {
+  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
+  const [results, setResults] = useState<MarkerData[]>([]);
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
-  const results = useMemo(() => dataTransformer(data), [data]);
+  async function fetchData() {
+    try {
+      const response = await fetch(url);
+      setData(await response.json());
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (!data?.results) return;
+
+    setResults(dataTransformer(data));
+  }, [data]);
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -97,15 +124,4 @@ export default function Home({ data }: { data: LocationsResponse }) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const res = await fetch("https://api.afetharita.com/tweets/locations");
-  const data = await res.json();
-
-  return {
-    props: {
-      data,
-    },
-  };
 }
