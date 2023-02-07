@@ -29,6 +29,9 @@
   text-align: center;
   width: 24rem;
   z-index: 999;
+  bottom: 0.5rem;
+  margin: auto;
+  font-size: 0.7rem;
 }
 
 .footer .dismissible span {
@@ -58,7 +61,7 @@
   }
   .footer .dismissible {
     width: 100%;
-    padding: 1.7rem 1rem 1.3rem 1.3rem;
+    bottom: 4rem;
   }
 
   .footerWrapper {
