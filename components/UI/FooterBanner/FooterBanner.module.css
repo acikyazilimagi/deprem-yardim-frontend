@@ -21,10 +21,22 @@
 }
 
 .footer .dismissible {
+  position: relative;
   display: flex;
   border-radius: 8px;
-  background-color: rgba(104, 13, 13, 0.6);
-  padding: 2px 1rem;
+  background-color: rgba(104, 13, 13, 0.8);
+  padding: 1.7rem 0.8rem 0.8rem 0.8rem;
+  text-align: center;
+  width: 24rem;
+}
+
+.footer .dismissible .closeButton{
+  position: absolute;
+  right: 0px;
+  top: 3px;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
 }
 
 .footer .dismissible span {
@@ -42,6 +54,10 @@
   .footer {
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+  .footer .dismissible {
+    width: 100%;
+    padding: 1.7rem 1rem 1.3rem 1.3rem;
   }
 
   .footerWrapper {
