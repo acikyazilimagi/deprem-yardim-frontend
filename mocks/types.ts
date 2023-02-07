@@ -26,6 +26,7 @@ export type MarkerData = {
   place_id: string;
   reference: string;
   types: string[];
+  source: Raw;
 };
 export type Data = {
   html_attributions: string[];
@@ -36,6 +37,13 @@ export type Data = {
 export type ClusterPopupData = {
   count: number;
   baseMarker: MarkerData;
+};
+
+export type Raw = {
+  full_text?: string;
+  tweet_id: string;
+  name?: string;
+  screen_name?: string;
 };
 
 export type LocationsResponse = {
@@ -50,12 +58,7 @@ export type LocationsResponse = {
       northeast: Point;
       southwest: Point;
     };
-    raw: {
-      full_text?: string;
-      tweet_id?: string;
-      name?: string;
-      screen_name?: string;
-    };
+    raw: Raw;
     resolution: {
       address?: string;
       city?: string;

@@ -7,6 +7,7 @@ export default function dataTransformer(data: LocationsResponse): MarkerData[] {
     const loc = result?.loc;
     const viewport = result?.viewport;
     const resolution = result?.resolution;
+    const source = result?.raw;
 
     return {
       person: resolution?.name_surname || "",
@@ -37,6 +38,7 @@ export default function dataTransformer(data: LocationsResponse): MarkerData[] {
       place_id: id,
       reference: id,
       types: ["locality", "political"],
+      source,
     };
   });
 }
