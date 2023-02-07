@@ -10,13 +10,12 @@
   background-color: rgba(104, 13, 13, 0.6);
   color: white;
   display: flex;
-}
-
-.footer span:nth-child(2) {
-  margin: auto;
+  align-items: center;
+  border-radius: 8px;
 }
 
 .footer svg {
+  margin-left: 10px;
   vertical-align: middle;
   cursor: pointer;
 }
