@@ -16,28 +16,28 @@ export const Tags: TTags = {
     intensity: "Güvenli Alanlar",
     minClus: 0,
     maxClus: 0,
-    color: "#0288D1",
+    color: "#63ff00",
   },
   low: {
     id: 2,
     intensity: "Düşük Yoğunluk",
     minClus: 1,
     maxClus: 3,
-    color: "#CFCECD",
+    color: "#d6ff00",
   },
   "mid-low": {
     id: 3,
     intensity: "Orta - Alt Yoğunluk",
     minClus: 3,
     maxClus: 5,
-    color: "#FAF7BF",
+    color: "#ffff00",
   },
   mid: {
     id: 4,
     intensity: "Orta  Yoğunluk",
     minClus: 5,
     maxClus: 26,
-    color: "#EE181B",
+    color: "#ffc100",
   },
   "mid-high": {
     id: 5,
@@ -50,7 +50,7 @@ export const Tags: TTags = {
     id: 6,
     intensity: "Yoğun",
     minClus: 101,
-    color: "#74080A",
+    color: "#ff0000",
   },
 };
 
