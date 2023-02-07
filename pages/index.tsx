@@ -22,7 +22,6 @@ import {
 import { Partytown } from "@builder.io/partytown/react";
 import dataTransformer from "@/utils/dataTransformer";
 import useDebounce from "@/hooks/useDebounce";
-import { HelpButton } from "@/components/UI/Button/HelpButton";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
