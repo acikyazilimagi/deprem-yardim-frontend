@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -6,11 +6,12 @@ import styles from "./Drawer.module.css";
 import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { Snackbar, TextField } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
-import { OpenInNew } from "@mui/icons-material";
+import { OpenInNew, EmergencyShare } from "@mui/icons-material";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -25,11 +26,50 @@ export default function Drawer({ toggler }: DrawerProps) {
   const data = useDrawerData();
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
+  const [canShare, setCanShare] = useState<boolean>(false);
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
     setOpenBillboardSnackbar(true);
   }
+
+  const checkCanShare = (): boolean => {
+    try {
+      const shareTestData = {
+        text: "Dummy Share test",
+        link: "https://www.google.com/maps/@37.0097206,37.792836,22z",
+      };
+
+      return navigator.canShare(shareTestData);
+    } catch (e) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    setCanShare(checkCanShare());
+  }, []);
+
+  const sharePin = (data: {
+    geometry: { location: { lat: number; lng: number } };
+    formatted_address: string;
+  }) => {
+    const { geometry, formatted_address } = data;
+    const shareData = {
+      text: formatted_address,
+      url: generateGoogleMapsUrl(geometry.location.lat, geometry.location.lng),
+    };
+
+    try {
+      navigator
+        .share(shareData)
+        .catch((error) => console.log("Error sharing", error));
+    } catch (err) {
+      alert(
+        "Tarayıcınız bu özelliği desteklemiyor. Lütfen adresi kopyalayarak paylaşın."
+      );
+    }
+  };
 
   const list = useMemo(() => {
     if (!data) {
@@ -93,12 +133,23 @@ export default function Drawer({ toggler }: DrawerProps) {
             >
               ADRESİ KOPYALA
             </Button>
+            <RenderIf condition={canShare}>
+              <Button
+                variant="outlined"
+                className={styles.share}
+                size="small"
+                onClick={() => sharePin(data)}
+              >
+                Paylaş
+                <EmergencyShare className={styles.openInNewIcon} />
+              </Button>
+            </RenderIf>
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler]);
+  }, [data, size.width, toggler, canShare]);
 
   return (
     <div>

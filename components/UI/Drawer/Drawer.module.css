@@ -42,6 +42,11 @@
   margin-left: 0.46875rem;
 }
 
+.share {
+  margin-top: 0.75rem;
+  margin-left: 0.75rem;
+}
+
 .externalLinkButton {
   text-transform: none;
 }
