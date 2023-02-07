@@ -11,8 +11,8 @@ import styles from "@/styles/Home.module.css";
 import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import useSWR from "swr";
+import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
@@ -33,36 +33,7 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <Head>
-        {/* <Partytown debug={true} forward={["dataLayer.push"]} /> */}
-        <title>Afet Haritası | Anasayfa</title>
-        <meta
-          name="description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak."
-        />
-        {/* Facebook Meta Tags */}
-        <meta property="og:url" content="https://afetharita.com/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Afet Haritası | Anasayfa" />
-        <meta
-          property="og:description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
-        />
-        <meta property="og:image" content="" />
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="afetharita.com" />
-        <meta property="twitter:url" content="https://afetharita.com/" />
-        <meta name="twitter:title" content="Afet Haritası | Anasayfa" />
-        <meta
-          name="twitter:description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
-        />
-        <meta name="twitter:image" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <Head />
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
