@@ -10,19 +10,17 @@ import {
   Chip,
   Grid,
   IconButton,
+  Stack,
   Typography,
 } from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
+import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import styles from "./ClusterPopup.module.css";
 
 export interface ClusterPopupProps {
   data?: any;
-}
-
-function openGoogleMap(lat?: string | number, lng?: string | number) {
-  window.open(`https://www.google.com/maps/@${lat},${lng},22z`, "_blank");
 }
 
 export function ClusterPopup() {
@@ -76,22 +74,31 @@ export function ClusterPopup() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button
-          variant="outlined"
-          color="primary"
-          endIcon={<LaunchIcon fontSize="small" />}
-          style={{ textTransform: "unset" }}
-          sx={{
-            mr: 2,
-          }}
-          onClick={() => openGoogleMap(lat, lng)}
-        >
-          Google Haritalar ile gör
-        </Button>
-        <CopyButton
-          color="primary"
-          data={`https://www.google.com/maps/@${lat},${lng},22z`}
-        />
+        <Stack direction="row">
+          <Stack rowGap="8px">
+            {googleMapsButtons.map((button) => (
+              <Button
+                key={button.label}
+                variant="outlined"
+                color="primary"
+                endIcon={<LaunchIcon fontSize="small" />}
+                style={{ textTransform: "unset" }}
+                sx={{
+                  mr: 2,
+                }}
+                onClick={() => button.urlCallback(lat, lng)}
+              >
+                {button.label}
+              </Button>
+            ))}
+          </Stack>
+          <Stack justifyContent="center">
+            <CopyButton
+              color="primary"
+              data={generateGoogleMapsUrl(lat, lng)}
+            />
+          </Stack>
+        </Stack>
       </CardActions>
     </Card>
   );

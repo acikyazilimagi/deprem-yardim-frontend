@@ -5,3 +5,9 @@
   cursor: pointer;
   z-index: 1000;
 }
+
+@media screen and (max-width: 512px) {
+  .popupContainer {
+    left: unset;
+  }
+}

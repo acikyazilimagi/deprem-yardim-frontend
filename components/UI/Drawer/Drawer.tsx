@@ -20,17 +20,24 @@ interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
 }
 
-const generateGoogleMapsUrl = (lat: number, lng: number): string => {
+export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/@${lat},${lng},22z`;
 };
 
-const generateGoogleMapsDirectionUrl = (lat: number, lng: number): string => {
-  return `https://www.google.com/maps?saddr=My+Location&daddr=${lat},${lng}`;
+export const openGoogleMapsUrl = (lat: number, lng: number) => {
+  window.open(generateGoogleMapsUrl(lat, lng), "_blank");
 };
 
-const googleMapsButtons = [
-  { label: "Google Haritalar ile Gör", urlCallback: generateGoogleMapsUrl },
-  { label: "Yol Tarifi Al", urlCallback: generateGoogleMapsDirectionUrl },
+export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
+  window.open(
+    `https://www.google.com/maps?saddr=My+Location&daddr=${lat},${lng}`,
+    "_blank"
+  );
+};
+
+export const googleMapsButtons = [
+  { label: "Google Haritalar ile Gör", urlCallback: openGoogleMapsUrl },
+  { label: "Yol Tarifi Al", urlCallback: openGoogleMapsDirectionUrl },
 ];
 
 const Drawer = ({ toggler }: DrawerProps) => {
@@ -78,15 +85,12 @@ const Drawer = ({ toggler }: DrawerProps) => {
               <Button
                 key={button.label}
                 variant="contained"
-                onClick={() =>
-                  window.open(
-                    button.urlCallback(
-                      geometry.location.lat,
-                      geometry.location.lng
-                    ),
-                    "_blank"
-                  )
-                }
+                onClick={() => {
+                  button.urlCallback(
+                    geometry.location.lat,
+                    geometry.location.lng
+                  );
+                }}
                 className={styles.externalLinkButton}
               >
                 {button.label}
