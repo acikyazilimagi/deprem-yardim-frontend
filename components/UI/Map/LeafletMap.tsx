@@ -1,16 +1,19 @@
 import Map from "@/components/UI/Map/Map";
 import { MarkerData } from "@/mocks/types";
+import { useMapActions } from "@/stores/mapStore";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { LeafletMouseEvent, SpiderfyEventHandlerFn } from "leaflet";
-import { useMapActions } from "@/stores/mapStore";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import { Fragment } from "react";
+import React, { Fragment, useCallback, useMemo } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
 import { DEFAULT_CENTER, DEFAULT_IMPORTANCY, DEFAULT_ZOOM } from "./utils";
-const HeatmapLayer = HeatmapLayerFactory<[number, number, number]>();
+
+type Point = [number, number, number];
+
+const HeatmapLayer = React.memo(HeatmapLayerFactory<Point>());
 
 const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
   ssr: false,
@@ -50,11 +53,20 @@ const MapEvents = () => {
 };
 
 function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
-  const points = data.map((marker: MarkerData) => [
-    marker.geometry.location.lat,
-    marker.geometry.location.lng,
-    DEFAULT_IMPORTANCY,
-  ]);
+  const points: Point[] = useMemo(
+    () =>
+      data.map((marker: MarkerData) => [
+        marker.geometry.location.lat,
+        marker.geometry.location.lng,
+        DEFAULT_IMPORTANCY,
+      ]),
+    [data]
+  );
+
+  const longitudeExtractor = useCallback((p: Point) => p[1], []);
+  const latitudeExtractor = useCallback((p: Point) => p[0], []);
+  const intensityExtractor = useCallback((p: Point) => p[2], []);
+
   return (
     <>
       <MapLegend />
@@ -65,10 +77,10 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
           fitBoundsOnLoad
           fitBoundsOnUpdate
           radius={15}
-          points={points as [number, number, number][]}
-          longitudeExtractor={(m: any) => m[1]}
-          latitudeExtractor={(m: any) => m[0]}
-          intensityExtractor={(m: any) => m[2]}
+          points={points}
+          longitudeExtractor={longitudeExtractor}
+          latitudeExtractor={latitudeExtractor}
+          intensityExtractor={intensityExtractor}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
@@ -97,4 +109,4 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   );
 }
 
-export default LeafletMap;
+export default React.memo(LeafletMap);
