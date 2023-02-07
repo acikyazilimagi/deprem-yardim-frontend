@@ -14,6 +14,7 @@ import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import React, { Fragment, useCallback, useMemo, useRef } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
+import ResetViewControl from "@20tab/react-leaflet-resetview";
 import {
   DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
@@ -107,6 +108,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
         maxBounds={bounds}
         maxBoundsViscosity={1}
       >
+        <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
         {/* <ImpactedCities /> */}
         <HeatmapLayer
