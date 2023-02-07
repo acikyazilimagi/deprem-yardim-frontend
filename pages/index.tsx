@@ -1,11 +1,7 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import {
-  LocationsResponse,
-  MarkerData,
-  CoordinatesURLParameters,
-} from "@/mocks/types";
+import { MarkerData, CoordinatesURLParameters } from "@/mocks/types";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
@@ -30,39 +26,35 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const baseURL = "https://api.afetharita.com/tweets/locations";
 
 export default function Home() {
+  const [results, setResults] = useState<MarkerData[]>([]);
+  const [loaded, setLoaded] = useState<boolean>(false);
+
+  const [url, setURL] = useState(baseURL);
+  const debouncedURL = useDebounce(url, 1000);
+
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
-  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
-  const [results, setResults] = useState<MarkerData[]>([]);
-
-  const [url, setURL] = useState(baseURL);
-  const debouncedURL = useDebounce(url, 500);
-
   useEffect(() => {
-    const urlParams = new URLSearchParams(coordinates as any);
-    setURL(baseURL + "?" + urlParams.toString());
+    if (coordinates) {
+      const urlParams = new URLSearchParams(coordinates as any);
+      setURL(baseURL + "?" + urlParams.toString());
+    }
   }, [coordinates]);
 
   useEffect(() => {
-    // not sure if we need this?
     if (debouncedURL) {
       fetch(debouncedURL)
         .then((res) => res.json())
         .then((res) => {
-          setData(res);
+          setResults(dataTransformer(res));
+          setLoaded(true);
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, [debouncedURL]);
-
-  useEffect(() => {
-    if (!data?.results) return;
-
-    setResults(dataTransformer(data));
-  }, [data]);
 
   const handleMarkerClick = useCallback(
     () => (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -109,12 +101,14 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <LeafletMap
-            // @ts-expect-error
-            onClickMarker={handleMarkerClick()}
-            data={results}
-            onClusterClick={togglePopUp}
-          />
+          {loaded && (
+            <LeafletMap
+              // @ts-expect-error
+              onClickMarker={handleMarkerClick()}
+              data={results}
+              onClusterClick={togglePopUp}
+            />
+          )}
         </Container>
         <Drawer toggler={handleMarkerClick()} />
         <ClusterPopup />
