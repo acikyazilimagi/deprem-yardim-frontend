@@ -56,6 +56,10 @@
     margin-bottom: 0;
     padding-bottom: 0;
   }
+  .footer .dismissible {
+    width: 100%;
+    padding: 1.7rem 1rem 1.3rem 1.3rem;
+  }
 
   .footerWrapper {
     gap: 8px;
