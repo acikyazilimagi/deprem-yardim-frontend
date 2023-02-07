@@ -2,8 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import styles from "@/styles/Home.module.css";
+import { memo } from "react";
 
-export const HelpButton = () => {
+const _HelpButton = () => {
   return (
     <div className={styles.logoContainer}>
       <Link
@@ -19,3 +20,5 @@ export const HelpButton = () => {
     </div>
   );
 };
+
+export const HelpButton = memo(_HelpButton);
