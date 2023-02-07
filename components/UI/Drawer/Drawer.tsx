@@ -6,11 +6,13 @@ import styles from "./Drawer.module.css";
 import Tag from "../Tag/Tag";
 import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import { useWindowSize } from "@/hooks/useWindowsSize";
 import { Snackbar, TextField, Typography } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
+import { useNavigatorShare } from "@/hooks/useNavigatorShare";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -24,6 +26,7 @@ export default function Drawer({ toggler }: DrawerProps) {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
   const size = useWindowSize();
+  const [canShare, share] = useNavigatorShare();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
 
   function copyBillboard(url: string) {
@@ -120,7 +123,7 @@ export default function Drawer({ toggler }: DrawerProps) {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler]);
+  }, [data, size.width, toggler, canShare, share]);
 
   return (
     <div>
