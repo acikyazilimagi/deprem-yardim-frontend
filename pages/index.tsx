@@ -108,7 +108,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <HelpButton />
+        {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <LeafletMap
             // @ts-expect-error
