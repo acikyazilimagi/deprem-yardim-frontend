@@ -109,6 +109,24 @@ export default function Drawer({ toggler }: DrawerProps) {
               >
                 Kaynak
               </Button>
+              <RenderIf condition={canShare}>
+                <Button
+                  variant="outlined"
+                  className={styles.clipboard}
+                  size="small"
+                  onClick={() => {
+                    share({
+                      text: formatted_address,
+                      url: generateGoogleMapsUrl(
+                        geometry.location.lat,
+                        geometry.location.lng
+                      ),
+                    });
+                  }}
+                >
+                  Paylaş
+                </Button>
+              </RenderIf>
             </div>
           </div>
           <div className={styles.sourceContent}>
