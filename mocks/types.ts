@@ -23,8 +23,8 @@ export type MarkerData = {
   icon_mask_base_uri: string;
   name: string;
   photos: Photo[];
-  place_id: string;
-  reference: string;
+  place_id: number;
+  reference: number;
   types: string[];
   source: Raw;
 };
