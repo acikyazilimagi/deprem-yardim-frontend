@@ -2,12 +2,7 @@ import Map from "@/components/UI/Map/Map";
 import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import {
-  LeafletMouseEvent,
-  SpiderfyEventHandlerFn,
-  latLngBounds,
-  latLng,
-} from "leaflet";
+import { LeafletMouseEvent, SpiderfyEventHandlerFn } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
@@ -73,13 +68,6 @@ const MapEvents = () => {
   return null;
 };
 
-const corners = {
-  southWest: latLng(33.9825, 25.20902),
-  northEast: latLng(43.32683, 46.7742),
-};
-
-const bounds = latLngBounds(corners.southWest, corners.northEast);
-
 function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
   const points: Point[] = useMemo(
     () =>
@@ -103,8 +91,6 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
         center={DEFAULT_CENTER}
         zoom={DEFAULT_ZOOM}
         minZoom={DEFAULT_MIN_ZOOM}
-        maxBoundsViscosity={1}
-        maxBounds={bounds}
         preferCanvas
       >
         <MapEvents />
