@@ -27,7 +27,7 @@ function MapHelper() {
           position: "absolute",
           top: "14%",
           left: "0",
-          marginLeft: "10px",
+          marginLeft: "12px",
           zIndex: "1000",
           maxWidth: "30px",
           minWidth: "30px",

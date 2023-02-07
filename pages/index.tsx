@@ -46,7 +46,6 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
-        <HelpButton />
         <MapHelper />
       </main>
     </>
