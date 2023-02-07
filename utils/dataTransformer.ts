@@ -1,12 +1,15 @@
-import { LocationsResponse, MarkerData } from "@/mocks/types";
+import { LocationsResponseResult, MarkerData } from "@/mocks/types";
 
-export default function dataTransformer(data: LocationsResponse): MarkerData[] {
-  return data.results.map((result) => {
+export default function dataTransformer(
+  data: LocationsResponseResult
+): MarkerData[] {
+  return data.map((result) => {
     const id = result.id;
     const formatted_address = result?.formatted_address;
     const loc = result?.loc;
     const viewport = result?.viewport;
     const resolution = result?.resolution;
+    const source = result?.raw;
 
     return {
       person: resolution?.name_surname || "",
@@ -37,6 +40,7 @@ export default function dataTransformer(data: LocationsResponse): MarkerData[] {
       place_id: id,
       reference: id,
       types: ["locality", "political"],
+      source,
     };
   });
 }

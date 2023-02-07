@@ -4,9 +4,11 @@
 }
 
 .logoContainer {
+  right: 0;
+  bottom: 50px;
   display: flex;
-  justify-content: end;
-  margin-bottom: 10px;
+  position: absolute;
+  justify-content: flex-end;
 }
 
 .logoContainer img {
@@ -31,6 +33,16 @@
   justify-content: center;
   font-size: 14px;
   font-weight: 500;
+}
+
+.logoWrapper p {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .main {
@@ -283,7 +295,9 @@
   }
 
   .logoContainer {
-    justify-content: center;
+    display: block;
+    position: relative;
+    bottom: 0;
   }
 
   .logoWrapper {
@@ -302,6 +316,13 @@
 
   .logoContainer p {
     font-size: 14px;
+  }
+}
+
+/* Tablet and wider */
+@media (min-width: 701px) {
+  .logoWrapper p {
+    margin-bottom: 5px;
   }
 }
 

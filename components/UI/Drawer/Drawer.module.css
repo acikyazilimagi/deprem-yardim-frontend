@@ -13,8 +13,11 @@
   padding: 48px;
 }
 
-.contentButton {
+.contentButtons {
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 @media screen and (max-width: 768px) {
@@ -44,4 +47,25 @@
 
 .externalLinkButton {
   text-transform: none;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sourceContentTitle {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.sourceContentText {
+  max-height: 300px;
+  overflow: auto;
+  border: 1px solid #c9c6c6;
+  padding: 10px;
 }

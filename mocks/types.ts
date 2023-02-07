@@ -26,6 +26,7 @@ export type MarkerData = {
   place_id: string;
   reference: string;
   types: string[];
+  source: Raw;
 };
 export type Data = {
   html_attributions: string[];
@@ -38,36 +39,40 @@ export type ClusterPopupData = {
   baseMarker: MarkerData;
 };
 
+export type Raw = {
+  full_text?: string;
+  tweet_id: string;
+  name?: string;
+  screen_name?: string;
+};
+
 export type LocationsResponse = {
   count: number;
   next?: string;
   previous?: string;
-  results: {
-    id: string;
-    formatted_address: string;
-    loc: [number, number];
-    viewport: {
-      northeast: Point;
-      southwest: Point;
-    };
-    raw: {
-      full_text?: string;
-      tweet_id?: string;
-      name?: string;
-      screen_name?: string;
-    };
-    resolution: {
-      address?: string;
-      city?: string;
-      distinct?: string;
-      neighbourhood?: string;
-      street?: string;
-      no?: number;
-      name_surname?: any;
-      tel?: string;
-    };
-  }[];
+  results: LocationsResponseResult;
 };
+
+export type LocationsResponseResult = {
+  id: string;
+  formatted_address: string;
+  loc: [number, number];
+  viewport: {
+    northeast: Point;
+    southwest: Point;
+  };
+  raw: Raw;
+  resolution: {
+    address?: string;
+    city?: string;
+    distinct?: string;
+    neighbourhood?: string;
+    street?: string;
+    no?: number;
+    name_surname?: any;
+    tel?: string;
+  };
+}[];
 
 export type CoordinatesURLParameters = {
   ne_lat: number;
