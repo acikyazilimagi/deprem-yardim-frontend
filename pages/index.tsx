@@ -1,9 +1,11 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
+import dataTransformer from "@/utils/dataTransformer";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -11,7 +13,6 @@ import useSWR from "swr";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
-import RenderIf from "@/components/UI/Common/RenderIf";
 import TechnicalError from "./TechnicalError";
 // import { Partytown } from "@builder.io/partytown/react";
 

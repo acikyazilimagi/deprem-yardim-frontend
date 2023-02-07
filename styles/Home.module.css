@@ -297,11 +297,9 @@
   .logoContainer {
     display: block;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, calc(-50% + -8rem));
-    height: 100%;
-    bottom: -20rem;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
   }
 
   .logoWrapper {
@@ -319,7 +317,8 @@
   }
 
   .logoContainer p {
-    font-size: 14px;
+    font-size: 0.875rem;
+    display: none;
   }
 }
 
