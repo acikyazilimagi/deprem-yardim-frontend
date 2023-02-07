@@ -22,3 +22,10 @@ module.exports = withPWA({
     return config;
   },
 });
+
+module.exports = {
+  images: {
+    loader: "akamai",
+    path: "",
+  },
+};
