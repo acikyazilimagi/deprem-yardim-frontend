@@ -29,6 +29,15 @@
   .content {
     padding: 24px;
   }
+
+  .sourceContentIframeWrapper {
+    height: 200px !important;
+    overflow: scroll;
+  }
+
+  .sourceContentIframe {
+    height: 190px !important;
+  }
 }
 
 .drawer  {
@@ -86,4 +95,13 @@
 
 .sourceContentText:hover {
   background-color: #f3f3f3;
+}
+
+.sourceContentIframeWrapper {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+.sourceContentIframe {
+  height: 475px;
 }
