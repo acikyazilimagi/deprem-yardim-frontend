@@ -4,12 +4,12 @@ export default function Footer() {
   return (
     <ul className={styles.footer}>
       <li>
-        <a href="" target="_blank" rel="noopener noreferrer">
-          Hizmet Koşulları
+        <a href="./cerez.docx" download>
+          Çerez Politikası
         </a>
       </li>
       <li>
-        <a href="" target="_blank" rel="noopener noreferrer">
+        <a href="./gizlilik.docx" download>
           Gizlilik Politikası
         </a>
       </li>
