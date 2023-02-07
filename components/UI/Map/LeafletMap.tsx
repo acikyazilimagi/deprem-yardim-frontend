@@ -20,9 +20,9 @@ const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
 });
 
-const ImpactedCities = dynamic(() => import("./ImpactedCities"), {
-  ssr: false,
-});
+// const ImpactedCities = dynamic(() => import("./ImpactedCities"), {
+//   ssr: false,
+// });
 
 type Props = {
   data: MarkerData[];
@@ -55,7 +55,7 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
       <MapLegend />
       <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
         <MapEvents />
-        <ImpactedCities />
+        {/* <ImpactedCities /> */}
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
