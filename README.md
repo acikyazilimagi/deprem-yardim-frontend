@@ -62,7 +62,7 @@ yarn
 yarn dev
 ```
 
-[http://localhost:3000](http://localhost:3000) adresini tarayıcınızda açıp sonucu görebilirsiniz..
+[http://localhost:3000](http://localhost:3000) adresini tarayıcınızda açıp sonucu görebilirsiniz.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
