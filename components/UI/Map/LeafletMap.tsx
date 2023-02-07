@@ -50,12 +50,26 @@ const MapEvents = () => {
 };
 
 function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
+  const points = data.map((marker: MarkerData) => [
+    marker.geometry.location.lat,
+    marker.geometry.location.lng,
+    DEFAULT_IMPORTANCY,
+  ]);
   return (
     <>
       <MapLegend />
       <Map center={DEFAULT_CENTER} zoom={DEFAULT_ZOOM}>
         <MapEvents />
         {/* <ImpactedCities /> */}
+        <HeatmapLayer
+          fitBoundsOnLoad
+          fitBoundsOnUpdate
+          radius={15}
+          points={points as [number, number, number][]}
+          longitudeExtractor={(m: any) => m[1]}
+          latitudeExtractor={(m: any) => m[0]}
+          intensityExtractor={(m: any) => m[2]}
+        />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
@@ -74,21 +88,6 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
                   },
                 }}
                 markerData={marker}
-              />
-              <HeatmapLayer
-                fitBoundsOnLoad
-                fitBoundsOnUpdate
-                radius={15}
-                points={[
-                  [
-                    marker.geometry.location.lat,
-                    marker.geometry.location.lng,
-                    DEFAULT_IMPORTANCY,
-                  ],
-                ]}
-                longitudeExtractor={(m: any) => m[1]}
-                latitudeExtractor={(m: any) => m[0]}
-                intensityExtractor={(m: any) => m[2]}
               />
             </Fragment>
           ))}
