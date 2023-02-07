@@ -2,7 +2,6 @@ import { useMapActions, usePopUpData } from "@/stores/mapStore";
 import theme from "@/utils/theme";
 import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
-import LaunchIcon from "@mui/icons-material/Launch";
 import {
   Button,
   Card,
@@ -18,10 +17,6 @@ import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
-
-export interface ClusterPopupProps {
-  data?: any;
-}
 
 const ResponsiveChip = styled(Chip)`
   min-width: 20px !important;
@@ -109,9 +104,9 @@ export function ClusterPopup() {
               <Button
                 key={button.label}
                 variant="outlined"
-                color="primary"
+                color={button.color}
                 size="small"
-                endIcon={<LaunchIcon fontSize="small" />}
+                endIcon={button.icon}
                 style={{ textTransform: "unset" }}
                 sx={{
                   mr: 1,

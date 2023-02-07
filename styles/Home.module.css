@@ -414,3 +414,8 @@
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
+
+.custom-marker-cluster {
+  border: 10px solid transparent;
+  border-radius: 50%;
+}
