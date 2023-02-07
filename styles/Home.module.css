@@ -33,6 +33,16 @@
   font-weight: 500;
 }
 
+.logoWrapper p {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  padding: 4px;
+  border-radius: 4px;
+}
+
 .main {
   display: flex;
   flex-direction: column;
@@ -302,6 +312,13 @@
 
   .logoContainer p {
     font-size: 14px;
+  }
+}
+
+/* Tablet and wider */
+@media (min-width: 701px) {
+  .logoWrapper p {
+    margin-bottom: 5px;
   }
 }
 
