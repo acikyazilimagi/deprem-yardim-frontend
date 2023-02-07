@@ -1,0 +1,6 @@
+@media (max-width: 700px) {
+  .leaflet-top.leaflet-left {
+    /* mobilde zoom kontrolcüsünün adres çubuğunun altında kalmaması için margin */
+    margin-top: 60px;
+  }
+}
