@@ -1,4 +1,3 @@
-import { HelpButton } from "@/components/UI/Button/HelpButton";
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
@@ -75,7 +74,6 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
-        <HelpButton />
       </main>
     </>
   );
