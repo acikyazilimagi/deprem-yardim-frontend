@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
+import Footer from "@/components/UI/Footer/Footer";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -48,6 +49,7 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
+        <Footer />
       </main>
     </>
   );
