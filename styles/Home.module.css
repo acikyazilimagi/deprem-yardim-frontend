@@ -4,10 +4,9 @@
 }
 
 .logoContainer {
-  position: fixed;
-  right: 20px;
-  bottom: 100px;
-  z-index: 999;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
 }
 
 .logoContainer img {
@@ -21,6 +20,7 @@
 .logoContainer p {
   cursor: arrow;
   margin: 10px;
+  margin-bottom: 0;
 }
 
 .logoWrapper {
@@ -283,11 +283,7 @@
   }
 
   .logoContainer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 130px;
-    z-index: 999;
+    justify-content: center;
   }
 
   .logoWrapper {

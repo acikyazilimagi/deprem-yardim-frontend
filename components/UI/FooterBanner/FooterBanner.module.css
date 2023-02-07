@@ -1,20 +1,28 @@
 .footer {
   bottom: 24px;
   z-index: 998;
-  padding: 2px 1rem;
   margin: 10px;
   font-weight: 500;
   font-size: 0.7rem;
   position: absolute;
   text-align: center;
-  background-color: rgba(104, 13, 13, 0.6);
   color: white;
-  display: flex;
-  align-items: center;
-  border-radius: 8px;
+  left: 0;
+  right: 0;
 }
 
-.footer svg {
+.footer .dismissible {
+  display: flex;
+  border-radius: 8px;
+  background-color: rgba(104, 13, 13, 0.6);
+  padding: 2px 1rem;
+}
+
+.footer .dismissible span {
+  margin: auto;
+}
+
+.footer .dismissible svg {
   margin-left: 10px;
   vertical-align: middle;
   cursor: pointer;
