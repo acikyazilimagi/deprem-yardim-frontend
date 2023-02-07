@@ -1,21 +1,24 @@
 import Map from "@/components/UI/Map/Map";
+import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MarkerData } from "@/mocks/types";
-import { useMapActions, useDevice, useMarkerData } from "@/stores/mapStore";
+import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
+import ResetViewControl from "@20tab/react-leaflet-resetview";
+import { css, Global } from "@emotion/react";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { latLng, latLngBounds } from "leaflet";
+import L, { latLng, latLngBounds } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import React, {
   Fragment,
+  MouseEvent,
   useCallback,
   useMemo,
   useRef,
-  MouseEvent,
 } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
-import ResetViewControl from "@20tab/react-leaflet-resetview";
+import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
@@ -24,7 +27,6 @@ import {
   DEFAULT_ZOOM,
   DEFAULT_ZOOM_MOBILE,
 } from "./utils";
-import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 
 type Point = [number, number, number];
 
@@ -38,10 +40,6 @@ const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
 });
 
-// const ImpactedCities = dynamic(() => import("./ImpactedCities"), {
-//   ssr: false,
-// });
-
 type ExtendedMarkerProps = MarkerProps & {
   markerData: MarkerData;
 };
@@ -49,6 +47,22 @@ type ExtendedMarkerProps = MarkerProps & {
 function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
   return <Marker {...props} />;
 }
+
+const GlobalClusterStyle = css`
+  ${Object.values(Tags).map(
+    (tag) => `
+    .leaflet-custom-cluster-${tag.id} {
+      .cluster-inner {
+        background-color: ${tag.color};
+        box-shadow: 0 0 5px 2px ${tag.color};
+        width: 30px;
+        height: 30px;
+        opacity: 0.9;
+      }
+    }
+  `
+  )}
+`;
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
@@ -100,6 +114,7 @@ function LeafletMap() {
 
   return (
     <>
+      <Global styles={GlobalClusterStyle} />
       <MapLegend />
 
       <Map
@@ -110,6 +125,7 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        zoomDelta={0.5}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
@@ -118,7 +134,6 @@ function LeafletMap() {
         <MapEvents />
         {/* <ImpactedCities /> */}
         <HeatmapLayer
-          fitBoundsOnLoad
           fitBoundsOnUpdate
           radius={15}
           points={points}
@@ -129,8 +144,20 @@ function LeafletMap() {
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
-        {/* @ts-expect-error */}
-        <MarkerClusterGroup onClick={handleClusterClick}>
+        <MarkerClusterGroup
+          // @ts-expect-error
+          onClick={handleClusterClick}
+          // @ts-expect-error
+          iconCreateFunction={(cluster) => {
+            const count = cluster.getChildCount();
+            const tag = findTagByClusterCount(count);
+
+            return L.divIcon({
+              html: `<div class="cluster-inner"><span>${count}</span></div>`,
+              className: `leaflet-marker-icon marker-cluster leaflet-interactive leaflet-custom-cluster-${tag.id}`,
+            });
+          }}
+        >
           {data.map((marker: MarkerData) => (
             <Fragment key={marker.place_id}>
               <ExtendedMarker
