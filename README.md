@@ -1,6 +1,6 @@
 ## Projeye destek olmak için
 
-### FOR ENGLISH
+[FOR ENGLISH](README_ENG.md)
 
 İletişim kanalları:
 
