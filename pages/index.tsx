@@ -1,11 +1,7 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import {
-  LocationsResponse,
-  MarkerData,
-  CoordinatesURLParameters,
-} from "@/mocks/types";
+import { MarkerData, CoordinatesURLParameters } from "@/mocks/types";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
