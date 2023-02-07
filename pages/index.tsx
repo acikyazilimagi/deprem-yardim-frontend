@@ -99,6 +99,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        asdasdas asda asdasdasdas
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           {loaded && (
