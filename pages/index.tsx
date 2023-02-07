@@ -1,5 +1,5 @@
 import { HelpButton } from "@/components/UI/Button/HelpButton";
-import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
+import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
