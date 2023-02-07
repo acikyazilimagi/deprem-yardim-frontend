@@ -128,3 +128,13 @@
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(242, 242, 242, 0.3);
 }
+
+.map_helper {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.map_helper_title {
+  display: block !important;
+}
