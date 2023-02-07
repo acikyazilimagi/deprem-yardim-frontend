@@ -118,7 +118,6 @@ function MapHelper() {
                   margin: "5px 10px",
                 }}
                 aria-label={Tags[intensity].intensity}
-                onClick={(event) => handleClick(event, intensity)}
               >
                 <div
                   className={styles.legend_item__color}
