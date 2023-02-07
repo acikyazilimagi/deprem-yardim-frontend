@@ -12,7 +12,7 @@ import {
   Grid,
   IconButton,
   Stack,
-  Typography
+  Typography,
 } from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
@@ -39,13 +39,14 @@ const PopupCard = styled(Card)`
   position: absolute;
   bottom: 10px;
   left: 10px;
-  right: 80px;
   cursor: pointer;
   z-index: 1000;
   font-size: 1rem;
   max-width: 400px;
 
   @media (max-width: ${theme.breakpoints.values.sm}px) {
+    max-width: unset;
+    right: 10px;
     .cluster-address {
       font-size: 13px;
     }
@@ -93,23 +94,27 @@ export function ClusterPopup() {
         </Typography>
         <Typography
           variant="subtitle2"
-          sx={{ mb: 0, fontSize: theme.typography.pxToRem(13) }}
+          sx={{
+            mb: 0,
+            fontSize: theme.typography.pxToRem(13),
+          }}
         >
           {formatcoords([lat, lng]).format()}
         </Typography>
       </CardContent>
       <CardActions>
         <Stack direction="row">
-          <Stack rowGap="8px">
+          <Stack rowGap="8px" direction="row">
             {googleMapsButtons.map((button) => (
               <Button
                 key={button.label}
                 variant="outlined"
                 color="primary"
+                size="small"
                 endIcon={<LaunchIcon fontSize="small" />}
                 style={{ textTransform: "unset" }}
                 sx={{
-                  mr: 2,
+                  mr: 1,
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >

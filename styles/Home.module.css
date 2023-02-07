@@ -218,6 +218,16 @@
   }
 }
 
+.logoContainer {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
 /* Mobile */
 @media (max-width: 700px) {
   .content {
@@ -292,14 +302,6 @@
       rgb(var(--background-end-rgb)) 40%
     );
     z-index: 1;
-  }
-
-  .logoContainer {
-    display: block;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
   }
 
   .logoWrapper {

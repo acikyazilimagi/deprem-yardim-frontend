@@ -36,8 +36,8 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
 };
 
 export const googleMapsButtons = [
-  { label: "Google Haritalar ile Gör", urlCallback: openGoogleMapsUrl },
-  { label: "Yol Tarifi Al", urlCallback: openGoogleMapsDirectionUrl },
+  { label: "Google Haritalar", urlCallback: openGoogleMapsUrl },
+  { label: "Yol Tarifi", urlCallback: openGoogleMapsDirectionUrl },
 ];
 
 const Drawer = ({ toggler }: DrawerProps) => {
