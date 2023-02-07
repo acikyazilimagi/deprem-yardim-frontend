@@ -6,7 +6,7 @@ import styles from "./Drawer.module.css";
 // import Tag from "../Tag/Tag";
 // import { Tags } from "../Tag/Tag.types";
 import CloseIcon from "@mui/icons-material/Close";
-import { useWindowSize } from "@/hooks/useWindowsSize";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import { Snackbar, TextField, Typography } from "@mui/material";
 import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
