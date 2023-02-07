@@ -2,7 +2,6 @@ import { useMapActions, usePopUpData } from "@/stores/mapStore";
 import theme from "@/utils/theme";
 import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
-import LaunchIcon from "@mui/icons-material/Launch";
 import {
   Button,
   Card,
@@ -105,9 +104,9 @@ export function ClusterPopup() {
               <Button
                 key={button.label}
                 variant="outlined"
-                color="primary"
+                color={button.color}
                 size="small"
-                endIcon={<LaunchIcon fontSize="small" />}
+                endIcon={button.icon}
                 style={{ textTransform: "unset" }}
                 sx={{
                   mr: 1,
