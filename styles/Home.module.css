@@ -8,6 +8,12 @@
   right: 10px;
   top: 10px;
   display: flex;
+  flex-direction: column;
+  color: red;
+  font-weight: 600;
+  font-size: 14px;
+  width: 50px;
+  text-align: center;
   justify-content: flex-end;
   z-index: 1000;
 }
