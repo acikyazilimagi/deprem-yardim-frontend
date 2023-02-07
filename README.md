@@ -1,10 +1,10 @@
-## Projeye destek olmak icin
+## Projeye destek olmak için
 
-Iletisim kanallari:
+İletişim kanallari:
 
-- [Discord kanali](https://t.co/MzLdlNPOmY)
+- [Discord Kanalı](https://t.co/MzLdlNPOmY)
 
-Katkida bulunmak icin:
+Katkıda bulunmak için:
 
 - [Contributing](CONTRIBUTING.md)
 
@@ -13,8 +13,8 @@ Katkida bulunmak icin:
 - [Next.js 13](https://github.com/vercel/next.js/)
 - [React 18](https://github.com/facebook/react)
 - [TypeScript](https://github.com/microsoft/TypeScript)
-- [Zustand](https://github.com/pmndrs/zustand/) - Global store
-- Absolute Import and Path Alias — Komponentleri `@/` öneki ile import etmek için
+- [Zustand](https://github.com/pmndrs/zustand/) - Global Store
+- Absolute Import and Path Alias — Komponentleri `@/` Ön eki ile import etmek için
 - [ESLint](https://github.com/eslint/eslint) — Kodunuzdaki hataları belli kurallara göre bulmak ve düzeltmek için
 - [Prettier](https://github.com/prettier/prettier) — Kodu belli bir kurala göre formatlamak için
 - [Husky](https://github.com/typicode/husky) & [Lint Staged](https://github.com/okonet/lint-staged) — Yapılan değişiklikleri commitlemeden önce kurallara uygunluğunu kontrol etmek için
