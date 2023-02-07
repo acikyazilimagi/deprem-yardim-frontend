@@ -94,12 +94,11 @@
 }
 
 .sourceContentIframeWrapper {
-  max-height: 350px;
-  overflow: scroll;
+  overflow-y: hidden;
 }
 
 .sourceContentIframe {
-  height: 340px;
+  height: 600px;
 }
 
 .sourceHelpContent {
