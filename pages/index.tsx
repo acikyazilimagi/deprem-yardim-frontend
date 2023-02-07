@@ -1,5 +1,6 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
+import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { MarkerData } from "@/mocks/types";
@@ -12,7 +13,6 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import useSWR from "swr";
-import TechnicalError from "./TechnicalError";
 // import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
