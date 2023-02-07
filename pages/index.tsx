@@ -19,13 +19,19 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-export default function Home() {
+type Props = {
+  deviceType: "mobile" | "desktop";
+};
+
+export default function Home({ deviceType }: Props) {
   const {
     data: results,
     isLoading,
     error,
   } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
-  const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+  const { toggleDrawer, setDrawerData, setPopUpData, setDevice } =
+    useMapActions();
+  setDevice(deviceType);
 
   const handleMarkerClick = useCallback(
     (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -90,4 +96,19 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const UA = context.req.headers["user-agent"];
+  const isMobile = Boolean(
+    UA.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
+
+  return {
+    props: {
+      deviceType: isMobile ? "mobile" : "desktop",
+    },
+  };
 }
