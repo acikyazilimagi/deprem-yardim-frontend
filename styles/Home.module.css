@@ -3,6 +3,15 @@
   color: crimson;
 }
 
+.helpButtonContainer {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
 .logoContainer {
   right: 0;
   bottom: 50px;
@@ -11,11 +20,33 @@
   justify-content: flex-end;
 }
 
-.logoContainer img {
-  animation: pulse 2s infinite;
-  background: black;
+.logoContainer img,
+.helpButtonContainer .logoWrapper {
   border-radius: 20%;
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+}
+
+.helpButtonContainer .logoWrapper {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #db2121;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.helpButtonContainer .logoWrapper svg {
+  width: 40px;
+  height: 40px;
+}
+
+.helpButtonContainer .logoWrapper,
+.helpButtonContainer i {
+  animation: pulse 2s infinite;
+  border-radius: 20%;
   transform: scale(1);
 }
 

@@ -1,4 +1,4 @@
-import { HelpButton } from "@/components/UI/Button/HelpButton";
+import { Logo } from "@/components/UI/Button/Logo";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function FooterBanner() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerWrapper}>
-        <HelpButton />
+        <Logo />
         <RenderIf condition={!hideFooter}>
           <span className={styles.dismissible}>
             <span>

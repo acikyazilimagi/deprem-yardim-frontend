@@ -1,3 +1,4 @@
+import { HelpButton } from "@/components/UI/Button/HelpButton";
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
@@ -51,6 +52,7 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
+        <HelpButton />
       </main>
     </>
   );
