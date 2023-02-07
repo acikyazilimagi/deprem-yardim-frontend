@@ -23,7 +23,10 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
-  const { error } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
+  const { error, isLoading } = useSWR<MarkerData[] | undefined>(
+    BASE_URL,
+    dataFetcher
+  );
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
@@ -44,7 +47,11 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<TechnicalError />}>
+          <RenderIf
+            isLoading={isLoading}
+            condition={!error}
+            fallback={<TechnicalError />}
+          >
             <LeafletMap />
           </RenderIf>
         </Container>

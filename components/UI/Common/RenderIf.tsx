@@ -1,16 +1,28 @@
 import { ReactNode } from "react";
+import RenderLoadingSpinner from "./RenderLoadingSpinner";
 
 interface RenderIfProps {
+  isLoading: boolean;
   condition: boolean;
-
   children: ReactNode;
-
   fallback?: ReactNode;
 }
 
-const RenderIf = ({ condition, children, fallback }: RenderIfProps) => {
+const RenderIf = ({
+  isLoading,
+  condition,
+  children,
+  fallback,
+}: RenderIfProps) => {
   if (condition) {
-    return <>{children}</>;
+    return (
+      <>
+        {children}
+        {isLoading && <RenderLoadingSpinner />}
+      </>
+    );
+  } else if (isLoading) {
+    return <RenderLoadingSpinner />;
   } else {
     if (fallback) {
       return <>{fallback}</>;
