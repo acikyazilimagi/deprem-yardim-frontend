@@ -2,7 +2,7 @@
 
 İletişim kanalları:
 
-- [Discord Kanalı](https://t.co/MzLdlNPOmY)
+- [Discord Kanalı](https://discord.com/invite/itdepremyardim)
 
 Katkıda bulunmak için:
 

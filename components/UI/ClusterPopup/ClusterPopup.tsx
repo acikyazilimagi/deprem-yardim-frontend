@@ -1,5 +1,6 @@
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
 import theme from "@/utils/theme";
+import styled from "@emotion/styled";
 import { Close } from "@mui/icons-material";
 import LaunchIcon from "@mui/icons-material/Launch";
 import {
@@ -17,11 +18,40 @@ import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
-import styles from "./ClusterPopup.module.css";
 
 export interface ClusterPopupProps {
   data?: any;
 }
+
+const ResponsiveChip = styled(Chip)`
+  min-width: 20px !important;
+  min-height: 20px !important;
+
+  @media (max-width: ${theme.breakpoints.values.sm}px) {
+    height: 20px;
+    .MuiChip-label {
+      display: none;
+    }
+  }
+`;
+
+const PopupCard = styled(Card)`
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 1rem;
+  max-width: 400px;
+
+  @media (max-width: ${theme.breakpoints.values.sm}px) {
+    max-width: unset;
+    right: 10px;
+    .cluster-address {
+      font-size: 13px;
+    }
+  }
+`;
 
 export function ClusterPopup() {
   const { setPopUpData } = useMapActions();
@@ -33,27 +63,21 @@ export function ClusterPopup() {
   if (!data) return null;
 
   return (
-    <Card
-      variant="outlined"
-      className={styles.popupContainer}
-      sx={{
-        maxWidth: 400,
-      }}
-    >
-      <CardContent sx={{ pb: 1 }}>
-        <Grid container gap={3} alignItems="center">
-          <Grid item xs alignItems="center">
-            <Typography variant="subtitle2" sx={{ py: 0 }}>
-              {data?.count ?? 0} kişi enkaz altında
-            </Typography>
-          </Grid>
+    <PopupCard variant="outlined">
+      <CardContent sx={{ pb: 1, pt: 1 }}>
+        <Grid container gap={1} alignItems="center">
           <Grid item xs="auto">
-            <Chip
+            <ResponsiveChip
               label={tag.intensity}
               style={{ background: tag.color }}
               sx={{ fontSize: theme.typography.pxToRem(12) }}
               size="small"
             />
+          </Grid>
+          <Grid item xs alignItems="center">
+            <Typography variant="subtitle2" sx={{ py: 0 }}>
+              {data?.count ?? 0} kişi enkaz altında
+            </Typography>
           </Grid>
           <Grid item xs="auto">
             <IconButton
@@ -61,30 +85,36 @@ export function ClusterPopup() {
               onClick={() => setPopUpData(null)}
               size="small"
             >
-              <Close fontSize="medium" />
+              <Close fontSize="small" />
             </IconButton>
           </Grid>
         </Grid>
-        <Typography sx={{ pt: 1, pb: 1 }}>
+        <Typography sx={{ pt: 1, pb: 1 }} className="cluster-address">
           {data?.baseMarker?.formatted_address}
         </Typography>
-
-        <Typography variant="subtitle2" sx={{ mb: 0 }}>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            mb: 0,
+            fontSize: theme.typography.pxToRem(13),
+          }}
+        >
           {formatcoords([lat, lng]).format()}
         </Typography>
       </CardContent>
       <CardActions>
         <Stack direction="row">
-          <Stack rowGap="8px">
+          <Stack rowGap="8px" direction="row">
             {googleMapsButtons.map((button) => (
               <Button
                 key={button.label}
                 variant="outlined"
                 color="primary"
+                size="small"
                 endIcon={<LaunchIcon fontSize="small" />}
                 style={{ textTransform: "unset" }}
                 sx={{
-                  mr: 2,
+                  mr: 1,
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
@@ -100,6 +130,6 @@ export function ClusterPopup() {
           </Stack>
         </Stack>
       </CardActions>
-    </Card>
+    </PopupCard>
   );
 }

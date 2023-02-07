@@ -7,4 +7,5 @@ export const DEFAULT_MAX_BOUNDS: LatLngBoundsExpression = [
   [39.684006, 31.607263],
   [35.459834, 45.281141],
 ];
-export const DEFAULT_MIN_ZOOM = 6.8;
+export const DEFAULT_MIN_ZOOM_DESKTOP = 6.8;
+export const DEFAULT_MIN_ZOOM_MOBILE = 3;

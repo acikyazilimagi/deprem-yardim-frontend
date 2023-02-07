@@ -1,37 +1,37 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { MarkerData } from "@/mocks/types";
+import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
+import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import useSWR from "swr";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
-import { dataFetcher } from "@/services/dataFetcher";
-import { BASE_URL } from "@/utils/constants";
-import RenderIf from "@/components/UI/Common/RenderIf";
+import useSWR from "swr";
+import TechnicalError from "./TechnicalError";
 // import { Partytown } from "@builder.io/partytown/react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const FallbackComponent = (
-  <h2>
-    Teknik bir aksaklık söz konusu. Sistem kısa zamanda devreye girecektir
-  </h2>
-);
+type Props = {
+  deviceType: "mobile" | "desktop";
+};
 
-export default function Home() {
+export default function Home({ deviceType }: Props) {
   const {
     data: results,
     isLoading,
     error,
   } = useSWR<MarkerData[] | undefined>(BASE_URL, dataFetcher);
-
-  const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+  const { toggleDrawer, setDrawerData, setPopUpData, setDevice } =
+    useMapActions();
+  setDevice(deviceType);
 
   const handleMarkerClick = useCallback(
     (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
@@ -81,10 +81,7 @@ export default function Home() {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf
-            condition={error ? false : true}
-            fallback={FallbackComponent}
-          >
+          <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap
               data={isLoading || !results ? [] : results}
               onClusterClick={togglePopUp}
@@ -99,4 +96,19 @@ export default function Home() {
       </main>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const UA = context.req.headers["user-agent"];
+  const isMobile = Boolean(
+    UA.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
+
+  return {
+    props: {
+      deviceType: isMobile ? "mobile" : "desktop",
+    },
+  };
 }
