@@ -47,3 +47,7 @@ jspm_packages
 
 # misc
 .DS_Store
+
+#partytown
+public/~partytown/*
+public/sw.js.map

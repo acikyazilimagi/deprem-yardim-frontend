@@ -20,6 +20,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(242, 242, 242, 0.3);
+  transition: display 0.3s, margin-right 0.3s, padding 0.3s;
 }
 
 .legend_item {
@@ -38,6 +39,8 @@
   line-height: 22px;
   padding: 0;
   border-radius: 50%;
+  min-width: unset;
+  transition: display 0.3s, margin-right 0.3s, padding 0.3s;
 }
 
 .legend_item__color {

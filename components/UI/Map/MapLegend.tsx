@@ -34,6 +34,7 @@ const MapLegend = () => {
             <PopOver
               title={Tags[intensity].intensity}
               color={Tags[intensity].color}
+              isLegendOpen={isLegendOpen}
             />
           </div>
         ))}
@@ -44,15 +45,15 @@ const MapLegend = () => {
 
 interface PopOverProps {
   title: string;
-
   color: string;
+  isLegendOpen: boolean;
 }
 
-const PopOver = ({ title, color }: PopOverProps) => {
+const PopOver = ({ title, color, isLegendOpen }: PopOverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    !isLegendOpen && setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
