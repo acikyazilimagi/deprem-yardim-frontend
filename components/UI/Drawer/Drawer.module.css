@@ -1,7 +1,7 @@
 .closeButton {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
   cursor: pointer;
 }
 
@@ -9,12 +9,9 @@
   background-color: #f2f2f2;
 }
 
-.content {
-  padding: 24px;
-}
-
 .content > p:first-of-type {
   font-weight: 600;
+  font-size: 14px;
   color: #636363;
 }
 
@@ -27,7 +24,7 @@
 
 @media screen and (max-width: 768px) {
   .content {
-    padding: 24px;
+    font-size: 0.75rem;
   }
 
   .sourceContentIframeWrapper {
@@ -36,7 +33,7 @@
   }
 
   .sourceContentIframe {
-    height: 190px !important;
+    height: 175px !important;
   }
 }
 
@@ -68,18 +65,17 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
-  margin-bottom: 10px;
 }
 
 .sourceContentTitle {
-  margin-top: 20px;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1rem;
 }
 
 .sourceContentSwitch {
   display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
 .sourceContentText {
@@ -98,10 +94,16 @@
 }
 
 .sourceContentIframeWrapper {
-  max-height: 500px;
+  max-height: 350px;
   overflow: scroll;
 }
 
 .sourceContentIframe {
-  height: 475px;
+  height: 340px;
+}
+
+.sourceHelpContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

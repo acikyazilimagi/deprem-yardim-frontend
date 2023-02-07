@@ -73,15 +73,14 @@ const Drawer = ({ toggler }: DrawerProps) => {
           width: size.width > 768 ? 372 : "full",
           display: "flex",
           height: "100%",
-          alignItems: "center",
+          padding: "1rem",
           flexDirection: "column",
         }}
         role="presentation"
         onKeyDown={(e) => toggler(e)}
       >
         <div className={styles.content}>
-          {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
-          <h3>{formatted_address}</h3>
+          <h3 style={{ maxWidth: "35ch" }}>{formatted_address}</h3>
           <p>{formattedCoordinates}</p>
           <div className={styles.contentButtons}>
             {googleMapsButtons.map((button) => (
@@ -105,12 +104,12 @@ const Drawer = ({ toggler }: DrawerProps) => {
             <TextField
               fullWidth
               variant="standard"
+              size="small"
               value={generateGoogleMapsUrl(
                 geometry.location.lat,
                 geometry.location.lng
               )}
               InputProps={{
-                sx: { paddingRight: "1rem", marginTop: "10px" },
                 readOnly: true,
               }}
             />
@@ -119,6 +118,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
                 variant="outlined"
                 className={styles.clipboard}
                 size="small"
+                fullWidth
                 onClick={() =>
                   copyBillboard(
                     `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
@@ -130,6 +130,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
               <Button
                 variant="outlined"
                 className={styles.clipboard}
+                fullWidth
                 size="small"
                 onClick={() =>
                   window.open(
@@ -142,15 +143,17 @@ const Drawer = ({ toggler }: DrawerProps) => {
             </div>
           </div>
           <div className={styles.sourceContent}>
-            <Typography className={styles.sourceContentTitle}>
-              Yardım İçeriği
-            </Typography>
-            <div className={styles.sourceContentSwitch}>
-              <p>Kayıtlı veriyi göster</p>
-              <Switch
-                checked={showSavedData}
-                onChange={() => setShowSavedData((s) => !s)}
-              />
+            <div className={styles.sourceHelpContent}>
+              <Typography className={styles.sourceContentTitle}>
+                Yardım İçeriği
+              </Typography>
+              <div className={styles.sourceContentSwitch}>
+                <p>Kayıtlı veriyi göster</p>
+                <Switch
+                  checked={showSavedData}
+                  onChange={() => setShowSavedData((s) => !s)}
+                />
+              </div>
             </div>
             {showSavedData && (
               <div className={styles.sourceContentText}>
