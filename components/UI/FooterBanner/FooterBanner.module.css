@@ -11,6 +11,11 @@
   right: 0;
 }
 
+.footerWrapper {
+  width: 100%;
+  position: relative;
+}
+
 .footer .dismissible {
   display: flex;
   border-radius: 8px;
@@ -33,5 +38,10 @@
   .footer {
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+  .footerWrapper {
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
   }
 }
