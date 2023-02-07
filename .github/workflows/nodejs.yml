@@ -1,9 +1,9 @@
 name: Node.JS CI - Check Lint and Code Format
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   pull_request:
-    branches: [main]
+    branches: [main, development]
 permissions:
   contents: read
 jobs:
