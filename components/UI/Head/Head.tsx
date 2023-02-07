@@ -28,7 +28,10 @@ const Head = () => {
         content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
       />
       <meta name="twitter:image" content="" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
       <link rel="icon" href="/favicon.ico" />
     </NextHead>
   );
