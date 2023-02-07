@@ -39,7 +39,7 @@ export default function Home() {
   const [results, setResults] = useState<MarkerData[]>([]);
 
   const [url, setURL] = useState(baseURL);
-  const debouncedURL = useDebounce(url, 1000);
+  const debouncedURL = useDebounce(url, 500);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(coordinates as any);
