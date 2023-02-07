@@ -88,7 +88,8 @@ function LeafletMap() {
         marker.geometry.location.lng,
         DEFAULT_IMPORTANCY,
       ]),
-    [data]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
