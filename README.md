@@ -1,6 +1,6 @@
 ## Projeye destek olmak için
 
-İletişim kanallari:
+İletişim kanalları:
 
 - [Discord Kanalı](https://t.co/MzLdlNPOmY)
 
