@@ -66,7 +66,7 @@ const Drawer = ({ toggler }: DrawerProps) => {
           display: "flex",
           height: "100%",
           justifyContent: "center",
-          alignItems: "center", 
+          alignItems: "center",
           flexDirection: "column",
         }}
         role="presentation"
