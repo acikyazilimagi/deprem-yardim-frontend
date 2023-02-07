@@ -23,6 +23,7 @@ import {
 } from "react";
 import { Partytown } from "@builder.io/partytown/react";
 import dataTransformer from "@/utils/dataTransformer";
+import useDebounce from "@/hooks/useDebounce";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -31,11 +32,14 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const baseURL = "https://api.afetharita.com/tweets/locations";
 
 export default function Home() {
-  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
-  const [results, setResults] = useState<MarkerData[]>([]);
-  const [url, setURL] = useState(baseURL);
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+
+  const [data, setData] = useState<LocationsResponse | undefined>(undefined);
+  const [results, setResults] = useState<MarkerData[]>([]);
+
+  const [url, setURL] = useState(baseURL);
+  const debouncedURL = useDebounce(url, 500);
 
   const fetchData = useCallback(async () => {
     try {
@@ -46,13 +50,14 @@ export default function Home() {
     }
   }, [url]);
 
-  useEffect(() => {}, [url]);
+  useEffect(() => {
+    // FIXME: Use debounce correctly (It's 07 am :) )
+    fetchData();
+  }, [debouncedURL]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(coordinates as any);
-    setURL(baseURL + urlParams.toString());
-
-    fetchData();
+    setURL(baseURL + "?" + urlParams.toString());
   }, [coordinates]);
 
   useEffect(() => {

@@ -10,7 +10,7 @@ interface MapState {
   popUpData: ClusterPopupData | null;
   drawerData: MarkerData | null;
   isDrawerOpen: boolean;
-  coordinates?: CoordinatesURLParameters;
+  coordinates?: any;
   actions: {
     toggleDrawer: () => void;
     setDrawerData: (data: MarkerData) => void;
@@ -28,17 +28,17 @@ const useMapStore = create<MapState>()((set) => ({
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     setDrawerData: (data: MarkerData) => set(() => ({ drawerData: data })),
     setPopUpData: (data: any) => set(() => ({ popUpData: data })),
-    setCoordinates: (data) =>
+    setCoordinates: (data: any) =>
       set(() => {
         const southWest = data.getSouthWest();
         const northEast = data.getNorthEast();
 
         return {
           coordinates: {
-            ne_lat: `${southWest?.lat}`,
-            ne_lng: `${southWest?.lng}`,
-            sw_lat: `${northEast?.lat}`,
-            sw_lng: `${northEast?.lng}`,
+            ne_lat: `${southWest.lat}`,
+            ne_lng: `${southWest.lng}`,
+            sw_lat: `${northEast.lat}`,
+            sw_lng: `${northEast.lng}`,
           },
         };
       }),
