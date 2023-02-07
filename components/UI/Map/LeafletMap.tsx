@@ -1,13 +1,13 @@
 import Map from "@/components/UI/Map/Map";
 import { MarkerData } from "@/mocks/types";
+import { useMapActions } from "@/stores/mapStore";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { LeafletMouseEvent, SpiderfyEventHandlerFn } from "leaflet";
-import { useMapActions } from "@/stores/mapStore";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
 import { DEFAULT_CENTER, DEFAULT_IMPORTANCY, DEFAULT_ZOOM } from "./utils";
 const HeatmapLayer = HeatmapLayerFactory<[number, number, number]>();
@@ -39,11 +39,21 @@ function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
 }
 
 const MapEvents = () => {
-  const { setCoordinates } = useMapActions();
+  const mapZoomLevelRef = useRef(0);
+  const { setCoordinates, setPopUpData } = useMapActions();
 
   const map = useMapEvents({
     moveend: () => setCoordinates(map.getBounds()),
-    zoomend: () => setCoordinates(map.getBounds()),
+    zoomend: () => {
+      setCoordinates(map.getBounds());
+
+      if (mapZoomLevelRef.current > map.getZoom()) {
+        setPopUpData(null);
+      }
+    },
+    zoomstart: () => {
+      mapZoomLevelRef.current = map.getZoom();
+    },
   });
 
   return null;
@@ -73,7 +83,8 @@ function LeafletMap({ onClickMarker, data, onClusterClick }: Props) {
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
-        <MarkerClusterGroup eventHandlers={{ spiderfied: onClusterClick }}>
+        {/* @ts-expect-error */}
+        <MarkerClusterGroup onClick={onClusterClick}>
           {data.map((marker: MarkerData) => (
             <Fragment key={marker.place_id}>
               <ExtendedMarker

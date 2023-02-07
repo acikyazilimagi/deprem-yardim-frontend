@@ -1,13 +1,16 @@
 import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData, CoordinatesURLParameters } from "@/mocks/types";
-import { useMapActions, useCoordinates } from "@/stores/mapStore";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
+import { useCoordinates, useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
+import useDebounce from "@/hooks/useDebounce";
+import dataTransformer from "@/utils/dataTransformer";
+import { Partytown } from "@builder.io/partytown/react";
 import {
   KeyboardEvent,
   MouseEvent,
@@ -15,9 +18,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Partytown } from "@builder.io/partytown/react";
-import dataTransformer from "@/utils/dataTransformer";
-import useDebounce from "@/hooks/useDebounce";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -77,12 +77,15 @@ export default function Home() {
 
   const togglePopUp = useCallback(
     (e: any) => {
-      e.cluster.zoomToBounds({ padding: [20, 20] });
+      const markers = e.layer.getAllChildMarkers();
+      // console.log(e.);
+      // console.log9
+      // e.cluster.zoomToBounds({ padding: [20, 20] });
 
       setPopUpData({
-        count: e.markers.length ?? 0,
-        baseMarker: e.markers[0].options.markerData,
-        markers: e.markers,
+        count: markers.length ?? 0,
+        baseMarker: markers[0].options.markerData,
+        markers: markers,
       });
     },
     [setPopUpData]

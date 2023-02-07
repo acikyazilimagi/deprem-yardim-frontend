@@ -1,16 +1,17 @@
-import React, { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
-import { default as MuiDrawer } from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
+import { default as MuiDrawer } from "@mui/material/Drawer";
+import { useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
 // import Tag from "../Tag/Tag";
 // import { Tags } from "../Tag/Tag.types";
-import CloseIcon from "@mui/icons-material/Close";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { Snackbar, TextField, Typography } from "@mui/material";
-import { KeyboardEvent, MouseEvent } from "react";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import { OpenInNew } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
+import { Snackbar, TextField, Typography } from "@mui/material";
+import formatcoords from "formatcoords";
+import { KeyboardEvent, MouseEvent } from "react";
 
 interface DrawerProps {
   toggler: (_e: KeyboardEvent | MouseEvent) => void;
@@ -49,7 +50,12 @@ export default function Drawer({ toggler }: DrawerProps) {
         <div className={styles.content}>
           {/* <Tag color={Tags["mid"]?.color}>{Tags["mid"]?.intensity}</Tag> */}
           <h3>{formatted_address}</h3>
-          <p> {`${geometry.location.lat}"N ${geometry.location.lng}"E`}</p>
+          <p>
+            {formatcoords([
+              geometry.location.lat,
+              geometry.location.lng,
+            ]).format()}
+          </p>
           <div className={styles.contentButton}>
             <Button
               variant="contained"

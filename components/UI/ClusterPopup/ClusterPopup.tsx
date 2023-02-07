@@ -35,16 +35,17 @@ export function ClusterPopup() {
   if (!data) return null;
 
   return (
-    <Card variant="outlined" className={styles.popupContainer}>
+    <Card
+      variant="outlined"
+      className={styles.popupContainer}
+      sx={{
+        maxWidth: 400,
+      }}
+    >
       <CardContent sx={{ pb: 1 }}>
         <Grid container gap={3} alignItems="center">
-          <Grid item xs="auto">
-            <IconButton aria-label="close" onClick={() => setPopUpData(null)}>
-              <Close fontSize="medium" />
-            </IconButton>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="subtitle2" sx={{ pb: 1, pt: 0.25 }}>
+          <Grid item xs alignItems="center">
+            <Typography variant="subtitle2" sx={{ py: 0 }}>
               {data?.count ?? 0} kişi enkaz altında
             </Typography>
           </Grid>
@@ -56,8 +57,17 @@ export function ClusterPopup() {
               size="small"
             />
           </Grid>
+          <Grid item xs="auto">
+            <IconButton
+              aria-label="close"
+              onClick={() => setPopUpData(null)}
+              size="small"
+            >
+              <Close fontSize="medium" />
+            </IconButton>
+          </Grid>
         </Grid>
-        <Typography sx={{ pb: 1 }}>
+        <Typography sx={{ pt: 1, pb: 1 }}>
           {data?.baseMarker?.formatted_address}
         </Typography>
 
