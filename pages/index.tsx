@@ -30,8 +30,11 @@ export default function Home({ deviceType }: Props) {
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(coordinates as any);
-    setURL(BASE_URL + "?" + urlParams.toString());
+    const urlParams = new URLSearchParams(coordinates as any).toString();
+
+    if (!urlParams) return;
+
+    setURL(BASE_URL + "?" + urlParams);
   }, [coordinates]);
 
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
