@@ -134,7 +134,7 @@ const Drawer = () => {
     try {
       extraParams = JSON.parse(source.extra_parameters || "undefined");
     } catch {
-      //
+      extraParams = undefined;
     }
     const formattedCoordinates = formatcoords([
       geometry.location.lat,
