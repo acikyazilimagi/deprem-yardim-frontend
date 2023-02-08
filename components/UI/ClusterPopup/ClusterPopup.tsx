@@ -129,7 +129,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 size="small"
                 startIcon={button.icon}
                 sx={{
-                  display: "block",
+                  display: windowSize.width < 600 ? "flex" : "block",
                   textTransform: "unset",
                   fontSize: windowSize.width < 600 ? "12px" : "14px",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),
