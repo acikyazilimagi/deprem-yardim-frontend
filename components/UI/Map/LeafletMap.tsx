@@ -75,6 +75,7 @@ const MapEvents = () => {
 
     let localCoordinates = value;
 
+    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
     if (zoomLevel === 18) {
       localCoordinates = expandCoordinatesBy(
         localCoordinates,
