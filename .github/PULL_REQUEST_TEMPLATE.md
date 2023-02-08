@@ -3,6 +3,10 @@
 
  **prefix(#issue)**
 
+-- bu bilgiyi ekleyiniz
+** discord kullanıcı adı: @afetharita#0001 **
+
+
 Lütfen değişikliklerinizi açıklayın. Aynı zamanda amacınızı ve içeriği açıklayın. Bu değişikliklerin gerektirdiği bağımlılıkları da listelemeyi unutmayın.
 
 

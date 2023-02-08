@@ -9,6 +9,10 @@ assignees: ''
 
 ### Refactor İsteği
 
+-- bu bilgiyi ekleyiniz
+** discord kullanıcı adı: @afetharita#0001 **
+
+
 Refactor isteğiniz bir sorunla ilgili mi? Lütfen açıklayın.
 
 Açık ve öz bir şekilde sorunun ne olduğunu açıklayın. Örneğin, kodu okumakta zorluk çekiyorum çünkü [...]
