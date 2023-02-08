@@ -18,7 +18,7 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
-import useIncrementalThrottling from "@/hooks/useThrottledCallback";
+import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
