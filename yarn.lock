@@ -6879,7 +6879,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.5.0, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -6927,6 +6927,14 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-google-autocomplete@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/react-google-autocomplete/-/react-google-autocomplete-2.7.2.tgz#28df70606bf10a3faa92b2ce3dc79f5e14e6a069"
+  integrity sha512-HXKWJ94lJQXs5pVvVS8o6y7d9Pnx12xblREBiYN/7fDu812SuC37Lf8UnL/fX7vaQB0ux9b4LCrF0jU9qGimtw==
+  dependencies:
+    lodash.debounce "^4.0.8"
+    prop-types "^15.5.0"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

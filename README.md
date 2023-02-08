@@ -37,7 +37,12 @@ git clone https://github.com/acikkaynak/deprem-yardim-frontend.git
 yarn
 ```
 
-### 3. Geliştirme ortamını çalıştır:
+### 3. Gerekli ortam değişkenlerini ekle:
+
+Adres arama özelliğini kullanabilmek için Google Maps JS Api Key gereklidir. [Buradan](https://developers.google.com/maps/documentation/javascript/get-api-key) alabilirsiniz.
+**_.env.development_**'dosyasındaki **_NEXT_PUBLIC_MAPS_API_KEY_** değişkenine keyi ekleyin.
+
+### 4. Geliştirme ortamını çalıştır:
 
 ```bash
 yarn dev

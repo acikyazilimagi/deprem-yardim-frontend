@@ -31,6 +31,7 @@ import {
   DEFAULT_ZOOM_MOBILE,
 } from "./utils";
 import { LatLngExpression } from "leaflet";
+import SearchArea from "../Search/SearchArea";
 
 type Point = [number, number, number];
 
@@ -196,6 +197,7 @@ function LeafletMap() {
         maxBounds={bounds}
         maxBoundsViscosity={1}
       >
+        <SearchArea />
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
         {/* <ImpactedCities /> */}

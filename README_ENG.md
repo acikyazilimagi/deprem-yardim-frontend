@@ -35,7 +35,12 @@ git clone https://github.com/acikkaynak/deprem-yardim-frontend.git
 yarn
 ```
 
-### 3. Run the Development Environment:
+### 3. Add Necessary Environment Variables:
+
+To use address search feature you need to get a Google Maps JS Api Key. [Here](https://developers.google.com/maps/documentation/javascript/get-api-key) you can get it.
+**_.env.development_**'dosyasındaki **_NEXT_PUBLIC_MAPS_API_KEY_** değişkenine keyi ekleyin.
+
+### 4. Run the Development Environment:
 
 ```bash
 yarn dev
