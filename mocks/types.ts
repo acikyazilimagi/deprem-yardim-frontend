@@ -81,3 +81,9 @@ export type CoordinatesURLParameters = {
   sw_lat: number;
   sw_lng: number;
 };
+
+export type EVENT_TYPES = "moveend" | "zoomend";
+
+export type CoordinatesURLParametersWithEventType = CoordinatesURLParameters & {
+  eventType: EVENT_TYPES;
+};

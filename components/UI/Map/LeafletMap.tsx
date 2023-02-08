@@ -76,26 +76,29 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
-  const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
-    const zoomLevel = map.getZoom();
+  const debounced = useDebouncedCallback(
+    (value: L.LatLngBounds, eventType: string) => {
+      const zoomLevel = map.getZoom();
 
-    let localCoordinates = value;
+      let localCoordinates = value;
 
-    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
-    if (zoomLevel === 18) {
-      localCoordinates = expandCoordinatesBy(
-        localCoordinates,
-        EXPAND_COORDINATE_BY_VALUE
-      );
-    }
+      // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
+      if (zoomLevel === 18) {
+        localCoordinates = expandCoordinatesBy(
+          localCoordinates,
+          EXPAND_COORDINATE_BY_VALUE
+        );
+      }
 
-    setCoordinates(localCoordinates);
-  }, 1000);
+      setCoordinates(localCoordinates, eventType);
+    },
+    1000
+  );
 
   const map = useMapEvents({
-    moveend: () => debounced(map.getBounds()),
+    moveend: () => debounced(map.getBounds(), "moveend"),
     zoomend: () => {
-      debounced(map.getBounds());
+      debounced(map.getBounds(), "zoomend");
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {
