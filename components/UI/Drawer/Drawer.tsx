@@ -278,14 +278,6 @@ const Drawer = () => {
     );
   }, [data, size.width, showSavedData, toggler, router]);
 
-  useEffect(() => {
-    if (error) {
-      const timeOut = setTimeout(() => {
-        setError(false);
-      }, 3500);
-      return () => clearTimeout(timeOut);
-    }
-  }, [error]);
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
   return (
