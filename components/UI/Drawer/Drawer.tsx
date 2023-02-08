@@ -244,23 +244,12 @@ const Drawer = () => {
                 </div>
               </RenderIf>
             </div>
-            <RenderIf
-              condition={
-                showSavedData ||
-                (source.channel === "twitter" && !source.extra_parameters)
-              }
-            >
+            <RenderIf condition={showSavedData || !!extraParams}>
               <div className={styles.sourceContentText}>
                 <Typography>{source?.full_text}</Typography>
               </div>
             </RenderIf>
-            <RenderIf
-              condition={
-                !showSavedData &&
-                source.channel === "twitter" &&
-                !!source.extra_parameters
-              }
-            >
+            <RenderIf condition={!showSavedData && !!extraParams}>
               <div className={styles.sourceContentIframeWrapper}>
                 <iframe
                   className={styles.sourceContentIframe}
