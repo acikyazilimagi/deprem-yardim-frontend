@@ -26,8 +26,10 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+
   const [slowLoading, setSlowLoading] = useState(false);
-  const [url, setURL] = useState(BASE_URL);
+  
+  const [url, setURL] = useState<string | null>(null);
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
   useEffect(() => {
