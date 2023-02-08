@@ -2,22 +2,23 @@ import { LatLngBounds } from "leaflet";
 import { create } from "zustand";
 import {
   ClusterPopupData,
-  CoordinatesURLParameters,
+  CoordinatesURLParametersWithEventType,
   MarkerData,
+  EVENT_TYPES,
 } from "../mocks/types";
 
 interface MapState {
   popUpData: ClusterPopupData | null;
   drawerData: MarkerData | null;
   isDrawerOpen: boolean;
-  coordinates?: CoordinatesURLParameters;
+  coordinates?: CoordinatesURLParametersWithEventType;
   device: "mobile" | "desktop";
   markerData: MarkerData[];
   actions: {
     toggleDrawer: () => void;
     setDrawerData: (data: MarkerData) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
-    setCoordinates: (data: LatLngBounds) => void;
+    setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
     setDevice: (device: "mobile" | "desktop") => void;
     setMarkerData: (data: MarkerData[]) => void;
   };
@@ -35,9 +36,10 @@ export const useMapStore = create<MapState>()((set) => ({
     setDrawerData: (data: MarkerData) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
-    setCoordinates: (data: LatLngBounds) =>
+    setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) =>
       set(() => ({
         coordinates: {
+          eventType,
           ne_lat: data.getNorthEast().lat,
           ne_lng: data.getNorthEast().lng,
           sw_lat: data.getSouthWest().lat,
