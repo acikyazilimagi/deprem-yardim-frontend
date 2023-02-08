@@ -15,7 +15,7 @@ import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import React, { useEffect, useState } from "react";
-import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
+import Head from "next/head";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -57,7 +57,9 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <HeadWithMeta />
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
