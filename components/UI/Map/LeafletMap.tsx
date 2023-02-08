@@ -12,13 +12,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, {
-  Fragment,
-  MouseEvent,
-  useCallback,
-  useMemo,
-  useRef,
-} from "react";
+import React, { Fragment, useCallback, useMemo, useRef } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
 import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
@@ -140,7 +134,7 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const { setCoordinates } = useMapActions();
-  const { asPath } = useRouter();
+  const { asPath, push } = useRouter();
   const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
@@ -173,6 +167,19 @@ function LeafletMap() {
     : device === "desktop"
     ? DEFAULT_ZOOM
     : DEFAULT_ZOOM_MOBILE;
+
+  const ogQueryParamAppender = (marker: MarkerData) => {
+    const clearHash = asPath.replace("/#", "");
+    const address = marker.formatted_address;
+    const entry = marker.source.full_text as string;
+    const loc = `${marker.geometry.location.lat},${marker.geometry.location.lng}`;
+    const constructedQuery = `&address=${encodeURIComponent(
+      address
+    )}&entry=${encodeURIComponent(entry)}&loc=${encodeURIComponent(loc)}`;
+    push({
+      hash: `${clearHash}${constructedQuery}`,
+    });
+  };
 
   return (
     <>
@@ -234,8 +241,9 @@ function LeafletMap() {
                   marker.geometry.location.lng,
                 ]}
                 eventHandlers={{
-                  click: (e) => {
-                    handleMarkerClick(e as any as MouseEvent, marker);
+                  click: (leafletMouseEvent) => {
+                    handleMarkerClick(leafletMouseEvent, marker);
+                    ogQueryParamAppender(marker);
                   },
                 }}
                 markerData={marker}
