@@ -1,12 +1,13 @@
-import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
+import { useEffect, useState } from "react";
+import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData } from "@/mocks/types";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions } from "@/stores/mapStore";
+import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
@@ -25,8 +26,19 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [url, setURL] = useState<string | null>(null);
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(coordinates as any).toString();
+
+    if (!urlParams) return;
+
+    setURL(BASE_URL + "?" + urlParams);
+  }, [coordinates]);
+
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    BASE_URL,
+    url,
     dataFetcher
   );
   const { setDevice } = useMapActions();
