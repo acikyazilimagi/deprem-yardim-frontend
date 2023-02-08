@@ -2,11 +2,11 @@ import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
 import {
+  Apple,
   CopyAll,
   DriveEta,
-  OpenInNew,
   Google,
-  Apple,
+  OpenInNew,
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Snackbar, Switch, TextField, Typography } from "@mui/material";
@@ -32,11 +32,11 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/@${lat},${lng},22z`;
+  return `https://www.google.com/maps/?q=loc:${lat},${lng}&ll=${lat},${lng}&z=21`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
-  return `http://maps.apple.com/?ll=${lat},${lng}&z=18`;
+  return `http://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&z=18`;
 };
 
 export const openGoogleMapsUrl = (lat: number, lng: number) => {
@@ -251,7 +251,7 @@ const Drawer = () => {
         message="Adres Kopyalandı"
       />
       <MuiDrawer
-        className="drawer"
+        className={styles.drawer}
         anchor={anchor}
         open={isOpen}
         onClose={handleClose}

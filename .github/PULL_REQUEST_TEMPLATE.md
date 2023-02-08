@@ -1,7 +1,14 @@
 
 # Açıklama
 
- **prefix(#issue)**
+
+
+**discord kullanıcı adı: @afetharita#0001**
+
+
+**closes #issue**
+
+
 
 Lütfen değişikliklerinizi açıklayın. Aynı zamanda amacınızı ve içeriği açıklayın. Bu değişikliklerin gerektirdiği bağımlılıkları da listelemeyi unutmayın.
 

@@ -9,6 +9,9 @@ assignees: ''
 ## Hata Tanımı
 Hatanın ne olduğu hakkında açık ve kısa bir açıklama.
 
+-- bu bilgiyi ekleyiniz
+** discord kullanıcı adı: @afetharita#0001 **
+
 
 ## Hata Ortamı
 Hatanın ortaya çıktığı ortamı açıklayın. Örneğin:
