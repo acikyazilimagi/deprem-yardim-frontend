@@ -1,7 +1,7 @@
 import { LatLngBoundsExpression, LatLngExpression } from "leaflet";
 
-export const DEFAULT_CENTER: LatLngExpression = [37.5109968, 37.4376733];
-export const DEFAULT_ZOOM = 8;
+export const DEFAULT_CENTER: LatLngExpression = [37.5922732, 36.8989255];
+export const DEFAULT_ZOOM = 14;
 export const DEFAULT_ZOOM_MOBILE = 7.3;
 export const DEFAULT_IMPORTANCY = 1;
 export const DEFAULT_MAX_BOUNDS: LatLngBoundsExpression = [
