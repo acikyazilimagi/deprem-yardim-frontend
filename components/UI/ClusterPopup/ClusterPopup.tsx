@@ -7,21 +7,22 @@ import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
-import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { findTagByClusterCount } from "../Tag/findTagByClusterCount";
 
 const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
   const { enqueueInfo } = useSnackbar();
   const windowSize = useWindowSize();
 
-  const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
+  const [copyButtonClicked, setCopyButtonClicked] = useState(false);
 
   const data = usePopUpData();
   const lat = data?.baseMarker.geometry.location.lat ?? 0;
   const lng = data?.baseMarker.geometry.location.lng ?? 0;
   const tag = findTagByClusterCount(data?.count ?? 0);
+  const isSmallView = windowSize.width < 600;
 
   useEffect(() => {
     if (copyButtonClicked) {
@@ -44,7 +45,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         horizontal: "center",
       }}
       onClose={() => setPopUpData(null)}
-      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
+      open={props.open ?? !!data?.baseMarker?.formatted_address}
     >
       <Stack
         direction="column"
@@ -53,7 +54,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           padding: "24px",
           gap: "12px",
           borderRadius: "8px",
-          width: windowSize.width < 600 ? "100%" : "400px",
+          width: isSmallView ? "100%" : "400px",
         }}
       >
         <Stack
@@ -72,25 +73,25 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             variant="text"
             color="error"
             sx={{
-              fontSize: windowSize.width < 600 ? "10px" : "12px",
-              backgroundColor: alpha(tag?.color, 0.1),
+              fontSize: isSmallView ? "10px" : "12px",
+              backgroundColor: alpha(tag.color, 0.1),
             }}
           >
             {tag.intensity}
           </Button>
         </Stack>
         <Typography
-          variant={windowSize.width < 600 ? "body2" : "body1"}
+          variant={isSmallView ? "body2" : "body1"}
           sx={{
             color: "#364152",
-            pr: windowSize.width < 600 ? "18px" : "12px",
+            pr: isSmallView ? "18px" : "12px",
             wordWrap: "break-word",
           }}
         >
           {data?.baseMarker?.formatted_address}
         </Typography>
         <Typography
-          variant={windowSize.width < 600 ? "overline" : "body2"}
+          variant={isSmallView ? "overline" : "body2"}
           sx={{ color: "#364152" }}
           fontWeight="500"
         >
@@ -99,15 +100,15 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         <Stack
           sx={{
             display: "flex",
-            flexDirection: windowSize.width < 600 ? "column" : "row",
-            gap: windowSize.width < 600 ? "12px" : "0px",
-            alignItems: windowSize.width < 600 ? "stretch" : "center",
-            justifyContent: windowSize.width < 600 ? "stretch" : "flex-end",
+            flexDirection: isSmallView ? "column" : "row",
+            gap: isSmallView ? "12px" : "0px",
+            alignItems: isSmallView ? "stretch" : "center",
+            justifyContent: isSmallView ? "stretch" : "flex-end",
           }}
         >
           <Stack
-            gap={windowSize.width < 600 ? "12px" : "4px"}
-            direction={windowSize.width < 600 ? "column" : "row"}
+            gap={isSmallView ? "12px" : "4px"}
+            direction={isSmallView ? "column" : "row"}
             justifyContent={"space-between"}
           >
             {mapsButtons.map((button) => (
@@ -117,7 +118,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 size="small"
                 sx={{
                   display: "flex",
-                  flexDirection: windowSize.width < 600 ? "row" : "column",
+                  flexDirection: isSmallView ? "row" : "column",
                   gap: "4px",
                   textTransform: "unset",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),

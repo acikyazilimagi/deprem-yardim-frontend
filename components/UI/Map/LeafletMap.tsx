@@ -21,7 +21,6 @@ import React, {
 } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
-import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
@@ -31,6 +30,8 @@ import {
   DEFAULT_ZOOM_MOBILE,
 } from "./utils";
 import { LatLngExpression } from "leaflet";
+import { findTagByClusterCount } from "../Tag/findTagByClusterCount";
+import { TAGS_CONFIG } from "../Tag/tagsConfig";
 
 type Point = [number, number, number];
 
@@ -53,7 +54,7 @@ function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
 }
 
 const GlobalClusterStyle = css`
-  ${Object.values(Tags).map(
+  ${Object.values(TAGS_CONFIG).map(
     (tag) => `
     .leaflet-custom-cluster-${tag.id} {
       .cluster-inner {

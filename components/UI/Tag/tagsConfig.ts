@@ -1,16 +1,4 @@
-export type Tag = {
-  id: number;
-  intensity: string;
-  color: string;
-  minClus?: number;
-  maxClus?: number;
-};
-
-export interface TTags {
-  [key: string]: Tag;
-}
-
-export const Tags: TTags = {
+export const TAGS_CONFIG = {
   safe: {
     id: 1,
     intensity: "Az Yoğun",
@@ -50,16 +38,11 @@ export const Tags: TTags = {
     id: 6,
     intensity: "Çok Yoğun",
     minClus: 101,
+    maxClus: Number.MAX_SAFE_INTEGER,
     color: "#eb2f2f",
   },
-};
+} as const;
 
-export function findTagByClusterCount(clusterCount: number): Tag {
-  const tag = Object.values(Tags).find(
-    (tag) =>
-      clusterCount >= (tag.minClus ?? 0) &&
-      clusterCount <= (tag.maxClus ?? Number.MAX_SAFE_INTEGER)
-  );
+export type TagsConfig = typeof TAGS_CONFIG;
 
-  return tag || Tags.safe;
-}
+export type TagsConfigKeys = keyof TagsConfig;
