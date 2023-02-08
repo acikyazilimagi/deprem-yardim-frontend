@@ -2,7 +2,7 @@
 name: Hata raporlama
 about: Hata raporlama için kullanın
 title: 'bug: '
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
