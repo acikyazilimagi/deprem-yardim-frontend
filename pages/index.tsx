@@ -30,14 +30,21 @@ export default function Home({ deviceType }: Props) {
 
   const [url, setURL] = useState<string | null>(null);
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+  const [sendRequest, setSendRequest] = useState(true);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(coordinates as any).toString();
 
-    if (!urlParams) return;
+    if (!urlParams || !sendRequest) return;
 
     setURL(BASE_URL + "?" + urlParams);
+    setSendRequest(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
+
+  const triggerAPIRequest = () => {
+    setSendRequest(true);
+  };
 
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
     url,
@@ -61,7 +68,7 @@ export default function Home({ deviceType }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner />
+        <FooterBanner triggerAPIRequest={triggerAPIRequest} />
         <Footer />
       </main>
     </>
