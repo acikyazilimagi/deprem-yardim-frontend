@@ -5,6 +5,4 @@
 - [x] Temiz commit geçmişi: Değişikliklerin yapıldığı commitler, anlaşılır ve düzenli olmalıdır.
 - [x] İş tamamlandığında PR açılması: PR, iş tamamlandığında açılmalı ve diğer takım üyeleri tarafından incelenmesi için gönderilmelidir.
 
-[]: # Path: .github/PULL_REQUEST_TEMPLATE.md
-
 
