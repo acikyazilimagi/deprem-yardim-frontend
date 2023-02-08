@@ -11,11 +11,11 @@ import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import Head from "@/components/UI/Head/Head";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import React, { useEffect, useState } from "react";
+import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -30,14 +30,21 @@ export default function Home({ deviceType }: Props) {
 
   const [url, setURL] = useState<string | null>(null);
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+  const [sendRequest, setSendRequest] = useState(true);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(coordinates as any).toString();
 
-    if (!urlParams) return;
+    if (!urlParams || !sendRequest) return;
 
     setURL(BASE_URL + "?" + urlParams);
+    setSendRequest(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
+
+  const triggerAPIRequest = () => {
+    setSendRequest(true);
+  };
 
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
     url,
@@ -50,7 +57,7 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <Head />
+      <HeadWithMeta />
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
@@ -61,7 +68,7 @@ export default function Home({ deviceType }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner />
+        <FooterBanner triggerAPIRequest={triggerAPIRequest} />
         <Footer />
       </main>
     </>
