@@ -423,3 +423,11 @@
   border: 10px solid transparent;
   border-radius: 50%;
 }
+
+.autoScanInfoText {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: white;
+  font-weight: bold;
+}

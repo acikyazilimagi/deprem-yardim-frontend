@@ -10,7 +10,7 @@ import {
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { BASE_URL } from "@/utils/constants";
+import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -18,8 +18,10 @@ import useSWR from "swr";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
+import useIncrementalThrottling from "@/hooks/useThrottledCallback";
+import { Box } from "@mui/material";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,6 +39,27 @@ export default function Home({ deviceType }: Props) {
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
+  const { error, isLoading, mutate, isValidating } = useSWR<
+    MarkerData[] | undefined
+  >(url, dataFetcher, {
+    onLoadingSlow: () => setSlowLoading(true),
+    revalidateOnFocus: false,
+  });
+  const { setDevice } = useMapActions();
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(
+    mutate,
+    REQUEST_THROTTLING_INITIAL_SEC
+  );
+
+  const handleScanButtonClick = useCallback(() => {
+    resetThrottling();
+    mutate();
+  }, [mutate, resetThrottling]);
+
+  useEffect(() => {
+    setDevice(deviceType);
+  }, [deviceType, setDevice]);
+
   useEffect(() => {
     if (typeof coordinatesAndEventType === "undefined") return;
 
@@ -51,22 +74,14 @@ export default function Home({ deviceType }: Props) {
       !urlParams ||
       coordinatesAndEventType.eventType === "moveend" ||
       coordinatesAndEventType.eventType === "zoomend"
-    )
+    ) {
+      resetThrottling();
       return;
+    }
 
     setURL(BASE_URL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
-
-  const { error, isLoading, mutate, isValidating } = useSWR<
-    MarkerData[] | undefined
-  >(url, dataFetcher, {
-    onLoadingSlow: () => setSlowLoading(true),
-    revalidateOnFocus: false,
-  });
-
-  const { setDevice } = useMapActions();
-  setDevice(deviceType);
 
   return (
     <>
@@ -82,20 +97,29 @@ export default function Home({ deviceType }: Props) {
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
           )}
-          <Button
-            color="secondary"
-            variant="contained"
+          <Box
             sx={{
               position: "fixed",
               top: "50px",
               left: "50%",
               marginLeft: "-65.9px",
               zIndex: "9999",
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "8px",
             }}
-            onClick={() => mutate()}
           >
-            Bu Alanı Tara
-          </Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={handleScanButtonClick}
+            >
+              Bu Alanı Tara
+            </Button>
+            <small className={styles.autoScanInfoText}>
+              {remainingTime}sn sonra otomatik taranacak
+            </small>
+          </Box>
         </Container>
         <Drawer />
         <ClusterPopup />
