@@ -1,10 +1,12 @@
 
 # Açıklama
 
- **prefix(#issue)**
 
--- bu bilgiyi ekleyiniz
-** discord kullanıcı adı: @afetharita#0001 **
+-- bu bilgileri ekleyiniz
+
+**discord kullanıcı adı: @afetharita#0001**
+**(#issue)**
+
 
 
 Lütfen değişikliklerinizi açıklayın. Aynı zamanda amacınızı ve içeriği açıklayın. Bu değişikliklerin gerektirdiği bağımlılıkları da listelemeyi unutmayın.
