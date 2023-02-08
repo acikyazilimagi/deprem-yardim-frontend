@@ -93,8 +93,8 @@ const MapEvents = () => {
 };
 
 const corners = {
-  southWest: latLng(33.9825, 25.20902),
-  northEast: latLng(43.32683, 46.7742),
+  southWest: latLng(37.541514855366735, 36.87200546264649),
+  northEast: latLng(37.621505963424795, 36.968050003051765),
 };
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
