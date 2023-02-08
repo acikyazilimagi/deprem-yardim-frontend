@@ -170,7 +170,7 @@ function LeafletMap() {
 
   const ogQueryParamAppender = (marker: MarkerData) => {
     const clearHash = asPath.replace("/#", "");
-    const address = marker.formatted_address;
+    const address = marker.formatted_address.substring(0, 1000);
     const entry = marker.source.full_text as string;
     const loc = `${marker.geometry.location.lat},${marker.geometry.location.lng}`;
     const constructedQuery = `&address=${encodeURIComponent(
