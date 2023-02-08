@@ -3,13 +3,13 @@ import Document, { Html, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import { roboto } from "../utils/theme";
 import createEmotionCache from "../utils/createEmotionCache";
-import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
+import Head from "@/components/UI/Head/Head";
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en" className={roboto.className}>
-        <HeadWithMeta />
+        <Head />
         <body>
           <Main />
           <NextScript />
