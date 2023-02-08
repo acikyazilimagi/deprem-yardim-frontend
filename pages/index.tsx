@@ -21,6 +21,10 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
+const SearchBar = dynamic(() => import("@/components/UI/Search/SearchBar"), {
+  ssr: false,
+});
+
 type Props = {
   deviceType: "mobile" | "desktop";
 };
@@ -55,6 +59,7 @@ export default function Home({ deviceType }: Props) {
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
+            <SearchBar />
             <LeafletMap />
           </RenderIf>
           {isLoading && <LoadingSpinner slowLoading={slowLoading} />}

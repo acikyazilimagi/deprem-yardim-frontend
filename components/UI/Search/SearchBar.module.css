@@ -1,0 +1,12 @@
+.searchBar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem;
+  z-index: 999;
+}

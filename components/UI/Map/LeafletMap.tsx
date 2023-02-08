@@ -1,8 +1,14 @@
 import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MarkerData } from "@/mocks/types";
-import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
+import {
+  useCoordinates,
+  useDevice,
+  useMapActions,
+  useMarkerData,
+  useShouldPositionUpdate,
+} from "@/stores/mapStore";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
@@ -15,6 +21,7 @@ import React, {
   Fragment,
   MouseEvent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
 } from "react";
@@ -68,7 +75,10 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const { setCoordinates, setPopUpData } = useMapActions();
+  const { setCoordinates, setPopUpData, setShouldPositionUpdate } =
+    useMapActions();
+  const coordinates = useCoordinates();
+  const shouldPositionUpdate = useShouldPositionUpdate();
 
   const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
     const zoomLevel = map.getZoom();
@@ -100,6 +110,20 @@ const MapEvents = () => {
       mapZoomLevelRef.current = map.getZoom();
     },
   });
+
+  useEffect(() => {
+    if (coordinates && shouldPositionUpdate) {
+      map.fitBounds(
+        [
+          [coordinates.ne_lat, coordinates.ne_lng],
+          [coordinates.sw_lat, coordinates.sw_lng],
+        ],
+        { maxZoom: 12 }
+      );
+
+      setShouldPositionUpdate(false);
+    }
+  }, [coordinates, shouldPositionUpdate]);
 
   return null;
 };

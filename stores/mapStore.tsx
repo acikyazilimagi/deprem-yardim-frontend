@@ -11,6 +11,7 @@ interface MapState {
   drawerData: MarkerData | null;
   isDrawerOpen: boolean;
   coordinates?: CoordinatesURLParameters;
+  shouldPositionUpdate: boolean;
   device: "mobile" | "desktop";
   markerData: MarkerData[];
   actions: {
@@ -20,6 +21,7 @@ interface MapState {
     setCoordinates: (data: LatLngBounds) => void;
     setDevice: (device: "mobile" | "desktop") => void;
     setMarkerData: (data: MarkerData[]) => void;
+    setShouldPositionUpdate: (shouldPositionUpdate: boolean) => void;
   };
 }
 
@@ -28,6 +30,7 @@ export const useMapStore = create<MapState>()((set) => ({
   popUpData: null,
   isDrawerOpen: false,
   coordinates: undefined,
+  shouldPositionUpdate: false,
   device: "desktop",
   markerData: [],
   actions: {
@@ -46,6 +49,8 @@ export const useMapStore = create<MapState>()((set) => ({
       })),
     setDevice: (device: "mobile" | "desktop") => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
+    setShouldPositionUpdate: (shouldPositionUpdate: boolean) =>
+      set(() => ({ shouldPositionUpdate })),
   },
 }));
 
@@ -54,6 +59,8 @@ export const useDrawerData = () => useMapStore((state) => state.drawerData);
 export const useMapActions = () => useMapStore((state) => state.actions);
 export const usePopUpData = () => useMapStore((state) => state.popUpData);
 export const useCoordinates = () => useMapStore((state) => state.coordinates);
+export const useShouldPositionUpdate = () =>
+  useMapStore((state) => state.shouldPositionUpdate);
 export const useDevice = () => useMapStore((state) => state.device);
 export const useMarkerData = () => useMapStore((state) => state.markerData);
 
