@@ -22,6 +22,7 @@ import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import MapHelper from "@/components/UI/Map/MapHelper";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -130,6 +131,7 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
+        <MapHelper />
         <Footer />
       </main>
     </>
