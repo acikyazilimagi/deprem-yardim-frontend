@@ -9,6 +9,10 @@
 - Bir hatayı düzeltmek için PR açın.
 - Dökümantasyondaki bir hatayı düzeltmek için PR açın.
 
+### [**PR Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/blob/development/.github/PULL_REQUEST_TEMPLATE.md)
+
+### [**Issue Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/tree/development/.github/ISSUE_TEMPLATE)
+
 ## Başlamadan önce
 
 ### Projeyi kurmak
