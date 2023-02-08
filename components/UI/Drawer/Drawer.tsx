@@ -84,7 +84,7 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
-  const [showSavedData, setShowSavedData] = useState(false);
+  const [showSavedData, setShowSavedData] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
@@ -131,7 +131,7 @@ const Drawer = () => {
           width: size.width > 768 ? 400 : "full",
           display: "flex",
           height: "100%",
-          padding: "1rem",
+          padding: "1rem 2rem 1rem 1rem",
           flexDirection: "column",
           overflow: "hidden",
         }}
