@@ -244,28 +244,27 @@ const Drawer = () => {
                 </div>
               </RenderIf>
             </div>
-            {showSavedData && (
+            <RenderIf condition={showSavedData}>
               <div className={styles.sourceContentText}>
                 <Typography>{source?.full_text}</Typography>
               </div>
-            )}
-            {!showSavedData && (
+            </RenderIf>
+            <RenderIf
+              condition={
+                !showSavedData &&
+                source.channel === "twitter" &&
+                !!source.extra_parameters
+              }
+            >
               <div className={styles.sourceContentIframeWrapper}>
-                <RenderIf
-                  condition={
-                    true ||
-                    (source.channel === "twitter" && !!source.extra_parameters)
-                  }
-                >
-                  <iframe
-                    className={styles.sourceContentIframe}
-                    width={"100%"}
-                    style={{ border: 0 }}
-                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParams?.user_id}/status/${extraParams?.tweet_id}&conversation=none`}
-                  ></iframe>
-                </RenderIf>
+                <iframe
+                  className={styles.sourceContentIframe}
+                  width={"100%"}
+                  style={{ border: 0 }}
+                  src={`https://twitframe.com/show?url=https://twitter.com/${extraParams?.user_id}/status/${extraParams?.tweet_id}&conversation=none`}
+                ></iframe>
               </div>
-            )}
+            </RenderIf>
           </div>
         </div>
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
