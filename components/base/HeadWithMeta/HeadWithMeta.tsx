@@ -1,17 +1,52 @@
 import React from "react";
 import { NextSeo } from "next-seo";
+import { DESCRIPTION, OG_EDGE_URL, TITLE } from "./HeadWithMeta.constants";
+import { OpenGraphMedia } from "next-seo/lib/types";
+import { useRouter } from "next/router";
 
-// TODO: const below should be replaced with single item service response
-const ADDRESS = "Çekmece, samandağ bulvarı 164/a, 31070 Defne/Hatay, Türkiye";
-const ENTRY =
-  "@ahbap @Ahbap_iletisim ACİL !! Enkazdan kurtulan insanlar Çekmece Mahallesi'nde donuyor. Telefonlarının şarjı bitmek üzere. Hatay Defne İlçesi Çekmece Mahallesi 67. Sokak HECEMAR varmış etraflarında. Onlarca insan çorapsız ayaklarıyla montsuz, susuz, ekmeksiz, korumasız. Lütfen yardım gönderin lütfen!!";
-const LOC = "37.5771529,36.9283658";
+const constructObjectFromAsPath = (asPath: string) => {
+  const clearHash = asPath.replace("/#", "");
+  const splitFrom = clearHash.split("&");
+  const constructObjectFromClearHash = splitFrom.map((value) => {
+    const splitKeyAndValue = value.split("=");
+    return {
+      [`${splitKeyAndValue[0]}`]: decodeURIComponent(splitKeyAndValue[1]),
+    };
+  });
+  const queries = Object.assign({}, ...constructObjectFromClearHash);
+  return queries;
+};
 
 // TODO: OG_EDGE_URL should be replace with main API
-const OG_EDGE_URL =
-  "https://deprem-yardim-og-generator.vercel.app/api/dynamic-image";
-
 const HeadWithMeta = () => {
+  const { asPath } = useRouter();
+  const queries = constructObjectFromAsPath(asPath);
+
+  const validateAddress = queries.address !== undefined;
+  const validateEntry = queries.entry !== undefined;
+  const validateLoc = queries.loc !== undefined;
+
+  const isPropsValid = validateAddress && validateEntry && validateLoc;
+
+  const ADDRESS = isPropsValid ? (queries.address as string) : TITLE;
+  const ENTRY = isPropsValid ? (queries.entry as string) : DESCRIPTION;
+  const LOC = isPropsValid ? (queries.loc as string) : "";
+  const IMAGES: OpenGraphMedia[] | undefined = isPropsValid
+    ? [
+        {
+          url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
+            LOC
+          )}&address=${encodeURIComponent(ADDRESS)}&entry=${encodeURIComponent(
+            ENTRY
+          )}`,
+          width: 1200,
+          height: 630,
+          alt: `${ADDRESS}`,
+          type: "image/png",
+        },
+      ]
+    : undefined;
+
   return (
     <NextSeo
       title={ADDRESS}
@@ -21,30 +56,19 @@ const HeadWithMeta = () => {
         url: "https://afetharita.com/",
         title: ADDRESS,
         description: ENTRY,
-        images: [
-          {
-            url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
-              LOC
-            )}&address=${encodeURIComponent(
-              ADDRESS
-            )}&entry=${encodeURIComponent(ENTRY)}`,
-            width: 1200,
-            height: 630,
-            alt: `${ADDRESS}`,
-            type: "image/png",
-          },
-        ],
+        images: IMAGES,
         siteName: "Afet Haritası",
       }}
       twitter={{
-        handle: "@ihtiyacharitasi",
+        handle: "afetharita.com",
         cardType: "summary_large_image",
-        site: "@ihtiyacharitasi",
+        site: "https://afetharita.com/",
       }}
       additionalMetaTags={[
         {
           name: "viewport",
-          content: "initial-scale=1, width=device-width",
+          content:
+            "width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi",
         },
       ]}
       additionalLinkTags={[
