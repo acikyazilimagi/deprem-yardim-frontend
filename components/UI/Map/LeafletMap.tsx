@@ -94,7 +94,7 @@ const MapEvents = () => {
       }
 
       setCoordinates(localCoordinates, eventType);
-      router.push({
+      router.replace({
         hash: `#lat=${localCoordinates.getCenter().lat}&lng=${
           localCoordinates.getCenter().lng
         }&zoom=${zoomLevel}`,
