@@ -80,26 +80,26 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<Maintenance />}>
+          <RenderIf condition={error} fallback={<Maintenance />}>
             <LeafletMap />
+            <Button
+              color="secondary"
+              variant="contained"
+              sx={{
+                position: "fixed",
+                top: "50px",
+                left: "50%",
+                marginLeft: "-65.9px",
+                zIndex: "9999",
+              }}
+              onClick={() => handleButtonClick()}
+            >
+              Bu Alanı Tara
+            </Button>
           </RenderIf>
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
           )}
-          <Button
-            color="secondary"
-            variant="contained"
-            sx={{
-              position: "fixed",
-              top: "50px",
-              left: "50%",
-              marginLeft: "-65.9px",
-              zIndex: "9999",
-            }}
-            onClick={() => handleButtonClick()}
-          >
-            Bu Alanı Tara
-          </Button>
         </Container>
         <Drawer />
         <ClusterPopup />
