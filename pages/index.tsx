@@ -3,6 +3,7 @@ import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import {
   CoordinatesURLParametersWithEventType,
   MarkerData,
@@ -75,6 +76,7 @@ export default function Home({ deviceType }: Props) {
       </Head>
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
+        <SitesIcon />
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
