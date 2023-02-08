@@ -1,12 +1,11 @@
 ---
-Ad: Hata Raporu
-Hakkında: Bize hata raporu oluşturarak yardım edin.
-Başlık: ''
-Etiketler: ''
-Atanmış kişiler: ''
+name: Hata raporlama
+about: Hata raporlama için kullanın
+title: 'bug: '
+labels: ''
+assignees: ''
 
 ---
-
 ## Hata Tanımı
 Hatanın ne olduğu hakkında açık ve kısa bir açıklama.
 

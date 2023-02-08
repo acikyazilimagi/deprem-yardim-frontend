@@ -1,9 +1,9 @@
 ---
-Ad: Özellik İsteği
-Hakkında: Bu proje için yeni bir fikir önerin
-Başlık: ''
-Etiketler: ''
-Atanmış kişiler: ''
+name: Özellik isteği
+about: Özellik isteği için kullanın
+title: 'feat: '
+labels: ''
+assignees: ''
 
 ---
 
