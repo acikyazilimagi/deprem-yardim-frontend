@@ -2,10 +2,11 @@
 # Açıklama
 
 
--- bu bilgileri ekleyiniz
 
 **discord kullanıcı adı: @afetharita#0001**
-**(#issue)**
+
+
+**closes #issue**
 
 
 
