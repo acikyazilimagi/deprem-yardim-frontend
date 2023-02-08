@@ -1,6 +1,3 @@
-<!-- Improved compatibility of back to top link: See: -->
-<a name="readme-top"></a>
-
   <h1 align="left">Afetharita.com</h1>
 
  İletişim Kanalları/Communication Channels:
@@ -62,7 +59,7 @@ yarn
 yarn dev
 ```
 
-[http://localhost:3000](http://localhost:3000) adresini tarayıcınızda açıp sonucu görebilirsiniz..
+[http://localhost:3000](http://localhost:3000) adresini tarayıcınızda açıp sonucu görebilirsiniz.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
