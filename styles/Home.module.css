@@ -85,6 +85,10 @@
   border-radius: 4px;
 }
 
+.logoWrapper img {
+  opacity: 0.3;
+}
+
 .main {
   display: flex;
   flex-direction: column;
