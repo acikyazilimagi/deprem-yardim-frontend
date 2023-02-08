@@ -19,6 +19,7 @@ import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
+import useDisableZoom from "@/hooks/useDisableZoom";
 
 const PopupCard = styled(Card)`
   position: absolute;
@@ -39,6 +40,7 @@ const PopupCard = styled(Card)`
 `;
 
 const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
+  useDisableZoom();
   const { setPopUpData } = useMapActions();
   const { enqueueInfo, closeSnackbar } = useSnackbar();
   const windowSize = useWindowSize();
@@ -59,28 +61,6 @@ const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
       }, 3000);
     }
   }, [copyButtonClicked, enqueueInfo, closeSnackbar]);
-
-  useEffect(() => {
-    const isPopupOpen = !!data;
-    if (isPopupOpen) {
-      const onWheelTrigger = (e: WheelEvent) => {
-        if (e.ctrlKey) {
-          e.preventDefault();
-        }
-      };
-      const onTouchMove = (e: any) => {
-        if (e.scale !== 1) {
-          e.preventDefault();
-        }
-      };
-      window.addEventListener("wheel", onWheelTrigger, { passive: false });
-      window.addEventListener("touchmove", onTouchMove, { passive: false });
-      return () => {
-        window.removeEventListener("wheel", onWheelTrigger);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
-    }
-  }, [data]);
 
   if (!data) return null;
 
