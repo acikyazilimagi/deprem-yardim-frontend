@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./TechnicalError.module.css";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import Link from "next/link";
 
 const TechnicalError = () => {
   return (
@@ -11,6 +12,9 @@ const TechnicalError = () => {
         <p className={styles.technicalErrorPara}>
           Lütfen birazdan tekrar deneyin
         </p>
+        <Link href="/" className={styles.technicalErrorLink}>
+          <p>Yeniden dene</p>
+        </Link>
       </div>
     </div>
   );
