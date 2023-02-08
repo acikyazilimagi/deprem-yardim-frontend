@@ -17,8 +17,6 @@
     "npm": "please-use-yarn"
   },
   "scripts": {
-    "commit": "git add --all && git commit -m \"feat: $COMMIT\" && git push origin main",
-    "update": "git fetch && git pull upstream main",
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "partytown": "partytown copylib public/~partytown",
