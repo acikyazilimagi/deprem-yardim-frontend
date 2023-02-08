@@ -14,6 +14,7 @@ import React, {
   Fragment,
   MouseEvent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
 } from "react";
@@ -99,6 +100,7 @@ const corners = {
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
+  const { setCoordinates } = useMapActions();
   const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
@@ -109,6 +111,11 @@ function LeafletMap() {
       ]),
     [data]
   );
+
+  useEffect(() => {
+    setCoordinates(bounds);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
