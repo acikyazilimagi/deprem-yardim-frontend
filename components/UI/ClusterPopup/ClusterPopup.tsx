@@ -67,7 +67,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             fontWeight="500"
             sx={{ color: "#121926" }}
           >
-            {data?.count ?? 0} kişi enkaz altında
+            {data?.count ?? 0} ihbar mevcut
           </Typography>
           <Button
             variant="text"
