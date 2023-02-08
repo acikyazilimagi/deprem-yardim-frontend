@@ -1,8 +1,6 @@
 import { Point } from "./types";
 
 export type Data = {
-  count: number;
-  results: {
     id: number;
     formatted_address: string;
     loc: [number, number];
@@ -21,7 +19,6 @@ export type Data = {
       name_surname?: string | null;
       tel?: string | null;
     };
-  }[];
 };
 
 export type Raw = {
@@ -31,3 +28,11 @@ export type Raw = {
   name?: string;
   screen_name?: string;
 };
+
+export type DataLite = {
+  count: number;
+  results: {
+    id: number;
+    loc: [number, number]
+  }[]
+}
