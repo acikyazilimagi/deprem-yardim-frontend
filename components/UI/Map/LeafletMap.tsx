@@ -30,6 +30,7 @@ import {
   DEFAULT_ZOOM,
   DEFAULT_ZOOM_MOBILE,
 } from "./utils";
+import { LatLngExpression } from "leaflet";
 
 type Point = [number, number, number];
 
@@ -156,7 +157,7 @@ function LeafletMap() {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
 
   // to set default center and zoom level from url
-  const defaultCenter = useMemo(() => {
+  const defaultCenter: LatLngExpression = useMemo(() => {
     return asPath.includes("lat=") && asPath.includes("lng=")
       ? [
           parseFloat(asPath.split("lat=")[1].split("&")[0]),
