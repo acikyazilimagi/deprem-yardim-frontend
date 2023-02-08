@@ -1,27 +1,27 @@
 import ClusterPopup from "@/components/UI/ClusterPopup";
-import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
   MarkerData,
 } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions, useCoordinates } from "@/stores/mapStore";
+import { useCoordinates, useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
-import React, { useCallback, useEffect, useState } from "react";
-import Head from "next/head";
 import useIncrementalThrottling from "@/hooks/useThrottledCallback";
 import { Box } from "@mui/material";
+import Head from "next/head";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -38,7 +38,21 @@ export default function Home({ deviceType }: Props) {
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
-
+  const urlParams = useMemo(
+    () =>
+      new URLSearchParams({
+        ne_lat: coordinatesAndEventType?.ne_lat,
+        ne_lng: coordinatesAndEventType?.ne_lng,
+        sw_lat: coordinatesAndEventType?.sw_lat,
+        sw_lng: coordinatesAndEventType?.sw_lng,
+      } as any).toString(),
+    [
+      coordinatesAndEventType?.ne_lat,
+      coordinatesAndEventType?.ne_lng,
+      coordinatesAndEventType?.sw_lat,
+      coordinatesAndEventType?.sw_lng,
+    ]
+  );
   const { error, isLoading, mutate, isValidating } = useSWR<
     MarkerData[] | undefined
   >(url, dataFetcher, {
@@ -52,28 +66,21 @@ export default function Home({ deviceType }: Props) {
   );
 
   const handleScanButtonClick = useCallback(() => {
+    setURL(BASE_URL + "?" + urlParams);
     resetThrottling();
     mutate();
-  }, [mutate, resetThrottling]);
+  }, [mutate, resetThrottling, urlParams]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
   useEffect(() => {
-    if (typeof coordinatesAndEventType === "undefined") return;
-
-    const urlParams = new URLSearchParams({
-      ne_lat: coordinatesAndEventType.ne_lat,
-      ne_lng: coordinatesAndEventType.ne_lng,
-      sw_lat: coordinatesAndEventType.sw_lat,
-      sw_lng: coordinatesAndEventType.sw_lng,
-    } as any).toString();
-
     if (
+      typeof coordinatesAndEventType === "undefined" ||
       !urlParams ||
-      coordinatesAndEventType.eventType === "moveend" ||
-      coordinatesAndEventType.eventType === "zoomend"
+      coordinatesAndEventType?.eventType === "moveend" ||
+      coordinatesAndEventType?.eventType === "zoomend"
     ) {
       resetThrottling();
       return;
