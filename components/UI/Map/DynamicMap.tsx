@@ -1,3 +1,4 @@
+import { useMapActions } from "@/stores/mapStore";
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React, { ReactNode, useEffect } from "react";
@@ -10,6 +11,7 @@ interface MapProps {
 }
 
 const Map = ({ children, className, ...rest }: MapProps) => {
+  const { setMap } = useMapActions();
   const mapClassName = [styles.map, className].filter(Boolean).join(" ");
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const Map = ({ children, className, ...rest }: MapProps) => {
   }, []);
 
   return (
-    <ReactLeaflet.MapContainer className={mapClassName} {...rest}>
+    <ReactLeaflet.MapContainer className={mapClassName} {...rest} ref={setMap}>
       {children}
     </ReactLeaflet.MapContainer>
   );

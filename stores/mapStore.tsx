@@ -1,4 +1,4 @@
-import { LatLngBounds } from "leaflet";
+import { LatLngBounds, Map } from "leaflet";
 import { create } from "zustand";
 import {
   ClusterPopupData,
@@ -13,6 +13,7 @@ interface MapState {
   coordinates?: CoordinatesURLParameters;
   device: "mobile" | "desktop";
   markerData: MarkerData[];
+  map?: Map;
   actions: {
     toggleDrawer: () => void;
     setDrawerData: (data: MarkerData) => void;
@@ -20,6 +21,7 @@ interface MapState {
     setCoordinates: (data: LatLngBounds) => void;
     setDevice: (device: "mobile" | "desktop") => void;
     setMarkerData: (data: MarkerData[]) => void;
+    setMap: (map: Map) => void;
   };
 }
 
@@ -28,6 +30,7 @@ export const useMapStore = create<MapState>()((set) => ({
   popUpData: null,
   isDrawerOpen: false,
   coordinates: undefined,
+  map: undefined,
   device: "desktop",
   markerData: [],
   actions: {
@@ -46,6 +49,7 @@ export const useMapStore = create<MapState>()((set) => ({
       })),
     setDevice: (device: "mobile" | "desktop") => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
+    setMap: (map: Map) => set(() => ({ map })),
   },
 }));
 
@@ -56,5 +60,6 @@ export const usePopUpData = () => useMapStore((state) => state.popUpData);
 export const useCoordinates = () => useMapStore((state) => state.coordinates);
 export const useDevice = () => useMapStore((state) => state.device);
 export const useMarkerData = () => useMapStore((state) => state.markerData);
+export const useLeafletMap = () => useMapStore((state) => state.map);
 
 export const setMarkerData = useMapStore.getState().actions.setMarkerData;

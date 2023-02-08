@@ -1,0 +1,12 @@
+.iconLocationContainer {
+  position: fixed;
+  left: 10px;
+  top: 130px;
+  z-index: 550;
+  background-color: #fff;
+  border: 2px solid #babbbe;
+}
+
+.iconLocationButton {
+  padding: 5px;
+}

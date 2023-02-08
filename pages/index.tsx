@@ -4,6 +4,7 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import CurrentLocationButton from "@/components/UI/Map/CurrentLocationButton";
 import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
@@ -13,7 +14,6 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
-// import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import React, { useEffect, useState } from "react";
 
@@ -60,6 +60,7 @@ export default function Home({ deviceType }: Props) {
           {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
         </Container>
         <Drawer />
+        <CurrentLocationButton />
         <ClusterPopup />
         <FooterBanner />
         <Footer />
