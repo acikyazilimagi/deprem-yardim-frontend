@@ -1,6 +1,6 @@
 import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MarkerData } from "@/mocks/types";
+import { EVENT_TYPES, MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
@@ -77,7 +77,7 @@ const MapEvents = () => {
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
-    (value: L.LatLngBounds, eventType: string) => {
+    (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
       const zoomLevel = map.getZoom();
 
       let localCoordinates = value;
