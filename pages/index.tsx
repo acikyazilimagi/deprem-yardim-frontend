@@ -3,7 +3,7 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import SitesIconResult from "@/components/UI/SitesIcon/Icons";
+import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
@@ -101,7 +101,8 @@ export default function Home({ deviceType }: Props) {
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
-            <SitesIconResult />
+
+            <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
@@ -126,6 +127,7 @@ export default function Home({ deviceType }: Props) {
                 {remainingTime}sn sonra otomatik taranacak
               </small>
             </Box>
+
           </RenderIf>
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
@@ -135,6 +137,29 @@ export default function Home({ deviceType }: Props) {
         <ClusterPopup />
         <FooterBanner />
         <Footer />
+        <Box
+          sx={{
+            position: "fixed",
+            top: "50px",
+            left: "50%",
+            marginLeft: "-65.9px",
+            zIndex: "9999",
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "8px",
+          }}
+        >
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={handleScanButtonClick}
+          >
+            Bu Alanı Tara
+          </Button>
+          <small className={styles.autoScanInfoText}>
+            {remainingTime}sn sonra otomatik taranacak
+          </small>
+        </Box>
       </main>
     </>
   );

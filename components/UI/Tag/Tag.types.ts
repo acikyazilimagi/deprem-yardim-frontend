@@ -20,7 +20,7 @@ export const Tags: TTags = {
   },
   low: {
     id: 2,
-    intensity: "Az-Orta Yoğun",
+    intensity: "Az - Orta Yoğun",
     minClus: 1,
     maxClus: 3,
     color: "#ffd700",
