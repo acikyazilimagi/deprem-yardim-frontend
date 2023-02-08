@@ -29,7 +29,8 @@
     "prepare": "husky install",
     "resources": "capacitor-resources -p android,ios",
     "build:android": "npm run build && npm run export && npx cap add android",
-    "dev:android": "npx cap run android"
+    "dev:android": "npx cap run android",
+    "update":"git pull upstream main && git push"
   },
   "dependencies": {
     "@20tab/react-leaflet-resetview": "^1.1.0",
