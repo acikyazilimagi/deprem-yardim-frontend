@@ -142,12 +142,7 @@ const Drawer = () => {
     ]).format();
 
     const openSourceUrl = () => {
-      if (!extraParams) {
-        setError(true);
-        return;
-      }
-
-      if (source.channel === "twitter") {
+      if (source.channel === "twitter" && !!extraParams) {
         if (extraParams.user_id && extraParams.tweet_id) {
           router.push(
             `https://twitter.com/${extraParams.user_id}/status/${extraParams.tweet_id}`
