@@ -138,6 +138,7 @@ function LeafletMap() {
             : DEFAULT_MIN_ZOOM_MOBILE
         }
         zoomDelta={0.5}
+        zoomSnap={0.25}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
