@@ -46,7 +46,7 @@ export type Raw = {
   name?: string;
   screen_name?: string;
   source?:string;
-  extra_parameters:null|string;
+  extra_parameters?:null|string;
   channel?:string
 };
 
