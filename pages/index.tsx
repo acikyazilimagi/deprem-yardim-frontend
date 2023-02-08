@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
@@ -16,6 +15,7 @@ import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
+import React, { useEffect, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -26,6 +26,8 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [slowLoading, setSlowLoading] = useState(false);
+
   const [url, setURL] = useState<string | null>(null);
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
 
@@ -39,8 +41,10 @@ export default function Home({ deviceType }: Props) {
 
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
     url,
-    dataFetcher
+    dataFetcher,
+    { onLoadingSlow: () => setSlowLoading(true) }
   );
+
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
@@ -53,7 +57,7 @@ export default function Home({ deviceType }: Props) {
           <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap />
           </RenderIf>
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
         </Container>
         <Drawer />
         <ClusterPopup />

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import LaunchIcon from "@mui/icons-material/Launch";
 import { Button, Stack, Typography, alpha } from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
-import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
+import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
@@ -111,13 +110,12 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             direction={windowSize.width < 600 ? "column" : "row"}
             justifyContent={"space-between"}
           >
-            {googleMapsButtons.map((button) => (
+            {mapsButtons.map((button) => (
               <Button
                 key={button.label}
-                variant="text"
-                color="primary"
+                color={button.color}
                 size="small"
-                endIcon={<LaunchIcon fontSize="small" />}
+                startIcon={button.icon}
                 sx={{
                   textTransform: "unset",
                   fontSize: windowSize.width < 600 ? "12px" : "14px",

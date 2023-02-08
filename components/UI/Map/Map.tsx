@@ -8,6 +8,8 @@ const DynamicMap = dynamic(() => import("./DynamicMap"), {
 
 interface MapProps extends MapOptions {
   children: ReactNode;
+  // eslint-disable-next-line no-unused-vars
+  whenReady: (map: any) => void;
 }
 
 const Map = (props: MapProps) => {
