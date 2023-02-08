@@ -22,7 +22,12 @@ import React, {
   useState,
 } from "react";
 import styles from "./Drawer.module.css";
+import { useRouter } from "next/router";
 
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import RenderIf from "../Common/RenderIf";
+// or
 interface MapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
@@ -79,7 +84,10 @@ const Drawer = () => {
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
   const size = useWindowSize();
+  const [error, setError] = useState(false);
+
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
+
   const anchor = useMemo(
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
@@ -113,7 +121,7 @@ const Drawer = () => {
   }
 
   const { handleMarkerClick: toggler } = useMapClickHandlers();
-
+  const router = useRouter();
   const list = useMemo(() => {
     if (!data) {
       return null;
@@ -129,16 +137,13 @@ const Drawer = () => {
       if (source.channel === "twitter" && source.extra_parameters) {
         const extraParams = JSON.parse(source.extra_parameters);
         if (extraParams.user_id && extraParams.tweet_id) {
-          window.open(
+          router.push(
             `https://twitter.com/${extraParams.user_id}/status/${extraParams.tweet_id}`
           );
         }
         return;
       }
-      window.alert("kaynak açılamadı");
-      /* if(source.channel === "twitter") */
-      /* const extraParams = JSON.parse(source.)
-       */
+      setError(true);
     };
 
     return (
@@ -250,8 +255,16 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData]);
+  }, [data, size.width, showSavedData, toggler, router]);
 
+  useEffect(() => {
+    if (error) {
+      const timeOut = setTimeout(() => {
+        setError(false);
+      }, 3500);
+      return () => clearTimeout(timeOut);
+    }
+  }, [error]);
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
   return (
@@ -262,6 +275,34 @@ const Drawer = () => {
         onClose={() => setOpenBillboardSnackbar(false)}
         message="Adres Kopyalandı"
       />
+      <RenderIf condition={error}>
+        <Stack
+          sx={{
+            position: "absolute",
+            top: 5,
+            right: 5,
+            width: "320px",
+            zIndex: 9999,
+            transition: "all",
+          }}
+          spacing={2}
+        >
+          <Alert
+            severity="error"
+            action={
+              <CloseIcon
+                onClick={() => setError(false)}
+                style={{
+                  cursor: "pointer",
+                  margin: "auto",
+                }}
+              />
+            }
+          >
+            Kaynak açılamadı
+          </Alert>
+        </Stack>
+      </RenderIf>
       <MuiDrawer
         className="drawer"
         anchor={anchor}
