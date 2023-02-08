@@ -1,4 +1,5 @@
 import ClusterPopup from "@/components/UI/ClusterPopup";
+import { CollectButton } from "@/components/UI/Button/CollectButton";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import Drawer from "@/components/UI/Drawer/Drawer";
@@ -86,6 +87,7 @@ export default function Home({ deviceType }: Props) {
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
+        <CollectButton />
         <Footer />
       </main>
     </>

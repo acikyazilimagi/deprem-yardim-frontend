@@ -30,6 +30,7 @@
 }
 
 .logoContainer img,
+.collectButtonContainer,
 .helpButtonContainer .logoWrapper {
   border-radius: 20%;
 }
@@ -73,6 +74,50 @@
   justify-content: center;
   font-size: 14px;
   font-weight: 500;
+}
+
+.collectButtonContainer {
+  position: absolute;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  right: 25px;
+  top: 100px;
+  display: flex;
+  flex-direction: row;
+  color: #028855;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.1;
+  width: 50px;
+  text-align: center;
+  justify-content: center;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+.collectButtonContainer .logoWrapper {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/icons/toplan.svg");
+  background-position: center;
+  background-size: contain;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.collectButtonContainer .logoWrapper svg {
+  width: 40px;
+  height: 40px;
+}
+
+.collectButtonContainer .logoWrapper,
+.collectButtonContainer i {
+  animation: pulse 2s infinite;
+  border-radius: 20%;
+  transform: scale(1);
 }
 
 .logoWrapper p {
