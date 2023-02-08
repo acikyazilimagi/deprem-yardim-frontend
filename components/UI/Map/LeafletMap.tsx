@@ -121,8 +121,8 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 };
 
 const corners = {
-  southWest: latLng(35.652832827451654, 33.12377929687501),
-  northEast: latLng(40.72644570551446, 39.27062988281251),
+  southWest: latLng(34.325514, 28.939165),
+  northEast: latLng(41.57364, 42.770324),
 };
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
