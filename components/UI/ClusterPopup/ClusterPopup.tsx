@@ -60,6 +60,28 @@ const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
     }
   }, [copyButtonClicked, enqueueInfo, closeSnackbar]);
 
+  useEffect(() => {
+    const isPopupOpen = !!data;
+    if (isPopupOpen) {
+      const onWheelTrigger = (e: WheelEvent) => {
+        if (e.ctrlKey) {
+          e.preventDefault();
+        }
+      };
+      const onTouchMove = (e: any) => {
+        if (e.scale !== 1) {
+          e.preventDefault();
+        }
+      };
+      window.addEventListener("wheel", onWheelTrigger, { passive: false });
+      window.addEventListener("touchmove", onTouchMove, { passive: false });
+      return () => {
+        window.removeEventListener("wheel", onWheelTrigger);
+        window.removeEventListener("touchmove", onTouchMove);
+      };
+    }
+  }, [data]);
+
   if (!data) return null;
 
   return (
