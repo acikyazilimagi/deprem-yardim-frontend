@@ -44,7 +44,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         horizontal: "center",
       }}
       onClose={() => setPopUpData(null)}
-      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
+      open={data?.baseMarker?.formatted_address}
     >
       <Stack
         direction="column"
@@ -56,6 +56,9 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           width: windowSize.width < 600 ? "100%" : "400px",
         }}
       >
+        <Button color="error" onClick={() => setPopUpData(null)}>
+          Kapat
+        </Button>
         <Stack
           direction="row"
           alignItems="center"
