@@ -6,26 +6,18 @@ labels: discussion, new
 assignees: ''
 ---
 
-<!--
-Hi there, nice to meet you!
 
-Before submitting an issue, please search open and closed issues. Existing issues often contain information about workarounds, resolution, or progress updates. If your issue is not addressed feel free to fill out this template.
+### Refactor İsteği
 
-PS: All the things within the comments section will not be rendered when submitting the issue. These are just some important points to support you by providing us with all the relevant information we need to reproduce and understand your problem better. Feel free to remove these comments.
--->
+Refactor isteğiniz bir sorunla ilgili mi? Lütfen açıklayın.
 
-### Refactor Request
+Açık ve öz bir şekilde sorunun ne olduğunu açıklayın. Örneğin, kodu okumakta zorluk çekiyorum çünkü [...]
 
-<!--
-Is your refactor request related to a problem? Please describe.
 
-A clear and concise description of what the problem is. Ex. I'm having problems reading the code because [...]
--->
+### Çözüm Önerisi
 
-### Description of the proposed solution
+Kafanızda bir çözüm varsa, lütfen açıklayın.
 
-<!-- If you have a solution in mind, please describe it. -->
+### Ek Bağlam
 
-### Additional context
-
-<!-- Add any other context about the problem here. -->
+Lütfen ek bağlamı buraya ekleyin.
