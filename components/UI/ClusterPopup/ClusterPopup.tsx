@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import LaunchIcon from "@mui/icons-material/Launch";
 import { Button, Stack, Typography, alpha } from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
@@ -114,10 +113,9 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             {mapsButtons.map((button) => (
               <Button
                 key={button.label}
-                variant="text"
-                color="primary"
+                color={button.color}
                 size="small"
-                endIcon={<LaunchIcon fontSize="small" />}
+                startIcon={button.icon}
                 sx={{
                   textTransform: "unset",
                   fontSize: windowSize.width < 600 ? "12px" : "14px",
