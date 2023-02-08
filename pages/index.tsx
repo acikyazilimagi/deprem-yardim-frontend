@@ -1,26 +1,28 @@
 import ClusterPopup from "@/components/UI/ClusterPopup";
-import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
+import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
+import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
   MarkerData,
 } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions, useCoordinates } from "@/stores/mapStore";
+import { useCoordinates, useMapActions } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { BASE_URL } from "@/utils/constants";
+import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
-import React, { useEffect, useState } from "react";
+import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
+import { Box } from "@mui/material";
 import Head from "next/head";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,37 +39,56 @@ export default function Home({ deviceType }: Props) {
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
-
-  useEffect(() => {
-    if (typeof coordinatesAndEventType === "undefined") return;
-
-    const urlParams = new URLSearchParams({
-      ne_lat: coordinatesAndEventType.ne_lat,
-      ne_lng: coordinatesAndEventType.ne_lng,
-      sw_lat: coordinatesAndEventType.sw_lat,
-      sw_lng: coordinatesAndEventType.sw_lng,
-    } as any).toString();
-
-    if (
-      !urlParams ||
-      coordinatesAndEventType.eventType === "moveend" ||
-      coordinatesAndEventType.eventType === "zoomend"
-    )
-      return;
-
-    setURL(BASE_URL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
-
+  const urlParams = useMemo(
+    () =>
+      new URLSearchParams({
+        ne_lat: coordinatesAndEventType?.ne_lat,
+        ne_lng: coordinatesAndEventType?.ne_lng,
+        sw_lat: coordinatesAndEventType?.sw_lat,
+        sw_lng: coordinatesAndEventType?.sw_lng,
+      } as any).toString(),
+    [
+      coordinatesAndEventType?.ne_lat,
+      coordinatesAndEventType?.ne_lng,
+      coordinatesAndEventType?.sw_lat,
+      coordinatesAndEventType?.sw_lng,
+    ]
+  );
   const { error, isLoading, mutate, isValidating } = useSWR<
     MarkerData[] | undefined
   >(url, dataFetcher, {
     onLoadingSlow: () => setSlowLoading(true),
     revalidateOnFocus: false,
   });
-
   const { setDevice } = useMapActions();
-  setDevice(deviceType);
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(
+    mutate,
+    REQUEST_THROTTLING_INITIAL_SEC
+  );
+
+  const handleScanButtonClick = useCallback(() => {
+    setURL(BASE_URL + "?" + urlParams);
+    resetThrottling();
+  }, [resetThrottling, urlParams]);
+
+  useEffect(() => {
+    setDevice(deviceType);
+  }, [deviceType, setDevice]);
+
+  useEffect(() => {
+    if (
+      typeof coordinatesAndEventType === "undefined" ||
+      !urlParams ||
+      coordinatesAndEventType?.eventType === "moveend" ||
+      coordinatesAndEventType?.eventType === "zoomend"
+    ) {
+      resetThrottling();
+      return;
+    }
+
+    setURL(BASE_URL + "?" + urlParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coordinatesAndEventType]);
 
   return (
     <>
@@ -80,24 +101,33 @@ export default function Home({ deviceType }: Props) {
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
+            <Box
+              sx={{
+                position: "fixed",
+                top: "50px",
+                left: "50%",
+                marginLeft: "-65.9px",
+                zIndex: "9999",
+                display: "flex",
+                flexDirection: "column",
+                rowGap: "8px",
+              }}
+            >
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleScanButtonClick}
+              >
+                Bu Alanı Tara
+              </Button>
+              <small className={styles.autoScanInfoText}>
+                {remainingTime}sn sonra otomatik taranacak
+              </small>
+            </Box>
           </RenderIf>
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
           )}
-          <Button
-            color="secondary"
-            variant="contained"
-            sx={{
-              position: "fixed",
-              top: "50px",
-              left: "50%",
-              marginLeft: "-65.9px",
-              zIndex: "9999",
-            }}
-            onClick={() => mutate()}
-          >
-            Bu Alanı Tara
-          </Button>
         </Container>
         <Drawer />
         <ClusterPopup />
