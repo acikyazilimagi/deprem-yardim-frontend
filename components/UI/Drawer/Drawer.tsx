@@ -125,6 +125,22 @@ const Drawer = () => {
       geometry.location.lng,
     ]).format();
 
+    const openSourceUrl = () => {
+      if (source.channel === "twitter" && source.extra_parameters) {
+        const extraParams = JSON.parse(source.extra_parameters);
+        if (extraParams.user_id && extraParams.tweet_id) {
+          window.open(
+            `https://twitter.com/${extraParams.user_id}/status/${extraParams.tweet_id}`
+          );
+        }
+        return;
+      }
+      window.alert("kaynak açılamadı");
+      /* if(source.channel === "twitter") */
+      /* const extraParams = JSON.parse(source.)
+       */
+    };
+
     return (
       <Box
         sx={{
@@ -193,11 +209,7 @@ const Drawer = () => {
                 className={styles.clipboard}
                 fullWidth
                 size="small"
-                onClick={() =>
-                  window.open(
-                    `https://twitter.com/anyuser/status/${source.tweet_id}`
-                  )
-                }
+                onClick={openSourceUrl}
                 startIcon={<OpenInNew className={styles.btnIcon} />}
                 color="secondary"
               >

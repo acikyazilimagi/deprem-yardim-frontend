@@ -45,6 +45,9 @@ export type Raw = {
   tweet_id: string;
   name?: string;
   screen_name?: string;
+  source?:string;
+  extra_parameters:null|string;
+  channel?:string
 };
 
 export type LocationsResponse = {
