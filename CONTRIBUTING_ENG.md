@@ -9,6 +9,10 @@
 - Create a PR to fix an issue.
 - Create a PR to fix an error in the documentation.
 
+### [**PR Rules**](https://github.com/acikkaynak/deprem-yardim-frontend/blob/development/.github/PULL_REQUEST_TEMPLATE.md)
+
+### [**Issue Rules**](https://github.com/acikkaynak/deprem-yardim-frontend/tree/development/.github/ISSUE_TEMPLATE)
+
 ## Before you begin
 
 ### Setting up the project

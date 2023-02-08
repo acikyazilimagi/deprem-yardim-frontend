@@ -1,6 +1,6 @@
 import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MarkerData } from "@/mocks/types";
+import { EVENT_TYPES, MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
@@ -55,11 +55,17 @@ const GlobalClusterStyle = css`
     (tag) => `
     .leaflet-custom-cluster-${tag.id} {
       .cluster-inner {
-        background-color: ${tag.color};
-        box-shadow: 0 0 5px 2px ${tag.color};
-        width: 30px;
-        height: 30px;
+        background-color: ${tag.color}DE;
+        border: ${tag.color} 2px solid;
+        color: #212121;
+        width: 36px;
+        height: 36px;
         opacity: 0.9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
       }
     }
   `
@@ -70,26 +76,29 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
-  const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
-    const zoomLevel = map.getZoom();
+  const debounced = useDebouncedCallback(
+    (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
+      const zoomLevel = map.getZoom();
 
-    let localCoordinates = value;
+      let localCoordinates = value;
 
-    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
-    if (zoomLevel === 18) {
-      localCoordinates = expandCoordinatesBy(
-        localCoordinates,
-        EXPAND_COORDINATE_BY_VALUE
-      );
-    }
+      // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
+      if (zoomLevel === 18) {
+        localCoordinates = expandCoordinatesBy(
+          localCoordinates,
+          EXPAND_COORDINATE_BY_VALUE
+        );
+      }
 
-    setCoordinates(localCoordinates);
-  }, 1000);
+      setCoordinates(localCoordinates, eventType);
+    },
+    1000
+  );
 
   const map = useMapEvents({
-    moveend: () => debounced(map.getBounds()),
+    moveend: () => debounced(map.getBounds(), "moveend"),
     zoomend: () => {
-      debounced(map.getBounds());
+      debounced(map.getBounds(), "zoomend");
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {
@@ -115,8 +124,8 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 };
 
 const corners = {
-  southWest: latLng(35.652832827451654, 33.12377929687501),
-  northEast: latLng(40.72644570551446, 39.27062988281251),
+  southWest: latLng(34.325514, 28.939165),
+  northEast: latLng(41.57364, 42.770324),
 };
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
@@ -154,7 +163,11 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        whenReady={(map: any) => setCoordinates(map.target.getBounds())}
+        zoomSnap={0.25}
+        zoomDelta={0.5}
+        whenReady={(map: any) =>
+          setCoordinates(map.target.getBounds(), "ready")
+        }
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}

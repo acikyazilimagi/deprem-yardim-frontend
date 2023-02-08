@@ -21,3 +21,19 @@
 .technicalErrorPara {
   font-size: 2rem;
 }
+.technicalErrorLink {
+  font-size: 2rem;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid white;
+  display: inline-block;
+  border-radius: 5px;
+  transform: scale(0.98);
+}
+.technicalErrorLink:hover,
+.technicalErrorLink:active {
+  transform: scale(1);
+}
+.technicalErrorLink p {
+  margin: 0.3rem 0.5rem;
+}

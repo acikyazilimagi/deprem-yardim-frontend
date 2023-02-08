@@ -106,7 +106,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           }}
         >
           <Stack
-            gap={windowSize.width < 600 ? "12px" : "0px"}
+            gap={windowSize.width < 600 ? "12px" : "4px"}
             direction={windowSize.width < 600 ? "column" : "row"}
             justifyContent={"space-between"}
           >
@@ -115,17 +115,26 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 key={button.label}
                 color={button.color}
                 size="small"
-                startIcon={button.icon}
                 sx={{
+                  display: "flex",
+                  flexDirection: windowSize.width < 600 ? "row" : "column",
+                  gap: "4px",
                   textTransform: "unset",
-                  fontSize: windowSize.width < 600 ? "12px" : "14px",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                  mr: 1,
                   px: 1,
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
-                {button.label}
+                {button.icon}
+                <Typography
+                  sx={{
+                    color: button.color,
+                    fontWeight: "500",
+                    fontSize: 12,
+                  }}
+                >
+                  {button.label}
+                </Typography>
               </Button>
             ))}
           </Stack>
