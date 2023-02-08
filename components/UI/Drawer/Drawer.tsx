@@ -244,7 +244,12 @@ const Drawer = () => {
                 </div>
               </RenderIf>
             </div>
-            <RenderIf condition={showSavedData}>
+            <RenderIf
+              condition={
+                showSavedData ||
+                (source.channel === "twitter" && !source.extra_parameters)
+              }
+            >
               <div className={styles.sourceContentText}>
                 <Typography>{source?.full_text}</Typography>
               </div>
