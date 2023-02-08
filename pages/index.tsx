@@ -15,6 +15,7 @@ import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
+import React, { useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -25,10 +26,13 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [slowLoading, setSlowLoading] = useState(false);
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
     BASE_URL,
-    dataFetcher
+    dataFetcher,
+    { onLoadingSlow: () => setSlowLoading(true) }
   );
+
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
@@ -41,7 +45,7 @@ export default function Home({ deviceType }: Props) {
           <RenderIf condition={!error} fallback={<TechnicalError />}>
             <LeafletMap />
           </RenderIf>
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
         </Container>
         <Drawer />
         <ClusterPopup />
