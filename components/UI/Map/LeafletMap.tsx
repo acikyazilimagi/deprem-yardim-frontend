@@ -14,7 +14,6 @@ import React, {
   Fragment,
   MouseEvent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
 } from "react";
@@ -112,11 +111,6 @@ function LeafletMap() {
     [data]
   );
 
-  useEffect(() => {
-    setCoordinates(bounds);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
@@ -137,6 +131,7 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        whenReady={(map: any) => setCoordinates(map.target.getBounds())}
         zoomDelta={0.5}
         preferCanvas
         maxBounds={bounds}
