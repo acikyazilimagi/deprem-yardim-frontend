@@ -28,12 +28,12 @@
   }
 
   .sourceContentIframeWrapper {
-    height: 200px !important;
+    height: 18rem !important;
     overflow: scroll;
   }
 
   .sourceContentIframe {
-    height: 175px !important;
+    height: 17.5rem !important;
   }
 }
 
@@ -52,9 +52,8 @@
   font-size: 1.1rem;
 }
 
-.openInNewIcon {
+.btnIcon {
   font-size: 0.9rem;
-  margin-left: 0.46875rem;
 }
 
 .externalLinkButton {
@@ -94,11 +93,12 @@
 }
 
 .sourceContentIframeWrapper {
-  overflow-y: hidden;
+  max-height: 33.5rem;
+  overflow: scroll;
 }
 
 .sourceContentIframe {
-  height: 600px;
+  height: 33rem;
 }
 
 .sourceHelpContent {

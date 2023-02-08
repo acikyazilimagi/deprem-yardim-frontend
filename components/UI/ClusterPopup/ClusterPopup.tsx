@@ -1,135 +1,155 @@
+import React, { useEffect, useState } from "react";
+
+import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import theme from "@/utils/theme";
-import styled from "@emotion/styled";
-import { Close } from "@mui/icons-material";
-import LaunchIcon from "@mui/icons-material/Launch";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Chip,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, Typography, alpha } from "@mui/material";
+import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
-import { generateGoogleMapsUrl, googleMapsButtons } from "../Drawer/Drawer";
+import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
+import theme from "@/utils/theme";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
-export interface ClusterPopupProps {
-  data?: any;
-}
-
-const ResponsiveChip = styled(Chip)`
-  min-width: 20px !important;
-  min-height: 20px !important;
-
-  @media (max-width: ${theme.breakpoints.values.sm}px) {
-    height: 20px;
-    .MuiChip-label {
-      display: none;
-    }
-  }
-`;
-
-const PopupCard = styled(Card)`
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  cursor: pointer;
-  z-index: 1000;
-  font-size: 1rem;
-  max-width: 400px;
-
-  @media (max-width: ${theme.breakpoints.values.sm}px) {
-    max-width: unset;
-    right: 10px;
-    .cluster-address {
-      font-size: 13px;
-    }
-  }
-`;
-
-export function ClusterPopup() {
+const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
+  const { enqueueInfo } = useSnackbar();
+  const windowSize = useWindowSize();
+
+  const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
+
   const data = usePopUpData();
   const lat = data?.baseMarker.geometry.location.lat ?? 0;
   const lng = data?.baseMarker.geometry.location.lng ?? 0;
   const tag = findTagByClusterCount(data?.count ?? 0);
 
+  useEffect(() => {
+    if (copyButtonClicked) {
+      enqueueInfo("Koordinat bilgisi kopyalandı.");
+      setCopyButtonClicked(false);
+    }
+  }, [copyButtonClicked, enqueueInfo]);
+
   if (!data) return null;
 
   return (
-    <PopupCard variant="outlined">
-      <CardContent sx={{ pb: 1, pt: 1 }}>
-        <Grid container gap={1} alignItems="center">
-          <Grid item xs="auto">
-            <ResponsiveChip
-              label={tag.intensity}
-              style={{ background: tag.color }}
-              sx={{ fontSize: theme.typography.pxToRem(12) }}
-              size="small"
-            />
-          </Grid>
-          <Grid item xs alignItems="center">
-            <Typography variant="subtitle2" sx={{ py: 0 }}>
-              {data?.count ?? 0} kişi enkaz altında
-            </Typography>
-          </Grid>
-          <Grid item xs="auto">
-            <IconButton
-              aria-label="close"
-              onClick={() => setPopUpData(null)}
-              size="small"
-            >
-              <Close fontSize="small" />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <Typography sx={{ pt: 1, pb: 1 }} className="cluster-address">
+    <MuiPopover
+      {...props}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      onClose={() => setPopUpData(null)}
+      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
+    >
+      <Stack
+        direction="column"
+        sx={{
+          border: "1px solid #E3E8EF",
+          padding: "24px",
+          gap: "12px",
+          borderRadius: "8px",
+          width: windowSize.width < 600 ? "100%" : "400px",
+        }}
+      >
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Typography
+            variant="subtitle2"
+            fontWeight="500"
+            sx={{ color: "#121926" }}
+          >
+            {data?.count ?? 0} ihbar mevcut
+          </Typography>
+          <Button
+            variant="text"
+            color="error"
+            sx={{
+              fontSize: windowSize.width < 600 ? "10px" : "12px",
+              backgroundColor: alpha(tag?.color, 0.1),
+            }}
+          >
+            {tag.intensity}
+          </Button>
+        </Stack>
+        <Typography
+          variant={windowSize.width < 600 ? "body2" : "body1"}
+          sx={{
+            color: "#364152",
+            pr: windowSize.width < 600 ? "18px" : "12px",
+            wordWrap: "break-word",
+          }}
+        >
           {data?.baseMarker?.formatted_address}
         </Typography>
         <Typography
-          variant="subtitle2"
-          sx={{
-            mb: 0,
-            fontSize: theme.typography.pxToRem(13),
-          }}
+          variant={windowSize.width < 600 ? "overline" : "body2"}
+          sx={{ color: "#364152" }}
+          fontWeight="500"
         >
           {formatcoords([lat, lng]).format()}
         </Typography>
-      </CardContent>
-      <CardActions>
-        <Stack direction="row">
-          <Stack rowGap="8px" direction="row">
-            {googleMapsButtons.map((button) => (
+        <Stack
+          sx={{
+            display: "flex",
+            flexDirection: windowSize.width < 600 ? "column" : "row",
+            gap: windowSize.width < 600 ? "12px" : "0px",
+            alignItems: windowSize.width < 600 ? "stretch" : "center",
+            justifyContent: windowSize.width < 600 ? "stretch" : "flex-end",
+          }}
+        >
+          <Stack
+            gap={windowSize.width < 600 ? "12px" : "4px"}
+            direction={windowSize.width < 600 ? "column" : "row"}
+            justifyContent={"space-between"}
+          >
+            {mapsButtons.map((button) => (
               <Button
                 key={button.label}
-                variant="outlined"
-                color="primary"
+                color={button.color}
                 size="small"
-                endIcon={<LaunchIcon fontSize="small" />}
-                style={{ textTransform: "unset" }}
                 sx={{
-                  mr: 1,
+                  display: "flex",
+                  flexDirection: windowSize.width < 600 ? "row" : "column",
+                  gap: "4px",
+                  textTransform: "unset",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                  px: 1,
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
-                {button.label}
+                {button.icon}
+                <Typography
+                  sx={{
+                    color: button.color,
+                    fontWeight: "500",
+                    fontSize: 12,
+                  }}
+                >
+                  {button.label}
+                </Typography>
               </Button>
             ))}
           </Stack>
-          <Stack justifyContent="center">
-            <CopyButton
-              color="primary"
-              data={generateGoogleMapsUrl(lat, lng)}
-            />
-          </Stack>
+          <CopyButton
+            color="primary"
+            data={generateGoogleMapsUrl(lat, lng)}
+            onClick={() => setCopyButtonClicked(true)}
+            title="Koordinatı kopyala"
+          />
         </Stack>
-      </CardActions>
-    </PopupCard>
+      </Stack>
+    </MuiPopover>
   );
-}
+};
+
+ClusterPopup.displayName = "ClusterPopup";
+
+export default ClusterPopup;

@@ -1,20 +1,22 @@
-import { HelpButton } from "@/components/UI/Button/HelpButton";
-import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
+import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
-import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData } from "@/mocks/types";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions } from "@/stores/mapStore";
+import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { BASE_URL } from "@/utils/constants";
+import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import useSWR from "swr";
+import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
+import Footer from "@/components/UI/Footer/Footer";
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -25,57 +27,66 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [slowLoading, setSlowLoading] = useState(false);
+
+  const [url, setURL] = useState<string | null>(null);
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+  const [sendRequest, setSendRequest] = useState(true);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(coordinates as any).toString();
+
+    if (!urlParams || !sendRequest) return;
+
+    setURL(BASE_URL + "?" + urlParams);
+    setSendRequest(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coordinates]);
+
+  const triggerAPIRequest = () => {
+    setSendRequest(true);
+  };
+
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    BASE_URL,
-    dataFetcher
+    url,
+    dataFetcher,
+    { onLoadingSlow: () => setSlowLoading(true) }
   );
+
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
   return (
     <>
       <Head>
-        {/* <Partytown debug={true} forward={["dataLayer.push"]} /> */}
-        <title>Afet Haritası | Anasayfa</title>
-        <meta
-          name="description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak."
-        />
-        {/* Facebook Meta Tags */}
-        <meta property="og:url" content="https://afetharita.com/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Afet Haritası | Anasayfa" />
-        <meta
-          property="og:description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
-        />
-        <meta property="og:image" content="" />
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="afetharita.com" />
-        <meta property="twitter:url" content="https://afetharita.com/" />
-        <meta name="twitter:title" content="Afet Haritası | Anasayfa" />
-        <meta
-          name="twitter:description"
-          content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
-        />
-        <meta name="twitter:image" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<TechnicalError />}>
+          <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
           </RenderIf>
-          {isLoading && <LoadingSpinner />}
+          {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
+          <Button
+            color="secondary"
+            variant="contained"
+            sx={{
+              position: "fixed",
+              top: "50px",
+              left: "50%",
+              marginLeft: "-65.9px",
+              zIndex: "9999",
+            }}
+            onClick={() => triggerAPIRequest()}
+          >
+            Bu Alanı Tara
+          </Button>
         </Container>
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
-        <HelpButton />
+        <Footer />
       </main>
     </>
   );

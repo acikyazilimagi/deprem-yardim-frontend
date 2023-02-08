@@ -5,7 +5,7 @@
 
 .legend {
   gap: 4px;
-  bottom: 10px;
+  bottom: 30px;
   left: 10px;
   z-index: 999;
   display: flex;
@@ -33,11 +33,12 @@
   font-weight: 500;
   line-height: 22px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #ffffff58;
   align-items: center;
   justify-content: center;
   text-transform: capitalize;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.09);
+  transition: 150ms ease-in-out;
 }
 
 .legend_item__color {
@@ -45,7 +46,7 @@
   height: 28px;
   margin-right: 0;
   border-radius: 50%;
-  border: 1px solid #b9b9b9;
+  border: transparent;
 }
 
 @media (min-width: 1056px) {

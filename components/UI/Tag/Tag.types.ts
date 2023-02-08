@@ -50,7 +50,7 @@ export const Tags: TTags = {
     id: 6,
     intensity: "Çok Yoğun",
     minClus: 101,
-    color: "#ff0000",
+    color: "#eb2f2f",
   },
 };
 

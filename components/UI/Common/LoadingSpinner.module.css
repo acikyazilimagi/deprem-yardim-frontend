@@ -3,9 +3,8 @@
   top: 0;
   left: 0;
   z-index: 9999;
-  background-color: #000000cc;
+  background-color: transparent;
   width: 100vw;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,13 +13,16 @@
 
 .spinnerWrapper .spinnerLoaderBox {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  text-align: center;
   align-items: center;
-  background-color: rgba(15, 15, 15, 0.5);
+  background-color: rgba(151, 209, 144, 0.8);
   border-radius: 5px;
-  height: 200px;
+  height: 30px;
   width: 200px;
+  margin-top: 10px;
+  padding: 10px;
 }
 
 @keyframes spin {
@@ -37,20 +39,21 @@
   border-radius: 50%;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  width: 80px;
-  height: 80px;
+  width: 20px;
+  height: 20px;
   animation-name: spin;
   animation-duration: 700ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
+  margin-right: 10px;
 }
 
 .spinnerWrapper .spinnerLoaderBox .spinnerLoaderText {
-  margin-top: 10px;
-  padding-top: 10px;
-  color: lightgrey;
+  color: white;
   font-family: "Lato", sans-serif;
-  font-size: 18px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  font-weight: bold;
   animation-name: fading;
   animation-duration: 1500ms;
   animation-iteration-count: infinite;

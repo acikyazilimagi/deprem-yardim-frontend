@@ -37,6 +37,7 @@ export type Data = {
 export type ClusterPopupData = {
   count: number;
   baseMarker: MarkerData;
+  markers: any[];
 };
 
 export type Raw = {
@@ -69,7 +70,7 @@ export type LocationsResponseResult = {
     neighbourhood?: string;
     street?: string;
     no?: number;
-    name_surname?: any;
+    name_surname?: string;
     tel?: string;
   };
 }[];

@@ -14,6 +14,7 @@
   color: red;
   font-weight: 600;
   font-size: 12px;
+  line-height: 1.1;
   width: 50px;
   text-align: center;
   justify-content: flex-end;
@@ -82,6 +83,10 @@
   border: 1px solid rgba(242, 242, 242, 0.3);
   padding: 4px;
   border-radius: 4px;
+}
+
+.logoWrapper img {
+  opacity: 0.3;
 }
 
 .main {
@@ -412,4 +417,9 @@
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
+}
+
+.custom-marker-cluster {
+  border: 10px solid transparent;
+  border-radius: 50%;
 }
