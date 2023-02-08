@@ -1,6 +1,6 @@
 import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MarkerData } from "@/mocks/types";
+import { EVENT_TYPES, MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
@@ -79,31 +79,34 @@ const MapEvents = () => {
   const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
-  const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
-    const zoomLevel = map.getZoom();
+  const debounced = useDebouncedCallback(
+    (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
+      const zoomLevel = map.getZoom();
 
-    let localCoordinates = value;
+      let localCoordinates = value;
 
-    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
-    if (zoomLevel === 18) {
-      localCoordinates = expandCoordinatesBy(
-        localCoordinates,
-        EXPAND_COORDINATE_BY_VALUE
-      );
-    }
+      // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
+      if (zoomLevel === 18) {
+        localCoordinates = expandCoordinatesBy(
+          localCoordinates,
+          EXPAND_COORDINATE_BY_VALUE
+        );
+      }
 
-    setCoordinates(localCoordinates);
-    router.push({
-      hash: `#lat=${localCoordinates.getCenter().lat}&lng=${
-        localCoordinates.getCenter().lng
-      }&zoom=${zoomLevel}`,
-    });
-  }, 1000);
+      setCoordinates(localCoordinates, eventType);
+      router.push({
+        hash: `#lat=${localCoordinates.getCenter().lat}&lng=${
+          localCoordinates.getCenter().lng
+        }&zoom=${zoomLevel}`,
+      });
+    },
+    1000
+  );
 
   const map = useMapEvents({
-    moveend: () => debounced(map.getBounds()),
+    moveend: () => debounced(map.getBounds(), "moveend"),
     zoomend: () => {
-      debounced(map.getBounds());
+      debounced(map.getBounds(), "zoomend");
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {
@@ -189,7 +192,9 @@ function LeafletMap() {
         }
         zoomSnap={0.25}
         zoomDelta={0.5}
-        whenReady={(map: any) => setCoordinates(map.target.getBounds())}
+        whenReady={(map: any) =>
+          setCoordinates(map.target.getBounds(), "ready")
+        }
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}

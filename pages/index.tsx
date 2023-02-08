@@ -3,7 +3,10 @@ import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
+import {
+  CoordinatesURLParametersWithEventType,
+  MarkerData,
+} from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
@@ -30,28 +33,41 @@ export default function Home({ deviceType }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
 
   const [url, setURL] = useState<string | null>(null);
-  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
-  const [sendRequest, setSendRequest] = useState(true);
+  const coordinatesAndEventType:
+    | CoordinatesURLParametersWithEventType
+    | undefined = useCoordinates();
+
+  const urlParams = new URLSearchParams({
+    ne_lat: coordinatesAndEventType?.ne_lat,
+    ne_lng: coordinatesAndEventType?.ne_lng,
+    sw_lat: coordinatesAndEventType?.sw_lat,
+    sw_lng: coordinatesAndEventType?.sw_lng,
+  } as any).toString();
+
+  function handleButtonClick() {
+    setURL(BASE_URL + "?" + urlParams);
+    mutate();
+  }
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(coordinates as any).toString();
-
-    if (!urlParams || !sendRequest) return;
+    if (
+      typeof coordinatesAndEventType === "undefined" ||
+      !urlParams ||
+      coordinatesAndEventType?.eventType === "moveend" ||
+      coordinatesAndEventType?.eventType === "zoomend"
+    )
+      return;
 
     setURL(BASE_URL + "?" + urlParams);
-    setSendRequest(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinates]);
+  }, [coordinatesAndEventType]);
 
-  const triggerAPIRequest = () => {
-    setSendRequest(true);
-  };
-
-  const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    url,
-    dataFetcher,
-    { onLoadingSlow: () => setSlowLoading(true) }
-  );
+  const { error, isLoading, mutate, isValidating } = useSWR<
+    MarkerData[] | undefined
+  >(url, dataFetcher, {
+    onLoadingSlow: () => setSlowLoading(true),
+    revalidateOnFocus: false,
+  });
 
   const { setDevice } = useMapActions();
   setDevice(deviceType);
@@ -67,7 +83,9 @@ export default function Home({ deviceType }: Props) {
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
           </RenderIf>
-          {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
+          {(isLoading || isValidating) && (
+            <LoadingSpinner slowLoading={slowLoading} />
+          )}
           <Button
             color="secondary"
             variant="contained"
@@ -78,7 +96,7 @@ export default function Home({ deviceType }: Props) {
               marginLeft: "-65.9px",
               zIndex: "9999",
             }}
-            onClick={() => triggerAPIRequest()}
+            onClick={() => handleButtonClick()}
           >
             Bu Alanı Tara
           </Button>
