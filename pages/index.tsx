@@ -1,7 +1,6 @@
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
-import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
@@ -13,6 +12,7 @@ import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
+import Maintenance from "@/components/UI/Maintenance/Maintenance";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import React, { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<TechnicalError />}>
+          <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
           </RenderIf>
           {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
