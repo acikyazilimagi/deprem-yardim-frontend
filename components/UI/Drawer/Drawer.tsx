@@ -244,7 +244,7 @@ const Drawer = () => {
                 </div>
               </RenderIf>
             </div>
-            <RenderIf condition={showSavedData || !!extraParams}>
+            <RenderIf condition={showSavedData || !extraParams}>
               <div className={styles.sourceContentText}>
                 <Typography>{source?.full_text}</Typography>
               </div>
