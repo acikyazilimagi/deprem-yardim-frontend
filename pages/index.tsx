@@ -127,7 +127,6 @@ export default function Home({ deviceType }: Props) {
                 {remainingTime}sn sonra otomatik taranacak
               </small>
             </Box>
-
           </RenderIf>
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
