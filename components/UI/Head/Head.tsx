@@ -17,7 +17,10 @@ const Head = () => {
         property="og:description"
         content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
       />
-      <meta property="og:image" content="" />
+      <meta
+        property="og:image"
+        content="https://raw.githubusercontent.com/acikkaynak/deprem-yardim-frontend/development/public/images/preview.png"
+      />
       {/* Twitter Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta property="twitter:domain" content="afetharita.com" />
@@ -27,7 +30,10 @@ const Head = () => {
         name="twitter:description"
         content="Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak. "
       />
-      <meta name="twitter:image" content="" />
+      <meta
+        name="twitter:image"
+        content="https://raw.githubusercontent.com/acikkaynak/deprem-yardim-frontend/development/public/images/preview.png"
+      />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
     </NextHead>
