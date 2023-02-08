@@ -40,6 +40,16 @@ export type ClusterPopupData = {
   markers: any[];
 };
 
+export type ExtraParameters = {
+    user_id?:string
+    screen_name?:string
+    name?:string
+    tweet_id?:string
+    created_at?:string
+    hashtags?:string
+    user_account_created_at?:string
+    media?:string
+}
 export type Raw = {
   full_text?: string;
   tweet_id: string;
@@ -47,7 +57,7 @@ export type Raw = {
   screen_name?: string;
   source?:string;
   extra_parameters?:null|string;
-  channel?:string
+  channel?:"twitter"|"telegram"
 };
 
 export type LocationsResponse = {

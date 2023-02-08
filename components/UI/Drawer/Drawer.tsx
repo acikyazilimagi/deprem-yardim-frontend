@@ -25,9 +25,8 @@ import styles from "./Drawer.module.css";
 import { useRouter } from "next/router";
 
 import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
 import RenderIf from "../Common/RenderIf";
-// or
+import { ExtraParameters } from "@/mocks/types";
 interface MapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
@@ -92,6 +91,7 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
+  //it's true as default so there is no extra_parameters no process needed
   const [showSavedData, setShowSavedData] = useState(true);
 
   useEffect(() => {
@@ -128,14 +128,26 @@ const Drawer = () => {
     }
 
     const { geometry, formatted_address, source } = data;
+
+    let extraParams: undefined | ExtraParameters;
+
+    try {
+      extraParams = JSON.parse(source.extra_parameters || "false");
+    } catch (_) {
+      //
+    }
     const formattedCoordinates = formatcoords([
       geometry.location.lat,
       geometry.location.lng,
     ]).format();
 
     const openSourceUrl = () => {
-      if (source.channel === "twitter" && source.extra_parameters) {
-        const extraParams = JSON.parse(source.extra_parameters);
+      if (!extraParams) {
+        setError(true);
+        return;
+      }
+
+      if (source.channel === "twitter") {
         if (extraParams.user_id && extraParams.tweet_id) {
           router.push(
             `https://twitter.com/${extraParams.user_id}/status/${extraParams.tweet_id}`
@@ -227,13 +239,15 @@ const Drawer = () => {
               <Typography className={styles.sourceContentTitle}>
                 Yardım İçeriği
               </Typography>
-              <div className={styles.sourceContentSwitch}>
-                <p>Kayıtlı veriyi göster</p>
-                <Switch
-                  checked={showSavedData}
-                  onChange={() => setShowSavedData((s) => !s)}
-                />
-              </div>
+              <RenderIf condition={!!extraParams}>
+                <div className={styles.sourceContentSwitch}>
+                  <p>Kayıtlı veriyi göster</p>
+                  <Switch
+                    checked={showSavedData}
+                    onChange={() => setShowSavedData((s) => !s)}
+                  />
+                </div>
+              </RenderIf>
             </div>
             {showSavedData && (
               <div className={styles.sourceContentText}>
@@ -242,12 +256,19 @@ const Drawer = () => {
             )}
             {!showSavedData && (
               <div className={styles.sourceContentIframeWrapper}>
-                <iframe
-                  frameBorder={0}
-                  className={styles.sourceContentIframe}
-                  width={"100%"}
-                  src={`https://twitframe.com/show?url=https://twitter.com/${source?.name}/status/${source?.tweet_id}&conversation=none`}
-                ></iframe>
+                <RenderIf
+                  condition={
+                    true ||
+                    (source.channel === "twitter" && !!source.extra_parameters)
+                  }
+                >
+                  <iframe
+                    className={styles.sourceContentIframe}
+                    width={"100%"}
+                    style={{ border: 0 }}
+                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParams?.user_id}/status/${extraParams?.tweet_id}&conversation=none`}
+                  ></iframe>
+                </RenderIf>
               </div>
             )}
           </div>
@@ -275,34 +296,30 @@ const Drawer = () => {
         onClose={() => setOpenBillboardSnackbar(false)}
         message="Adres Kopyalandı"
       />
-      <RenderIf condition={error}>
-        <Stack
-          sx={{
-            position: "absolute",
-            top: 5,
-            right: 5,
-            width: "320px",
-            zIndex: 9999,
-            transition: "all",
-          }}
-          spacing={2}
+
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        onClose={() => setError(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        sx={{ zIndex: 10000 }}
+      >
+        <Alert
+          action={
+            <CloseIcon
+              onClick={() => setError(false)}
+              style={{
+                width: 20,
+                cursor: "pointer",
+                margin: "auto",
+              }}
+            />
+          }
+          severity="error"
         >
-          <Alert
-            severity="error"
-            action={
-              <CloseIcon
-                onClick={() => setError(false)}
-                style={{
-                  cursor: "pointer",
-                  margin: "auto",
-                }}
-              />
-            }
-          >
-            Kaynak açılamadı
-          </Alert>
-        </Stack>
-      </RenderIf>
+          Kaynak açılamadı
+        </Alert>
+      </Snackbar>
       <MuiDrawer
         className="drawer"
         anchor={anchor}
