@@ -99,33 +99,33 @@ export default function Home({ deviceType }: Props) {
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
+            <Box
+              sx={{
+                position: "fixed",
+                top: "50px",
+                left: "50%",
+                marginLeft: "-65.9px",
+                zIndex: "9999",
+                display: "flex",
+                flexDirection: "column",
+                rowGap: "8px",
+              }}
+            >
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleScanButtonClick}
+              >
+                Bu Alanı Tara
+              </Button>
+              <small className={styles.autoScanInfoText}>
+                {remainingTime}sn sonra otomatik taranacak
+              </small>
+            </Box>
           </RenderIf>
           {(isLoading || isValidating) && (
             <LoadingSpinner slowLoading={slowLoading} />
           )}
-          <Box
-            sx={{
-              position: "fixed",
-              top: "50px",
-              left: "50%",
-              marginLeft: "-65.9px",
-              zIndex: "9999",
-              display: "flex",
-              flexDirection: "column",
-              rowGap: "8px",
-            }}
-          >
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={handleScanButtonClick}
-            >
-              Bu Alanı Tara
-            </Button>
-            <small className={styles.autoScanInfoText}>
-              {remainingTime}sn sonra otomatik taranacak
-            </small>
-          </Box>
         </Container>
         <Drawer />
         <ClusterPopup />
