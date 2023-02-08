@@ -160,22 +160,19 @@ function LeafletMap() {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
 
   // to set default center and zoom level from url
-  const defaultCenter: LatLngExpression = useMemo(() => {
-    return asPath.includes("lat=") && asPath.includes("lng=")
+  const defaultCenter: LatLngExpression =
+    asPath.includes("lat=") && asPath.includes("lng=")
       ? [
           parseFloat(asPath.split("lat=")[1].split("&")[0]),
           parseFloat(asPath.split("lng=")[1].split("&")[0]),
         ]
       : DEFAULT_CENTER;
-  }, [asPath]);
 
-  const defaultZoom = useMemo(() => {
-    return asPath.includes("zoom=")
-      ? parseFloat(asPath.split("zoom=")[1].split("&")[0])
-      : device === "desktop"
-      ? DEFAULT_ZOOM
-      : DEFAULT_ZOOM_MOBILE;
-  }, [asPath, device]);
+  const defaultZoom = asPath.includes("zoom=")
+    ? parseFloat(asPath.split("zoom=")[1].split("&")[0])
+    : device === "desktop"
+    ? DEFAULT_ZOOM
+    : DEFAULT_ZOOM_MOBILE;
 
   return (
     <>
