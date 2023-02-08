@@ -37,20 +37,24 @@ export default function Home({ deviceType }: Props) {
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
+  const urlParams = new URLSearchParams({
+    ne_lat: coordinatesAndEventType?.ne_lat,
+    ne_lng: coordinatesAndEventType?.ne_lng,
+    sw_lat: coordinatesAndEventType?.sw_lat,
+    sw_lng: coordinatesAndEventType?.sw_lng,
+  } as any).toString();
+
+  function handleButtonClick() {
+    setURL(BASE_URL + "?" + urlParams);
+    mutate();
+  }
+
   useEffect(() => {
-    if (typeof coordinatesAndEventType === "undefined") return;
-
-    const urlParams = new URLSearchParams({
-      ne_lat: coordinatesAndEventType.ne_lat,
-      ne_lng: coordinatesAndEventType.ne_lng,
-      sw_lat: coordinatesAndEventType.sw_lat,
-      sw_lng: coordinatesAndEventType.sw_lng,
-    } as any).toString();
-
     if (
+      typeof coordinatesAndEventType === "undefined" ||
       !urlParams ||
-      coordinatesAndEventType.eventType === "moveend" ||
-      coordinatesAndEventType.eventType === "zoomend"
+      coordinatesAndEventType?.eventType === "moveend" ||
+      coordinatesAndEventType?.eventType === "zoomend"
     )
       return;
 
@@ -92,7 +96,7 @@ export default function Home({ deviceType }: Props) {
               marginLeft: "-65.9px",
               zIndex: "9999",
             }}
-            onClick={() => mutate()}
+            onClick={() => handleButtonClick()}
           >
             Bu Alanı Tara
           </Button>
