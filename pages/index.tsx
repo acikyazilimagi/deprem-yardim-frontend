@@ -68,8 +68,7 @@ export default function Home({ deviceType }: Props) {
   const handleScanButtonClick = useCallback(() => {
     setURL(BASE_URL + "?" + urlParams);
     resetThrottling();
-    mutate();
-  }, [mutate, resetThrottling, urlParams]);
+  }, [resetThrottling, urlParams]);
 
   useEffect(() => {
     setDevice(deviceType);
