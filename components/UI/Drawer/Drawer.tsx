@@ -32,11 +32,11 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/@${lat},${lng},22z`;
+  return `https://www.google.com/maps/?q=loc:${lat},${lng}&ll=${lat},${lng}&z=21`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
-  return `http://maps.apple.com/?ll=${lat},${lng}&z=18`;
+  return `http://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&z=18`;
 };
 
 export const openGoogleMapsUrl = (lat: number, lng: number) => {
