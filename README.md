@@ -1,6 +1,3 @@
-<!-- Improved compatibility of back to top link: See: -->
-<a name="readme-top"></a>
-
   <h1 align="left">Afetharita.com</h1>
 
  İletişim Kanalları/Communication Channels:
