@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import { Button, Stack, Typography, alpha } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Typography,
+  alpha,
+  IconButton,
+  Box,
+} from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
@@ -10,6 +17,7 @@ import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { Close } from "@mui/icons-material";
 
 const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
@@ -56,9 +64,20 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           width: windowSize.width < 600 ? "100%" : "400px",
         }}
       >
-        <Button color="error" onClick={() => setPopUpData(null)}>
-          Kapat
-        </Button>
+        <Box
+          sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+        >
+          <IconButton
+            sx={{
+              width: 32,
+              height: 32,
+            }}
+            onClick={() => setPopUpData(null)}
+          >
+            <Close />
+          </IconButton>
+        </Box>
+
         <Stack
           direction="row"
           alignItems="center"
