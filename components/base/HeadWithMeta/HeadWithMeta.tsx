@@ -1,50 +1,63 @@
 import React from "react";
 import { NextSeo } from "next-seo";
-
-// TODO: const below should be replaced with single item service response
-const ADDRESS = "Çekmece, samandağ bulvarı 164/a, 31070 Defne/Hatay, Türkiye";
-const ENTRY =
-  "@ahbap @Ahbap_iletisim ACİL !! Enkazdan kurtulan insanlar Çekmece Mahallesi'nde donuyor. Telefonlarının şarjı bitmek üzere. Hatay Defne İlçesi Çekmece Mahallesi 67. Sokak HECEMAR varmış etraflarında. Onlarca insan çorapsız ayaklarıyla montsuz, susuz, ekmeksiz, korumasız. Lütfen yardım gönderin lütfen!!";
-const LOC = "37.5771529,36.9283658";
+import { DESCRIPTION, OG_EDGE_URL, TITLE } from "./HeadWithMeta.constants";
+import { OpenGraphMedia } from "next-seo/lib/types";
 
 // TODO: OG_EDGE_URL should be replace with main API
-const OG_EDGE_URL =
-  "https://deprem-yardim-og-generator.vercel.app/api/dynamic-image";
+interface IHeadWithMeta {
+  address?: string;
+  entry?: string;
+  loc?: string;
+}
 
-const HeadWithMeta = () => {
+const HeadWithMeta = (props: IHeadWithMeta) => {
+  const validateAddress = props.address !== undefined;
+  const validateEntry = props.entry !== undefined;
+  const validateLoc = props.loc !== undefined;
+
+  const isPropsValid = validateAddress && validateEntry && validateLoc;
+
+  const ADDRESS = isPropsValid ? (props.address as string) : TITLE;
+  const ENTRY = isPropsValid ? (props.entry as string) : DESCRIPTION;
+  const LOC = isPropsValid ? (props.loc as string) : "";
+  const IMAGES: OpenGraphMedia[] | undefined = isPropsValid
+    ? [
+        {
+          url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
+            LOC
+          )}&address=${encodeURIComponent(ADDRESS)}&entry=${encodeURIComponent(
+            ENTRY
+          )}`,
+          width: 1200,
+          height: 630,
+          alt: `${props.address}`,
+          type: "image/png",
+        },
+      ]
+    : undefined;
+
   return (
     <NextSeo
-      title={ADDRESS}
-      description={ENTRY}
+      title={props.address}
+      description={props.entry}
       openGraph={{
         // TODO: base path is missing in next.config static for now
         url: "https://afetharita.com/",
-        title: ADDRESS,
-        description: ENTRY,
-        images: [
-          {
-            url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
-              LOC
-            )}&address=${encodeURIComponent(
-              ADDRESS
-            )}&entry=${encodeURIComponent(ENTRY)}`,
-            width: 1200,
-            height: 630,
-            alt: `${ADDRESS}`,
-            type: "image/png",
-          },
-        ],
+        title: props.address,
+        description: props.entry,
+        images: IMAGES,
         siteName: "Afet Haritası",
       }}
       twitter={{
-        handle: "@ihtiyacharitasi",
+        handle: "afetharita.com",
         cardType: "summary_large_image",
-        site: "@ihtiyacharitasi",
+        site: "https://afetharita.com/",
       }}
       additionalMetaTags={[
         {
           name: "viewport",
-          content: "initial-scale=1, width=device-width",
+          content:
+            "width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi",
         },
       ]}
       additionalLinkTags={[

@@ -20,8 +20,8 @@ import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -91,9 +91,7 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-      </Head>
+      <HeadWithMeta />
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
