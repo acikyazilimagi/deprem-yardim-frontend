@@ -84,7 +84,7 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
-  const [showSavedData, setShowSavedData] = useState(false);
+  const [showSavedData, setShowSavedData] = useState(true);
 
   useEffect(() => {
     if (isOpen) {
