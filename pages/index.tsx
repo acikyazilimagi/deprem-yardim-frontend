@@ -4,7 +4,7 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
+import { CoordinatesURLParameters, Device, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
@@ -22,7 +22,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 type Props = {
-  deviceType: "mobile" | "desktop";
+  deviceType: Device;
 };
 
 export default function Home({ deviceType }: Props) {

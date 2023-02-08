@@ -4,21 +4,22 @@ import {
   ClusterPopupData,
   CoordinatesURLParameters,
   MarkerData,
-} from "../mocks/types";
+  Device,
+} from "@/mocks/types";
 
 interface MapState {
   popUpData: ClusterPopupData | null;
   drawerData: MarkerData | null;
   isDrawerOpen: boolean;
   coordinates?: CoordinatesURLParameters;
-  device: "mobile" | "desktop";
+  device: Device;
   markerData: MarkerData[];
   actions: {
     toggleDrawer: () => void;
     setDrawerData: (data: MarkerData) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setCoordinates: (data: LatLngBounds) => void;
-    setDevice: (device: "mobile" | "desktop") => void;
+    setDevice: (device: Device) => void;
     setMarkerData: (data: MarkerData[]) => void;
   };
 }
@@ -44,7 +45,7 @@ export const useMapStore = create<MapState>()((set) => ({
           sw_lng: data.getSouthWest().lng,
         },
       })),
-    setDevice: (device: "mobile" | "desktop") => set(() => ({ device })),
+    setDevice: (device: Device) => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
   },
 }));

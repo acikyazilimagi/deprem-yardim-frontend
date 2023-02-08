@@ -81,3 +81,5 @@ export type CoordinatesURLParameters = {
   sw_lat: number;
   sw_lng: number;
 };
+
+export type Device = "mobile" | "desktop";
