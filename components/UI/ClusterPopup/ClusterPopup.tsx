@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import { Button, Stack, Typography, alpha } from "@mui/material";
+import { Button, Stack, Typography, alpha, IconButton } from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
@@ -10,6 +10,7 @@ import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { Close } from "@mui/icons-material";
 
 const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
@@ -44,7 +45,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         horizontal: "center",
       }}
       onClose={() => setPopUpData(null)}
-      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
+      open={data?.baseMarker?.formatted_address}
     >
       <Stack
         direction="column"
@@ -74,10 +75,21 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             sx={{
               fontSize: windowSize.width < 600 ? "10px" : "12px",
               backgroundColor: alpha(tag?.color, 0.1),
+              whiteSpace: "nowrap",
             }}
           >
             {tag.intensity}
           </Button>
+
+          <IconButton
+            sx={{
+              width: 32,
+              height: 32,
+            }}
+            onClick={() => setPopUpData(null)}
+          >
+            <Close />
+          </IconButton>
         </Stack>
         <Typography
           variant={windowSize.width < 600 ? "body2" : "body1"}
