@@ -70,8 +70,8 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           </Typography>
           <Button
             variant="text"
-            color="error"
             sx={{
+              color: tag?.color,
               fontSize: windowSize.width < 600 ? "10px" : "12px",
               backgroundColor: alpha(tag?.color, 0.1),
             }}
