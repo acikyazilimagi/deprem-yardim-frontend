@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import { Button, Stack, Typography, alpha, IconButton } from "@mui/material";
+import { Button, Stack, Typography, alpha } from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
@@ -10,7 +10,6 @@ import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { Close } from "@mui/icons-material";
 
 const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
@@ -45,16 +44,16 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         horizontal: "center",
       }}
       onClose={() => setPopUpData(null)}
-      open={data?.baseMarker?.formatted_address}
+      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
     >
       <Stack
         direction="column"
         sx={{
-          border: "transparent",
+          border: "1px solid #E3E8EF",
           padding: "24px",
           gap: "12px",
           borderRadius: "8px",
-          width: windowSize.width < 600 ? "100%" : "455px",
+          width: windowSize.width < 600 ? "100%" : "400px",
         }}
       >
         <Stack
@@ -65,7 +64,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           <Typography
             variant="subtitle2"
             fontWeight="500"
-            sx={{ color: "#121926", fontSize: "1.3rem" }}
+            sx={{ color: "#121926" }}
           >
             {data?.count ?? 0} ihbar mevcut
           </Typography>
@@ -75,21 +74,10 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             sx={{
               fontSize: windowSize.width < 600 ? "10px" : "12px",
               backgroundColor: alpha(tag?.color, 0.1),
-              whiteSpace: "nowrap",
             }}
           >
             {tag.intensity}
           </Button>
-
-          <IconButton
-            sx={{
-              width: 32,
-              height: 32,
-            }}
-            onClick={() => setPopUpData(null)}
-          >
-            <Close />
-          </IconButton>
         </Stack>
         <Typography
           variant={windowSize.width < 600 ? "body2" : "body1"}
@@ -118,7 +106,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           }}
         >
           <Stack
-            gap={windowSize.width < 600 ? "12px" : "0px"}
+            gap={windowSize.width < 600 ? "12px" : "4px"}
             direction={windowSize.width < 600 ? "column" : "row"}
             justifyContent={"space-between"}
           >
@@ -127,18 +115,26 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 key={button.label}
                 color={button.color}
                 size="small"
-                startIcon={button.icon}
                 sx={{
+                  display: "flex",
+                  flexDirection: windowSize.width < 600 ? "row" : "column",
+                  gap: "4px",
                   textTransform: "unset",
-                  fontSize: windowSize.width < 600 ? "12px" : "11.7px",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                  mr: 1,
                   px: 1,
-                  height: "3rem",
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
-                {button.label}
+                {button.icon}
+                <Typography
+                  sx={{
+                    color: button.color,
+                    fontWeight: "500",
+                    fontSize: 12,
+                  }}
+                >
+                  {button.label}
+                </Typography>
               </Button>
             ))}
           </Stack>
