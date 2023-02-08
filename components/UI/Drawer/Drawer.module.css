@@ -94,8 +94,10 @@
 }
 
 .sourceContentIframeWrapper {
-  max-height: 33.5rem;
+  max-height: 20rem;
   overflow: scroll;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 .sourceContentIframe {
