@@ -1,8 +1,12 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+module.exports = withPWA({
   reactStrictMode: true,
   webpack: (config) => {
     config.plugins.push(
@@ -17,6 +21,11 @@ const nextConfig = {
     );
     return config;
   },
-};
+});
 
-module.exports = nextConfig;
+module.exports = {
+  images: {
+    loader: "akamai",
+    path: "",
+  },
+};

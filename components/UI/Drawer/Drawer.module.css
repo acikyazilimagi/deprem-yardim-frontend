@@ -1,7 +1,7 @@
 .closeButton {
   position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 1rem;
+  right: 1rem;
   cursor: pointer;
 }
 
@@ -9,21 +9,100 @@
   background-color: #f2f2f2;
 }
 
-.content {
-  padding: 48px;
+.content > p:first-of-type {
+  font-weight: 600;
+  font-size: 14px;
+  color: #636363;
 }
 
-.contentButton {
+.contentButtons {
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 @media screen and (max-width: 768px) {
   .content {
-    padding: 24px;
+    font-size: 0.75rem;
+  }
+
+  .sourceContentIframeWrapper {
+    height: 18rem !important;
+    overflow: scroll;
+  }
+
+  .sourceContentIframe {
+    height: 17.5rem !important;
   }
 }
 
-.drawer  {
+.drawer {
   position: relative;
   z-index: 99999;
+}
+
+.clipboard {
+  margin-top: 0.75rem;
+  margin-bottom: 10px;
+}
+
+.clipboardLabel {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.btnIcon {
+  font-size: 0.9rem;
+}
+
+.externalLinkButton {
+  text-transform: none;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.sourceContentTitle {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.sourceContentSwitch {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.sourceContentText {
+  max-height: 300px;
+  overflow: auto;
+  border: 1px solid #c9c6c6;
+  border-radius: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  transition: 500ms ease-in-out;
+}
+
+.sourceContentText:hover {
+  background-color: #f3f3f3;
+}
+
+.sourceContentIframeWrapper {
+  max-height: 33.5rem;
+  overflow: scroll;
+}
+
+.sourceContentIframe {
+  height: 33rem;
+}
+
+.sourceHelpContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

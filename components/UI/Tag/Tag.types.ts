@@ -13,43 +13,53 @@ export interface TTags {
 export const Tags: TTags = {
   safe: {
     id: 1,
-    intensity: "Güvenli Alanlar",
+    intensity: "Az Yoğun",
     minClus: 0,
     maxClus: 0,
-    color: "#0288D1",
+    color: "#ffff00",
   },
   low: {
     id: 2,
-    intensity: "Düşük Yoğunluk",
+    intensity: "Az-Orta Yoğun",
     minClus: 1,
     maxClus: 3,
-    color: "#CFCECD",
+    color: "#ffd700",
   },
   "mid-low": {
     id: 3,
-    intensity: "Orta - Alt Yoğunluk",
+    intensity: "Orta Yoğun",
     minClus: 3,
     maxClus: 5,
-    color: "#FAF7BF",
+    color: "#ffaf00",
   },
   mid: {
     id: 4,
-    intensity: "Orta  Yoğunluk",
+    intensity: "Orta - Yüksek Yoğun",
     minClus: 5,
     maxClus: 26,
-    color: "#EE181B",
+    color: "#ff8700",
   },
   "mid-high": {
     id: 5,
-    intensity: "Orta - Üst Yoğunluk",
+    intensity: "Yüksek Yoğun",
     minClus: 26,
     maxClus: 100,
-    color: "#F0944B",
+    color: "#ff5f00",
   },
   high: {
     id: 6,
-    intensity: "Yoğun",
+    intensity: "Çok Yoğun",
     minClus: 101,
-    color: "#74080A",
+    color: "#eb2f2f",
   },
 };
+
+export function findTagByClusterCount(clusterCount: number): Tag {
+  const tag = Object.values(Tags).find(
+    (tag) =>
+      clusterCount >= (tag.minClus ?? 0) &&
+      clusterCount <= (tag.maxClus ?? Number.MAX_SAFE_INTEGER)
+  );
+
+  return tag || Tags.safe;
+}

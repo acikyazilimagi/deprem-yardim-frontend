@@ -2,12 +2,16 @@
 
 ## Katkı yapmadan önce dikkat edilmesi gerekenler
 
-- İlgilendiğiniz konunun daha önce herhangi bir issue tarafından işlenilmediğine ve başkası tarafından yapılmadığından emin olun
-- Eğer bir problemle karşılaşırsanız, issue açınç
+- İlgilendiğiniz konunun daha önce herhangi bir issue tarafından işlenilmediğine ve başkası tarafından yapılmadığından emin olun.
+- Eğer bir problemle karşılaşırsanız, issue açın.
 - Beklediğiniz, istediğiniz bir değişiklik için issue açın.
-- Yeni bir özellik eklemek için issue açın
-- Bir hatayı düzeltmek için PR açın
-- Dökümantasyondaki bir hatayı düzeltmek için PR açın
+- Yeni bir özellik eklemek için issue açın.
+- Bir hatayı düzeltmek için PR açın.
+- Dökümantasyondaki bir hatayı düzeltmek için PR açın.
+
+### [**PR Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/blob/development/.github/PULL_REQUEST_TEMPLATE.md)
+
+### [**Issue Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/tree/development/.github/ISSUE_TEMPLATE)
 
 ## Başlamadan önce
 

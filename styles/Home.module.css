@@ -1,12 +1,92 @@
 .logo {
-  position: fixed;
-  right: 20px;
-  bottom: 70px;
-  z-index: 999;
+  text-decoration: none;
+  color: crimson;
 }
 
-.logo img {
+.helpButtonContainer {
+  position: absolute;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  color: red;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.1;
+  width: 50px;
+  text-align: center;
+  justify-content: flex-end;
+  z-index: 1000;
+}
+
+.logoContainer {
+  right: 0;
+  bottom: 50px;
+  display: flex;
+  position: absolute;
+  justify-content: flex-end;
+}
+
+.logoContainer img,
+.helpButtonContainer .logoWrapper {
   border-radius: 20%;
+}
+
+.helpButtonContainer .logoWrapper {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #db2121;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.helpButtonContainer .logoWrapper svg {
+  width: 40px;
+  height: 40px;
+}
+
+.helpButtonContainer .logoWrapper,
+.helpButtonContainer i {
+  animation: pulse 2s infinite;
+  border-radius: 20%;
+  transform: scale(1);
+}
+
+.logoContainer p {
+  cursor: arrow;
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+.logoWrapper {
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logoWrapper p {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.logoWrapper img {
+  opacity: 0.3;
 }
 
 .main {
@@ -182,6 +262,16 @@
   }
 }
 
+.logoContainer {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
 /* Mobile */
 @media (max-width: 700px) {
   .content {
@@ -258,14 +348,30 @@
     z-index: 1;
   }
 
-  .logo {
-    right: 10px;
-    bottom: 115px;
+  .logoWrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
   }
 
   .logo img {
     width: 50px;
     height: 50px;
+  }
+
+  .logoContainer p {
+    font-size: 0.875rem;
+    display: none;
+  }
+}
+
+/* Tablet and wider */
+@media (min-width: 701px) {
+  .logoWrapper p {
+    margin-bottom: 5px;
   }
 }
 
@@ -294,4 +400,26 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+.custom-marker-cluster {
+  border: 10px solid transparent;
+  border-radius: 50%;
 }

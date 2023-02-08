@@ -1,22 +1,16 @@
-import { ReactNode, useEffect } from "react";
 import Leaflet from "leaflet";
-import * as ReactLeaflet from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import React, { ReactNode, useEffect } from "react";
+import * as ReactLeaflet from "react-leaflet";
 import styles from "./Map.module.css";
-const { MapContainer } = ReactLeaflet;
 
 interface MapProps {
   className?: string;
-
   children: ReactNode;
 }
 
 const Map = ({ children, className, ...rest }: MapProps) => {
-  let mapClassName = styles.map;
-
-  if (className) {
-    mapClassName = `${mapClassName} ${className}`;
-  }
+  const mapClassName = [styles.map, className].filter(Boolean).join(" ");
 
   useEffect(() => {
     (async function init() {
@@ -31,10 +25,10 @@ const Map = ({ children, className, ...rest }: MapProps) => {
   }, []);
 
   return (
-    <MapContainer className={mapClassName} {...rest}>
+    <ReactLeaflet.MapContainer className={mapClassName} {...rest}>
       {children}
-    </MapContainer>
+    </ReactLeaflet.MapContainer>
   );
 };
 
-export default Map;
+export default React.memo(Map);
