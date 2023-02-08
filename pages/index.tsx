@@ -80,7 +80,7 @@ export default function Home({ deviceType }: Props) {
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={error} fallback={<Maintenance />}>
+          <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
             <Button
               color="secondary"
