@@ -12,7 +12,7 @@ const RenderLoadingSpinner = ({ slowLoading }: LoadingProps) => {
         <div className={styles.spinnerLoader}></div>
         <div className={styles.spinnerLoaderText}>
           {slowLoading
-            ? "Lütfen Bekleyin,\nHala Yükleniyor..."
+            ? "Hala yükleniyor..."
             : "Yükleniyor..."}
         </div>
       </div>
