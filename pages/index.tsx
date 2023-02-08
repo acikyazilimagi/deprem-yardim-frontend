@@ -3,7 +3,7 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import SitesIcon from "@/components/UI/SitesIcon/Icons";
+import SitesIconResult from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
@@ -97,17 +97,18 @@ export default function Home({ deviceType }: Props) {
       </Head>
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
-        <SitesIcon />
+
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
+            <SitesIconResult />
             <Box
               sx={{
                 position: "fixed",
                 top: "50px",
                 left: "50%",
                 marginLeft: "-65.9px",
-                zIndex: "9999",
+                zIndex: "500",
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "8px",
@@ -117,6 +118,7 @@ export default function Home({ deviceType }: Props) {
                 color="secondary"
                 variant="contained"
                 onClick={handleScanButtonClick}
+                style={{ zIndex: 501 }}
               >
                 Bu Alanı Tara
               </Button>
