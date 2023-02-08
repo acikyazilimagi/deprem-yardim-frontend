@@ -2,14 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import {
-  Button,
-  Stack,
-  Typography,
-  alpha,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { Button, Stack, Typography, alpha, IconButton } from "@mui/material";
 import MuiPopover from "@mui/material/Popover";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
@@ -64,20 +57,6 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           width: windowSize.width < 600 ? "100%" : "400px",
         }}
       >
-        <Box
-          sx={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
-        >
-          <IconButton
-            sx={{
-              width: 32,
-              height: 32,
-            }}
-            onClick={() => setPopUpData(null)}
-          >
-            <Close />
-          </IconButton>
-        </Box>
-
         <Stack
           direction="row"
           alignItems="center"
@@ -96,10 +75,21 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             sx={{
               fontSize: windowSize.width < 600 ? "10px" : "12px",
               backgroundColor: alpha(tag?.color, 0.1),
+              whiteSpace: "nowrap",
             }}
           >
             {tag.intensity}
           </Button>
+
+          <IconButton
+            sx={{
+              width: 32,
+              height: 32,
+            }}
+            onClick={() => setPopUpData(null)}
+          >
+            <Close />
+          </IconButton>
         </Stack>
         <Typography
           variant={windowSize.width < 600 ? "body2" : "body1"}
