@@ -50,11 +50,11 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
       <Stack
         direction="column"
         sx={{
-          border: "1px solid #E3E8EF",
+          border: "transparent",
           padding: "24px",
           gap: "12px",
           borderRadius: "8px",
-          width: windowSize.width < 600 ? "100%" : "400px",
+          width: windowSize.width < 600 ? "100%" : "455px",
         }}
       >
         <Stack
@@ -65,7 +65,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           <Typography
             variant="subtitle2"
             fontWeight="500"
-            sx={{ color: "#121926" }}
+            sx={{ color: "#121926", fontSize: "1.3rem" }}
           >
             {data?.count ?? 0} ihbar mevcut
           </Typography>
@@ -130,10 +130,11 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 startIcon={button.icon}
                 sx={{
                   textTransform: "unset",
-                  fontSize: windowSize.width < 600 ? "12px" : "14px",
+                  fontSize: windowSize.width < 600 ? "12px" : "11.7px",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),
                   mr: 1,
                   px: 1,
+                  height: "3rem",
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
