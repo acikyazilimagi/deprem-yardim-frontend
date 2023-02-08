@@ -32,6 +32,13 @@ const MapLegend = () => {
         {Object.keys(Tags).map((intensity) => (
           <div key={intensity}>
             <Button
+              sx={{
+                "&:hover": {
+                  backgroundColor: "white",
+                  transform: "scale(1.05)",
+                  filter: "brightness(1.1)",
+                },
+              }}
               className={styles.legend_item}
               aria-label={Tags[intensity].intensity}
               onClick={(event) => handleClick(event, intensity)}

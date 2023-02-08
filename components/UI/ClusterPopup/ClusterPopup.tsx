@@ -53,7 +53,8 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
           padding: "24px",
           gap: "12px",
           borderRadius: "8px",
-          width: windowSize.width < 600 ? "100%" : "400px",
+          width: windowSize.width < 600 ? "100%" : "max-content",
+          maxWidth: 500,
         }}
       >
         <Stack
@@ -102,13 +103,15 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             flexDirection: windowSize.width < 600 ? "column" : "row",
             gap: windowSize.width < 600 ? "12px" : "0px",
             alignItems: windowSize.width < 600 ? "stretch" : "center",
-            justifyContent: windowSize.width < 600 ? "stretch" : "flex-end",
+            justifyContent: windowSize.width < 600 ? "stretch" : "flex-start",
           }}
         >
           <Stack
             gap={windowSize.width < 600 ? "12px" : "0px"}
             direction={windowSize.width < 600 ? "column" : "row"}
             justifyContent={"space-between"}
+            flexWrap="wrap"
+            rowGap={2}
           >
             {mapsButtons.map((button) => (
               <Button
@@ -118,6 +121,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 startIcon={button.icon}
                 sx={{
                   textTransform: "unset",
+                  whiteSpace: "nowrap",
                   fontSize: windowSize.width < 600 ? "12px" : "14px",
                   backgroundColor: alpha(theme.palette.primary.main, 0.1),
                   mr: 1,

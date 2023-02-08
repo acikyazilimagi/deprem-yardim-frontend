@@ -55,11 +55,19 @@ const GlobalClusterStyle = css`
     (tag) => `
     .leaflet-custom-cluster-${tag.id} {
       .cluster-inner {
-        background-color: ${tag.color};
-        box-shadow: 0 0 5px 2px ${tag.color};
-        width: 30px;
-        height: 30px;
-        opacity: 0.9;
+        background-color: ${tag.color}B3;
+        border: 2px solid ${tag.color};
+        color: black;
+        box-sizing: border-box;
+        border-radius: 18px;
+        width: 36px;
+        height: 36px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   `

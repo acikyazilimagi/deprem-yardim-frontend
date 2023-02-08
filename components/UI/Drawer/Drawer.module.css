@@ -75,13 +75,14 @@
 .sourceContentSwitch {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .sourceContentText {
   max-height: 300px;
   overflow: auto;
-  border: 1px solid #c9c6c6;
+  border: 1px solid #1d9bf0;
+  color: black;
   border-radius: 10px;
   padding: 10px;
   border-radius: 5px;
@@ -90,7 +91,7 @@
 }
 
 .sourceContentText:hover {
-  background-color: #f3f3f3;
+  filter: brightness(1.1);
 }
 
 .sourceContentIframeWrapper {

@@ -19,7 +19,7 @@
   text-align: center;
   align-items: center;
   background-color: rgba(15, 15, 15, 0.5);
-  border-radius: 5px;
+  border-radius: 12px;
   height: 200px;
   width: 200px;
 }
@@ -34,7 +34,7 @@
 }
 
 .spinnerWrapper .spinnerLoaderBox .spinnerLoader {
-  border: 1px solid white;
+  border: 3px solid white;
   border-radius: 50%;
   border-right-color: transparent;
   border-bottom-color: transparent;

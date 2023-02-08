@@ -12,12 +12,15 @@
   padding: 6px;
   position: fixed;
   align-items: center;
-  border-radius: 16px;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: max-content;
   transition: all 400ms;
   justify-content: center;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  background: rgba(242, 242, 242, 0.5);
+  background: rgba(83, 83, 83, 0.5);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(242, 242, 242, 0.3);
 }
@@ -26,7 +29,7 @@
   color: #000;
   border: none;
   display: flex;
-  padding: 2px;
+  padding: 4px;
   outline: none;
   min-width: auto;
   font-size: 14px;
@@ -51,6 +54,8 @@
 @media (min-width: 1056px) {
   .open {
     gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .legend_item__text {
@@ -75,10 +80,14 @@
   .legend {
     gap: 4px;
     padding: 6px;
-    border-radius: 16px;
+    border-radius: 4px;
+    height: max-content;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    background: rgba(242, 242, 242, 0.5);
+    background: rgba(220, 220, 220, 0.5);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(242, 242, 242, 0.3);
   }

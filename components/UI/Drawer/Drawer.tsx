@@ -192,9 +192,14 @@ const Drawer = () => {
               </div>
             </div>
             {showSavedData && (
-              <div className={styles.sourceContentText}>
-                <Typography>{source?.full_text}</Typography>
-              </div>
+              <>
+                <Typography mb={1} mt={2}>
+                  Kayıtlı Veri
+                </Typography>
+                <div className={styles.sourceContentText}>
+                  <Typography>{source?.full_text}</Typography>
+                </div>
+              </>
             )}
             {!showSavedData && (
               <div className={styles.sourceContentIframeWrapper}>
