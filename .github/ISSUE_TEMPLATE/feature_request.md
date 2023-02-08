@@ -2,7 +2,7 @@
 name: Özellik isteği
 about: Özellik isteği için kullanın
 title: 'feat: '
-labels: ''
+labels: waiting-approval, enhancement 
 assignees: ''
 
 ---

@@ -2,13 +2,18 @@
 name: Hata raporlama
 about: Hata raporlama için kullanın
 title: 'bug: '
-labels: ''
+labels: 'bug'
 assignees: ''
 
 ---
 ## Hata Tanımı
 Hatanın ne olduğu hakkında açık ve kısa bir açıklama.
 
+
+## Hata Ortamı
+Hatanın ortaya çıktığı ortamı açıklayın. Örneğin:
+rc.afetharita.com
+afetharita.com
 ## Hatayı nasıl aldığınızı adım adım açıklayın
 
 1. '...' a gidin
