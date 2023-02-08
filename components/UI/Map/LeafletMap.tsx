@@ -2,6 +2,7 @@ import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
+import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
@@ -14,7 +15,6 @@ import React, {
   Fragment,
   MouseEvent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
 } from "react";
@@ -70,8 +70,20 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
-  const debounced = useDebouncedCallback((value: any) => {
-    setCoordinates(value);
+  const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
+    const zoomLevel = map.getZoom();
+
+    let localCoordinates = value;
+
+    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
+    if (zoomLevel === 18) {
+      localCoordinates = expandCoordinatesBy(
+        localCoordinates,
+        EXPAND_COORDINATE_BY_VALUE
+      );
+    }
+
+    setCoordinates(localCoordinates);
   }, 1000);
 
   const map = useMapEvents({
@@ -92,9 +104,19 @@ const MapEvents = () => {
   return null;
 };
 
+const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
+  const { lat: neLat, lng: neLng } = coordinates.getNorthEast();
+  const { lat: swLat, lng: swLng } = coordinates.getSouthWest();
+
+  const northEast = L.latLng(neLat + value, neLng + value);
+  const southWest = L.latLng(swLat - value, swLng - value);
+
+  return L.latLngBounds(northEast, southWest);
+};
+
 const corners = {
-  southWest: latLng(33.9825, 25.20902),
-  northEast: latLng(43.32683, 46.7742),
+  southWest: latLng(35.652832827451654, 33.12377929687501),
+  northEast: latLng(40.72644570551446, 39.27062988281251),
 };
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
@@ -111,11 +133,6 @@ function LeafletMap() {
       ]),
     [data]
   );
-
-  useEffect(() => {
-    setCoordinates(bounds);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
@@ -137,7 +154,9 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        zoomSnap={0.25}
         zoomDelta={0.5}
+        whenReady={(map: any) => setCoordinates(map.target.getBounds())}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
@@ -152,6 +171,7 @@ function LeafletMap() {
           longitudeExtractor={longitudeExtractor}
           latitudeExtractor={latitudeExtractor}
           intensityExtractor={intensityExtractor}
+          useLocalExtrema={false}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
