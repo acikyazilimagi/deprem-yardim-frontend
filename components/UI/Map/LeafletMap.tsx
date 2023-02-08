@@ -11,6 +11,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import React, {
   Fragment,
   MouseEvent,
@@ -74,6 +75,7 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
+  const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
@@ -132,6 +134,7 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const { setCoordinates } = useMapActions();
+  const { asPath } = useRouter();
   const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
@@ -150,14 +153,32 @@ function LeafletMap() {
 
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
 
+  // to set default center and zoom level from url
+  const defaultCenter = useMemo(() => {
+    return asPath.includes("lat=") && asPath.includes("lng=")
+      ? [
+          parseFloat(asPath.split("lat=")[1].split("&")[0]),
+          parseFloat(asPath.split("lng=")[1].split("&")[0]),
+        ]
+      : DEFAULT_CENTER;
+  }, [asPath]);
+
+  const defaultZoom = useMemo(() => {
+    return asPath.includes("zoom=")
+      ? parseFloat(asPath.split("zoom=")[1].split("&")[0])
+      : device === "desktop"
+      ? DEFAULT_ZOOM
+      : DEFAULT_ZOOM_MOBILE;
+  }, [asPath, device]);
+
   return (
     <>
       <Global styles={GlobalClusterStyle} />
       <MapLegend />
 
       <Map
-        center={DEFAULT_CENTER}
-        zoom={device === "desktop" ? DEFAULT_ZOOM : DEFAULT_ZOOM_MOBILE}
+        center={defaultCenter}
+        zoom={defaultZoom}
         minZoom={
           device === "desktop"
             ? DEFAULT_MIN_ZOOM_DESKTOP
