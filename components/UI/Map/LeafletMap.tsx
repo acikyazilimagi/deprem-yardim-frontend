@@ -139,6 +139,7 @@ function LeafletMap() {
         }
         zoomDelta={0.5}
         preferCanvas
+        maxBounds={bounds}
         maxBoundsViscosity={1}
       >
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
@@ -154,7 +155,6 @@ function LeafletMap() {
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
-          bounds={bounds}
         />
         <MarkerClusterGroup
           // @ts-expect-error
