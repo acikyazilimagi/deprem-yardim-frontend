@@ -76,7 +76,6 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
