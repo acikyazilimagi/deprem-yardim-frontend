@@ -2,6 +2,7 @@ import Map from "@/components/UI/Map/Map";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
+import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
@@ -69,8 +70,20 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
-  const debounced = useDebouncedCallback((value: any) => {
-    setCoordinates(value);
+  const debounced = useDebouncedCallback((value: L.LatLngBounds) => {
+    const zoomLevel = map.getZoom();
+
+    let localCoordinates = value;
+
+    // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
+    if (zoomLevel === 18) {
+      localCoordinates = expandCoordinatesBy(
+        localCoordinates,
+        EXPAND_COORDINATE_BY_VALUE
+      );
+    }
+
+    setCoordinates(localCoordinates);
   }, 1000);
 
   const map = useMapEvents({
@@ -89,6 +102,16 @@ const MapEvents = () => {
   });
 
   return null;
+};
+
+const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
+  const { lat: neLat, lng: neLng } = coordinates.getNorthEast();
+  const { lat: swLat, lng: swLng } = coordinates.getSouthWest();
+
+  const northEast = L.latLng(neLat + value, neLng + value);
+  const southWest = L.latLng(swLat - value, swLng - value);
+
+  return L.latLngBounds(northEast, southWest);
 };
 
 const corners = {
