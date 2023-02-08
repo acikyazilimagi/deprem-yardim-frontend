@@ -1,11 +1,10 @@
 import { Logo } from "@/components/UI/Button/Logo";
-import Button from "@mui/material/Button";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
 import styles from "./FooterBanner.module.css";
 
-export default function FooterBanner({ triggerAPIRequest }: any) {
+export default function FooterBanner() {
   const [hideFooter, setHideFooter] = useState(true);
 
   const handleOffIconClick = () => {
@@ -23,15 +22,6 @@ export default function FooterBanner({ triggerAPIRequest }: any) {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerWrapper}>
-        <RenderIf condition={hideFooter}>
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={() => triggerAPIRequest()}
-          >
-            Bu Alanı Tara
-          </Button>
-        </RenderIf>
         <Logo />
         <RenderIf condition={!hideFooter}>
           <span className={styles.dismissible}>
