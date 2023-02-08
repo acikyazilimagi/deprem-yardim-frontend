@@ -1,7 +1,7 @@
 ---
 name: Refactor İsteği
 about: Yeni bir refactor isteği için kullanın
-title: ''
+title: 'refactor: '
 labels: discussion, new, unchecked
 assignees: ''
 ---
