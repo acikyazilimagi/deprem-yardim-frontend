@@ -54,7 +54,6 @@
 
 .btnIcon {
   font-size: 0.9rem;
-  margin-left: 0.46875rem;
 }
 
 .externalLinkButton {
@@ -94,10 +93,8 @@
 }
 
 .sourceContentIframeWrapper {
-  max-height: 20rem;
+  max-height: 33.5rem;
   overflow: scroll;
-  scrollbar-width: thin;
-  scroll-behavior: smooth;
 }
 
 .sourceContentIframe {
