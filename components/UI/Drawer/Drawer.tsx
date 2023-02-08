@@ -132,8 +132,8 @@ const Drawer = () => {
     let extraParams: undefined | ExtraParameters;
 
     try {
-      extraParams = JSON.parse(source.extra_parameters || "false");
-    } catch (_) {
+      extraParams = JSON.parse(source.extra_parameters || "undefined");
+    } catch {
       //
     }
     const formattedCoordinates = formatcoords([
