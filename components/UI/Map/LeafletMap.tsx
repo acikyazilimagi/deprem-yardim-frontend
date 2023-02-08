@@ -18,6 +18,7 @@ import React, {
   useRef,
 } from "react";
 import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
+import { useDebouncedCallback } from "use-debounce";
 import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_CENTER,
@@ -68,10 +69,14 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const { setCoordinates, setPopUpData } = useMapActions();
 
+  const debounced = useDebouncedCallback((value: any) => {
+    setCoordinates(value);
+  }, 1000);
+
   const map = useMapEvents({
-    moveend: () => setCoordinates(map.getBounds()),
+    moveend: () => debounced(map.getBounds()),
     zoomend: () => {
-      setCoordinates(map.getBounds());
+      debounced(map.getBounds());
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {
@@ -87,13 +92,14 @@ const MapEvents = () => {
 };
 
 const corners = {
-  southWest: latLng(33.9825, 25.20902),
-  northEast: latLng(43.32683, 46.7742),
+  southWest: latLng(35.652832827451654, 33.12377929687501),
+  northEast: latLng(40.72644570551446, 39.27062988281251),
 };
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
+  const { setCoordinates } = useMapActions();
   const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
@@ -125,6 +131,7 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        whenReady={(map: any) => setCoordinates(map.target.getBounds())}
         zoomDelta={0.5}
         preferCanvas
         maxBounds={bounds}
@@ -140,6 +147,7 @@ function LeafletMap() {
           longitudeExtractor={longitudeExtractor}
           latitudeExtractor={latitudeExtractor}
           intensityExtractor={intensityExtractor}
+          useLocalExtrema={false}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}

@@ -1,12 +1,11 @@
-import { ClusterPopup } from "@/components/UI/ClusterPopup/ClusterPopup";
-import RenderCondition from "@/components/UI/Common/RenderIf";
+import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import TechnicalError from "@/components/UI/Common/TechnicalError";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import { MarkerData } from "@/mocks/types";
+import { CoordinatesURLParameters, MarkerData } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions } from "@/stores/mapStore";
+import { useMapActions, useCoordinates } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { BASE_URL } from "@/utils/constants";
 import Container from "@mui/material/Container";
@@ -15,6 +14,8 @@ import useSWR from "swr";
 import Head from "@/components/UI/Head/Head";
 // import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
+import React, { useEffect, useState } from "react";
+import RenderCondition from "@/components/UI/Common/RenderIf";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -25,10 +26,25 @@ type Props = {
 };
 
 export default function Home({ deviceType }: Props) {
+  const [slowLoading, setSlowLoading] = useState(false);
+
+  const [url, setURL] = useState<string | null>(null);
+  const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(coordinates as any).toString();
+
+    if (!urlParams) return;
+
+    setURL(BASE_URL + "?" + urlParams);
+  }, [coordinates]);
+
   const { error, isLoading } = useSWR<MarkerData[] | undefined>(
-    BASE_URL,
-    dataFetcher
+    url,
+    dataFetcher,
+    { onLoadingSlow: () => setSlowLoading(true) }
   );
+
   const { setDevice } = useMapActions();
   setDevice(deviceType);
 
@@ -41,7 +57,7 @@ export default function Home({ deviceType }: Props) {
           <RenderCondition
             condition={error ? "error" : isLoading ? "loading" : "success"}
             fallback={<TechnicalError />}
-            loading={<LoadingSpinner />}
+            loading={<LoadingSpinner slowLoading={false} />}
           >
             <LeafletMap />
           </RenderCondition>
