@@ -154,6 +154,8 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
+        zoomSnap={0.25}
+        zoomDelta={0.5}
         whenReady={(map: any) => setCoordinates(map.target.getBounds())}
         preferCanvas
         maxBounds={bounds}
