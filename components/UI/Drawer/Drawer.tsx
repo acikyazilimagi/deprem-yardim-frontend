@@ -17,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   CircularProgress,
   Snackbar,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -30,6 +31,7 @@ import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
 import dynamic from "next/dynamic";
+import PlaceholderTweet from "./components/PlaceholderTweet";
 
 interface MapsButton {
   label: string;
@@ -104,6 +106,7 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
+  const [showSavedData, setShowSavedData] = useState(true);
 
   const { data, isLoading, error } = useSWR<Data | undefined>(
     locationsURL(drawerData?.reference),
@@ -121,8 +124,6 @@ const Drawer = () => {
     const { formatted_address, extraParameters: extraParametersAsJSON } =
       dataTransformer(data);
 
-    console.log("data", data);
-
     let extraParameters = {
       tweet_id: "",
       name: "",
@@ -136,7 +137,7 @@ const Drawer = () => {
     } catch (e) {
       // I don't that trust that extraParameters JSON string, so it is better
       // to not to crash the UI.
-      console.log(e);
+      console.error(e);
     }
 
     if (!drawerData) {
@@ -245,21 +246,24 @@ const Drawer = () => {
                 >
                   Kopyala
                 </Button>
-                <Button
-                  variant="outlined"
-                  className={styles.clipboard}
-                  fullWidth
-                  size="small"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
-                    )
-                  }
-                  startIcon={<OpenInNew className={styles.btnIcon} />}
-                  color="secondary"
-                >
-                  Kaynak
-                </Button>
+                {/* @ts-ignore */}
+                {extraParameters.tweet_id && (
+                  <Button
+                    variant="outlined"
+                    className={styles.clipboard}
+                    fullWidth
+                    size="small"
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
+                      )
+                    }
+                    startIcon={<OpenInNew className={styles.btnIcon} />}
+                    color="secondary"
+                  >
+                    Kaynak
+                  </Button>
+                )}
               </div>
             </div>
             <div className={styles.sourceContent}>
@@ -267,9 +271,19 @@ const Drawer = () => {
                 <Typography className={styles.sourceContentTitle}>
                   Yardım İçeriği
                 </Typography>
+                <div className={styles.sourceContentSwitch}>
+                  <p>Kayıtlı veriyi göster</p>
+                  <Switch
+                    checked={showSavedData}
+                    onChange={() => setShowSavedData((s) => !s)}
+                  />
+                </div>
               </div>
-
-              <EmbedTweet source={extraParameters} />
+              {showSavedData ? (
+                <PlaceholderTweet source={extraParameters} />
+              ) : (
+                <EmbedTweet source={extraParameters} />
+              )}
             </div>
           </div>
         )}
@@ -277,7 +291,7 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, isLoading, error, drawerData]);
+  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
