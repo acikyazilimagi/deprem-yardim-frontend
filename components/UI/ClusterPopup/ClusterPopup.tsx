@@ -116,17 +116,6 @@ const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
           </Grid>
         </Grid>
         <Typography
-          variant={windowSize.width < 600 ? "body2" : "body1"}
-          sx={{
-            color: "#364152",
-            pr: windowSize.width < 600 ? "14px" : "12px",
-            wordWrap: "break-word",
-            pt: "4px",
-          }}
-        >
-          {data?.baseMarker?.formatted_address}
-        </Typography>
-        <Typography
           variant={windowSize.width < 600 ? "overline" : "body2"}
           sx={{ color: "#364152" }}
           fontWeight="500"
