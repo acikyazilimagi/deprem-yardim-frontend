@@ -164,9 +164,10 @@ function LeafletMap() {
         }
         zoomSnap={0.25}
         zoomDelta={0.5}
-        whenReady={(map: any) =>
-          setCoordinates(map.target.getBounds(), "ready")
-        }
+        whenReady={(map: any) => {
+          setCoordinates(map.target.getBounds(), "ready");
+          map.target.invalidateSize();
+        }}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
