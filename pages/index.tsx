@@ -60,22 +60,24 @@ export default function Home({ deviceType }: Props) {
       coordinatesAndEventType?.sw_lng,
     ]
   );
-  const { error, isLoading, mutate, isValidating } = useSWR<
-    DataLite | undefined
-  >(url, dataFetcher, {
-    onLoadingSlow: () => setSlowLoading(true),
-    revalidateOnFocus: false,
-    onSuccess: (data) => {
-      if (!data) return;
+  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
+    url,
+    dataFetcher,
+    {
+      onLoadingSlow: () => setSlowLoading(true),
+      revalidateOnFocus: false,
+      onSuccess: (data) => {
+        if (!data) return;
 
-      const transformedData = data.results ? dataTransformerLite(data) : [];
-      setMarkerData(transformedData);
-    },
-  });
+        const transformedData = data.results ? dataTransformerLite(data) : [];
+        setMarkerData(transformedData);
+      },
+    }
+  );
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    mutate,
+    () => setURL(areasURL + "?" + urlParams),
     REQUEST_THROTTLING_INITIAL_SEC
   );
 
@@ -107,6 +109,7 @@ export default function Home({ deviceType }: Props) {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="google" content="notranslate" />
       </Head>
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
