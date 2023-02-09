@@ -7,7 +7,11 @@ import createEmotionCache from "../utils/createEmotionCache";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="tr" className={roboto.className}>
+      <Html
+        lang="tr"
+        translate="no"
+        className={`${roboto.className} notranslate`}
+      >
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
