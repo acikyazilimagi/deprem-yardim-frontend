@@ -2,35 +2,31 @@ import React from "react";
 import { NextSeo } from "next-seo";
 import { DESCRIPTION, OG_EDGE_URL, TITLE } from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
-import { useRouter } from "next/router";
 
-const constructObjectFromAsPath = (asPath: string) => {
-  const clearHash = asPath.replace("/#", "");
-  const splitFrom = clearHash.split("&");
-  const constructObjectFromClearHash = splitFrom.map((value) => {
-    const splitKeyAndValue = value.split("=");
-    return {
-      [`${splitKeyAndValue[0]}`]: decodeURIComponent(splitKeyAndValue[1]),
-    };
-  });
-  const queries = Object.assign({}, ...constructObjectFromClearHash);
-  return queries;
-};
+interface IHeadWithMeta {
+  singleItemDetail: any;
+}
 
 // TODO: OG_EDGE_URL should be replace with main API
-const HeadWithMeta = () => {
-  const { asPath } = useRouter();
-  const queries = constructObjectFromAsPath(asPath);
-
-  const validateAddress = queries.address !== undefined;
-  const validateEntry = queries.entry !== undefined;
-  const validateLoc = queries.loc !== undefined;
+const HeadWithMeta = (props: IHeadWithMeta) => {
+  const validateAddress =
+    props.singleItemDetail.formatted_address !== undefined;
+  const validateEntry = props.singleItemDetail.full_text !== undefined;
+  const validateLoc =
+    props.singleItemDetail.lat !== undefined &&
+    props.singleItemDetail.lng !== undefined;
 
   const isPropsValid = validateAddress && validateEntry && validateLoc;
 
-  const ADDRESS = isPropsValid ? (queries.address as string) : TITLE;
-  const ENTRY = isPropsValid ? (queries.entry as string) : DESCRIPTION;
-  const LOC = isPropsValid ? (queries.loc as string) : "";
+  const ADDRESS = isPropsValid
+    ? (props.singleItemDetail.formatted_address as string)
+    : TITLE;
+  const ENTRY = isPropsValid
+    ? (props.singleItemDetail.full_text as string)
+    : DESCRIPTION;
+  const LOC = isPropsValid
+    ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
+    : "";
   const IMAGES: OpenGraphMedia[] | undefined = isPropsValid
     ? [
         {

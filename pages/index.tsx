@@ -27,7 +27,7 @@ import { Box } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { areasURL } from "@/utils/urls";
+import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
@@ -36,8 +36,9 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 
 type Props = {
   deviceType: DeviceType;
+  singleItemDetail: any;
 };
-export default function Home({ deviceType }: Props) {
+export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
 
   const [url, setURL] = useState<string | null>(null);
@@ -104,7 +105,7 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <HeadWithMeta />
+      <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
@@ -156,12 +157,19 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
-  console.log("serverside query", context);
-  // const { data } = await dataFetcher(locationsURL());
+
+  let itemDetail = {};
+  if (context.query.id) {
+    const url = locationsURL(context.query.id) as string;
+    itemDetail = await dataFetcher(url);
+  }
 
   return {
     props: {
       deviceType: isMobile ? "mobile" : "desktop",
+      singleItemDetail: context.query.id
+        ? { ...itemDetail, ...context.query }
+        : {},
     },
   };
 }
