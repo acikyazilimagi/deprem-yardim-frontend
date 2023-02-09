@@ -76,7 +76,6 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
@@ -94,11 +93,17 @@ const MapEvents = () => {
       }
 
       setCoordinates(localCoordinates, eventType);
-      router.push({
-        hash: `#lat=${localCoordinates.getCenter().lat}&lng=${
-          localCoordinates.getCenter().lng
-        }&zoom=${zoomLevel}`,
-      });
+
+      // set cordinates and zoom level to url
+      const cordinatesURL = `#lat=${localCoordinates.getCenter().lat}&lng=${
+        localCoordinates.getCenter().lng
+      }&zoom=${zoomLevel}`;
+
+      window.history.replaceState(
+        { ...window.history.state, as: cordinatesURL, url: cordinatesURL },
+        "",
+        cordinatesURL
+      );
     },
     1000
   );
@@ -159,7 +164,7 @@ function LeafletMap() {
 
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
 
-  // to set default center and zoom level from url
+  // get default center and zoom level from url
   const defaultCenter: LatLngExpression =
     asPath.includes("lat=") && asPath.includes("lng=")
       ? [
