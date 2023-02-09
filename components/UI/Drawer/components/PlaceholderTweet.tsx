@@ -29,7 +29,6 @@ const PlaceholderTweet = ({ source }: Props) => {
             <TwitterLogo />
           </div>
         </div>
-        {/* @ts-ignore */}
         <Typography style={styles.fullText}>{source.full_text}</Typography>
       </div>
     </>
