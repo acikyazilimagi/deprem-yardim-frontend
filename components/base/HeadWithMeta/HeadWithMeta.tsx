@@ -48,12 +48,12 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
       title={ADDRESS}
       description={ENTRY}
       openGraph={{
-        // TODO: base path is missing in next.config static for now
+        type: "website",
         url: `https://afetharita.com/`,
         title: ADDRESS,
         description: ENTRY,
-        images: IMAGES,
         siteName: "Afet Haritası",
+        images: IMAGES,
       }}
       twitter={{
         handle: "afetharita.com",
