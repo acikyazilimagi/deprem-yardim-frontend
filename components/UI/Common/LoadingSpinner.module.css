@@ -24,13 +24,17 @@
   }
 }
 
+.spinnerLoader {
+  margin-left: 10px;
+}
+
 .spinnerLoaderBox .spinnerLoader {
   border: 1px solid white;
   border-radius: 50%;
   border-right-color: transparent;
   border-bottom-color: transparent;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   animation-name: spin;
   animation-duration: 700ms;
   animation-iteration-count: infinite;
