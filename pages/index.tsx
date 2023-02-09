@@ -5,14 +5,15 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
-import {
-  CoordinatesURLParametersWithEventType,
-  MarkerData,
-} from "@/mocks/types";
+import { CoordinatesURLParametersWithEventType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useCoordinates, useMapActions } from "@/stores/mapStore";
+import {
+  useCoordinates,
+  useMapActions,
+  setMarkerData,
+} from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -23,6 +24,9 @@ import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { dataTransformerLite } from "@/utils/dataTransformer";
+import { DataLite } from "@/mocks/TypesAreasEndpoint";
+import { areasURL } from "@/utils/urls";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -55,10 +59,16 @@ export default function Home({ deviceType }: Props) {
     ]
   );
   const { error, isLoading, mutate, isValidating } = useSWR<
-    MarkerData[] | undefined
+    DataLite | undefined
   >(url, dataFetcher, {
     onLoadingSlow: () => setSlowLoading(true),
     revalidateOnFocus: false,
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+    },
   });
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
@@ -67,7 +77,7 @@ export default function Home({ deviceType }: Props) {
   );
 
   const handleScanButtonClick = useCallback(() => {
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     resetThrottling();
   }, [resetThrottling, urlParams]);
 
@@ -86,7 +96,7 @@ export default function Home({ deviceType }: Props) {
       return;
     }
 
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
