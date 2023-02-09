@@ -33,6 +33,11 @@ const SitesIcon = () => {
     },
   };
 
+  const littleIcon = {
+    width: 28,
+    height: 28,
+  };
+
   return (
     <>
       <Stack
@@ -47,7 +52,7 @@ const SitesIcon = () => {
           borderRadius: "10px",
           position: "absolute",
           top: "10px",
-          right: "10px",
+          right: "70px",
           zIndex: 500,
         }}
       >
@@ -60,6 +65,7 @@ const SitesIcon = () => {
             onMouseLeave={handlePopoverClose}
           >
             <Avatar
+              sx={littleIcon}
               alt="deprem yardim icon"
               src="/icons/depremyardımIcon.svg"
             />
@@ -78,7 +84,7 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
@@ -99,7 +105,11 @@ const SitesIcon = () => {
             onMouseEnter={() => handlePopoverOpen("depremIO")}
             onMouseLeave={handlePopoverClose}
           >
-            <Avatar alt="deprem io icon" src="/icons/depremIOIcon.svg" />
+            <Avatar
+              sx={littleIcon}
+              alt="deprem io icon"
+              src="/icons/depremIOIcon.svg"
+            />
           </Link>
 
           <Popover
@@ -115,7 +125,7 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
@@ -136,7 +146,11 @@ const SitesIcon = () => {
             onMouseEnter={() => handlePopoverOpen("depremDiscord")}
             onMouseLeave={handlePopoverClose}
           >
-            <Avatar alt="discord icon" src="/icons/discordIcon.svg" />
+            <Avatar
+              sx={littleIcon}
+              alt="discord icon"
+              src="/icons/discordIcon.svg"
+            />
           </Link>
 
           <Popover
@@ -152,7 +166,7 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
