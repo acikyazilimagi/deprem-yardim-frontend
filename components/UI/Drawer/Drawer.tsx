@@ -29,6 +29,7 @@ import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
+import { getTimeAgo } from "@/utils/date";
 
 interface MapsButton {
   label: string;
@@ -39,7 +40,7 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/?q=loc:${lat},${lng}&ll=${lat},${lng}&z=21`;
+  return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
@@ -135,6 +136,8 @@ const Drawer = () => {
       drawerData.geometry.location.lng,
     ]).format();
 
+    const formattedTimeAgo = data && getTimeAgo(data.timestamp);
+
     return (
       <Box
         sx={{
@@ -164,7 +167,22 @@ const Drawer = () => {
         {!isLoading && data && (
           <div className={styles.content}>
             <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
-            <p>{formattedCoordinates}</p>
+            {formattedTimeAgo && (
+              <div className={styles.contentInfo}>
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
+                  <path d="M8.2 1.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.6-6.7-3-6.7-6.6-6.7zM12 8.7h-4.5V4h1.3v3.3H12v1.4z" />
+                </svg>
+                <span>Bildirim zamanı: {formattedTimeAgo}</span>
+              </div>
+            )}
+            <div className={styles.contentInfo}>
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
+                <path d="M8 1A5.5 5.5 0 0 0 2.5 6.5a5.4 5.4 0 0 0 1.1 3.3s0.1 0.2 0.2 0.2L8 15l4.2-5c0 0 0.2-0.2 0.2-0.2l0 0A5.4 5.4 0 0 0 13.5 6.5 5.5 5.5 0 0 0 8 1Zm0 7.5a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z" />
+                <path d="M8 6.5m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0" fill="none" />
+              </svg>
+              <span>{formattedCoordinates}</span>
+            </div>
+
             <div className={styles.contentButtons}>
               {mapsButtons.map((button) => (
                 <Button

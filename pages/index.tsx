@@ -27,6 +27,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL } from "@/utils/urls";
+import { LoadArea } from "@/components/UI/Button/LoadArea";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -70,6 +71,7 @@ export default function Home({ deviceType }: Props) {
       setMarkerData(transformedData);
     },
   });
+
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     mutate,
@@ -138,9 +140,6 @@ export default function Home({ deviceType }: Props) {
               </small>
             </Box>
           </RenderIf>
-          {(isLoading || isValidating) && (
-            <LoadingSpinner slowLoading={slowLoading} />
-          )}
         </Container>
         <Drawer />
         <ClusterPopup />
@@ -152,7 +151,7 @@ export default function Home({ deviceType }: Props) {
             top: "50px",
             left: "50%",
             marginLeft: "-65.9px",
-            zIndex: "9999",
+            zIndex: "502",
             display: "flex",
             flexDirection: "column",
             rowGap: "8px",
@@ -163,11 +162,12 @@ export default function Home({ deviceType }: Props) {
             variant="contained"
             onClick={handleScanButtonClick}
           >
-            Bu Alanı Tara
+            {isLoading || isValidating ? (
+              <LoadingSpinner slowLoading={slowLoading} />
+            ) : (
+              <LoadArea remainingTime={remainingTime} />
+            )}
           </Button>
-          <small className={styles.autoScanInfoText}>
-            {remainingTime}sn sonra otomatik taranacak
-          </small>
         </Box>
       </main>
     </>
