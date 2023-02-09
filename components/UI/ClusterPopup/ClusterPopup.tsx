@@ -19,6 +19,7 @@ import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
+import useDisableZoom from "@/hooks/useDisableZoom";
 
 const PopupCard = styled(Card)`
   position: absolute;
@@ -39,6 +40,7 @@ const PopupCard = styled(Card)`
 `;
 
 const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
+  useDisableZoom();
   const { setPopUpData } = useMapActions();
   const { enqueueInfo, closeSnackbar } = useSnackbar();
   const windowSize = useWindowSize();
@@ -113,17 +115,6 @@ const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
             </IconButton>
           </Grid>
         </Grid>
-        <Typography
-          variant={windowSize.width < 600 ? "body2" : "body1"}
-          sx={{
-            color: "#364152",
-            pr: windowSize.width < 600 ? "14px" : "12px",
-            wordWrap: "break-word",
-            pt: "4px",
-          }}
-        >
-          {data?.baseMarker?.formatted_address}
-        </Typography>
         <Typography
           variant={windowSize.width < 600 ? "overline" : "body2"}
           sx={{ color: "#364152" }}
