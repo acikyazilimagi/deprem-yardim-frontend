@@ -99,7 +99,7 @@ const Drawer = () => {
   );
   const [showSavedData, setShowSavedData] = useState(true);
 
-  const { data, isLoading } = useSWR<Data | undefined>(
+  const { data, isLoading, error } = useSWR<Data | undefined>(
     locationsURL(drawerData?.reference),
     dataFetcher
   );
@@ -168,7 +168,21 @@ const Drawer = () => {
             <CircularProgress />
           </Box>
         )}
-        {!isLoading && (
+        {error && (
+          <Box
+            sx={{
+              height: "300px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">
+              Teknik bir sorun oluştu. Lütfen daha sonra tekrar deneyiniz.
+            </Typography>
+          </Box>
+        )}
+        {!isLoading && data && (
           <div className={styles.content}>
             <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
             <p>{formattedCoordinates}</p>
@@ -270,7 +284,7 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading]);
+  }, [data, size.width, toggler, showSavedData, isLoading, error]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
