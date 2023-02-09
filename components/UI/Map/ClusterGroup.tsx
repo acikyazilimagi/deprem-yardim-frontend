@@ -36,9 +36,9 @@ const ClusterGroup = ({ data }: Props) => {
       }}
     >
       {data.map((marker: MarkerData) => (
-        <Fragment key={marker.place_id}>
+        <Fragment key={marker.reference}>
           <ExtendedMarker
-            key={marker.place_id}
+            key={marker.reference}
             position={[
               marker.geometry.location.lat,
               marker.geometry.location.lng,
