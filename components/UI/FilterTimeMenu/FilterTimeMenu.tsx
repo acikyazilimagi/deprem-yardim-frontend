@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-type TimeOption = "last6Hours" | "last12Hours" | "last3Days" | "all";
+type TimeOption =
+  | "last6Hours"
+  | "last12Hours"
+  | "last24Hours"
+  | "last3Days"
+  | "all";
 
 type FilterOption = {
   label: string;
