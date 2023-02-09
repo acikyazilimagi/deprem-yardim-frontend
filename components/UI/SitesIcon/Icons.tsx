@@ -91,8 +91,7 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Deprem Yardım Sitemiz Depremzedelerin Ve Depremzedeleri Aramak
-              İçin Kullandığımız Site.
+              Depremzedeleri aramak ve yardım etmek için kullandığımız site.
             </Typography>
           </Popover>
         </Box>
@@ -132,8 +131,7 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Deprem.io Sitemiz Depremzedelerin Ve Depremzedeleri Erzak Yardımı
-              İçin Kullandığımız Site.
+              Depremzedelere erzak yardımı için kullandığımız site.
             </Typography>
           </Popover>
         </Box>
@@ -173,8 +171,8 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Discord Sunucumuzda Projelerimizi Geliştirmek Ve Birbirimizle
-              İletişim Kurmak İçin Kullandığımız Site.
+              Projelerimizi geliştirmek ve birbirimizle iletişim kurmak için
+              kullandığımız Discord sunucusu.
             </Typography>
           </Popover>
         </Box>
