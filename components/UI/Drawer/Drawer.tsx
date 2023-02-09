@@ -1,3 +1,4 @@
+import useDisableZoom from "@/hooks/useDisableZoom";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
@@ -14,13 +15,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import styles from "./Drawer.module.css";
 
 interface MapsButton {
@@ -76,6 +71,7 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 const Drawer = () => {
+  useDisableZoom();
   const isOpen = useIsDrawerOpen();
   const data = useDrawerData();
   const size = useWindowSize();
@@ -85,27 +81,6 @@ const Drawer = () => {
     [size.width]
   );
   const [showSavedData, setShowSavedData] = useState(true);
-
-  useEffect(() => {
-    if (isOpen) {
-      const onWheelTrigger = (e: WheelEvent) => {
-        if (e.ctrlKey) {
-          e.preventDefault();
-        }
-      };
-      const onTouchMove = (e: any) => {
-        if (e.scale !== 1) {
-          e.preventDefault();
-        }
-      };
-      window.addEventListener("wheel", onWheelTrigger, { passive: false });
-      window.addEventListener("touchmove", onTouchMove, { passive: false });
-      return () => {
-        window.removeEventListener("wheel", onWheelTrigger);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
-    }
-  }, [isOpen]);
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
