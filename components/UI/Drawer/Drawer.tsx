@@ -38,6 +38,8 @@ import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
 import { useUrlPath } from "@/hooks/useUrlPath";
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import PlaceholderTweet from "./components/PlaceholderTweet";
 
 interface MapsButton {
   label: string;
@@ -46,6 +48,9 @@ interface MapsButton {
   icon: React.ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
+const EmbedTweet = dynamic(() => import("./components/EmbedTweet"), {
+  ssr: false,
+});
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
@@ -142,23 +147,23 @@ const Drawer = () => {
   }, [isOpen]);
 
   const list = useMemo(() => {
-    const {
-      formatted_address,
-      fullText,
-      extraParameters: extraParametersAsJSON,
-    } = dataTransformer(data);
+    const { formatted_address, extraParameters: extraParametersAsJSON } =
+      dataTransformer(data);
 
     let extraParameters = {
       tweet_id: "",
       name: "",
+      full_text: "",
+      user_id: "",
     };
 
     try {
       extraParameters = JSON.parse(extraParametersAsJSON || "{}");
+      extraParameters.full_text = data?.full_text!;
     } catch (e) {
       // I don't that trust that extraParameters JSON string, so it is better
       // to not to crash the UI.
-      console.log(e);
+      console.error(e);
     }
 
     if (!drawerData) {
@@ -180,7 +185,7 @@ const Drawer = () => {
           height: "100%",
           padding: "1rem 2rem 1rem 1rem",
           flexDirection: "column",
-          overflow: "hidden",
+          overflow: "auto",
         }}
         role="presentation"
         onKeyDown={(e) => toggler(e)}
@@ -267,21 +272,23 @@ const Drawer = () => {
                 >
                   Kopyala
                 </Button>
-                <Button
-                  variant="outlined"
-                  className={styles.clipboard}
-                  fullWidth
-                  size="small"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
-                    )
-                  }
-                  startIcon={<OpenInNew className={styles.btnIcon} />}
-                  color="secondary"
-                >
-                  Kaynak
-                </Button>
+                {extraParameters.tweet_id && (
+                  <Button
+                    variant="outlined"
+                    className={styles.clipboard}
+                    fullWidth
+                    size="small"
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
+                      )
+                    }
+                    startIcon={<OpenInNew className={styles.btnIcon} />}
+                    color="secondary"
+                  >
+                    Kaynak
+                  </Button>
+                )}
               </div>
             </div>
             <div className={styles.sourceContent}>
@@ -289,31 +296,25 @@ const Drawer = () => {
                 <Typography className={styles.sourceContentTitle}>
                   Yardım İçeriği
                 </Typography>
-                <div className={styles.sourceContentSwitch}>
-                  <p>Kayıtlı veriyi göster</p>
-                  <Switch
-                    checked={showSavedData}
-                    onChange={() => setShowSavedData((s) => !s)}
-                  />
-                </div>
+                {extraParameters.name && (
+                  <div className={styles.sourceContentSwitch}>
+                    <p>Kayıtlı veriyi göster</p>
+                    <Switch
+                      checked={showSavedData}
+                      onChange={() => setShowSavedData((s) => !s)}
+                    />
+                  </div>
+                )}
               </div>
               {showSavedData ? (
-                <div className={styles.sourceContentText}>
-                  <Typography>{fullText}</Typography>
-                </div>
+                <PlaceholderTweet source={extraParameters} />
               ) : (
-                <div className={styles.sourceContentIframeWrapper}>
-                  <iframe
-                    frameBorder={0}
-                    className={styles.sourceContentIframe}
-                    width={"100%"}
-                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParameters?.name}/status/${extraParameters?.tweet_id}&conversation=none`}
-                  ></iframe>
-                </div>
+                <EmbedTweet source={extraParameters} />
               )}
             </div>
           </div>
         )}
+
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
