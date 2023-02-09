@@ -75,9 +75,11 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
     if (option.inMilliseconds === -1) {
       onChangeTime(undefined);
     } else {
-      onChangeTime(
-        Math.floor((Date.now().valueOf() - option.inMilliseconds) / 1000)
-      );
+      const currentTimestampInMillis = Date.now().valueOf();
+      const pastTimestampInMillis =
+        currentTimestampInMillis - option.inMilliseconds;
+      const pastTimestampInSeconds = Math.floor(pastTimestampInMillis / 1000);
+      onChangeTime(Math.floor(pastTimestampInSeconds));
     }
   }, [onChangeTime, selectedValue]);
 
