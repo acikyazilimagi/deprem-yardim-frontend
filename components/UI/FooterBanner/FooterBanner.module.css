@@ -25,10 +25,10 @@
   display: flex;
   border-radius: 8px;
   background-color: rgba(220, 20, 60, 0.768);
-  padding: 1.7rem 0.9rem 0.9rem 0.9rem;
+  padding: 0.9em 2.9rem 0.9rem 0.9rem;
   text-align: justify;
   text-justify: distribute;
-  width: 24rem;
+  width: 50%;
   z-index: 999;
   bottom: 0.5rem;
   margin: auto;
