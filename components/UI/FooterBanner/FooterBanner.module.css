@@ -1,6 +1,6 @@
 .footer {
   bottom: 24px;
-  z-index: 998;
+  z-index: 2;
   margin: 10px;
   font-weight: 500;
   font-size: 0.7rem;
@@ -27,7 +27,7 @@
   background-color: rgba(220, 20, 60, 0.768);
   padding: 1.7rem 0.9rem 0.9rem 0.9rem;
   width: 24rem;
-  z-index: 999;
+  z-index: 3;
   bottom: 0.5rem;
   margin: auto;
 }

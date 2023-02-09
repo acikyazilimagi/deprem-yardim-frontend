@@ -18,7 +18,7 @@
   width: 50px;
   text-align: center;
   justify-content: flex-end;
-  z-index: 1000;
+  z-index: 4;
 }
 
 .logoContainer {

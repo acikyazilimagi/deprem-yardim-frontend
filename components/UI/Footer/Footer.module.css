@@ -7,7 +7,7 @@
   position: fixed;
   left: 10px;
   bottom: 0;
-  z-index: 1000;
+  z-index: 2;
 }
 
 .footer li a {

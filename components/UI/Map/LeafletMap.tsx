@@ -8,6 +8,7 @@ import L, { latLng, latLngBounds } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
+
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useMemo, useRef } from "react";
@@ -47,6 +48,41 @@ const GlobalClusterStyle = css`
         font-weight: bold;
       }
     }
+
+    .leaflet-pane {
+      z-index: 1 !important;
+    }
+    .leaflet-tile-container {
+      z-index: 1 !important;
+    }
+    .leaflet-left {
+      z-index: 4 !important;
+    }
+    .leaflet-right {
+      z-index: 4 !important;
+    }
+    .leaflet-top {
+      z-index: 4 !important;
+    }
+    .leaflet-bottom {
+      z-index: 4 !important;
+    }
+    .leaflet-control {
+      z-index: 4 !important;
+    }
+    .leaflet-control-zoom {
+      z-index: 4 !important;
+    }
+    .leaflet-marker-icon {
+      z-index: 3 !important;
+    }
+    canvas.leaflet-zoom-animated {
+      z-index: 3 !important;
+    }
+    .leaflet-control-layers-expanded {
+      z-index: 4 !important;
+    }
+   
   `
   )}
 `;

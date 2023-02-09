@@ -6,7 +6,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  z-index: 1000;
+  z-index: 10;
   text-align: center;
 }
 

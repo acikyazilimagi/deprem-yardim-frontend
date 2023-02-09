@@ -7,7 +7,7 @@
   gap: 4px;
   bottom: 30px;
   left: 10px;
-  z-index: 999;
+  z-index: 2;
   display: flex;
   padding: 6px;
   position: fixed;
@@ -112,7 +112,7 @@
   position: fixed;
   top: 60px;
   right: 10px;
-  z-index: 999;
+  z-index: 2;
   display: flex;
   align-items: stretch;
   justify-content: center;

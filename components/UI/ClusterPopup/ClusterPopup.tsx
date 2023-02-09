@@ -26,7 +26,7 @@ const PopupCard = styled(Card)`
   bottom: 25px;
   left: 10px;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 4;
   font-size: 1rem;
   @media (max-width: ${theme.breakpoints.values.sm}px) {
     max-width: unset;

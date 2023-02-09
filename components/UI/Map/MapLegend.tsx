@@ -48,7 +48,7 @@ const MapLegend = () => {
               id={id}
               open={anchorEl?.id === intensity && !isLegendOpen}
               anchorEl={anchorEl?.el}
-              sx={{ backgroundColor: "white", zIndex: 999, borderRadius: 2 }}
+              sx={{ backgroundColor: "white", zIndex: 4, borderRadius: 2 }}
             >
               <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
                 <Typography sx={{ p: 2 }}>

@@ -54,7 +54,7 @@
 
 .drawer {
   position: relative;
-  z-index: 99999;
+  z-index: 5;
 }
 
 .clipboard {

@@ -53,7 +53,7 @@ const SitesIcon = () => {
           position: "absolute",
           top: "10px",
           right: "70px",
-          zIndex: 500,
+          zIndex: 3,
         }}
       >
         <Box sx={toBiggerIcon}>
@@ -86,7 +86,7 @@ const SitesIcon = () => {
             sx={{
               background: "#00000000",
               pointerEvents: "none",
-              zIndex: 600,
+              zIndex: 3,
             }}
             onClose={handlePopoverClose}
           >
@@ -126,7 +126,7 @@ const SitesIcon = () => {
             sx={{
               background: "#00000000",
               pointerEvents: "none",
-              zIndex: 600,
+              zIndex: 3,
             }}
             onClose={handlePopoverClose}
           >
@@ -166,7 +166,7 @@ const SitesIcon = () => {
             sx={{
               background: "#00000000",
               pointerEvents: "none",
-              zIndex: 600,
+              zIndex: 3,
             }}
             onClose={handlePopoverClose}
           >
