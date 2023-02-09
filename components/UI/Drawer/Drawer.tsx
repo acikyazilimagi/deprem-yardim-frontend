@@ -49,6 +49,14 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
   );
 };
 
+export const generateTweetUrl = (tweetId: string) => {
+  return `https://twitter.com/anyuser/status/${tweetId}`;
+};
+
+export const openTweetUrl = (tweetId: string) => {
+  window.open(generateTweetUrl(tweetId), "_blank");
+};
+
 export const mapsButtons: MapsButton[] = [
   {
     label: "Google Haritalarda Aç",
@@ -156,7 +164,10 @@ const Drawer = () => {
                 fullWidth
                 onClick={() =>
                   copyBillboard(
-                    `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                    generateGoogleMapsUrl(
+                      geometry.location.lat,
+                      geometry.location.lng
+                    )
                   )
                 }
                 startIcon={<CopyAll className={styles.btnIcon} />}
@@ -168,11 +179,7 @@ const Drawer = () => {
                 className={styles.clipboard}
                 fullWidth
                 size="small"
-                onClick={() =>
-                  window.open(
-                    `https://twitter.com/anyuser/status/${source.tweet_id}`
-                  )
-                }
+                onClick={() => openTweetUrl(source.tweet_id)}
                 startIcon={<OpenInNew className={styles.btnIcon} />}
                 color="secondary"
               >

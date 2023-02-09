@@ -7,6 +7,7 @@ import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
+  DeviceType,
   MarkerData,
 } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
@@ -29,7 +30,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 type Props = {
-  deviceType: "mobile" | "desktop";
+  deviceType: DeviceType;
 };
 
 export default function Home({ deviceType }: Props) {
