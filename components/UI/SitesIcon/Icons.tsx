@@ -52,7 +52,7 @@ const SitesIcon = () => {
           borderRadius: "10px",
           position: "absolute",
           top: "10px",
-          right: "70px",
+          right: "26px",
           zIndex: 500,
         }}
       >
