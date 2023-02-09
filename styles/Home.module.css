@@ -424,10 +424,50 @@
   border-radius: 50%;
 }
 
-.autoScanInfoText {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
+.loadArea {
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.autoScanInfoTextSpinner {
+  display: block;
+  text-align: center;
+}
+
+.autoScanInfoTextSpinner {
+  background: transparent;
   padding: 2px 5px;
   color: white;
   font-weight: bold;
+  border: 1px solid white;
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  width: 30px;
+  height: 30px;
+  animation-name: spin;
+  animation-duration: 700ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  margin-left: 10px;
+}
+
+.autoScanInfoText {
+  width: 30px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  left: 69%;
 }
