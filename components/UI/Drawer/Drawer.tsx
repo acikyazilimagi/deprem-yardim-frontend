@@ -33,6 +33,7 @@ import React, {
   useState,
 } from "react";
 import useSWR from "swr";
+import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 
 interface MapsButton {
@@ -105,24 +106,25 @@ const Drawer = () => {
   );
 
   useEffect(() => {
-    if (isOpen) {
-      const onWheelTrigger = (e: WheelEvent) => {
-        if (e.ctrlKey) {
-          e.preventDefault();
-        }
-      };
-      const onTouchMove = (e: any) => {
-        if (e.scale !== 1) {
-          e.preventDefault();
-        }
-      };
-      window.addEventListener("wheel", onWheelTrigger, { passive: false });
-      window.addEventListener("touchmove", onTouchMove, { passive: false });
-      return () => {
-        window.removeEventListener("wheel", onWheelTrigger);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
+    if (!isOpen) {
+      return;
     }
+    const onWheelTrigger = (e: WheelEvent) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+      }
+    };
+    const onTouchMove = (e: any) => {
+      if (e.scale !== 1) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("wheel", onWheelTrigger, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheelTrigger);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
   }, [isOpen]);
 
   function copyBillboard(url: string) {
@@ -155,7 +157,7 @@ const Drawer = () => {
         {isLoading && (
           <Box
             sx={{
-              height: "300px",
+              minHeight: "30%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -164,20 +166,7 @@ const Drawer = () => {
             <CircularProgress />
           </Box>
         )}
-        {error && (
-          <Box
-            sx={{
-              height: "300px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h5">
-              Teknik bir sorun oluştu. Lütfen daha sonra tekrar deneyiniz.
-            </Typography>
-          </Box>
-        )}
+        {error && <GenericError />}
         {!isLoading && data && (
           <div className={styles.content}>
             <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
