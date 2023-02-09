@@ -157,7 +157,7 @@ const Drawer = () => {
         {isLoading && (
           <Box
             sx={{
-              minHeight: "30%",
+              minHeight: "300px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
