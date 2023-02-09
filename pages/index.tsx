@@ -5,7 +5,10 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
-import { CoordinatesURLParametersWithEventType } from "@/mocks/types";
+import {
+  CoordinatesURLParametersWithEventType,
+  DeviceType,
+} from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import {
   useCoordinates,
@@ -33,7 +36,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 type Props = {
-  deviceType: "mobile" | "desktop";
+  deviceType: DeviceType;
 };
 
 export default function Home({ deviceType }: Props) {
