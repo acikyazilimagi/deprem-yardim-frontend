@@ -152,7 +152,7 @@ export default function Home({ deviceType }: Props) {
             top: "50px",
             left: "50%",
             marginLeft: "-65.9px",
-            zIndex: "9999",
+            zIndex: "502",
             display: "flex",
             flexDirection: "column",
             rowGap: "8px",
