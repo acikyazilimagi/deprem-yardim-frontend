@@ -17,7 +17,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   CircularProgress,
   Snackbar,
-  Switch,
   TextField,
   Typography,
 } from "@mui/material";
@@ -30,6 +29,7 @@ import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
+import dynamic from "next/dynamic";
 
 interface MapsButton {
   label: string;
@@ -38,6 +38,9 @@ interface MapsButton {
   icon: React.ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
+const EmbedTweet = dynamic(() => import("./components/EmbedTweet"), {
+  ssr: false,
+});
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
@@ -101,7 +104,6 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
-  const [showSavedData, setShowSavedData] = useState(true);
 
   const { data, isLoading, error } = useSWR<Data | undefined>(
     locationsURL(drawerData?.reference),
@@ -116,19 +118,21 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    const {
-      formatted_address,
-      fullText,
-      extraParameters: extraParametersAsJSON,
-    } = dataTransformer(data);
+    const { formatted_address, extraParameters: extraParametersAsJSON } =
+      dataTransformer(data);
+
+    console.log("data", data);
 
     let extraParameters = {
       tweet_id: "",
       name: "",
+      full_text: "",
+      user_id: "",
     };
 
     try {
       extraParameters = JSON.parse(extraParametersAsJSON || "{}");
+      extraParameters.full_text = data?.full_text!;
     } catch (e) {
       // I don't that trust that extraParameters JSON string, so it is better
       // to not to crash the UI.
@@ -263,35 +267,17 @@ const Drawer = () => {
                 <Typography className={styles.sourceContentTitle}>
                   Yardım İçeriği
                 </Typography>
-                <div className={styles.sourceContentSwitch}>
-                  <p>Kayıtlı veriyi göster</p>
-                  <Switch
-                    checked={showSavedData}
-                    onChange={() => setShowSavedData((s) => !s)}
-                  />
-                </div>
               </div>
-              {showSavedData ? (
-                <div className={styles.sourceContentText}>
-                  <Typography>{fullText}</Typography>
-                </div>
-              ) : (
-                <div className={styles.sourceContentIframeWrapper}>
-                  <iframe
-                    frameBorder={0}
-                    className={styles.sourceContentIframe}
-                    width={"100%"}
-                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParameters?.name}/status/${extraParameters?.tweet_id}&conversation=none`}
-                  ></iframe>
-                </div>
-              )}
+
+              <EmbedTweet source={extraParameters} />
             </div>
           </div>
         )}
+
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
+  }, [data, size.width, toggler, isLoading, error, drawerData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
