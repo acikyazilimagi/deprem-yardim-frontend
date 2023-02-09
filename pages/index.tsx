@@ -116,7 +116,7 @@ export default function Home({ deviceType }: Props) {
             <Box
               sx={{
                 position: "fixed",
-                top: "50px",
+                top: "15px",
                 left: "50%",
                 marginLeft: "-105px",
                 zIndex: "502",
