@@ -1,3 +1,15 @@
+.contentIdSection {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  background-color: #e5e5e5;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3f3131;
+  border-radius: 6px;
+  padding: 0 4px;
+}
+
 .closeButton {
   position: absolute;
   top: 1rem;

@@ -174,6 +174,9 @@ const Drawer = () => {
         {error && <GenericError />}
         {!isLoading && data && (
           <div className={styles.content}>
+            <span className={styles.contentIdSection}>
+              ID: {drawerData.reference}
+            </span>
             <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
             {formattedTimeAgo && (
               <div className={styles.contentInfo}>

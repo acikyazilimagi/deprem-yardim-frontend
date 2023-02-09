@@ -21,7 +21,6 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-// import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
@@ -110,8 +109,6 @@ export default function Home({ deviceType }: Props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <main className={styles.main}>
-        {/* <HelpButton /> FooterBanner'a taşındı */}
-
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
@@ -119,7 +116,7 @@ export default function Home({ deviceType }: Props) {
             <Box
               sx={{
                 position: "fixed",
-                top: "50px",
+                top: "15px",
                 left: "50%",
                 marginLeft: "-105px",
                 zIndex: "502",
