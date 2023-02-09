@@ -17,6 +17,7 @@ export type MarkerData = {
 };
 export type ClusterPopupData = {
   count: number;
+  baseMarker: MarkerData;
   markers: any[];
 };
 
