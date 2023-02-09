@@ -3,24 +3,31 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
   CoordinatesURLParametersWithEventType,
-  MarkerData,
+  DeviceType,
 } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useCoordinates, useMapActions } from "@/stores/mapStore";
+import {
+  useCoordinates,
+  useMapActions,
+  setMarkerData,
+} from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-// import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { dataTransformerLite } from "@/utils/dataTransformer";
+import { DataLite } from "@/mocks/TypesAreasEndpoint";
+import { areasURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
@@ -28,7 +35,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 type Props = {
-  deviceType: "mobile" | "desktop";
+  deviceType: DeviceType;
 };
 
 export default function Home({ deviceType }: Props) {
@@ -54,11 +61,18 @@ export default function Home({ deviceType }: Props) {
     ]
   );
   const { error, isLoading, mutate, isValidating } = useSWR<
-    MarkerData[] | undefined
+    DataLite | undefined
   >(url, dataFetcher, {
     onLoadingSlow: () => setSlowLoading(true),
     revalidateOnFocus: false,
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+    },
   });
+
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     mutate,
@@ -66,7 +80,7 @@ export default function Home({ deviceType }: Props) {
   );
 
   const handleScanButtonClick = useCallback(() => {
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     resetThrottling();
   }, [resetThrottling, urlParams]);
 
@@ -85,7 +99,7 @@ export default function Home({ deviceType }: Props) {
       return;
     }
 
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
@@ -93,20 +107,21 @@ export default function Home({ deviceType }: Props) {
     <>
       <HeadWithMeta />
       <main className={styles.main}>
-        {/* <HelpButton /> FooterBanner'a taşındı */}
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
+            <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
-                top: "50px",
+                top: "15px",
                 left: "50%",
-                marginLeft: "-65.9px",
-                zIndex: "9999",
+                marginLeft: "-105px",
+                zIndex: "502",
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "8px",
+                width: "210px",
               }}
             >
               <Button
@@ -114,16 +129,17 @@ export default function Home({ deviceType }: Props) {
                 variant="contained"
                 onClick={handleScanButtonClick}
               >
-                Bu Alanı Tara
+                {isLoading || isValidating ? (
+                  <LoadingSpinner slowLoading={slowLoading} />
+                ) : (
+                  "ALANI TARA"
+                )}
               </Button>
-              <small className={styles.autoScanInfoText}>
-                {remainingTime}sn sonra otomatik taranacak
+              <small className={styles.autoScanInfoTextIndex}>
+                {remainingTime} sn sonra otomatik taranacak
               </small>
             </Box>
           </RenderIf>
-          {(isLoading || isValidating) && (
-            <LoadingSpinner slowLoading={slowLoading} />
-          )}
         </Container>
         <Drawer />
         <ClusterPopup />

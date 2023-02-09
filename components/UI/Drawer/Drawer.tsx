@@ -1,27 +1,35 @@
+import useDisableZoom from "@/hooks/useDisableZoom";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
+import { Data } from "@/mocks/TypesAreasEndpoint";
+import { dataFetcher } from "@/services/dataFetcher";
 import { useDrawerData, useIsDrawerOpen } from "@/stores/mapStore";
+import { dataTransformer } from "@/utils/dataTransformer";
+import { locationsURL } from "@/utils/urls";
 import {
+  Apple,
   CopyAll,
   DriveEta,
-  OpenInNew,
   Google,
-  Apple,
+  OpenInNew,
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Snackbar, Switch, TextField, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Snackbar,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { MouseEvent, useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
+import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
+import { getTimeAgo } from "@/utils/date";
 
 interface MapsButton {
   label: string;
@@ -32,11 +40,11 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/@${lat},${lng},22z`;
+  return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
-  return `http://maps.apple.com/?ll=${lat},${lng}&z=18`;
+  return `http://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&z=18`;
 };
 
 export const openGoogleMapsUrl = (lat: number, lng: number) => {
@@ -52,6 +60,14 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
     `https://www.google.com/maps?saddr=My+Location&daddr=${lat},${lng}`,
     "_blank"
   );
+};
+
+export const generateTweetUrl = (tweetId: string) => {
+  return `https://twitter.com/anyuser/status/${tweetId}`;
+};
+
+export const openTweetUrl = (tweetId: string) => {
+  window.open(generateTweetUrl(tweetId), "_blank");
 };
 
 export const mapsButtons: MapsButton[] = [
@@ -76,8 +92,9 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 const Drawer = () => {
+  useDisableZoom();
   const isOpen = useIsDrawerOpen();
-  const data = useDrawerData();
+  const drawerData = useDrawerData();
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
   const anchor = useMemo(
@@ -86,26 +103,10 @@ const Drawer = () => {
   );
   const [showSavedData, setShowSavedData] = useState(true);
 
-  useEffect(() => {
-    if (isOpen) {
-      const onWheelTrigger = (e: WheelEvent) => {
-        if (e.ctrlKey) {
-          e.preventDefault();
-        }
-      };
-      const onTouchMove = (e: any) => {
-        if (e.scale !== 1) {
-          e.preventDefault();
-        }
-      };
-      window.addEventListener("wheel", onWheelTrigger, { passive: false });
-      window.addEventListener("touchmove", onTouchMove, { passive: false });
-      return () => {
-        window.removeEventListener("wheel", onWheelTrigger);
-        window.removeEventListener("touchmove", onTouchMove);
-      };
-    }
-  }, [isOpen]);
+  const { data, isLoading, error } = useSWR<Data | undefined>(
+    locationsURL(drawerData?.reference),
+    dataFetcher
+  );
 
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
@@ -115,15 +116,35 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    if (!data) {
+    const {
+      formatted_address,
+      fullText,
+      extraParameters: extraParametersAsJSON,
+    } = dataTransformer(data);
+
+    let extraParameters = {
+      tweet_id: "",
+      name: "",
+    };
+
+    try {
+      extraParameters = JSON.parse(extraParametersAsJSON || "{}");
+    } catch (e) {
+      // I don't that trust that extraParameters JSON string, so it is better
+      // to not to crash the UI.
+      console.log(e);
+    }
+
+    if (!drawerData) {
       return null;
     }
 
-    const { geometry, formatted_address, source } = data;
     const formattedCoordinates = formatcoords([
-      geometry.location.lat,
-      geometry.location.lng,
+      drawerData.geometry.location.lat,
+      drawerData.geometry.location.lng,
     ]).format();
+
+    const formattedTimeAgo = data && getTimeAgo(data.timestamp);
 
     return (
       <Box
@@ -138,107 +159,139 @@ const Drawer = () => {
         role="presentation"
         onKeyDown={(e) => toggler(e)}
       >
-        <div className={styles.content}>
-          <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
-          <p>{formattedCoordinates}</p>
-          <div className={styles.contentButtons}>
-            {mapsButtons.map((button) => (
-              <Button
-                key={button.label}
-                variant="contained"
-                onClick={() => {
-                  button.urlCallback(
-                    geometry.location.lat,
-                    geometry.location.lng
-                  );
+        {isLoading && (
+          <Box
+            sx={{
+              minHeight: "300px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+        {error && <GenericError />}
+        {!isLoading && data && (
+          <div className={styles.content}>
+            <span className={styles.contentIdSection}>
+              ID: {drawerData.reference}
+            </span>
+            <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
+            {formattedTimeAgo && (
+              <div className={styles.contentInfo}>
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
+                  <path d="M8.2 1.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.6-6.7-3-6.7-6.6-6.7zM12 8.7h-4.5V4h1.3v3.3H12v1.4z" />
+                </svg>
+                <span>Bildirim zamanı: {formattedTimeAgo}</span>
+              </div>
+            )}
+            <div className={styles.contentInfo}>
+              <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
+                <path d="M8 1A5.5 5.5 0 0 0 2.5 6.5a5.4 5.4 0 0 0 1.1 3.3s0.1 0.2 0.2 0.2L8 15l4.2-5c0 0 0.2-0.2 0.2-0.2l0 0A5.4 5.4 0 0 0 13.5 6.5 5.5 5.5 0 0 0 8 1Zm0 7.5a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z" />
+                <path d="M8 6.5m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0" fill="none" />
+              </svg>
+              <span>{formattedCoordinates}</span>
+            </div>
+
+            <div className={styles.contentButtons}>
+              {mapsButtons.map((button) => (
+                <Button
+                  key={button.label}
+                  variant="contained"
+                  onClick={() => {
+                    button.urlCallback(
+                      drawerData.geometry.location.lat,
+                      drawerData.geometry.location.lng
+                    );
+                  }}
+                  color={button.color}
+                  className={styles.externalLinkButton}
+                  startIcon={button.icon}
+                >
+                  {button.label}
+                </Button>
+              ))}
+            </div>
+            <div>
+              <TextField
+                fullWidth
+                variant="standard"
+                size="small"
+                value={generateGoogleMapsUrl(
+                  drawerData.geometry.location.lat,
+                  drawerData.geometry.location.lng
+                )}
+                InputProps={{
+                  readOnly: true,
                 }}
-                color={button.color}
-                className={styles.externalLinkButton}
-                startIcon={button.icon}
-              >
-                {button.label}
-              </Button>
-            ))}
-          </div>
-          <div>
-            <TextField
-              fullWidth
-              variant="standard"
-              size="small"
-              value={generateGoogleMapsUrl(
-                geometry.location.lat,
-                geometry.location.lng
+              />
+              <div className={styles.actionButtons}>
+                <Button
+                  variant="outlined"
+                  className={styles.clipboard}
+                  size="small"
+                  fullWidth
+                  onClick={() =>
+                    copyBillboard(
+                      `https://www.google.com/maps/@${drawerData.geometry.location.lat.toString()},${drawerData.geometry.location.lng.toString()},22z`
+                    )
+                  }
+                  startIcon={<CopyAll className={styles.btnIcon} />}
+                >
+                  Kopyala
+                </Button>
+                <Button
+                  variant="outlined"
+                  className={styles.clipboard}
+                  fullWidth
+                  size="small"
+                  onClick={() =>
+                    window.open(
+                      `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
+                    )
+                  }
+                  startIcon={<OpenInNew className={styles.btnIcon} />}
+                  color="secondary"
+                >
+                  Kaynak
+                </Button>
+              </div>
+            </div>
+            <div className={styles.sourceContent}>
+              <div className={styles.sourceHelpContent}>
+                <Typography className={styles.sourceContentTitle}>
+                  Yardım İçeriği
+                </Typography>
+                <div className={styles.sourceContentSwitch}>
+                  <p>Kayıtlı veriyi göster</p>
+                  <Switch
+                    checked={showSavedData}
+                    onChange={() => setShowSavedData((s) => !s)}
+                  />
+                </div>
+              </div>
+              {showSavedData ? (
+                <div className={styles.sourceContentText}>
+                  <Typography>{fullText}</Typography>
+                </div>
+              ) : (
+                <div className={styles.sourceContentIframeWrapper}>
+                  <iframe
+                    frameBorder={0}
+                    className={styles.sourceContentIframe}
+                    width={"100%"}
+                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParameters?.name}/status/${extraParameters?.tweet_id}&conversation=none`}
+                  ></iframe>
+                </div>
               )}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <div className={styles.actionButtons}>
-              <Button
-                variant="outlined"
-                className={styles.clipboard}
-                size="small"
-                fullWidth
-                onClick={() =>
-                  copyBillboard(
-                    `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
-                  )
-                }
-                startIcon={<CopyAll className={styles.btnIcon} />}
-              >
-                Kopyala
-              </Button>
-              <Button
-                variant="outlined"
-                className={styles.clipboard}
-                fullWidth
-                size="small"
-                onClick={() =>
-                  window.open(
-                    `https://twitter.com/anyuser/status/${source.tweet_id}`
-                  )
-                }
-                startIcon={<OpenInNew className={styles.btnIcon} />}
-                color="secondary"
-              >
-                Kaynak
-              </Button>
             </div>
           </div>
-          <div className={styles.sourceContent}>
-            <div className={styles.sourceHelpContent}>
-              <Typography className={styles.sourceContentTitle}>
-                Yardım İçeriği
-              </Typography>
-              <div className={styles.sourceContentSwitch}>
-                <p>Kayıtlı veriyi göster</p>
-                <Switch
-                  checked={showSavedData}
-                  onChange={() => setShowSavedData((s) => !s)}
-                />
-              </div>
-            </div>
-            {showSavedData && (
-              <div className={styles.sourceContentText}>
-                <Typography>{source?.full_text}</Typography>
-              </div>
-            )}
-            {!showSavedData && (
-              <div className={styles.sourceContentIframeWrapper}>
-                <iframe
-                  frameBorder={0}
-                  className={styles.sourceContentIframe}
-                  width={"100%"}
-                  src={`https://twitframe.com/show?url=https://twitter.com/${source?.name}/status/${source?.tweet_id}&conversation=none`}
-                ></iframe>
-              </div>
-            )}
-          </div>
-        </div>
+        )}
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData]);
+  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 
@@ -251,7 +304,7 @@ const Drawer = () => {
         message="Adres Kopyalandı"
       />
       <MuiDrawer
-        className="drawer"
+        className={styles.drawer}
         anchor={anchor}
         open={isOpen}
         onClose={handleClose}

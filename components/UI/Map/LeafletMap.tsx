@@ -1,21 +1,19 @@
 import Map from "@/components/UI/Map/Map";
-import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { EVENT_TYPES, MarkerData } from "@/mocks/types";
 import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
-import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import L, { latLng, latLngBounds } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { Fragment, useCallback, useMemo, useRef } from "react";
-import { Marker, MarkerProps, TileLayer, useMapEvents } from "react-leaflet";
+import React, { useMemo, useRef } from "react";
+import { TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
-import { findTagByClusterCount, Tags } from "../Tag/Tag.types";
+import { Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
@@ -25,26 +23,11 @@ import {
   DEFAULT_ZOOM_MOBILE,
 } from "./utils";
 import { LatLngExpression } from "leaflet";
-
-type Point = [number, number, number];
-
-const HeatmapLayer = React.memo(HeatmapLayerFactory<Point>());
-
-const MarkerClusterGroup = dynamic(() => import("./MarkerClusterGroup"), {
-  ssr: false,
-});
+import LayerControl, { Point } from "./LayerControl";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
 });
-
-type ExtendedMarkerProps = MarkerProps & {
-  markerData: MarkerData;
-};
-
-function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
-  return <Marker {...props} />;
-}
 
 const GlobalClusterStyle = css`
   ${Object.values(Tags).map(
@@ -70,7 +53,6 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
@@ -88,11 +70,17 @@ const MapEvents = () => {
       }
 
       setCoordinates(localCoordinates, eventType);
-      router.push({
-        hash: `#lat=${localCoordinates.getCenter().lat}&lng=${
-          localCoordinates.getCenter().lng
-        }&zoom=${zoomLevel}`,
-      });
+
+      // set cordinates and zoom level to url
+      const cordinatesURL = `#lat=${localCoordinates.getCenter().lat}&lng=${
+        localCoordinates.getCenter().lng
+      }&zoom=${zoomLevel}`;
+
+      window.history.replaceState(
+        { ...window.history.state, as: cordinatesURL, url: cordinatesURL },
+        "",
+        cordinatesURL
+      );
     },
     1000
   );
@@ -134,7 +122,7 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const { setCoordinates } = useMapActions();
-  const { asPath, push } = useRouter();
+  const { asPath } = useRouter();
   const data = useMarkerData();
   const points: Point[] = useMemo(
     () =>
@@ -145,15 +133,8 @@ function LeafletMap() {
       ]),
     [data]
   );
-
-  const longitudeExtractor = useCallback((p: Point) => p[1], []);
-  const latitudeExtractor = useCallback((p: Point) => p[0], []);
-  const intensityExtractor = useCallback((p: Point) => p[2], []);
   const device = useDevice();
 
-  const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
-
-  // to set default center and zoom level from url
   const defaultCenter: LatLngExpression =
     asPath.includes("lat=") && asPath.includes("lng=")
       ? [
@@ -168,6 +149,7 @@ function LeafletMap() {
     ? DEFAULT_ZOOM
     : DEFAULT_ZOOM_MOBILE;
 
+  /*
   const ogQueryParamAppender = (marker: MarkerData) => {
     const clearHash = asPath.replace("/#", "");
     const address = marker.formatted_address.substring(0, 1000);
@@ -180,7 +162,7 @@ function LeafletMap() {
       hash: `${clearHash}${constructedQuery}`,
     });
   };
-
+*/
   return (
     <>
       <Global styles={GlobalClusterStyle} />
@@ -202,55 +184,15 @@ function LeafletMap() {
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
+        maxZoom={18}
       >
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
-        {/* <ImpactedCities /> */}
-        <HeatmapLayer
-          fitBoundsOnUpdate
-          radius={15}
-          points={points}
-          longitudeExtractor={longitudeExtractor}
-          latitudeExtractor={latitudeExtractor}
-          intensityExtractor={intensityExtractor}
-          useLocalExtrema={false}
-        />
+        <LayerControl points={points} data={data} />
+
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
-        <MarkerClusterGroup
-          // @ts-expect-error
-          onClick={handleClusterClick}
-          // @ts-expect-error
-          iconCreateFunction={(cluster) => {
-            const count = cluster.getChildCount();
-            const tag = findTagByClusterCount(count);
-
-            return L.divIcon({
-              html: `<div class="cluster-inner"><span>${count}</span></div>`,
-              className: `leaflet-marker-icon marker-cluster leaflet-interactive leaflet-custom-cluster-${tag.id}`,
-            });
-          }}
-        >
-          {data.map((marker: MarkerData) => (
-            <Fragment key={marker.place_id}>
-              <ExtendedMarker
-                key={marker.place_id}
-                position={[
-                  marker.geometry.location.lat,
-                  marker.geometry.location.lng,
-                ]}
-                eventHandlers={{
-                  click: (leafletMouseEvent) => {
-                    handleMarkerClick(leafletMouseEvent, marker);
-                    ogQueryParamAppender(marker);
-                  },
-                }}
-                markerData={marker}
-              />
-            </Fragment>
-          ))}
-        </MarkerClusterGroup>
       </Map>
     </>
   );
