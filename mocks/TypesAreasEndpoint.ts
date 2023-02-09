@@ -13,6 +13,7 @@ export type Raw = {
   user_id: string;
   name?: string;
   screen_name?: string;
+  full_text: string;
 };
 
 export type DataLite = {

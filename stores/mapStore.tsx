@@ -5,6 +5,7 @@ import {
   CoordinatesURLParametersWithEventType,
   MarkerData,
   EVENT_TYPES,
+  DeviceType,
 } from "../mocks/types";
 
 interface MapState {
@@ -12,14 +13,14 @@ interface MapState {
   drawerData: MarkerData | null;
   isDrawerOpen: boolean;
   coordinates?: CoordinatesURLParametersWithEventType;
-  device: "mobile" | "desktop";
+  device: DeviceType;
   markerData: MarkerData[];
   actions: {
     toggleDrawer: () => void;
     setDrawerData: (data: MarkerData) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
-    setDevice: (device: "mobile" | "desktop") => void;
+    setDevice: (device: DeviceType) => void;
     setMarkerData: (data: MarkerData[]) => void;
   };
 }
@@ -46,7 +47,7 @@ export const useMapStore = create<MapState>()((set) => ({
           sw_lng: data.getSouthWest().lng,
         },
       })),
-    setDevice: (device: "mobile" | "desktop") => set(() => ({ device })),
+    setDevice: (device: DeviceType) => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
   },
 }));

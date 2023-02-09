@@ -5,7 +5,10 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
-import { CoordinatesURLParametersWithEventType } from "@/mocks/types";
+import {
+  CoordinatesURLParametersWithEventType,
+  DeviceType,
+} from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import {
   useCoordinates,
@@ -18,7 +21,6 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-// import { Partytown } from "@builder.io/partytown/react";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
@@ -33,7 +35,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 });
 
 type Props = {
-  deviceType: "mobile" | "desktop";
+  deviceType: DeviceType;
 };
 
 export default function Home({ deviceType }: Props) {
@@ -70,6 +72,7 @@ export default function Home({ deviceType }: Props) {
       setMarkerData(transformedData);
     },
   });
+
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     mutate,
@@ -106,69 +109,44 @@ export default function Home({ deviceType }: Props) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <main className={styles.main}>
-        {/* <HelpButton /> FooterBanner'a taşındı */}
-
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
-
             <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
-                top: "50px",
+                top: "15px",
                 left: "50%",
-                marginLeft: "-65.9px",
-                zIndex: "500",
+                marginLeft: "-105px",
+                zIndex: "502",
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "8px",
+                width: "210px",
               }}
             >
               <Button
                 color="secondary"
                 variant="contained"
                 onClick={handleScanButtonClick}
-                style={{ zIndex: 501 }}
               >
-                Bu Alanı Tara
+                {isLoading || isValidating ? (
+                  <LoadingSpinner slowLoading={slowLoading} />
+                ) : (
+                  "ALANI TARA"
+                )}
               </Button>
-              <small className={styles.autoScanInfoText}>
-                {remainingTime}sn sonra otomatik taranacak
+              <small className={styles.autoScanInfoTextIndex}>
+                {remainingTime} sn sonra otomatik taranacak
               </small>
             </Box>
           </RenderIf>
-          {(isLoading || isValidating) && (
-            <LoadingSpinner slowLoading={slowLoading} />
-          )}
         </Container>
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
         <Footer />
-        <Box
-          sx={{
-            position: "fixed",
-            top: "50px",
-            left: "50%",
-            marginLeft: "-65.9px",
-            zIndex: "9999",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "8px",
-          }}
-        >
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleScanButtonClick}
-          >
-            Bu Alanı Tara
-          </Button>
-          <small className={styles.autoScanInfoText}>
-            {remainingTime}sn sonra otomatik taranacak
-          </small>
-        </Box>
       </main>
     </>
   );

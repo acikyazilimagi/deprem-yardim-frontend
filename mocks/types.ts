@@ -47,3 +47,5 @@ export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
 export type CoordinatesURLParametersWithEventType = CoordinatesURLParameters & {
   eventType: EVENT_TYPES;
 };
+
+export type DeviceType = "mobile" | "desktop";

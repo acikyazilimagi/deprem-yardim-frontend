@@ -1,3 +1,15 @@
+.contentIdSection {
+  position: absolute;
+  left: 16px;
+  top: 8px;
+  background-color: #e5e5e5;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3f3131;
+  border-radius: 6px;
+  padding: 0 4px;
+}
+
 .closeButton {
   position: absolute;
   top: 1rem;
@@ -15,8 +27,23 @@
   color: #636363;
 }
 
+.contentInfo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 5px 0px;
+}
+
+.contentInfo svg {
+  margin-right: 5px;
+}
+
+.contentInfo span {
+  font-size: 14px;
+}
+
 .contentButtons {
-  margin-bottom: 24px;
+  margin: 24px 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;

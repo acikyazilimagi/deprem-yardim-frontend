@@ -25,24 +25,29 @@
   display: flex;
   border-radius: 8px;
   background-color: rgba(220, 20, 60, 0.768);
-  padding: 0.9em 2.9rem 0.9rem 0.9rem;
   text-align: justify;
   text-justify: distribute;
   width: 50%;
+  padding: 0.9em 2.9rem 0.9rem 0.9rem;
   z-index: 999;
   bottom: 0.5rem;
   margin: auto;
-  font-size: 0.7rem;
 }
 
 .footer .dismissible span {
   margin: auto;
+  text-align: justify;
+  text-justify: distribute;
+  letter-spacing: -0.3px;
+  width: 22rem;
+  font-size: 0.6rem;
 }
 
 .footer .dismissible .closeButton {
   position: absolute;
-  right: 1px;
-  top: 3px;
+  right: -4px;
+  top: 1px;
+  width: 30px;
   bottom: 0;
   margin: auto;
   cursor: pointer;
@@ -61,8 +66,17 @@
     padding-bottom: 0;
   }
   .footer .dismissible {
-    width: 100%;
+    width: 85%;
     bottom: 4rem;
+    height: 7rem;
+    font-size: 0.56rem;
+    font-weight: 400;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .footer .dismissible span {
+    letter-spacing: -0.2px;
+    width: 16rem;
   }
 
   .footerWrapper {

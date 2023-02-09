@@ -33,6 +33,11 @@ const SitesIcon = () => {
     },
   };
 
+  const littleIcon = {
+    width: 28,
+    height: 28,
+  };
+
   return (
     <>
       <Stack
@@ -47,7 +52,7 @@ const SitesIcon = () => {
           borderRadius: "10px",
           position: "absolute",
           top: "10px",
-          right: "10px",
+          right: "26px",
           zIndex: 500,
         }}
       >
@@ -60,6 +65,7 @@ const SitesIcon = () => {
             onMouseLeave={handlePopoverClose}
           >
             <Avatar
+              sx={littleIcon}
               alt="deprem yardim icon"
               src="/icons/depremyardımIcon.svg"
             />
@@ -78,6 +84,59 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
+              background: "#00000000",
+              pointerEvents: "none",
+              zIndex: 600,
+            }}
+            onClose={handlePopoverClose}
+          >
+            <Typography sx={{ padding: "10px", width: "450px" }}>
+              Depremzedeleri aramak ve yardım etmek için kullandığımız site.
+            </Typography>
+          </Popover>
+        </Box>
+        <Box sx={toBiggerIcon}>
+          <Link
+            href="https://www.afetbilgi.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => handlePopoverOpen("afetBilgi")}
+            onMouseLeave={handlePopoverClose}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Box
+              sx={{
+                color: "white",
+                height: "100%",
+                width: 40,
+                borderRadius: 20,
+                backgroundColor: "orange",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textDecoration: "none !important",
+                textTransform: "none",
+              }}
+            >
+              <Typography fontSize={14}>AFET</Typography>
+            </Box>
+          </Link>
+
+          <Popover
+            anchorReference="anchorEl"
+            anchorEl={anchorEl}
+            open={"afetBilgi" === isOpen ? true : false}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{
               background: "rgba(0, 0, 0, 0.1)",
               pointerEvents: "none",
               zIndex: 600,
@@ -85,8 +144,8 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Deprem Yardım Sitemiz Depremzedelerin Ve Depremzedeleri Aramak
-              İçin Kullandığımız Site.
+              Afetle ilgili çeşitli konularda bilgi almak için kullandığımız web
+              sitesi.
             </Typography>
           </Popover>
         </Box>
@@ -99,7 +158,11 @@ const SitesIcon = () => {
             onMouseEnter={() => handlePopoverOpen("depremIO")}
             onMouseLeave={handlePopoverClose}
           >
-            <Avatar alt="deprem io icon" src="/icons/depremIOIcon.svg" />
+            <Avatar
+              sx={littleIcon}
+              alt="deprem io icon"
+              src="/icons/depremIOIcon.svg"
+            />
           </Link>
 
           <Popover
@@ -115,15 +178,14 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Deprem.io Sitemiz Depremzedelerin Ve Depremzedeleri Erzak Yardımı
-              İçin Kullandığımız Site.
+              Depremzedelere erzak yardımı için kullandığımız site.
             </Typography>
           </Popover>
         </Box>
@@ -136,7 +198,11 @@ const SitesIcon = () => {
             onMouseEnter={() => handlePopoverOpen("depremDiscord")}
             onMouseLeave={handlePopoverClose}
           >
-            <Avatar alt="discord icon" src="/icons/discordIcon.svg" />
+            <Avatar
+              sx={littleIcon}
+              alt="discord icon"
+              src="/icons/discordIcon.svg"
+            />
           </Link>
 
           <Popover
@@ -152,15 +218,15 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Discord Sunucumuzda Projelerimizi Geliştirmek Ve Birbirimizle
-              İletişim Kurmak İçin Kullandığımız Site.
+              Projelerimizi geliştirmek ve birbirimizle iletişim kurmak için
+              kullandığımız Discord sunucusu.
             </Typography>
           </Popover>
         </Box>
