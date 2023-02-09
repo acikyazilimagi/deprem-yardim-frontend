@@ -118,12 +118,13 @@ export default function Home({ deviceType }: Props) {
                 position: "fixed",
                 top: "50px",
                 left: "50%",
-                marginLeft: "-105px",
+                transform: "translateX(-50%)",
                 zIndex: "502",
                 display: "flex",
                 flexDirection: "column",
-                rowGap: "8px",
-                width: "210px",
+                rowGap: "6px",
+                width: "max-content",
+                maxWidth: 300,
               }}
             >
               <Button
@@ -137,9 +138,16 @@ export default function Home({ deviceType }: Props) {
                   "ALANI TARA"
                 )}
               </Button>
-              <small className={styles.autoScanInfoTextIndex}>
-                {remainingTime} sn sonra otomatik taranacak
-              </small>
+              <p className={styles.autoScanInfoTextIndex}>
+                <span
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  {remainingTime}
+                </span>{" "}
+                sn sonra otomatik taranacak
+              </p>
             </Box>
           </RenderIf>
         </Container>
@@ -150,19 +158,4 @@ export default function Home({ deviceType }: Props) {
       </main>
     </>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  const UA = context.req.headers["user-agent"];
-  const isMobile = Boolean(
-    UA.match(
-      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-    )
-  );
-
-  return {
-    props: {
-      deviceType: isMobile ? "mobile" : "desktop",
-    },
-  };
 }

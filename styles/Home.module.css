@@ -473,9 +473,10 @@
 }
 
 .autoScanInfoTextIndex {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgba(56, 165, 120, 0.872);
   border-radius: 5px;
   padding: 2px 5px;
-  color: white;
-  font-weight: bold;
+  color: rgb(40, 149, 131);
+  font-weight: normal;
 }
