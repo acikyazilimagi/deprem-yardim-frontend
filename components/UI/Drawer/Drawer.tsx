@@ -62,6 +62,14 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
   );
 };
 
+export const generateTweetUrl = (tweetId: string) => {
+  return `https://twitter.com/anyuser/status/${tweetId}`;
+};
+
+export const openTweetUrl = (tweetId: string) => {
+  window.open(generateTweetUrl(tweetId), "_blank");
+};
+
 export const mapsButtons: MapsButton[] = [
   {
     label: "Google Haritalarda Aç",
