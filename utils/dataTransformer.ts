@@ -16,13 +16,7 @@ export const dataTransformer = (data?: Data): DrawerData => {
   return {
     fullText: data?.full_text,
     formatted_address: data?.formatted_address,
-    geometry: {
-      location: {
-        lat: data?.loc?.[0] || 0,
-        lng: data?.loc?.[1] || 0,
-      },
-    },
     id: data?.id,
-    raw: data?.raw,
+    extraParameters: data?.extra_parameters,
   };
 };

@@ -25,13 +25,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { MouseEvent, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
@@ -105,28 +99,6 @@ const Drawer = () => {
     dataFetcher
   );
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-    const onWheelTrigger = (e: WheelEvent) => {
-      if (e.ctrlKey) {
-        e.preventDefault();
-      }
-    };
-    const onTouchMove = (e: any) => {
-      if (e.scale !== 1) {
-        e.preventDefault();
-      }
-    };
-    window.addEventListener("wheel", onWheelTrigger, { passive: false });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    return () => {
-      window.removeEventListener("wheel", onWheelTrigger);
-      window.removeEventListener("touchmove", onTouchMove);
-    };
-  }, [isOpen]);
-
   function copyBillboard(url: string) {
     navigator.clipboard.writeText(url);
     setOpenBillboardSnackbar(true);
@@ -135,11 +107,29 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    const { geometry, formatted_address, fullText, raw } =
-      dataTransformer(data);
+    const {
+      formatted_address,
+      fullText,
+      extraParameters: extraParametersAsJSON,
+    } = dataTransformer(data);
+
+    let extraParameters = {};
+
+    try {
+      extraParameters = JSON.parse(extraParametersAsJSON || "{}");
+    } catch (e) {
+      // I don't that trust that extraParameters JSON string, so it is better
+      // to not to crash the UI.
+      console.log(e);
+    }
+
+    if (!drawerData) {
+      return null;
+    }
+
     const formattedCoordinates = formatcoords([
-      geometry.location.lat,
-      geometry.location.lng,
+      drawerData.geometry.location.lat,
+      drawerData.geometry.location.lng,
     ]).format();
 
     return (
@@ -179,8 +169,8 @@ const Drawer = () => {
                   variant="contained"
                   onClick={() => {
                     button.urlCallback(
-                      geometry.location.lat,
-                      geometry.location.lng
+                      drawerData.geometry.location.lat,
+                      drawerData.geometry.location.lng
                     );
                   }}
                   color={button.color}
@@ -197,8 +187,8 @@ const Drawer = () => {
                 variant="standard"
                 size="small"
                 value={generateGoogleMapsUrl(
-                  geometry.location.lat,
-                  geometry.location.lng
+                  drawerData.geometry.location.lat,
+                  drawerData.geometry.location.lng
                 )}
                 InputProps={{
                   readOnly: true,
@@ -212,7 +202,7 @@ const Drawer = () => {
                   fullWidth
                   onClick={() =>
                     copyBillboard(
-                      `https://www.google.com/maps/@${geometry.location.lat.toString()},${geometry.location.lng.toString()},22z`
+                      `https://www.google.com/maps/@${drawerData.geometry.location.lat.toString()},${drawerData.geometry.location.lng.toString()},22z`
                     )
                   }
                   startIcon={<CopyAll className={styles.btnIcon} />}
@@ -226,7 +216,7 @@ const Drawer = () => {
                   size="small"
                   onClick={() =>
                     window.open(
-                      `https://twitter.com/anyuser/status/${raw?.tweet_id}`
+                      `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
                     )
                   }
                   startIcon={<OpenInNew className={styles.btnIcon} />}
@@ -259,7 +249,7 @@ const Drawer = () => {
                     frameBorder={0}
                     className={styles.sourceContentIframe}
                     width={"100%"}
-                    src={`https://twitframe.com/show?url=https://twitter.com/${raw?.name}/status/${raw?.tweet_id}&conversation=none`}
+                    src={`https://twitframe.com/show?url=https://twitter.com/${extraParameters?.name}/status/${extraParameters?.tweet_id}&conversation=none`}
                   ></iframe>
                 </div>
               )}
@@ -269,7 +259,7 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading, error]);
+  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 

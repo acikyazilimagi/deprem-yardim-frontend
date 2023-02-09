@@ -32,8 +32,7 @@ export type DrawerData = {
   id?: number;
   formatted_address?: string;
   fullText?: string;
-  raw?: Raw;
-  geometry: Geometry;
+  extraParameters?: string;
 };
 
 export type CoordinatesURLParameters = {
