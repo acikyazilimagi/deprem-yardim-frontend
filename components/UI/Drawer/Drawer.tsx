@@ -21,6 +21,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import { FormattedMessage } from "react-intl";
 import styles from "./Drawer.module.css";
 
 interface MapsButton {
@@ -56,19 +57,19 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
 
 export const mapsButtons: MapsButton[] = [
   {
-    label: "Google Haritalarda Aç",
+    label: "label.openWithGoogleMaps",
     urlCallback: openGoogleMapsUrl,
     icon: <Google className={styles.btnIcon} />,
     color: "primary",
   },
   {
-    label: "Apple Haritalarda Aç",
+    label: "label.openWithAppleMaps",
     urlCallback: openAppleMapsUrl,
     icon: <Apple className={styles.btnIcon} />,
     color: "inherit",
   },
   {
-    label: "Yol Tarifi Al",
+    label: "label.getDirection",
     urlCallback: openGoogleMapsDirectionUrl,
     icon: <DriveEta className={styles.btnIcon} />,
     color: "secondary",
@@ -156,7 +157,7 @@ const Drawer = () => {
                 className={styles.externalLinkButton}
                 startIcon={button.icon}
               >
-                {button.label}
+                <FormattedMessage id={button.label} />
               </Button>
             ))}
           </div>
@@ -186,7 +187,7 @@ const Drawer = () => {
                 }
                 startIcon={<CopyAll className={styles.btnIcon} />}
               >
-                Kopyala
+                <FormattedMessage id="label.copy" />
               </Button>
               <Button
                 variant="outlined"
@@ -201,17 +202,19 @@ const Drawer = () => {
                 startIcon={<OpenInNew className={styles.btnIcon} />}
                 color="secondary"
               >
-                Kaynak
+                <FormattedMessage id="label.source" />
               </Button>
             </div>
           </div>
           <div className={styles.sourceContent}>
             <div className={styles.sourceHelpContent}>
               <Typography className={styles.sourceContentTitle}>
-                Yardım İçeriği
+                <FormattedMessage id="label.helpContent" />
               </Typography>
               <div className={styles.sourceContentSwitch}>
-                <p>Kayıtlı veriyi göster</p>
+                <p>
+                  <FormattedMessage id="label.showSavedData" />
+                </p>
                 <Switch
                   checked={showSavedData}
                   onChange={() => setShowSavedData((s) => !s)}

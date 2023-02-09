@@ -17,6 +17,9 @@ import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import Footer from "@/components/UI/Footer/Footer";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
+import { FormattedMessage } from "react-intl";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+import { useRouter } from "next/router";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -28,7 +31,7 @@ type Props = {
 
 export default function Home({ deviceType }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-
+  const { locale } = useRouter();
   const [url, setURL] = useState<string | null>(null);
   const coordinates: CoordinatesURLParameters | undefined = useCoordinates();
   const [sendRequest, setSendRequest] = useState(true);
@@ -60,6 +63,8 @@ export default function Home({ deviceType }: Props) {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link rel="alternate" href="http://localhost:3000" hrefLang="tr" />
+        <link rel="alternate" href="http://localhost:3000/en" hrefLang="en" />
       </Head>
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
@@ -68,7 +73,9 @@ export default function Home({ deviceType }: Props) {
             <LeafletMap />
           </RenderIf>
           {isLoading && <LoadingSpinner slowLoading={slowLoading} />}
+          <LanguageSwitcher />
           <Button
+            lang={locale}
             color="secondary"
             variant="contained"
             sx={{
@@ -80,7 +87,7 @@ export default function Home({ deviceType }: Props) {
             }}
             onClick={() => triggerAPIRequest()}
           >
-            Bu Alanı Tara
+            <FormattedMessage id="label.scanThisArea" />
           </Button>
         </Container>
         <Drawer />

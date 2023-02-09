@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from "react-intl";
 import styles from "./LoadingSpinner.module.css";
 
 type LoadingProps = {
@@ -11,7 +12,11 @@ const RenderLoadingSpinner = ({ slowLoading }: LoadingProps) => {
       <div className={styles.spinnerLoaderBox}>
         <div className={styles.spinnerLoader}></div>
         <div className={styles.spinnerLoaderText}>
-          {slowLoading ? "Hala yükleniyor..." : "Yükleniyor..."}
+          {slowLoading ? (
+            <FormattedMessage id="label.stillLoading" />
+          ) : (
+            <FormattedMessage id="label.loading" />
+          )}
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { FormattedMessage } from "react-intl";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -5,12 +6,12 @@ export default function Footer() {
     <ul className={styles.footer}>
       <li>
         <a href="./cerez.pdf" target="_blank">
-          Çerez Politikası
+          <FormattedMessage id="label.cookiePolicy" />
         </a>
       </li>
       <li>
         <a href="./gizlilik.pdf" target="_blank">
-          Gizlilik Politikası
+          <FormattedMessage id="label.privacyPolicy" />
         </a>
       </li>
     </ul>

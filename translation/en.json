@@ -1,0 +1,25 @@
+{
+  "label.scanThisArea": "Scan This Area",
+  "label.openWithGoogleMaps": "Open with Google Maps",
+  "label.openWithAppleMaps": "Open with Apple Maps",
+  "label.getDirection": "Get Direction",
+  "label.copy": "Copy",
+  "label.source": "Source",
+  "label.showSavedData": "Show saved data",
+  "label.helpContent": "Help content",
+  "label.cookiePolicy": "Cookie Policy",
+  "label.privacyPolicy": "Privacy Policy",
+  "label.lessIntense": "Less Intense",
+  "label.lessMidIntense": "Less-Mid Intense",
+  "label.midIntense": "Mid-Intense",
+  "label.midHighIntense": "Mid-High Intense",
+  "label.veryIntense": "Very Intense",
+  "label.extremelyIntense": "Extremely Intense",
+  "label.loading": "Loading...",
+  "label.stillLoading": "Still Loading...",
+  "label.existingReport": "{count} reports exist",
+  "label.pleaseTyrAMomentLater": "Please try a moment later.",
+  "label.explanation": "Explanation",
+
+  "message.explanation": "We collect all the aid calls from different sources such as Twitter, Instagram, Whatsapp, and various websites, and refine the data into meaningful information for use in the field. Our goal is to assist relevant organizations and NGOs using information technology and provide an open data platform during disaster times."
+}

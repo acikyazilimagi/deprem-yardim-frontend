@@ -28,4 +28,9 @@ module.exports = {
     loader: "akamai",
     path: "",
   },
+  i18n: {
+    locales: ["en", "tr"],
+    defaultLocale: "tr",
+    localeDetection: false,
+  },
 };

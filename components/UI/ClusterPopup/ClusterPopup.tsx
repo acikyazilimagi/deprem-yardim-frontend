@@ -11,6 +11,7 @@ import { findTagByClusterCount } from "../Tag/Tag.types";
 import theme from "@/utils/theme";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { Close } from "@mui/icons-material";
+import { FormattedMessage } from "react-intl";
 
 const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
   const { setPopUpData } = useMapActions();
@@ -67,7 +68,11 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
             fontWeight="500"
             sx={{ color: "#121926", fontSize: "1.3rem" }}
           >
-            {data?.count ?? 0} ihbar mevcut
+            {/*   {data?.count ?? 0} ihbar mevcut */}
+            <FormattedMessage
+              values={{ count: data?.count ?? 0 }}
+              id="label.existingReport"
+            />
           </Typography>
           <Button
             variant="text"
@@ -78,7 +83,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
               whiteSpace: "nowrap",
             }}
           >
-            {tag.intensity}
+            <FormattedMessage id={tag.intensity} />
           </Button>
 
           <IconButton
@@ -138,7 +143,7 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
                 }}
                 onClick={() => button.urlCallback(lat, lng)}
               >
-                {button.label}
+                <FormattedMessage id={button.label} />
               </Button>
             ))}
           </Stack>

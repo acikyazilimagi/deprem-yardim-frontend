@@ -2,6 +2,7 @@ import { ArrowForwardIos } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, ClickAwayListener, Popper, Typography } from "@mui/material";
 import { MouseEvent, useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { Tags } from "../Tag/Tag.types";
 import styles from "./Map.module.css";
 
@@ -41,7 +42,7 @@ const MapLegend = () => {
                 style={{ backgroundColor: Tags[intensity].color }}
               />
               <span className={styles.legend_item__text}>
-                {Tags[intensity].intensity}
+                <FormattedMessage id={Tags[intensity].intensity} />
               </span>
             </Button>
             <Popper
@@ -52,7 +53,7 @@ const MapLegend = () => {
             >
               <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
                 <Typography sx={{ p: 2 }}>
-                  {Tags[intensity].intensity}
+                  <FormattedMessage id={Tags[intensity].intensity} />
                 </Typography>
               </ClickAwayListener>
             </Popper>
