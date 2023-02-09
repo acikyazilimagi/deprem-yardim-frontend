@@ -29,9 +29,9 @@ export type Raw = {
 };
 
 export type DrawerData = {
-  id: number;
-  formatted_address: string;
-  raw: Raw;
+  id?: number;
+  formatted_address?: string;
+  raw?: Raw;
   geometry: Geometry;
 };
 

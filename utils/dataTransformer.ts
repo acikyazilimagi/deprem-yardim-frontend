@@ -12,21 +12,16 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
     },
   }));
 
-export const dataTransformer = (data: Data): DrawerData => {
-  const id = data.id;
-  const formatted_address = data?.formatted_address;
-  const loc = data?.loc;
-  const raw = data?.raw;
-
+export const dataTransformer = (data?: Data): DrawerData => {
   return {
-    formatted_address: formatted_address ?? "",
+    formatted_address: data?.formatted_address,
     geometry: {
       location: {
-        lat: loc?.[0] || 0,
-        lng: loc?.[1] || 0,
+        lat: data?.loc?.[0] || 0,
+        lng: data?.loc?.[1] || 0,
       },
     },
-    id,
-    raw,
+    id: data?.id,
+    raw: data?.raw,
   };
 };

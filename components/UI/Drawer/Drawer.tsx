@@ -133,10 +133,6 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    if (!data) {
-      return null;
-    }
-
     const { geometry, formatted_address, raw } = dataTransformer(data);
     const formattedCoordinates = formatcoords([
       geometry.location.lat,
