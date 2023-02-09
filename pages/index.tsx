@@ -25,10 +25,11 @@ import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL } from "@/utils/urls";
+import FilterTimeMenu from "@/components/UI/FilterTimeMenu/FilterTimeMenu";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -40,26 +41,23 @@ type Props = {
 
 export default function Home({ deviceType }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-
+  const [newerThanTimestamp, setNewerThanTimestamp] = useState<
+    number | undefined
+  >(undefined);
   const [url, setURL] = useState<string | null>(null);
+
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
-  const urlParams = useMemo(
-    () =>
-      new URLSearchParams({
-        ne_lat: coordinatesAndEventType?.ne_lat,
-        ne_lng: coordinatesAndEventType?.ne_lng,
-        sw_lat: coordinatesAndEventType?.sw_lat,
-        sw_lng: coordinatesAndEventType?.sw_lng,
-      } as any).toString(),
-    [
-      coordinatesAndEventType?.ne_lat,
-      coordinatesAndEventType?.ne_lng,
-      coordinatesAndEventType?.sw_lat,
-      coordinatesAndEventType?.sw_lng,
-    ]
-  );
+
+  const urlParams = new URLSearchParams({
+    ne_lat: coordinatesAndEventType?.ne_lat,
+    ne_lng: coordinatesAndEventType?.ne_lng,
+    sw_lat: coordinatesAndEventType?.sw_lat,
+    sw_lng: coordinatesAndEventType?.sw_lng,
+    time_stamp: newerThanTimestamp ? newerThanTimestamp?.toString() : undefined,
+  } as any).toString();
+
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
     dataFetcher,
@@ -105,6 +103,10 @@ export default function Home({ deviceType }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
+  useEffect(() => {
+    setURL(areasURL + "?" + urlParams);
+  }, [newerThanTimestamp, urlParams]);
+
   return (
     <>
       <Head>
@@ -112,6 +114,7 @@ export default function Home({ deviceType }: Props) {
       </Head>
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
+          <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
             <SitesIcon />
