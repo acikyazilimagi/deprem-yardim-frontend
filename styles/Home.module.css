@@ -428,6 +428,7 @@
   display: flex;
   text-align: center;
   align-items: center;
+  gap: 10px;
 }
 
 @keyframes spin {
@@ -459,7 +460,6 @@
   animation-duration: 700ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  margin-left: 10px;
 }
 
 .autoScanInfoText {
