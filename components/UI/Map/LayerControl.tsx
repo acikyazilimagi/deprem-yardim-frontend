@@ -18,7 +18,7 @@ const LayerControl = ({ points, data }: Props) => {
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
   return (
-    <LayersControl position="topright">
+    <LayersControl position="topleft">
       <LayersControl.Overlay checked name="Isı haritası">
         <HeatmapLayer
           fitBoundsOnUpdate
