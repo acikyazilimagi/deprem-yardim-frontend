@@ -27,7 +27,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL } from "@/utils/urls";
-import { LoadArea } from "@/components/UI/Button/LoadArea";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -113,30 +112,33 @@ export default function Home({ deviceType }: Props) {
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
-
             <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
                 top: "50px",
                 left: "50%",
-                marginLeft: "-65.9px",
-                zIndex: "500",
+                marginLeft: "-105px",
+                zIndex: "502",
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "8px",
+                width: "210px",
               }}
             >
               <Button
                 color="secondary"
                 variant="contained"
                 onClick={handleScanButtonClick}
-                style={{ zIndex: 501 }}
               >
-                Bu Alanı Tara
+                {isLoading || isValidating ? (
+                  <LoadingSpinner slowLoading={slowLoading} />
+                ) : (
+                  "ALANI TARA"
+                )}
               </Button>
-              <small className={styles.autoScanInfoText}>
-                {remainingTime}sn sonra otomatik taranacak
+              <small className={styles.autoScanInfoTextIndex}>
+                {remainingTime} sn sonra otomatik taranacak
               </small>
             </Box>
           </RenderIf>
@@ -145,30 +147,6 @@ export default function Home({ deviceType }: Props) {
         <ClusterPopup />
         <FooterBanner />
         <Footer />
-        <Box
-          sx={{
-            position: "fixed",
-            top: "50px",
-            left: "50%",
-            marginLeft: "-65.9px",
-            zIndex: "502",
-            display: "flex",
-            flexDirection: "column",
-            rowGap: "8px",
-          }}
-        >
-          <Button
-            color="secondary"
-            variant="contained"
-            onClick={handleScanButtonClick}
-          >
-            {isLoading || isValidating ? (
-              <LoadingSpinner slowLoading={slowLoading} />
-            ) : (
-              <LoadArea remainingTime={remainingTime} />
-            )}
-          </Button>
-        </Box>
       </main>
     </>
   );

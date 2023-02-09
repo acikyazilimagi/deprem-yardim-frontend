@@ -471,3 +471,11 @@
   position: absolute;
   left: 69%;
 }
+
+.autoScanInfoTextIndex {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 2px 5px;
+  color: white;
+  font-weight: bold;
+}
