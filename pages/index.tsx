@@ -59,7 +59,13 @@ export default function Home({ deviceType }: Props) {
         sw_lng: coordinatesAndEventType?.sw_lng,
         time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
       } as any).toString(),
-    [coordinatesAndEventType, newerThanTimestamp]
+    [
+      coordinatesAndEventType?.ne_lat,
+      coordinatesAndEventType?.ne_lng,
+      coordinatesAndEventType?.sw_lat,
+      coordinatesAndEventType?.sw_lng,
+      newerThanTimestamp,
+    ]
   );
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
@@ -109,7 +115,8 @@ export default function Home({ deviceType }: Props) {
 
   useEffect(() => {
     setURL(areasURL + "?" + urlParams);
-  }, [newerThanTimestamp, urlParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newerThanTimestamp]);
 
   return (
     <>
@@ -127,7 +134,7 @@ export default function Home({ deviceType }: Props) {
               sx={{
                 position: "fixed",
                 top: { md: "15px" },
-                bottom: { xs: "88px" },
+                bottom: { xs: "88px", md: "unset" },
                 left: "50%",
                 marginLeft: "-105px",
                 zIndex: "502",
