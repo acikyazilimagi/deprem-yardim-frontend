@@ -149,7 +149,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 {isLoading || isValidating ? (
                   <LoadingSpinner slowLoading={slowLoading} />
                 ) : (
-                  "ALANI TARA"
+                  <span>ALANI TARA</span>
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
