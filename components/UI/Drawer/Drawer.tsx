@@ -113,7 +113,10 @@ const Drawer = () => {
       extraParameters: extraParametersAsJSON,
     } = dataTransformer(data);
 
-    let extraParameters = {};
+    let extraParameters = {
+      tweet_id: "",
+      name: "",
+    };
 
     try {
       extraParameters = JSON.parse(extraParametersAsJSON || "{}");
