@@ -246,7 +246,6 @@ const Drawer = () => {
                 >
                   Kopyala
                 </Button>
-                {/* @ts-ignore */}
                 {extraParameters.tweet_id && (
                   <Button
                     variant="outlined"
