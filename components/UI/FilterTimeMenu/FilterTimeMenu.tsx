@@ -22,6 +22,11 @@ const FilterOptions: readonly FilterOption[] = [
     value: "last12Hours",
   },
   {
+    label: "Son 24 Saat",
+    inMilliseconds: 24 * 60 * 60 * 1000,
+    value: "last24Hours",
+  },
+  {
     label: "Son 3 Gün",
     inMilliseconds: 3 * 24 * 60 * 60 * 1000,
     value: "last3Days",
@@ -65,7 +70,9 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
     if (option.inMilliseconds === -1) {
       onChangeTime(undefined);
     } else {
-      onChangeTime(Date.now().valueOf() - option.inMilliseconds);
+      onChangeTime(
+        Math.floor((Date.now().valueOf() - option.inMilliseconds) / 1000)
+      );
     }
   }, [onChangeTime, selectedValue]);
 

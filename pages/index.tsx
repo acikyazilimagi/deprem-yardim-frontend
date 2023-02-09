@@ -25,7 +25,7 @@ import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL } from "@/utils/urls";
@@ -50,13 +50,17 @@ export default function Home({ deviceType }: Props) {
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
-  const urlParams = new URLSearchParams({
-    ne_lat: coordinatesAndEventType?.ne_lat,
-    ne_lng: coordinatesAndEventType?.ne_lng,
-    sw_lat: coordinatesAndEventType?.sw_lat,
-    sw_lng: coordinatesAndEventType?.sw_lng,
-    time_stamp: newerThanTimestamp ? newerThanTimestamp?.toString() : undefined,
-  } as any).toString();
+  const urlParams = useMemo(
+    () =>
+      new URLSearchParams({
+        ne_lat: coordinatesAndEventType?.ne_lat,
+        ne_lng: coordinatesAndEventType?.ne_lng,
+        sw_lat: coordinatesAndEventType?.sw_lat,
+        sw_lng: coordinatesAndEventType?.sw_lng,
+        time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
+      } as any).toString(),
+    [coordinatesAndEventType, newerThanTimestamp]
+  );
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
