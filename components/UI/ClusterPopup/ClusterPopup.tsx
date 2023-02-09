@@ -1,19 +1,48 @@
 import React, { useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import { useMapActions, usePopUpData } from "@/stores/mapStore";
-import { Button, Stack, Typography, alpha } from "@mui/material";
-import MuiPopover from "@mui/material/Popover";
+import theme from "@/utils/theme";
+import { Close } from "@mui/icons-material";
+import {
+  alpha,
+  Button,
+  Card,
+  Grid,
+  IconButton,
+  Stack,
+  styled,
+  Typography,
+} from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
 import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
 import { findTagByClusterCount } from "../Tag/Tag.types";
-import theme from "@/utils/theme";
-import { useWindowSize } from "@/hooks/useWindowSize";
+import useDisableZoom from "@/hooks/useDisableZoom";
 
-const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
+const PopupCard = styled(Card)`
+  position: absolute;
+  bottom: 25px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 1rem;
+  @media (max-width: ${theme.breakpoints.values.sm}px) {
+    max-width: unset;
+    right: 10px;
+    .cluster-address {
+      font-size: 13px;
+    }
+  }
+  border: 1px solid #e3e8ef;
+  border-radius: "8px";
+`;
+
+const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
+  useDisableZoom();
   const { setPopUpData } = useMapActions();
-  const { enqueueInfo } = useSnackbar();
+  const { enqueueInfo, closeSnackbar } = useSnackbar();
   const windowSize = useWindowSize();
 
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
@@ -27,68 +56,65 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
     if (copyButtonClicked) {
       enqueueInfo("Koordinat bilgisi kopyalandı.");
       setCopyButtonClicked(false);
+      setTimeout(() => {
+        closeSnackbar();
+      }, 3000);
     }
-  }, [copyButtonClicked, enqueueInfo]);
+  }, [copyButtonClicked, enqueueInfo, closeSnackbar]);
 
   if (!data) return null;
 
   return (
-    <MuiPopover
+    <PopupCard
+      variant="outlined"
+      sx={{
+        width: windowSize.width < 600 ? "auto" : "500px",
+      }}
       {...props}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      onClose={() => setPopUpData(null)}
-      open={props.open ?? (data?.baseMarker?.formatted_address ? true : false)}
     >
       <Stack
         direction="column"
         sx={{
-          border: "1px solid #E3E8EF",
-          padding: "24px",
-          gap: "12px",
-          borderRadius: "8px",
-          width: windowSize.width < 600 ? "100%" : "400px",
+          padding: "12px",
+          gap: "4px",
         }}
       >
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Typography
-            variant="subtitle2"
-            fontWeight="500"
-            sx={{ color: "#121926" }}
-          >
-            {data?.count ?? 0} ihbar mevcut
-          </Typography>
-          <Button
-            variant="text"
-            color="error"
-            sx={{
-              fontSize: windowSize.width < 600 ? "10px" : "12px",
-              backgroundColor: alpha(tag?.color, 0.1),
-            }}
-          >
-            {tag.intensity}
-          </Button>
-        </Stack>
-        <Typography
-          variant={windowSize.width < 600 ? "body2" : "body1"}
-          sx={{
-            color: "#364152",
-            pr: windowSize.width < 600 ? "18px" : "12px",
-            wordWrap: "break-word",
-          }}
-        >
-          {data?.baseMarker?.formatted_address}
-        </Typography>
+        <Grid container direction="row" alignItems="center">
+          <Grid item xs>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Typography
+                variant="subtitle2"
+                fontWeight="500"
+                sx={{ color: "#121926" }}
+              >
+                {data?.count ?? 0} ihbar mevcut
+              </Typography>
+              <Button
+                variant="text"
+                sx={{
+                  fontSize: windowSize.width < 600 ? "10px" : "12px",
+                  p: "4px 8px",
+                  backgroundColor: alpha(tag?.color, 0.7),
+                  color: "#212121",
+                  "&:hover": {
+                    backgroundColor: alpha(tag?.color, 1),
+                  },
+                }}
+              >
+                {tag.intensity}
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid item xs="auto">
+            <IconButton
+              aria-label="close"
+              onClick={() => setPopUpData(null)}
+              size="small"
+            >
+              <Close fontSize="small" />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Typography
           variant={windowSize.width < 600 ? "overline" : "body2"}
           sx={{ color: "#364152" }}
@@ -96,57 +122,119 @@ const ClusterPopup = (props: React.ComponentProps<typeof MuiPopover> | any) => {
         >
           {formatcoords([lat, lng]).format()}
         </Typography>
-        <Stack
-          sx={{
-            display: "flex",
-            flexDirection: windowSize.width < 600 ? "column" : "row",
-            gap: windowSize.width < 600 ? "12px" : "0px",
-            alignItems: windowSize.width < 600 ? "stretch" : "center",
-            justifyContent: windowSize.width < 600 ? "stretch" : "flex-end",
-          }}
-        >
-          <Stack
-            gap={windowSize.width < 600 ? "12px" : "4px"}
-            direction={windowSize.width < 600 ? "column" : "row"}
-            justifyContent={"space-between"}
-          >
-            {mapsButtons.map((button) => (
-              <Button
-                key={button.label}
-                color={button.color}
-                size="small"
-                sx={{
-                  display: "flex",
-                  flexDirection: windowSize.width < 600 ? "row" : "column",
-                  gap: "4px",
-                  textTransform: "unset",
-                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                  px: 1,
-                }}
-                onClick={() => button.urlCallback(lat, lng)}
-              >
-                {button.icon}
-                <Typography
+        <Grid container justifyContent="space-around" spacing={1}>
+          <Grid item xs={7} sm>
+            <Stack
+              gap={"4px"}
+              direction={windowSize.width < 600 ? "column" : "row"}
+            >
+              {mapsButtons.slice(0, 2).map((button) => (
+                <Button
+                  key={button.label}
+                  color={button.color}
+                  size="small"
                   sx={{
-                    color: button.color,
-                    fontWeight: "500",
-                    fontSize: 12,
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "4px",
+                    textTransform: "unset",
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                    "&:hover": {
+                      backgroundColor: alpha(theme.palette.primary.main, 0.15),
+                    },
+                    px: 1,
                   }}
+                  onClick={() => button.urlCallback(lat, lng)}
                 >
-                  {button.label}
-                </Typography>
-              </Button>
-            ))}
-          </Stack>
-          <CopyButton
-            color="primary"
-            data={generateGoogleMapsUrl(lat, lng)}
-            onClick={() => setCopyButtonClicked(true)}
-            title="Koordinatı kopyala"
-          />
-        </Stack>
+                  {button.icon}
+                  <Typography
+                    sx={{
+                      color: button.color,
+                      fontWeight: "500",
+                      fontSize: 12,
+                    }}
+                  >
+                    {button.label}
+                  </Typography>
+                </Button>
+              ))}
+            </Stack>
+          </Grid>
+          <Grid
+            item
+            xs={5}
+            sm="auto"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Stack
+              gap={"4px"}
+              direction={windowSize.width < 600 ? "column" : "row"}
+              sx={{
+                width: "100%",
+              }}
+            >
+              {mapsButtons.slice(2).map((button) => (
+                <Button
+                  key={button.label}
+                  color={button.color}
+                  size="small"
+                  sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "4px",
+                    textTransform: "unset",
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                    "&:hover": {
+                      backgroundColor: alpha(theme.palette.primary.main, 0.15),
+                    },
+                    px: 1,
+                  }}
+                  onClick={() => button.urlCallback(lat, lng)}
+                >
+                  {button.icon}
+                  <Typography
+                    sx={{
+                      color: button.color,
+                      fontWeight: "500",
+                      fontSize: 12,
+                    }}
+                  >
+                    {button.label}
+                  </Typography>
+                </Button>
+              ))}
+              <CopyButton
+                color="primary"
+                size="small"
+                data={generateGoogleMapsUrl(lat, lng)}
+                onClick={() => setCopyButtonClicked(true)}
+                title="Kopyala"
+                iconProps={{
+                  sx: {
+                    fontSize: 16,
+                  },
+                }}
+                sx={{
+                  // display: "flex",
+                  // flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                  "&:hover": {
+                    backgroundColor: alpha(theme.palette.primary.main, 0.15),
+                  },
+                }}
+              />
+            </Stack>
+          </Grid>
+        </Grid>
       </Stack>
-    </MuiPopover>
+    </PopupCard>
   );
 };
 

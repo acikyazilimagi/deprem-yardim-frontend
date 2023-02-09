@@ -2,12 +2,15 @@
 name: Hata raporlama
 about: Hata raporlama için kullanın
 title: 'bug: '
-labels: ''
+labels: 'bug, unchecked'
 assignees: ''
 
 ---
 ## Hata Tanımı
 Hatanın ne olduğu hakkında açık ve kısa bir açıklama.
+
+-- bu bilgiyi ekleyiniz
+** discord kullanıcı adı: @afetharita#0001 **
 
 
 ## Hata Ortamı

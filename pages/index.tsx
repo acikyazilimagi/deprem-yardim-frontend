@@ -3,15 +3,17 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
-import {
-  CoordinatesURLParametersWithEventType,
-  MarkerData,
-} from "@/mocks/types";
+import { CoordinatesURLParametersWithEventType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import { useCoordinates, useMapActions } from "@/stores/mapStore";
+import {
+  useCoordinates,
+  useMapActions,
+  setMarkerData,
+} from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { BASE_URL, REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -22,6 +24,10 @@ import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { dataTransformerLite } from "@/utils/dataTransformer";
+import { DataLite } from "@/mocks/TypesAreasEndpoint";
+import { areasURL } from "@/utils/urls";
+import { LoadArea } from "@/components/UI/Button/LoadArea";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -54,11 +60,18 @@ export default function Home({ deviceType }: Props) {
     ]
   );
   const { error, isLoading, mutate, isValidating } = useSWR<
-    MarkerData[] | undefined
+    DataLite | undefined
   >(url, dataFetcher, {
     onLoadingSlow: () => setSlowLoading(true),
     revalidateOnFocus: false,
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+    },
   });
+
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     mutate,
@@ -66,7 +79,7 @@ export default function Home({ deviceType }: Props) {
   );
 
   const handleScanButtonClick = useCallback(() => {
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     resetThrottling();
   }, [resetThrottling, urlParams]);
 
@@ -85,7 +98,7 @@ export default function Home({ deviceType }: Props) {
       return;
     }
 
-    setURL(BASE_URL + "?" + urlParams);
+    setURL(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
@@ -96,16 +109,19 @@ export default function Home({ deviceType }: Props) {
       </Head>
       <main className={styles.main}>
         {/* <HelpButton /> FooterBanner'a taşındı */}
+
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
             <LeafletMap />
+
+            <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
                 top: "50px",
                 left: "50%",
                 marginLeft: "-65.9px",
-                zIndex: "9999",
+                zIndex: "500",
                 display: "flex",
                 flexDirection: "column",
                 rowGap: "8px",
@@ -115,6 +131,7 @@ export default function Home({ deviceType }: Props) {
                 color="secondary"
                 variant="contained"
                 onClick={handleScanButtonClick}
+                style={{ zIndex: 501 }}
               >
                 Bu Alanı Tara
               </Button>
@@ -123,14 +140,35 @@ export default function Home({ deviceType }: Props) {
               </small>
             </Box>
           </RenderIf>
-          {(isLoading || isValidating) && (
-            <LoadingSpinner slowLoading={slowLoading} />
-          )}
         </Container>
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
         <Footer />
+        <Box
+          sx={{
+            position: "fixed",
+            top: "50px",
+            left: "50%",
+            marginLeft: "-65.9px",
+            zIndex: "502",
+            display: "flex",
+            flexDirection: "column",
+            rowGap: "8px",
+          }}
+        >
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={handleScanButtonClick}
+          >
+            {isLoading || isValidating ? (
+              <LoadingSpinner slowLoading={slowLoading} />
+            ) : (
+              <LoadArea remainingTime={remainingTime} />
+            )}
+          </Button>
+        </Box>
       </main>
     </>
   );
