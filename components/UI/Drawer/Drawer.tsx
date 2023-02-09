@@ -159,7 +159,7 @@ const Drawer = () => {
           height: "100%",
           padding: "1rem 2rem 1rem 1rem",
           flexDirection: "column",
-          overflow: "hidden",
+          overflow: "auto",
         }}
         role="presentation"
         onKeyDown={(e) => toggler(e)}

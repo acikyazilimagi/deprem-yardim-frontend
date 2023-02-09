@@ -115,6 +115,7 @@ export default function Home({ deviceType }: Props) {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta name="google" content="notranslate" />
       </Head>
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
