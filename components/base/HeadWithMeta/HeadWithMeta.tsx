@@ -41,7 +41,15 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
           type: "image/png",
         },
       ]
-    : undefined;
+    : [
+        {
+          url: "base-og-img.png",
+          width: 1200,
+          height: 630,
+          alt: `${ADDRESS}`,
+          type: "image/png",
+        },
+      ];
 
   return (
     <NextSeo
