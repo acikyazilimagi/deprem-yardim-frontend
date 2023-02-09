@@ -248,12 +248,11 @@ const Drawer = () => {
                   />
                 </div>
               </div>
-              {showSavedData && (
+              {showSavedData ? (
                 <div className={styles.sourceContentText}>
                   <Typography>{raw?.full_text}</Typography>
                 </div>
-              )}
-              {!showSavedData && (
+              ) : (
                 <div className={styles.sourceContentIframeWrapper}>
                   <iframe
                     frameBorder={0}
