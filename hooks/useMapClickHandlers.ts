@@ -10,11 +10,7 @@ export function useMapClickHandlers() {
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
       markerData?: MarkerData
     ) => {
-      if (
-        event.type === "keydown" &&
-        ((event as KeyboardEvent).key === "Tab" ||
-          (event as KeyboardEvent).key === "Shift")
-      )
+      if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
 
       toggleDrawer();
