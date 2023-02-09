@@ -31,7 +31,7 @@ export type Raw = {
 export type DrawerData = {
   id?: number;
   formatted_address?: string;
-  raw?: Raw;
+  raw: Raw;
   geometry: Geometry;
 };
 

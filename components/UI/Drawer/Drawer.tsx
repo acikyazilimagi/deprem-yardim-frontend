@@ -261,7 +261,7 @@ const Drawer = () => {
               </div>
               {showSavedData && (
                 <div className={styles.sourceContentText}>
-                  <Typography>{raw?.full_text}</Typography>
+                  <Typography>{raw.full_text}</Typography>
                 </div>
               )}
               {!showSavedData && (
@@ -270,7 +270,7 @@ const Drawer = () => {
                     frameBorder={0}
                     className={styles.sourceContentIframe}
                     width={"100%"}
-                    src={`https://twitframe.com/show?url=https://twitter.com/${raw?.name}/status/${raw?.tweet_id}&conversation=none`}
+                    src={`https://twitframe.com/show?url=https://twitter.com/${raw.name}/status/${raw.tweet_id}&conversation=none`}
                   ></iframe>
                 </div>
               )}
