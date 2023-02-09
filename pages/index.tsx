@@ -141,7 +141,7 @@ export default function Home({ deviceType }: Props) {
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
-                {remainingTime} sn sonra otomatik taranacak
+                <strong>{remainingTime}</strong> sn sonra otomatik taranacak
               </small>
             </Box>
           </RenderIf>
