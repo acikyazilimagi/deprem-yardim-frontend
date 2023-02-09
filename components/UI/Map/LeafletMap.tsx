@@ -1,6 +1,11 @@
 import Map from "@/components/UI/Map/Map";
 import { EVENT_TYPES, MarkerData } from "@/mocks/types";
-import { useDevice, useMapActions, useMarkerData } from "@/stores/mapStore";
+import {
+  useDevice,
+  useIsDrawerOpen,
+  useMapActions,
+  useMarkerData,
+} from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
@@ -10,7 +15,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
 import { Tags } from "../Tag/Tag.types";
@@ -53,12 +58,12 @@ const GlobalClusterStyle = css`
 
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
+  const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
       const zoomLevel = map.getZoom();
-
       let localCoordinates = value;
 
       // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
@@ -68,18 +73,21 @@ const MapEvents = () => {
           EXPAND_COORDINATE_BY_VALUE
         );
       }
-
       setCoordinates(localCoordinates, eventType);
+      const _lat = localCoordinates.getCenter().lat;
+      const _lng = localCoordinates.getCenter().lng;
+      const _zoomLevel = zoomLevel;
 
       // set cordinates and zoom level to url
-      const cordinatesURL = `#lat=${localCoordinates.getCenter().lat}&lng=${
-        localCoordinates.getCenter().lng
-      }&zoom=${zoomLevel}`;
-
-      window.history.replaceState(
-        { ...window.history.state, as: cordinatesURL, url: cordinatesURL },
-        "",
-        cordinatesURL
+      const cordinatesURL = `lat=${_lat}&lng=${_lng}&zoom=${_zoomLevel}`;
+      router.push(
+        {
+          query: cordinatesURL,
+        },
+        { query: cordinatesURL },
+        {
+          shallow: true,
+        }
       );
     },
     1000
@@ -122,8 +130,11 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const { setCoordinates } = useMapActions();
-  const { asPath } = useRouter();
+  const router = useRouter();
   const data = useMarkerData();
+  const isOpen = useIsDrawerOpen();
+  const { toggleDrawer, setDrawerData } = useMapActions();
+
   const points: Point[] = useMemo(
     () =>
       data.map((marker: MarkerData) => [
@@ -133,36 +144,39 @@ function LeafletMap() {
       ]),
     [data]
   );
+  const { lat, lng, zoom, id } = router.query;
   const device = useDevice();
-
   const defaultCenter: LatLngExpression =
-    asPath.includes("lat=") && asPath.includes("lng=")
-      ? [
-          parseFloat(asPath.split("lat=")[1].split("&")[0]),
-          parseFloat(asPath.split("lng=")[1].split("&")[0]),
-        ]
+    lat && lng
+      ? [parseFloat(lat as string), parseFloat(lng as string)]
       : DEFAULT_CENTER;
 
-  const defaultZoom = asPath.includes("zoom=")
-    ? parseFloat(asPath.split("zoom=")[1].split("&")[0])
+  const defaultZoom = zoom
+    ? parseFloat(zoom as string)
     : device === "desktop"
     ? DEFAULT_ZOOM
     : DEFAULT_ZOOM_MOBILE;
 
-  /*
-  const ogQueryParamAppender = (marker: MarkerData) => {
-    const clearHash = asPath.replace("/#", "");
-    const address = marker.formatted_address.substring(0, 1000);
-    const entry = marker.source.full_text as string;
-    const loc = `${marker.geometry.location.lat},${marker.geometry.location.lng}`;
-    const constructedQuery = `&address=${encodeURIComponent(
-      address
-    )}&entry=${encodeURIComponent(entry)}&loc=${encodeURIComponent(loc)}`;
-    push({
-      hash: `${clearHash}${constructedQuery}`,
-    });
-  };
-*/
+  const isIdExists = id;
+
+  useEffect(() => {
+    if (isIdExists && !isOpen) {
+      const tempDrawerData = {
+        reference: Number(id as string),
+        geometry: {
+          location: {
+            lat: parseFloat(lat as string),
+            lng: parseFloat(lng as string),
+          },
+        },
+      };
+      console.log("isIdExists", isIdExists, tempDrawerData);
+      toggleDrawer();
+      setDrawerData(tempDrawerData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Global styles={GlobalClusterStyle} />
@@ -189,7 +203,6 @@ function LeafletMap() {
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
         <LayerControl points={points} data={data} />
-
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />

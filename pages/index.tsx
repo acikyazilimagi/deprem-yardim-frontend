@@ -37,7 +37,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 type Props = {
   deviceType: DeviceType;
 };
-
 export default function Home({ deviceType }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
 
@@ -157,6 +156,8 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
+  console.log("serverside query", context);
+  // const { data } = await dataFetcher(locationsURL());
 
   return {
     props: {

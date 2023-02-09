@@ -25,11 +25,19 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, { MouseEvent, useCallback, useMemo, useState } from "react";
+import React, {
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
+import { useUrlPath } from "@/hooks/useUrlPath";
+import { useRouter } from "next/router";
 
 interface MapsButton {
   label: string;
@@ -95,6 +103,8 @@ const Drawer = () => {
   useDisableZoom();
   const isOpen = useIsDrawerOpen();
   const drawerData = useDrawerData();
+  const router = useRouter();
+  const { setUrlQuery } = useUrlPath();
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
   const anchor = useMemo(
@@ -114,6 +124,22 @@ const Drawer = () => {
   }
 
   const { handleMarkerClick: toggler } = useMapClickHandlers();
+
+  useEffect(() => {
+    if (isOpen && router) {
+      const path = setUrlQuery({ id: drawerData?.reference }, router);
+      router.push(
+        {
+          query: `${path}`,
+        },
+        {
+          query: `${path}`,
+        },
+        { shallow: true }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
   const list = useMemo(() => {
     const {
@@ -293,7 +319,12 @@ const Drawer = () => {
     );
   }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
 
-  const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
+  const handleClose = useCallback(
+    (e: MouseEvent) => {
+      toggler(e);
+    },
+    [toggler]
+  );
 
   return (
     <div>

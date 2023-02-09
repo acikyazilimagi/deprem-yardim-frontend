@@ -53,7 +53,7 @@ const HeadWithMeta = () => {
       description={ENTRY}
       openGraph={{
         // TODO: base path is missing in next.config static for now
-        url: `https://afetharita.com/${asPath}`,
+        url: `https://afetharita.com/`,
         title: ADDRESS,
         description: ENTRY,
         images: IMAGES,
@@ -62,7 +62,7 @@ const HeadWithMeta = () => {
       twitter={{
         handle: "afetharita.com",
         cardType: "summary_large_image",
-        site: `https://afetharita.com/${asPath}`,
+        site: "afetharita.com",
       }}
       additionalMetaTags={[
         {
