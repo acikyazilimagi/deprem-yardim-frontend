@@ -118,8 +118,8 @@ export default function Home({ deviceType }: Props) {
       </Head>
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
           <RenderIf condition={!error} fallback={<Maintenance />}>
+            <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
             <LeafletMap />
             <SitesIcon />
             <Box
