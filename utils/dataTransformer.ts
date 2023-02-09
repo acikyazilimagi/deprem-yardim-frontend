@@ -1,4 +1,4 @@
-import { DrawerData, LocationResponse, MarkerData } from "@/mocks/types";
+import { DrawerData, MarkerData } from "@/mocks/types";
 import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
 
 export const dataTransformerLite = (data: DataLite): MarkerData[] =>
@@ -12,7 +12,7 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
     },
   }));
 
-export const dataTransformer = (data: Data): LocationResponse => {
+export const dataTransformer = (data: Data): DrawerData => {
   const id = data.id;
   const formatted_address = data?.formatted_address;
   const loc = data?.loc;
@@ -27,7 +27,6 @@ export const dataTransformer = (data: Data): LocationResponse => {
       },
     },
     id,
-    types: ["locality", "political"],
     raw,
   };
 };

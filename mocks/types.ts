@@ -31,23 +31,8 @@ export type Raw = {
 export type DrawerData = {
   id: number;
   formatted_address: string;
-  loc: [number, number];
-  viewport: {
-    northeast: Point;
-    southwest: Point;
-  };
   raw: Raw;
   geometry: Geometry;
-  resolution: {
-    address?: string;
-    city?: string;
-    distinct?: string;
-    neighbourhood?: string;
-    street?: string;
-    no?: number;
-    name_surname?: string;
-    tel?: string;
-  };
 };
 
 export type CoordinatesURLParameters = {
