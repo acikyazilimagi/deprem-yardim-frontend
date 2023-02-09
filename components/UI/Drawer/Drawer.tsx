@@ -1,3 +1,4 @@
+import useDisableZoom from "@/hooks/useDisableZoom";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { Data } from "@/mocks/TypesAreasEndpoint";
@@ -87,6 +88,7 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 const Drawer = () => {
+  useDisableZoom();
   const isOpen = useIsDrawerOpen();
   const drawerData = useDrawerData();
   const size = useWindowSize();

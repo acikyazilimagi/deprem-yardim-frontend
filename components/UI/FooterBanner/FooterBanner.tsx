@@ -1,9 +1,11 @@
 import RenderIf from "@/components/UI/Common/RenderIf";
+import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
 import styles from "./FooterBanner.module.css";
 
 export default function FooterBanner() {
+  useDisableZoom();
   const [hideFooter, setHideFooter] = useState(true);
 
   const handleOffIconClick = () => {
