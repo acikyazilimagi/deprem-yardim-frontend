@@ -271,13 +271,15 @@ const Drawer = () => {
                 <Typography className={styles.sourceContentTitle}>
                   Yardım İçeriği
                 </Typography>
-                <div className={styles.sourceContentSwitch}>
-                  <p>Kayıtlı veriyi göster</p>
-                  <Switch
-                    checked={showSavedData}
-                    onChange={() => setShowSavedData((s) => !s)}
-                  />
-                </div>
+                {extraParameters.name && (
+                  <div className={styles.sourceContentSwitch}>
+                    <p>Kayıtlı veriyi göster</p>
+                    <Switch
+                      checked={showSavedData}
+                      onChange={() => setShowSavedData((s) => !s)}
+                    />
+                  </div>
+                )}
               </div>
               {showSavedData ? (
                 <PlaceholderTweet source={extraParameters} />
