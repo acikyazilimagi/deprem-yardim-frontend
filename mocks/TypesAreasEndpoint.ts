@@ -2,6 +2,7 @@ import { Point } from "./types";
 
 export type Data = {
     id: number;
+    full_text: string;
     formatted_address: string;
     loc: [number, number];
     viewport: {
@@ -22,7 +23,6 @@ export type Data = {
 };
 
 export type Raw = {
-  full_text?: string;
   tweet_id: string;
   user_id: string;
   name?: string;
@@ -33,6 +33,7 @@ export type DataLite = {
   count: number;
   results: {
     id: number;
+    entry_id: number;
     loc: [number, number]
   }[]
 }

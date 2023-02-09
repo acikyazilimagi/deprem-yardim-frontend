@@ -3,7 +3,7 @@ import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
 
 export const dataTransformerLite = (data: DataLite): MarkerData[] =>
   data.results.map((result) => ({
-    reference: result.id,
+    reference: result.entry_id,
     geometry: {
       location: {
         lat: result.loc?.[0] || 0,
@@ -14,6 +14,7 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
 
 export const dataTransformer = (data?: Data): DrawerData => {
   return {
+    fullText: data?.full_text,
     formatted_address: data?.formatted_address,
     geometry: {
       location: {

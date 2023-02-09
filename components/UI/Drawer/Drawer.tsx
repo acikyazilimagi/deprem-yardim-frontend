@@ -135,7 +135,8 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   const list = useMemo(() => {
-    const { geometry, formatted_address, raw } = dataTransformer(data);
+    const { geometry, formatted_address, fullText, raw } =
+      dataTransformer(data);
     const formattedCoordinates = formatcoords([
       geometry.location.lat,
       geometry.location.lng,
@@ -250,7 +251,7 @@ const Drawer = () => {
               </div>
               {showSavedData ? (
                 <div className={styles.sourceContentText}>
-                  <Typography>{raw?.full_text}</Typography>
+                  <Typography>{fullText}</Typography>
                 </div>
               ) : (
                 <div className={styles.sourceContentIframeWrapper}>
