@@ -3,11 +3,6 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-
-import ReasoningFilterMenu, {
-  initialReasoningFilter,
-  ReasoningFilterMenuOption,
-} from "@/components/UI/ReasoningFilterMenu";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
 import {
@@ -33,9 +28,14 @@ import { Box } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import FilterTimeMenu from "@/components/UI/FilterTimeMenu/FilterTimeMenu";
 import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
+import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
+import {
+  initialReasoningFilter,
+  ReasoningFilterMenuOption,
+} from "@/components/UI/FilterMenu/FilterReasoningMenu";
+import { useRouter } from "next/router";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -59,6 +59,7 @@ type Props = {
   singleItemDetail: any;
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
@@ -159,6 +160,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reasoningFilterMenuOption]);
 
+  const onLanguageChange = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
@@ -181,8 +187,16 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
-                <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
+                <FilterMenu>
+                  <FilterMenu.LocaleSwitch
+                    current={router.locale || "tr"}
+                    onChange={onLanguageChange}
+                  />
+                  <FilterMenu.Reasoning
+                    onChange={setReasoningFilterMenuOption}
+                  />
+                  <FilterMenu.Time onChangeTime={setNewerThanTimestamp} />
+                </FilterMenu>
               </div>
             </div>
             <LeafletMap />

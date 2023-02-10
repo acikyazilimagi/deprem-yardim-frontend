@@ -1,7 +1,6 @@
 import { useEffect, useState, MouseEvent } from "react";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import styles from "../../../styles/Home.module.css";
+import { Menu, MenuItem } from "@mui/material";
+import FilterMenuButton from "./FilterMenuButton";
 
 type ReasoningFilterMenuOptionType = "reason" | "channel";
 
@@ -40,11 +39,13 @@ const valueToOption = (value: string): ReasoningFilterMenuOption => {
   ) as ReasoningFilterMenuOption;
 };
 
-interface ReasoningFilterMenuProps {
+export interface FilterReasoningMenuProps {
   onChange: (_option: ReasoningFilterMenuOption) => void;
 }
 
-const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
+const ReasoningFilterMenu: React.FC<FilterReasoningMenuProps> = ({
+  onChange,
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<string>(
     initialReasoningFilter.value
@@ -75,49 +76,31 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
   }, [selectedValue]);
 
   return (
-    <Box>
-      <div className={styles.filterMenu}>
-        <span>Bildirimler</span>
-        <Button
-          aria-controls={open ? "CHANGEME-filtrele" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          sx={{
-            background: "white",
-            color: "#344054",
-            "&:hover": { background: "white" },
-            border: "1px solid #BABBBE",
-            borderRadius: "8px",
-            height: "48px",
-          }}
-          variant="contained"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-        >
-          {
-            reasoningFilterMenuOptions.find(
-              (option) => option.value === selectedValue
-            )?.label
-          }
-        </Button>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          {reasoningFilterMenuOptions.map((option) => (
-            <MenuItem
-              key={option.value}
-              onClick={handleMenuItemClick}
-              data-value={option.value}
-              disableRipple
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </div>
-    </Box>
+    <>
+      <FilterMenuButton
+        open={open}
+        onClick={handleClick}
+        ariaControls="CHANGEME-filtrele"
+      >
+        {
+          reasoningFilterMenuOptions.find(
+            (option) => option.value === selectedValue
+          )?.label
+        }
+      </FilterMenuButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {reasoningFilterMenuOptions.map((option) => (
+          <MenuItem
+            key={option.value}
+            onClick={handleMenuItemClick}
+            data-value={option.value}
+            disableRipple
+          >
+            {option.label}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 };
 
