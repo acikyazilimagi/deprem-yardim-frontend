@@ -1,3 +1,5 @@
+import { Channel } from "@/components/UI/Drawer/components/types";
+
 export type Data = {
     id: number;
     full_text: string;
@@ -5,7 +7,7 @@ export type Data = {
     extra_parameters?: string,
     timestamp: string;
     is_resolved: boolean;
-    channel: "twitter" | "Babala";
+    channel: Channel;
 };
 
 export type Raw = {

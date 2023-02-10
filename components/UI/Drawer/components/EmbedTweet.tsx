@@ -1,11 +1,11 @@
-import { Raw } from "@/mocks/TypesAreasEndpoint";
 import React, { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";
+import { TwitterParameters } from "./types";
 
 type Props = {
-  source: Raw;
+  source: TwitterParameters;
 };
 
 const EmbedTweet = ({ source }: Props) => {

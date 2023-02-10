@@ -14,13 +14,7 @@ import {
   OpenInNew,
 } from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  CircularProgress,
-  Snackbar,
-  Switch,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { CircularProgress, Snackbar, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
@@ -30,8 +24,7 @@ import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
-import dynamic from "next/dynamic";
-import PlaceholderTweet from "./components/PlaceholderTweet";
+import FeedContent from "./components/FeedContent";
 
 interface MapsButton {
   label: string;
@@ -40,9 +33,6 @@ interface MapsButton {
   icon: React.ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
-const EmbedTweet = dynamic(() => import("./components/EmbedTweet"), {
-  ssr: false,
-});
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
   return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
@@ -106,9 +96,12 @@ const Drawer = () => {
     () => (size.width > 768 ? "left" : "bottom"),
     [size.width]
   );
-  const [showSavedData, setShowSavedData] = useState(true);
 
-  const { data, isLoading, error } = useSWR<Data | undefined>(
+  const {
+    data: rawData,
+    isLoading,
+    error,
+  } = useSWR<Data | undefined>(
     locationsURL(drawerData?.reference),
     dataFetcher
   );
@@ -119,26 +112,8 @@ const Drawer = () => {
   }
 
   const { handleMarkerClick: toggler } = useMapClickHandlers();
-
   const list = useMemo(() => {
-    const { formatted_address, extraParameters: extraParametersAsJSON } =
-      dataTransformer(data);
-
-    let extraParameters = {
-      tweet_id: "",
-      name: "",
-      full_text: "",
-      user_id: "",
-    };
-
-    try {
-      extraParameters = JSON.parse(extraParametersAsJSON || "{}");
-      extraParameters.full_text = data?.full_text!;
-    } catch (e) {
-      // I don't that trust that extraParameters JSON string, so it is better
-      // to not to crash the UI.
-      console.error(e);
-    }
+    const data = dataTransformer(rawData);
 
     if (!drawerData) {
       return null;
@@ -149,7 +124,15 @@ const Drawer = () => {
       drawerData.geometry.location.lng,
     ]).format();
 
-    const formattedTimeAgo = data && getTimeAgo(data.timestamp);
+    const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp);
+    console.log(data);
+
+    const hasSource =
+      data.channel === "twitter" &&
+      // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+      data.extra_parameters.tweet_id &&
+      // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+      data.extra_parameters.tweet_id !== "";
 
     return (
       <Box
@@ -182,7 +165,7 @@ const Drawer = () => {
             <span className={styles.contentIdSection}>
               ID: {drawerData.reference}
             </span>
-            <h3 style={{ maxWidth: "45ch" }}>{formatted_address}</h3>
+            <h3 style={{ maxWidth: "45ch" }}>{data.formatted_address}</h3>
             {formattedTimeAgo && (
               <div className={styles.contentInfo}>
                 <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
@@ -246,7 +229,7 @@ const Drawer = () => {
                 >
                   Kopyala
                 </Button>
-                {extraParameters.tweet_id && (
+                {hasSource && (
                   <Button
                     variant="outlined"
                     className={styles.clipboard}
@@ -254,7 +237,8 @@ const Drawer = () => {
                     size="small"
                     onClick={() =>
                       window.open(
-                        `https://twitter.com/anyuser/status/${extraParameters?.tweet_id}`
+                        // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+                        `https://twitter.com/anyuser/status/${data.extra_parameters?.tweet_id}`
                       )
                     }
                     startIcon={<OpenInNew className={styles.btnIcon} />}
@@ -265,14 +249,14 @@ const Drawer = () => {
                 )}
               </div>
             </div>
-            <div className={styles.sourceContent}>
-
+            <FeedContent content={data} />
           </div>
+        )}
 
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
+  }, [rawData, size.width, toggler, isLoading, error, drawerData]);
 
   const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
 

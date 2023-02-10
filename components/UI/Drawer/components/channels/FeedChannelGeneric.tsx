@@ -1,36 +1,11 @@
 import Typography from "@mui/material/Typography";
-import React from "react";
-import TwitterLogo from "./TwitterLogo";
-import { FeedChannelTwitterProps, TwitterParameters } from "./types";
+import { FeedChannelBabalaProps } from "../types";
 
-type Props = {
-  source: TwitterParameters;
-  full_text?: FeedChannelTwitterProps["full_text"];
-};
-
-const PlaceholderTweet = ({ source, full_text }: Props) => {
-  console.log(source);
+const FeedChannelGeneric = ({ full_text }: FeedChannelBabalaProps) => {
   return (
     <>
       <div style={styles.container}>
-        <div style={styles.user}>
-          {source.name && (
-            <div style={styles.avatarAndName}>
-              <div style={styles.avatar}></div>
-              <div style={styles.name}>
-                <div style={styles.username}>{source.screen_name}</div>
-                <div style={styles.userIdArea}>
-                  <div style={styles.userText}>@{source.name}</div>
-                  <div style={styles.dot}>·</div>
-                  <div style={styles.followText}>Follow</div>
-                </div>
-              </div>
-            </div>
-          )}
-          <div style={styles.logo}>
-            <TwitterLogo />
-          </div>
-        </div>
+        <div style={styles.user}></div>
         <Typography style={styles.fullText}>{full_text}</Typography>
       </div>
     </>
@@ -102,6 +77,14 @@ const styles = {
     color: "rgba(0, 0, 0, 0.87)",
     lineHeight: 1.35,
   },
+  confirmation: {
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    fontSize: 14,
+    fontWeight: 800,
+    color: "red",
+    lineHeight: 1.35,
+  },
 };
 
-export default PlaceholderTweet;
+export default FeedChannelGeneric;

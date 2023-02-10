@@ -1,13 +1,14 @@
-export type Channel = "twitter" | "babala";
+export type Channel = "twitter" | "Babala";
+export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {
-  id: number;
-  full_text: string;
-  is_resolved: boolean;
-  channel: Channel;
-  timestamp: string;
+  id?: number;
+  full_text?: string;
+  is_resolved?: boolean;
+  channel?: Channel;
+  timestamp?: string;
   extra_parameters: T;
-  formatted_address: string;
+  formatted_address?: string;
 }
 
 export type BabalaParameters = {
@@ -29,6 +30,6 @@ export type TwitterParameters = {
   media: string;
 };
 
-export type BabalaFeedChannel = BaseFeedChannel<BabalaParameters>;
+export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
 
-export type TwitterFeedChannel = BaseFeedChannel<TwitterParameters>;
+export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;

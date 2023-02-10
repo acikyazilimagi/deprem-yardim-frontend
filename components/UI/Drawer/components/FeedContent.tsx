@@ -1,23 +1,29 @@
-import { Raw } from "@/mocks/TypesAreasEndpoint";
-import { Data } from "@/mocks/TypesAreasEndpoint";
-import FeedChannelTwitter from "./PlaceholderTweet";
-import FeedChannelBabala from "./FeedChannelBabala";
+import FeedChannelTwitter from "./channels/FeedChannelTwitter";
+import FeedChannelBabala from "./channels/FeedChannelBabala";
+import FeedChannelGeneric from "./channels/FeedChannelGeneric";
+import {
+  BaseFeedChannel,
+  FeedChannelBabalaProps,
+  FeedChannelTwitterProps,
+} from "./types";
 
 type Props = {
-  source: Raw;
-  channel: Data["channel"];
-  fullText: string;
+  content: FeedChannelTwitterProps | FeedChannelBabalaProps;
 };
 
 const contentMapper = {
-  twitter: (source: Raw) => <FeedChannelTwitter source={source} />,
-  babala: (source: Raw) => (
-    <FeedChannelBabala source={source} channel={channel} fullText={fullText} />
+  generic: (source: BaseFeedChannel<any>) => <FeedChannelGeneric {...source} />,
+  twitter: (source: FeedChannelTwitterProps) => (
+    <FeedChannelTwitter {...source} />
   ),
+  Babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
 };
 
-const FeedContent = ({ data }: Props) => {
-  return <>{contentMapper[channel](data)}</>;
+const FeedContent = ({ content }: Props) => {
+  console.log();
+  const channel = content.channel || "generic";
+  // @ts-ignore: content'i uygun bulamıyor, type ile güncellenecek
+  return <>{contentMapper[channel](content)}</>;
 };
 
 export default FeedContent;

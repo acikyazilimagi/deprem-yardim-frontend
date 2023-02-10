@@ -1,3 +1,7 @@
+import {
+  FeedChannelBabalaProps,
+  FeedChannelTwitterProps,
+} from "@/components/UI/Drawer/components/types";
 import { DrawerData, MarkerData } from "@/mocks/types";
 import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
 
@@ -12,11 +16,26 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
     },
   }));
 
-export const dataTransformer = (data?: Data): DrawerData => {
+export const dataTransformer = (
+  data?: Data
+): FeedChannelTwitterProps | FeedChannelBabalaProps => {
+  let rawExtraParams = `{ tweet_id: "", name: "", full_text: "", user_id: "" }`;
+
+  try {
+    rawExtraParams = JSON.parse(data?.extra_parameters || rawExtraParams);
+  } catch (e) {
+    //   // I don't that trust that extraParameters JSON string, so it is better
+    //   // to not to crash the UI.
+    //   console.error(e);
+  }
+
   return {
-    fullText: data?.full_text,
+    full_text: data?.full_text,
     formatted_address: data?.formatted_address,
-    id: data?.id,
-    extraParameters: data?.extra_parameters,
+    id: data?.id, // TODO: Burası şimdilik any olarak bırakıldı, sonrasında type güncellemesi yapılacak
+    extra_parameters: rawExtraParams as any,
+    channel: data?.channel,
+    is_resolved: data?.is_resolved,
+    timestamp: data?.timestamp,
   };
 };
