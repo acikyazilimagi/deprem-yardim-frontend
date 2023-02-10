@@ -6,3 +6,9 @@ export const OG_EDGE_URL_DYNAMIC =
   "https://deprem-yardim-og-generator-eta.vercel.app/api/dynamic-image";
 export const OG_EDGE_URL_BASE =
   "https://deprem-yardim-og-generator-eta.vercel.app/api/base-image";
+export const SEO_LANG = {
+  HREF_TR: "https://afetharita.com/tr",
+  HREF_EN: "https://afetharita.com/en",
+  HREFLANG_TR: "tr",
+  HREFLANG_EN: "en-us",
+};
