@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
+import { useTranslation } from "next-i18next";
 
 type TimeOption =
   | "last30Minutes"
@@ -23,41 +24,41 @@ const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
 
 const FilterOptions: readonly FilterOption[] = [
   {
-    label: "Son 30 dakika",
+    label: "lastHalfHour",
     inMilliseconds: (1 * HOUR_IN_MILLISECONDS) / 2,
     value: "last30Minutes",
   },
   {
-    label: "Son 1 Saat",
+    label: "lastHour",
     inMilliseconds: 1 * HOUR_IN_MILLISECONDS,
     value: "last1Hour",
   },
   {
-    label: "Son 3 Saat",
+    label: "lastThreeHours",
     inMilliseconds: 3 * HOUR_IN_MILLISECONDS,
     value: "last3Hours",
   },
   {
-    label: "Son 6 Saat",
+    label: "lastSixHours",
     inMilliseconds: 6 * HOUR_IN_MILLISECONDS,
     value: "last6Hours",
   },
   {
-    label: "Son 12 Saat",
+    label: "lastTwelveHours",
     inMilliseconds: 12 * HOUR_IN_MILLISECONDS,
     value: "last12Hours",
   },
   {
-    label: "Son 24 Saat",
+    label: "lastDay",
     inMilliseconds: 24 * HOUR_IN_MILLISECONDS,
     value: "last24Hours",
   },
   {
-    label: "Son 3 Gün",
+    label: "lastThreeDays",
     inMilliseconds: 3 * DAY_IN_MILLISECONDS,
     value: "last3Days",
   },
-  { label: "Tüm zamanlar", inMilliseconds: -1, value: "all" },
+  { label: "all", inMilliseconds: -1, value: "all" },
 ] as const;
 
 const valueToOption = (value: string): FilterOption | undefined => {
@@ -69,6 +70,7 @@ export type FilterTimeMenuProps = {
 };
 
 const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
+  const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
   const open = Boolean(anchorEl);
@@ -111,7 +113,12 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
         open={open}
         onClick={handleClick}
       >
-        {FilterOptions.find((option) => option.value === selectedValue)?.label}
+        {t(
+          `filter.time.${
+            FilterOptions.find((option) => option.value === selectedValue)
+              ?.label
+          }`
+        )}
       </FilterMenuButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {FilterOptions.map((option) => (
@@ -121,7 +128,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
             data-value={option.value}
             disableRipple
           >
-            {option.label}
+            {t(`filter.time.${option.label}`)}
           </MenuItem>
         ))}
       </Menu>

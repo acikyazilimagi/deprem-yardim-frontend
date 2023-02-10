@@ -31,11 +31,14 @@ import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation, Trans } from "next-i18next";
 import {
   initialReasoningFilter,
   ReasoningFilterMenuOption,
 } from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
+import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -59,6 +62,7 @@ type Props = {
   singleItemDetail: any;
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
@@ -110,9 +114,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   );
 
   if (error) {
-    throw new MaintenanceError(
-      "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin."
-    );
+    throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
 
   const { setDevice } = useMapActions();
@@ -188,10 +190,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.LocaleSwitch
-                    current={router.locale || "tr"}
-                    onChange={onLanguageChange}
-                  />
                   <FilterMenu.Reasoning
                     onChange={setReasoningFilterMenuOption}
                   />
@@ -200,7 +198,24 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               </div>
             </div>
             <LeafletMap />
-            {!isMobile && <SitesIcon />}
+            <Box
+              sx={{
+                display: "flex",
+                padding: "0",
+                borderRadius: "10px",
+                position: "absolute",
+                bottom: isMobile ? "30px" : "90px",
+                right: isMobile ? "10px" : "26px",
+                zIndex: 500,
+              }}
+            >
+              <LocaleSwitch
+                current={router.locale || "tr"}
+                onChange={onLanguageChange}
+                mobile={isMobile}
+              />
+            </Box>
+            {!isMobile && <SitesIcon></SitesIcon>}
             <Box
               sx={{
                 position: "fixed",
@@ -223,12 +238,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 {isLoading || isValidating ? (
                   <LoadingSpinner slowLoading={slowLoading} />
                 ) : (
-                  <span>ALANI TARA</span>
+                  <span>{t("home:scanner.text")}</span>
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
-                <strong>{remainingTime}</strong>
-                <span> sn sonra otomatik taranacak</span>
+                <Trans
+                  i18nKey="home:scanner.remaining"
+                  values={{ time: remainingTime }}
+                />
               </small>
             </Box>
           </RenderIf>
@@ -258,6 +275,7 @@ export async function getServerSideProps(context: any) {
 
   return {
     props: {
+      ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }

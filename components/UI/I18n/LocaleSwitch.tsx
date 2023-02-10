@@ -6,11 +6,11 @@ import FilterMenuButton from "@/components/UI/FilterMenu/FilterMenuButton";
 const languages = [
   {
     locale: "en",
-    text: "English",
+    text: "EN",
   },
   {
     locale: "tr",
-    text: "Türkçe",
+    text: "TR",
   },
 ];
 
@@ -19,9 +19,14 @@ export type LocaleSwitchProps = {
 
   // eslint-disable-next-line no-unused-vars
   onChange: (locale: string) => void;
+  mobile?: boolean;
 };
 
-const LocaleSwitch: React.FC<LocaleSwitchProps> = ({ current, onChange }) => {
+const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
+  current,
+  onChange,
+  mobile = false,
+}) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,8 +43,21 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({ current, onChange }) => {
         ariaControls="locale-menu"
         open={open}
         onClick={handleClick}
+        sx={{
+          background: "white",
+          color: "#344054",
+          "&:hover": { background: "white" },
+          border: "1px solid #BABBBE",
+          borderRadius: "8px",
+          height: mobile ? "32px" : "36px",
+          fontSize: mobile ? "12px" : "14px",
+        }}
       >
-        <TranslateIcon></TranslateIcon>
+        <TranslateIcon
+          sx={{
+            fontSize: mobile ? "16px" : "20px",
+          }}
+        ></TranslateIcon>
         &nbsp;&nbsp;
         {languages.find((language) => language.locale === current)?.text}
       </FilterMenuButton>
