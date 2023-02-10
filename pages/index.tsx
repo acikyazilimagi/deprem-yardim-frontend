@@ -41,6 +41,19 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
+const getReasoningFilter = (
+  reasoningFilterMenuOption: ReasoningFilterMenuOption
+) => {
+  reasoningFilterMenuOption.type;
+  if (reasoningFilterMenuOption.type === "channel") {
+    return undefined;
+  }
+
+  if (reasoningFilterMenuOption.type === "reason") {
+    return reasoningFilterMenuOption.value;
+  }
+};
+
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
@@ -60,23 +73,24 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
-  const urlParams = useMemo(
-    () =>
-      new URLSearchParams({
-        ne_lat: coordinatesAndEventType?.ne_lat,
-        ne_lng: coordinatesAndEventType?.ne_lng,
-        sw_lat: coordinatesAndEventType?.sw_lat,
-        sw_lng: coordinatesAndEventType?.sw_lng,
-        time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      } as any).toString(),
-    [
-      coordinatesAndEventType?.ne_lat,
-      coordinatesAndEventType?.ne_lng,
-      coordinatesAndEventType?.sw_lat,
-      coordinatesAndEventType?.sw_lng,
-      newerThanTimestamp,
-    ]
-  );
+  const urlParams = useMemo(() => {
+    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
+    return new URLSearchParams({
+      ne_lat: coordinatesAndEventType?.ne_lat,
+      ne_lng: coordinatesAndEventType?.ne_lng,
+      sw_lat: coordinatesAndEventType?.sw_lat,
+      sw_lng: coordinatesAndEventType?.sw_lng,
+      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
+      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
+    } as any).toString();
+  }, [
+    coordinatesAndEventType?.ne_lat,
+    coordinatesAndEventType?.ne_lng,
+    coordinatesAndEventType?.sw_lat,
+    coordinatesAndEventType?.sw_lng,
+    newerThanTimestamp,
+    reasoningFilterMenuOption,
+  ]);
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
@@ -138,11 +152,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     if (url) {
       const _url = new URL(url);
       const params = new URLSearchParams(urlParams);
-
-      params.append(
-        reasoningFilterMenuOption.type,
-        reasoningFilterMenuOption.value
-      );
 
       setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
     }
