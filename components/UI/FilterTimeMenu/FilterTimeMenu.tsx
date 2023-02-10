@@ -22,11 +22,6 @@ const FilterOptions: readonly FilterOption[] = [
     value: "last6Hours",
   },
   {
-    label: "Son 12 Saat",
-    inMilliseconds: 12 * 60 * 60 * 1000,
-    value: "last12Hours",
-  },
-  {
     label: "Son 24 Saat",
     inMilliseconds: 24 * 60 * 60 * 1000,
     value: "last24Hours",
@@ -49,7 +44,7 @@ type Props = {
 
 const FilterTimeMenu = ({ onChangeTime }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedValue, setSelectedValue] = useState<TimeOption>("last24Hours");
+  const [selectedValue, setSelectedValue] = useState<TimeOption>("last6Hours");
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
