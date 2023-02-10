@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import styles from "../../../styles/Home.module.css";
 
 type TimeOption =
   | "last30Minutes"
@@ -105,56 +106,46 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
   }, [onChangeTime, selectedValue]);
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        right: { xs: "12px", sm: "24px" },
-        top: { xs: "12px", sm: "24px" },
-        zIndex: "502",
-      }}
-    >
-      <Button
-        aria-controls={open ? "zaman-filtrele" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        sx={{
-          background: "white",
-          color: "#344054",
-          "&:hover": { background: "white" },
-          border: "1px solid #BABBBE",
-          borderRadius: "8px",
-          height: "48px",
-        }}
-        variant="contained"
-        disableElevation
-        onClick={handleClick}
-        endIcon={<KeyboardArrowDownIcon />}
-        disableFocusRipple
-        disableRipple
-        disableTouchRipple
-      >
-        {FilterOptions.find((option) => option.value === selectedValue)?.label}
-      </Button>
-      <Menu
-        id="demo-customized-menu"
-        MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        {FilterOptions.map((option) => (
-          <MenuItem
-            key={option.value}
-            onClick={handleMenuItemClick}
-            data-value={option.value}
-            disableRipple
-          >
-            {option.label}
-          </MenuItem>
-        ))}
-      </Menu>
+    <Box>
+      <div className={styles.filterMenu}>
+        <Button
+          aria-controls={open ? "zaman-filtrele" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          sx={{
+            background: "white",
+            color: "#344054",
+            "&:hover": { background: "white" },
+            border: "1px solid #BABBBE",
+            borderRadius: "8px",
+            height: "48px",
+          }}
+          variant="contained"
+          disableElevation
+          onClick={handleClick}
+          endIcon={<KeyboardArrowDownIcon />}
+          disableFocusRipple
+          disableRipple
+          disableTouchRipple
+        >
+          {
+            FilterOptions.find((option) => option.value === selectedValue)
+              ?.label
+          }
+        </Button>
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          {FilterOptions.map((option) => (
+            <MenuItem
+              key={option.value}
+              onClick={handleMenuItemClick}
+              data-value={option.value}
+              disableRipple
+            >
+              {option.label}
+            </MenuItem>
+          ))}
+        </Menu>
+      </div>
     </Box>
   );
 };

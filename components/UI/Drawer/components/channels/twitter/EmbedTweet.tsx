@@ -26,7 +26,7 @@ const EmbedTweet = ({ source }: Props) => {
       {isReadyForRender && (
         <TweetEmbed
           options={{ conversation: "none" }}
-          tweetId={source.tweet_id}
+          tweetId={source?.tweet_id}
           placeholder={"Loading"}
           onTweetLoadSuccess={(element) => {
             setIsLoading(element === undefined);

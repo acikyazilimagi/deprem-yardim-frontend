@@ -48,8 +48,10 @@
     "react-dom": "18.2.0",
     "react-leaflet": "^4.2.0",
     "react-tweet-embed": "^2.0.0",
+    "supercluster": "^7.1.5",
     "swr": "^2.0.3",
     "use-debounce": "9.0.3",
+    "use-supercluster": "^0.4.0",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

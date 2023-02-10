@@ -1,10 +1,10 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { Fragment, memo, MouseEvent } from "react";
-import MarkerClusterGroup from "./MarkerClusterGroup";
+import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
 import { MarkerData } from "@/mocks/types";
-import { Marker, MarkerProps } from "react-leaflet";
+import { Marker, MarkerProps, useMap } from "react-leaflet";
+import useSupercluster from "use-supercluster";
 
 type Props = {
   data: MarkerData[];
@@ -18,42 +18,93 @@ function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
   return <Marker {...props} />;
 }
 
+const fetchIcon = (count: number) => {
+  const tag = findTagByClusterCount(count);
+
+  return L.divIcon({
+    html: `<div class="cluster-inner"><span>${count}</span></div>`,
+    className: `leaflet-marker-icon marker-cluster leaflet-interactive leaflet-custom-cluster-${tag.id}`,
+  });
+};
+
 const ClusterGroup = ({ data }: Props) => {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
-  return (
-    <MarkerClusterGroup
-      // @ts-expect-error
-      onClick={handleClusterClick}
-      // @ts-expect-error
-      iconCreateFunction={(cluster) => {
-        const count = cluster.getChildCount();
-        const tag = findTagByClusterCount(count);
+  const map = useMap();
 
-        return L.divIcon({
-          html: `<div class="cluster-inner"><span>${count}</span></div>`,
-          className: `leaflet-marker-icon marker-cluster leaflet-interactive leaflet-custom-cluster-${tag.id}`,
-        });
-      }}
-    >
-      {data.map((marker: MarkerData) => (
-        <Fragment key={marker.reference}>
+  const geoJSONPlaces = data.map((marker) => ({
+    type: "Feature",
+    properties: {
+      cluster: false,
+      marker,
+    },
+    geometry: {
+      type: "Point",
+      coordinates: [marker.geometry.location.lng, marker.geometry.location.lat],
+    },
+  }));
+
+  const bounds = map.getBounds();
+
+  const { clusters, supercluster } = useSupercluster({
+    points: geoJSONPlaces,
+    bounds: [
+      bounds.getSouthWest().lng,
+      bounds.getSouthWest().lat,
+      bounds.getNorthEast().lng,
+      bounds.getNorthEast().lat,
+    ],
+    zoom: map.getZoom(),
+    options: { radius: 150, maxZoom: 18 },
+  });
+
+  return (
+    <>
+      {clusters.map((cluster) => {
+        const [longitude, latitude] = cluster.geometry.coordinates;
+        // the point may be either a cluster or a crime point
+        const { cluster: isCluster, point_count: pointCount } =
+          cluster.properties;
+
+        if (isCluster) {
+          return (
+            <Marker
+              key={`cluster-${cluster.id}`}
+              position={[latitude, longitude]}
+              icon={fetchIcon(pointCount)}
+              eventHandlers={{
+                click: () => {
+                  handleClusterClick(data, pointCount);
+                  const expansionZoom = Math.min(
+                    supercluster.getClusterExpansionZoom(cluster.id),
+                    18
+                  );
+                  map.setView([latitude, longitude], expansionZoom, {
+                    animate: true,
+                  });
+                },
+              }}
+            />
+          );
+        }
+
+        return (
           <ExtendedMarker
-            key={marker.reference}
-            position={[
-              marker.geometry.location.lat,
-              marker.geometry.location.lng,
-            ]}
+            key={cluster.properties.reference}
+            position={[latitude, longitude]}
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(e as any as MouseEvent, marker);
+                handleMarkerClick(
+                  e as any as MouseEvent,
+                  cluster.properties.marker
+                );
               },
             }}
-            markerData={marker}
+            markerData={cluster.properties.marker}
           />
-        </Fragment>
-      ))}
-    </MarkerClusterGroup>
+        );
+      })}
+    </>
   );
 };
 
-export default memo(ClusterGroup);
+export default ClusterGroup;
