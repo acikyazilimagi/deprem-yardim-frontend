@@ -33,7 +33,9 @@ const FeedContent = ({ content }: Props) => {
     ? content.channel!
     : "generic";
 
-  // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
+    // @ts-ignore
+    content.filter(e=>e)
+    // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
   return <>{contentMapper[channel](content)}</>;
 };
 
