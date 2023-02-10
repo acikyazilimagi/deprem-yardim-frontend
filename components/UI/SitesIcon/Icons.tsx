@@ -50,7 +50,7 @@ const SitesIcon = () => {
           padding: "10px",
           borderRadius: "10px",
           position: "absolute",
-          top: "10px",
+          bottom: "30px",
           right: "26px",
           zIndex: 500,
         }}
