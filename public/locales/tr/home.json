@@ -1,0 +1,56 @@
+{
+    "scanner": {
+        "text": "ALANI TARA",
+        "remaining": "<strong>{{time}}</strong> sn sonra otamatik taranacak"
+    },
+    "filter": {
+        "title": "Bildirimler",
+        "reason": {
+            "earthquake": "Depremzede",
+            "provisions": "Erzak Yardımı",
+            "confirmed": "Teyitli"
+        },
+        "time": {
+            "lastHalfHour": "Son 30 dakika",
+            "lastHour": "Son 1 saat",
+            "lastThreeHours": "Son 3 saat",
+            "lastSixHours": "Son 6 saat",
+            "lastTwelveHours": "Son 12 saat",
+            "lastDay": "Son 24 saat",
+            "lastThreeDays": "Son 3 gün",
+            "all": "Tüm zamanlar"
+        }
+    },
+    "tags": {
+        "safe": "Az Yoğun",  
+        "low": "Az - Orta Yoğun",
+        "midLow": "Orta Yoğun",
+        "mid": "Orta - Yüksek Yoğun",
+        "midHigh": "Yüksek Yoğun",
+        "high": "Çok Yoğun"
+    },
+    "cluster": {
+        "actions": {
+            "copied": "Koordinat bilgisi kopyalandı."
+        },
+        "mapButtons": {
+            "copy": "Kopyala",
+            "google": "Google Haritalarda Aç",
+            "apple": "Apple Haritalarda Aç",
+            "direction": "Yol Tarifi Al"
+        },
+        "noticeCount": "{{count}} ihbar mevcut"
+    },
+    "map": {
+        "layerControl": {
+            "heatmap": "Isı Haritası",
+            "dots": "Noktalar"
+        }
+    },
+    "content": {
+        "notifyTime": "Bildirim Zamanı",
+        "source": "Kaynak",
+        "helpContent": "Yardım İçeriği",
+        "showData": "Kayıtlı veriyi göster"
+    }
+}

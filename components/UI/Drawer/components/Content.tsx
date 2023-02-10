@@ -18,6 +18,7 @@ import styles from "../Drawer.module.css";
 import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
+import { useTranslation } from "next-i18next";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
@@ -26,6 +27,7 @@ export interface ContentProps {
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
+  const { t } = useTranslation("home");
   const {
     data: rawData,
     isLoading,
@@ -93,7 +95,9 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
               <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
                 <path d="M8.2 1.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.6-6.7-3-6.7-6.6-6.7zM12 8.7h-4.5V4h1.3v3.3H12v1.4z" />
               </svg>
-              <span>Bildirim zamanı: {formattedTimeAgo}</span>
+              <span>
+                {t("content.notifyTime")}: {formattedTimeAgo}
+              </span>
             </div>
           )}
           <div className={styles.contentInfo}>
@@ -131,7 +135,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
                 }
                 startIcon={<CopyAll className={styles.btnIcon} />}
               >
-                Kopyala
+                {t("cluster.mapButtons.copy")}
               </Button>
               {hasSource && (
                 <Button
@@ -148,7 +152,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
                   startIcon={<OpenInNew className={styles.btnIcon} />}
                   color="secondary"
                 >
-                  Kaynak
+                  {t("content.source")}
                 </Button>
               )}
             </div>

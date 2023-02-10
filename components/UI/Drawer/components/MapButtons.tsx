@@ -3,6 +3,7 @@ import { Apple, DriveEta, Google } from "@mui/icons-material";
 import styles from "../Drawer.module.css";
 import Button from "@mui/material/Button";
 import { MarkerData } from "@/mocks/types";
+import { useTranslation } from "next-i18next";
 
 interface MapsButton {
   label: string;
@@ -13,7 +14,7 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
+  return `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
@@ -45,19 +46,19 @@ export const openGoogleMapsDirectionUrl = (lat: number, lng: number) => {
 
 export const mapsButtons: MapsButton[] = [
   {
-    label: "Google Haritalarda Aç",
+    label: "google",
     urlCallback: openGoogleMapsUrl,
     icon: <Google className={styles.btnIcon} />,
     color: "primary",
   },
   {
-    label: "Apple Haritalarda Aç",
+    label: "apple",
     urlCallback: openAppleMapsUrl,
     icon: <Apple className={styles.btnIcon} />,
     color: "inherit",
   },
   {
-    label: "Yol Tarifi Al",
+    label: "direction",
     urlCallback: openGoogleMapsDirectionUrl,
     icon: <DriveEta className={styles.btnIcon} />,
     color: "secondary",
@@ -69,11 +70,12 @@ interface Props {
 }
 
 export default function MapButtons({ drawerData }: Props) {
+  const { t } = useTranslation("home");
   return (
     <div className={styles.contentButtons}>
       {mapsButtons.map((button) => (
         <Button
-          key={button.label}
+          key={t(`cluster.mapButtons.${button.label}`).toString()}
           variant="contained"
           onClick={() => {
             button.urlCallback(
@@ -85,7 +87,7 @@ export default function MapButtons({ drawerData }: Props) {
           className={styles.externalLinkButton}
           startIcon={button.icon}
         >
-          {button.label}
+          {t(`cluster.mapButtons.${button.label}`)}
         </Button>
       ))}
     </div>
