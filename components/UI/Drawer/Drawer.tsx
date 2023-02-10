@@ -25,8 +25,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, {
+import {
+  memo,
   MouseEvent,
+  ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -45,7 +47,7 @@ interface MapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
   urlCallback: (lat: number, lng: number) => void;
-  icon: React.ReactNode;
+  icon: ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
 const EmbedTweet = dynamic(() => import("./components/EmbedTweet"), {
@@ -347,4 +349,4 @@ const Drawer = () => {
   );
 };
 
-export default React.memo(Drawer);
+export default memo(Drawer);

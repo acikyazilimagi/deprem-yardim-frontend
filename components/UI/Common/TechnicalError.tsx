@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./TechnicalError.module.css";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import Link from "next/link";

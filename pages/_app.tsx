@@ -1,6 +1,5 @@
 import "@/styles/global.css";
 
-import * as React from "react";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";

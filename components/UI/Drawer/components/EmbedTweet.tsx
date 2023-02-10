@@ -1,5 +1,5 @@
 import { Raw } from "@/mocks/TypesAreasEndpoint";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";

@@ -15,7 +15,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import React, { useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
 import { Tags } from "../Tag/Tag.types";
@@ -211,4 +211,4 @@ function LeafletMap() {
   );
 }
 
-export default React.memo(LeafletMap);
+export default memo(LeafletMap);

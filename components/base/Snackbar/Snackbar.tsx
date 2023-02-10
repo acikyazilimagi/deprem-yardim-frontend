@@ -1,11 +1,10 @@
-import React from "react";
-
 import { SnackbarProvider } from "notistack";
+import { ComponentProps, ReactNode } from "react";
 
 const Snackbar = (
   props: {
-    children: React.ReactNode;
-  } & React.ComponentProps<typeof SnackbarProvider>
+    children: ReactNode;
+  } & ComponentProps<typeof SnackbarProvider>
 ) => {
   return (
     <SnackbarProvider

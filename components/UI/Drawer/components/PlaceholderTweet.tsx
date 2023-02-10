@@ -1,6 +1,5 @@
 import { Raw } from "@/mocks/TypesAreasEndpoint";
 import Typography from "@mui/material/Typography";
-import React from "react";
 import TwitterLogo from "./TwitterLogo";
 
 type Props = {
