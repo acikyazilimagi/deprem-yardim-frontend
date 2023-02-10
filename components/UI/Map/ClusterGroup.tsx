@@ -1,5 +1,5 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import React, { Fragment, MouseEvent } from "react";
+import { Fragment, memo, MouseEvent } from "react";
 import MarkerClusterGroup from "./MarkerClusterGroup";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
@@ -56,4 +56,4 @@ const ClusterGroup = ({ data }: Props) => {
   );
 };
 
-export default ClusterGroup;
+export default memo(ClusterGroup);

@@ -5,14 +5,13 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-import React from "react";
+import { useRef, useState } from "react";
 
 const SitesIcon = () => {
   const isMinWidth = useMediaQuery("(min-width:1024px)");
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [isOpen, setIsOpen] = React.useState<any>(null);
-  const anchor = React.useRef(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isOpen, setIsOpen] = useState<any>(null);
+  const anchor = useRef(null);
   const handlePopoverOpen = (Popover: string) => {
     const element = anchor;
     setAnchorEl(element.current);
@@ -51,7 +50,7 @@ const SitesIcon = () => {
           padding: "10px",
           borderRadius: "10px",
           position: "absolute",
-          top: "10px",
+          bottom: "30px",
           right: "26px",
           zIndex: 500,
         }}
@@ -137,7 +136,7 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}

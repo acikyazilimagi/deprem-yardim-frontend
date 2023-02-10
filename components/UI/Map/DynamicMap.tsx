@@ -1,6 +1,6 @@
 import Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
-import React, { ReactNode, useEffect } from "react";
+import { memo, ReactNode, useEffect } from "react";
 import * as ReactLeaflet from "react-leaflet";
 import styles from "./Map.module.css";
 
@@ -31,4 +31,4 @@ const Map = ({ children, className, ...rest }: MapProps) => {
   );
 };
 
-export default React.memo(Map);
+export default memo(Map);

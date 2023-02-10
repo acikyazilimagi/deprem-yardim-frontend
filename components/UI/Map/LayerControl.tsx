@@ -1,10 +1,10 @@
 import { MarkerData } from "@/mocks/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import React, { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { LayersControl } from "react-leaflet";
 import ClusterGroup from "./ClusterGroup";
 
-const HeatmapLayer = React.memo(HeatmapLayerFactory<Point>());
+const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
 export type Point = [number, number, number];
 

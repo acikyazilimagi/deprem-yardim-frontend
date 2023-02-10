@@ -1,12 +1,15 @@
 import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
-
+import { LeafletMouseEvent } from "leaflet";
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
   const handleMarkerClick = useCallback(
-    (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
+    (
+      event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
+      markerData?: MarkerData
+    ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
 

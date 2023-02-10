@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useWindowSize } from "@/hooks/useWindowSize";
@@ -39,7 +39,7 @@ const PopupCard = styled(Card)`
   border-radius: "8px";
 `;
 
-const ClusterPopup = (props: React.ComponentProps<typeof Card>) => {
+const ClusterPopup = (props: ComponentProps<typeof Card>) => {
   useDisableZoom();
   const { setPopUpData } = useMapActions();
   const { enqueueInfo, closeSnackbar } = useSnackbar();
