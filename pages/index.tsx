@@ -27,6 +27,7 @@ import { Box } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
+import FilterTimeMenu from "@/components/UI/FilterTimeMenu/FilterTimeMenu";
 import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
@@ -40,11 +41,15 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-
+  const [newerThanTimestamp, setNewerThanTimestamp] = useState<
+    number | undefined
+  >(undefined);
   const [url, setURL] = useState<string | null>(null);
+
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
+
   const urlParams = useMemo(
     () =>
       new URLSearchParams({
@@ -52,14 +57,17 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         ne_lng: coordinatesAndEventType?.ne_lng,
         sw_lat: coordinatesAndEventType?.sw_lat,
         sw_lng: coordinatesAndEventType?.sw_lng,
+        time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
       } as any).toString(),
     [
       coordinatesAndEventType?.ne_lat,
       coordinatesAndEventType?.ne_lng,
       coordinatesAndEventType?.sw_lat,
       coordinatesAndEventType?.sw_lng,
+      newerThanTimestamp,
     ]
   );
+
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
     dataFetcher,
@@ -105,18 +113,25 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
+  useEffect(() => {
+    setURL(areasURL + "?" + urlParams);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newerThanTimestamp]);
+
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
+            <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
             <LeafletMap />
             <SitesIcon />
             <Box
               sx={{
                 position: "fixed",
-                top: "15px",
+                top: { md: "15px" },
+                bottom: { xs: "88px", md: "unset" },
                 left: "50%",
                 marginLeft: "-105px",
                 zIndex: "502",
