@@ -1,17 +1,18 @@
-import { Raw } from "@/mocks/TypesAreasEndpoint";
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
+import { FeedChannelTwitterProps, TwitterParameters } from "../../types";
 
 type Props = {
-  source: Raw;
+  source: TwitterParameters;
+  full_text?: FeedChannelTwitterProps["full_text"];
 };
 
-const PlaceholderTweet = ({ source }: Props) => {
+const PlaceholderTweet = ({ source, full_text }: Props) => {
   return (
     <>
       <div style={styles.container}>
         <div style={styles.user}>
-          {source?.name && (
+          {source && source.name && (
             <div style={styles.avatarAndName}>
               <div style={styles.avatar}></div>
               <div style={styles.name}>
@@ -28,7 +29,7 @@ const PlaceholderTweet = ({ source }: Props) => {
             <TwitterLogo />
           </div>
         </div>
-        <Typography style={styles.fullText}>{source?.full_text}</Typography>
+        <Typography style={styles.fullText}>{full_text}</Typography>
       </div>
     </>
   );
