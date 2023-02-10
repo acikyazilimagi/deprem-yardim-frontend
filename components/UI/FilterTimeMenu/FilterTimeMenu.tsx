@@ -98,10 +98,12 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
         aria-expanded={open ? "true" : undefined}
         sx={{
           background: "white",
-          color: "black",
+          color: "#344054",
           "&:hover": { background: "white" },
+          border: "1px solid #BABBBE",
+          borderRadius: "8px",
+          height: "48px",
         }}
-        size="small"
         variant="contained"
         disableElevation
         onClick={handleClick}
@@ -127,7 +129,6 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
             onClick={handleMenuItemClick}
             data-value={option.value}
             disableRipple
-            dense
           >
             {option.label}
           </MenuItem>
