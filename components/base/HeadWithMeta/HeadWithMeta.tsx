@@ -1,50 +1,77 @@
-import React from "react";
 import { NextSeo } from "next-seo";
+import {
+  DESCRIPTION,
+  OG_EDGE_URL_DYNAMIC,
+  OG_EDGE_URL_BASE,
+  TITLE,
+} from "./HeadWithMeta.constants";
+import { OpenGraphMedia } from "next-seo/lib/types";
 
-// TODO: const below should be replaced with single item service response
-const ADDRESS = "Çekmece, samandağ bulvarı 164/a, 31070 Defne/Hatay, Türkiye";
-const ENTRY =
-  "@ahbap @Ahbap_iletisim ACİL !! Enkazdan kurtulan insanlar Çekmece Mahallesi'nde donuyor. Telefonlarının şarjı bitmek üzere. Hatay Defne İlçesi Çekmece Mahallesi 67. Sokak HECEMAR varmış etraflarında. Onlarca insan çorapsız ayaklarıyla montsuz, susuz, ekmeksiz, korumasız. Lütfen yardım gönderin lütfen!!";
-const LOC = "37.5771529,36.9283658";
+interface IHeadWithMeta {
+  singleItemDetail: any;
+}
 
 // TODO: OG_EDGE_URL should be replace with main API
-const OG_EDGE_URL =
-  "https://deprem-yardim-og-generator.vercel.app/api/dynamic-image";
+const HeadWithMeta = (props: IHeadWithMeta) => {
+  const validateAddress =
+    props.singleItemDetail.formatted_address !== undefined;
+  const validateEntry = props.singleItemDetail.full_text !== undefined;
+  const validateLoc =
+    props.singleItemDetail.lat !== undefined &&
+    props.singleItemDetail.lng !== undefined;
 
-const HeadWithMeta = () => {
+  const isPropsValid = validateAddress && validateEntry && validateLoc;
+
+  const ADDRESS = isPropsValid
+    ? (props.singleItemDetail.formatted_address as string)
+    : TITLE;
+  const ENTRY = isPropsValid
+    ? (props.singleItemDetail.full_text as string)
+    : DESCRIPTION;
+  const LOC = isPropsValid
+    ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
+    : "";
+
+  const query = new URLSearchParams();
+  query.append("loc", LOC);
+  query.append("address", ADDRESS);
+  query.append("entry", ENTRY);
+
+  const URL = isPropsValid
+    ? `${OG_EDGE_URL_DYNAMIC}/?${query.toString()}`
+    : `${OG_EDGE_URL_BASE}`;
+  const IMAGES: OpenGraphMedia[] = [
+    {
+      url: URL,
+      width: 1200,
+      height: 630,
+      alt: `${ADDRESS}`,
+      type: "image/png",
+    },
+  ];
+
   return (
     <NextSeo
       title={ADDRESS}
       description={ENTRY}
       openGraph={{
-        // TODO: base path is missing in next.config static for now
+        type: "website",
         url: "https://afetharita.com/",
         title: ADDRESS,
         description: ENTRY,
-        images: [
-          {
-            url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
-              LOC
-            )}&address=${encodeURIComponent(
-              ADDRESS
-            )}&entry=${encodeURIComponent(ENTRY)}`,
-            width: 1200,
-            height: 630,
-            alt: `${ADDRESS}`,
-            type: "image/png",
-          },
-        ],
         siteName: "Afet Haritası",
+        images: IMAGES,
       }}
       twitter={{
-        handle: "@ihtiyacharitasi",
+        handle: "afetharita.com",
         cardType: "summary_large_image",
-        site: "@ihtiyacharitasi",
+        site: "afetharita.com",
       }}
       additionalMetaTags={[
         {
           name: "viewport",
-          content: "initial-scale=1, width=device-width",
+          content:
+            "width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi",
         },
       ]}
       additionalLinkTags={[

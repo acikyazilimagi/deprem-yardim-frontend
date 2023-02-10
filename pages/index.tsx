@@ -24,12 +24,12 @@ import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import Head from "next/head";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { areasURL } from "@/utils/urls";
 import FilterTimeMenu from "@/components/UI/FilterTimeMenu/FilterTimeMenu";
+import { areasURL, locationsURL } from "@/utils/urls";
+import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,9 +37,9 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 
 type Props = {
   deviceType: DeviceType;
+  singleItemDetail: any;
 };
-
-export default function Home({ deviceType }: Props) {
+export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
@@ -120,10 +120,7 @@ export default function Home({ deviceType }: Props) {
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <meta name="google" content="notranslate" />
-      </Head>
+      <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
@@ -156,7 +153,7 @@ export default function Home({ deviceType }: Props) {
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
-                {remainingTime} sn sonra otomatik taranacak
+                <strong>{remainingTime}</strong> sn sonra otomatik taranacak
               </small>
             </Box>
           </RenderIf>
@@ -178,9 +175,18 @@ export async function getServerSideProps(context: any) {
     )
   );
 
+  let itemDetail = {};
+  if (context.query.id) {
+    const url = locationsURL(context.query.id) as string;
+    itemDetail = await dataFetcher(url);
+  }
+
   return {
     props: {
       deviceType: isMobile ? "mobile" : "desktop",
+      singleItemDetail: context.query.id
+        ? { ...itemDetail, ...context.query }
+        : {},
     },
   };
 }
