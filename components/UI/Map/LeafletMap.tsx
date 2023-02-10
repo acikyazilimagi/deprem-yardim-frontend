@@ -30,6 +30,7 @@ import {
 } from "./utils";
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
+import { useURLActions, useURLStore } from "@/stores/urlStore";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -60,21 +61,23 @@ const GlobalClusterStyle = css`
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const router = useRouter();
-  const { setCoordinates, setPopUpData } = useMapActions();
+  const { setPopUpData, setEventType } = useMapActions();
+  const { setCoordinates } = useURLActions();
+  const { url } = useURLStore();
 
   useEffect(() => {
-    const localCoordinatesURL = window.localStorage.getItem(
+    const localURLParameters = window.localStorage.getItem(
       localStorageKeys.coordinatesURL
     );
-    if (localCoordinatesURL) {
+    if (localURLParameters) {
       window.history.replaceState(
         {
           ...window.history.state,
-          as: localCoordinatesURL,
-          url: localCoordinatesURL,
+          as: window.location.origin,
+          url: window.location.origin,
         },
         "",
-        "?" + localCoordinatesURL
+        localURLParameters
       );
     }
 
@@ -99,20 +102,16 @@ const MapEvents = () => {
           EXPAND_COORDINATE_BY_VALUE
         );
       }
-      setCoordinates(localCoordinates, eventType);
-      const _lat = localCoordinates.getCenter().lat;
-      const _lng = localCoordinates.getCenter().lng;
-      const _zoomLevel = zoomLevel;
 
-      const locationWithZoomLevel = new URLSearchParams();
-      locationWithZoomLevel.append("lat", _lat.toString());
-      locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
-      const query = locationWithZoomLevel.toString();
-      window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
+      setEventType(eventType);
+      setCoordinates(localCoordinates);
+
+      const query = url.searchParams;
+      query.append('zoom', map.getZoom().toString())
+      window.localStorage.setItem(localStorageKeys.coordinatesURL, url.search);
       router.push(
-        { query },
-        { query },
+        { query: query.toString() },
+        { query: query.toString() },
         {
           shallow: true,
         }
@@ -158,11 +157,13 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
   const [defaultZoom, setDefaultZoom] = useState(DEFAULT_ZOOM);
-  const { setCoordinates } = useMapActions();
+  const { setCoordinates } = useURLActions();
+  const { setEventType } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
   const isOpen = useIsDrawerOpen();
   const { toggleDrawer, setDrawerData } = useMapActions();
+  const device = useDevice();
 
   const points: Point[] = useMemo(
     () =>
@@ -174,7 +175,6 @@ function LeafletMap() {
     [data]
   );
   const { lat, lng, zoom, id } = router.query;
-  const device = useDevice();
 
   const localCoordinatesURL = window.localStorage.getItem(
     localStorageKeys.coordinatesURL
@@ -211,7 +211,7 @@ function LeafletMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isIdExists = id;
+  const isIdExists = !!id;
 
   useEffect(() => {
     if (isIdExists && !isOpen) {
@@ -247,7 +247,8 @@ function LeafletMap() {
         zoomDelta={0.5}
         whenReady={(map: any) => {
           setTimeout(() => {
-            setCoordinates(map.target.getBounds(), "ready");
+            setEventType("ready");
+            setCoordinates(map.target.getBounds());
             map.target.invalidateSize();
           }, 100);
         }}

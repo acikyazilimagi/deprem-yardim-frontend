@@ -5,57 +5,36 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import {
-  CoordinatesURLParametersWithEventType,
-  DeviceType,
-} from "@/mocks/types";
+import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import {
-  useCoordinates,
   useMapActions,
   setMarkerData,
   useDevice,
+  useMapStore,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
-import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { areasURL, locationsURL } from "@/utils/urls";
+import { locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import {
-  initialReasoningFilter,
-  ReasoningFilterMenuOption,
-} from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import { useURLActions, useURLStore } from "@/stores/urlStore";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
-
-const getReasoningFilter = (
-  reasoningFilterMenuOption: ReasoningFilterMenuOption
-) => {
-  reasoningFilterMenuOption.type;
-  if (reasoningFilterMenuOption.type === "channel") {
-    return undefined;
-  }
-
-  if (reasoningFilterMenuOption.type === "reason") {
-    return reasoningFilterMenuOption.value;
-  }
-};
 
 type Props = {
   deviceType: DeviceType;
@@ -64,103 +43,70 @@ type Props = {
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
-  const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
-    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
+  const [sendRequest, setSendRequest] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
-  const [url, setUrl] = useState<string | null>(null);
   const device = useDevice();
   const isMobile = device === "mobile";
-
-  const coordinatesAndEventType:
-    | CoordinatesURLParametersWithEventType
-    | undefined = useCoordinates();
-
-  const urlParams = useMemo(() => {
-    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
-    return new URLSearchParams({
-      ne_lat: coordinatesAndEventType?.ne_lat,
-      ne_lng: coordinatesAndEventType?.ne_lng,
-      sw_lat: coordinatesAndEventType?.sw_lat,
-      sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
-    } as any).toString();
-  }, [
-    coordinatesAndEventType?.ne_lat,
-    coordinatesAndEventType?.ne_lng,
-    coordinatesAndEventType?.sw_lat,
-    coordinatesAndEventType?.sw_lng,
-    newerThanTimestamp,
-    reasoningFilterMenuOption,
-  ]);
-
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
-    dataFetcher,
-    {
-      isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (!data) return;
-
-        const transformedData = data.results ? dataTransformerLite(data) : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
-
-  if (error) {
-    throw new MaintenanceError(t("common:errors.maintenance").toString());
-  }
+  const { eventType } = useMapStore();
+  const { url } = useURLStore();
+  const { setReasoningFilterMenuOption } = useURLActions();
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
-
-  const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
-    resetThrottling();
-  }, [resetThrottling, urlParams]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
+  const getData = useCallback(async () => {
+    if (!sendRequest || !url.search) return;
+    setSendRequest(false);
+    setIsLoading(true);
+
+    try {
+      const data = await dataFetcher(url.href);
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+    } catch (e) {
+      setError(true);
+      throw new MaintenanceError(t("common:errors.maintenance").toString());
+    } finally {
+      setIsLoading(false);
+    }
+  }, [sendRequest, t, url.href, url.search]);
+
   useEffect(() => {
-    if (
-      typeof coordinatesAndEventType === "undefined" ||
-      !urlParams ||
-      coordinatesAndEventType?.eventType === "moveend" ||
-      coordinatesAndEventType?.eventType === "zoomend"
-    ) {
+    if (!sendRequest) return;
+
+    getData();
+  }, [getData, sendRequest]);
+
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(
+    () => setSendRequest(true),
+    REQUEST_THROTTLING_INITIAL_SEC
+  );
+
+  const handleScanButtonClick = useCallback(() => {
+    setSendRequest(true);
+
+    resetThrottling();
+  }, [resetThrottling]);
+
+  useEffect(() => {
+    if (eventType === "moveend" || eventType === "zoomend") {
       resetThrottling();
       return;
     }
 
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
+    setSendRequest(true);
+  }, [eventType, resetThrottling, url]);
 
   useEffect(() => {
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setSendRequest(true);
   }, [newerThanTimestamp]);
-
-  useEffect(() => {
-    if (url) {
-      const _url = new URL(url);
-      const params = new URLSearchParams(urlParams);
-
-      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasoningFilterMenuOption]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -235,8 +181,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 variant="contained"
                 onClick={handleScanButtonClick}
               >
-                {isLoading || isValidating ? (
-                  <LoadingSpinner slowLoading={slowLoading} />
+                {isLoading ? (
+                  <LoadingSpinner slowLoading={false} />
                 ) : (
                   <span>{t("home:scanner.text")}</span>
                 )}
