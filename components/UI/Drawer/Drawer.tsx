@@ -25,11 +25,21 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import formatcoords from "formatcoords";
-import React, { MouseEvent, useCallback, useMemo, useState } from "react";
+import {
+  memo,
+  MouseEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import useSWR from "swr";
 import GenericError from "../GenericError/GenericError";
 import styles from "./Drawer.module.css";
 import { getTimeAgo } from "@/utils/date";
+import { useUrlPath } from "@/hooks/useUrlPath";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import PlaceholderTweet from "./components/PlaceholderTweet";
 
@@ -37,7 +47,7 @@ interface MapsButton {
   label: string;
   // eslint-disable-next-line no-unused-vars
   urlCallback: (lat: number, lng: number) => void;
-  icon: React.ReactNode;
+  icon: ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
 const EmbedTweet = dynamic(() => import("./components/EmbedTweet"), {
@@ -100,6 +110,8 @@ const Drawer = () => {
   useDisableZoom();
   const isOpen = useIsDrawerOpen();
   const drawerData = useDrawerData();
+  const router = useRouter();
+  const { setUrlQuery } = useUrlPath();
   const size = useWindowSize();
   const [openBillboardSnackbar, setOpenBillboardSnackbar] = useState(false);
   const anchor = useMemo(
@@ -120,7 +132,16 @@ const Drawer = () => {
 
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
-  const list = useMemo(() => {
+  useEffect(() => {
+    if (isOpen && router) {
+      const path = setUrlQuery({ id: drawerData?.reference }, router);
+      const query = path;
+      router.push({ query }, { query }, { shallow: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  const list = () => {
     const { formatted_address, extraParameters: extraParametersAsJSON } =
       dataTransformer(data);
 
@@ -292,9 +313,14 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
+  };
 
-  const handleClose = useCallback((e: MouseEvent) => toggler(e), [toggler]);
+  const handleClose = useCallback(
+    (e: MouseEvent) => {
+      toggler(e);
+    },
+    [toggler]
+  );
 
   return (
     <div>
@@ -310,10 +336,10 @@ const Drawer = () => {
         open={isOpen}
         onClose={handleClose}
       >
-        {list}
+        {list()}
       </MuiDrawer>
     </div>
   );
 };
 
-export default React.memo(Drawer);
+export default memo(Drawer);

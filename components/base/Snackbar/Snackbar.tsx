@@ -1,12 +1,7 @@
-import React from "react";
-
 import { SnackbarProvider } from "notistack";
+import { ReactNode } from "react";
 
-const Snackbar = (
-  props: {
-    children: React.ReactNode;
-  } & React.ComponentProps<typeof SnackbarProvider>
-) => {
+const Snackbar = (props: { children: ReactNode[] }) => {
   return (
     <SnackbarProvider
       maxSnack={3}

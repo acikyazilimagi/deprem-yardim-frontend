@@ -479,3 +479,21 @@
   padding: 2px 5px;
   color: #19857b;
 }
+
+.filterMenu {
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(242, 242, 242, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.filterMenu span {
+  display: flex;
+  justify-content: center;
+}
