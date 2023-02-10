@@ -1,7 +1,7 @@
 import { MarkerData } from "@/mocks/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
-import { LayersControl } from "react-leaflet";
+import { LayerGroup, LayersControl } from "react-leaflet";
 import ClusterGroup from "./ClusterGroup";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
@@ -31,7 +31,9 @@ const LayerControl = ({ points, data }: Props) => {
         />
       </LayersControl.Overlay>
       <LayersControl.Overlay checked name="Noktalar">
-        <ClusterGroup data={data} />
+        <LayerGroup>
+          <ClusterGroup data={data} />
+        </LayerGroup>
       </LayersControl.Overlay>
     </LayersControl>
   );
