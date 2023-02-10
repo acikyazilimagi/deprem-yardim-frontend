@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../../styles/Home.module.css";
+import { useRouter } from "next/router";
+import { useUrlPath } from "@/hooks/useUrlPath";
 
 type TimeOption =
   | "last30Minutes"
@@ -22,6 +24,7 @@ type FilterOption = {
 const HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
 const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
 
+const initTimeFilterOption = "last12Hours";
 const FilterOptions: readonly FilterOption[] = [
   {
     label: "Son 30 dakika",
@@ -71,8 +74,18 @@ type Props = {
 
 const FilterTimeMenu = ({ onChangeTime }: Props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
+  const [selectedValue, setSelectedValue] =
+    useState<TimeOption>(initTimeFilterOption);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const { setUrlQuery } = useUrlPath();
+
+  const initTimeFilterFromUrl = () => {
+    const { timeFilterOption = initTimeFilterOption } = router.query;
+    setSelectedValue(timeFilterOption as TimeOption);
+  };
+
+  useEffect(initTimeFilterFromUrl, [router.query]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -86,6 +99,8 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
     const value = event.currentTarget.dataset.value as TimeOption;
 
     setSelectedValue(value);
+    const query = setUrlQuery({ timeFilterOption: value }, router);
+    router.push({ query }, { query }, { shallow: true });
 
     handleClose();
   };

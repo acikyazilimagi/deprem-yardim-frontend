@@ -2,6 +2,8 @@ import { useEffect, useState, MouseEvent } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../../styles/Home.module.css";
+import { useUrlPath } from "@/hooks/useUrlPath";
+import { useRouter } from "next/router";
 
 type ReasoningFilterMenuOptionType = "reason" | "channel";
 
@@ -50,6 +52,15 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
     initialReasoningFilter.value
   );
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const { setUrlQuery } = useUrlPath();
+
+  const initReasoningFilter = () => {
+    const { reasoningFilter = initialReasoningFilter.value } = router.query;
+    setSelectedValue(reasoningFilter as string);
+  };
+
+  useEffect(initReasoningFilter, [router.query]);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -63,7 +74,8 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
     const value = event.currentTarget.dataset.value as string;
 
     setSelectedValue(value);
-
+    const query = setUrlQuery({ reasoningFilter: value }, router);
+    router.push({ query }, { query }, { shallow: true });
     handleClose();
   };
 
