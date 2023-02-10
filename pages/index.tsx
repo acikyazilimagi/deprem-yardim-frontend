@@ -30,15 +30,15 @@ import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
-import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import {
+import ReasoningFilterMenu, {
   initialReasoningFilter,
   ReasoningFilterMenuOption,
 } from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import FilterTimeMenu from "@/components/UI/FilterMenu/FilterTimeMenu";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -71,12 +71,16 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const [shouldFetchNextOption, setShouldFetchNextOption] =
+    useState<boolean>(false);
   const device = useDevice();
   const isMobile = device === "mobile";
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
+
+  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
   const urlParams = useMemo(() => {
     const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
@@ -106,6 +110,9 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       revalidateOnFocus: false,
       onSuccess: (data) => {
         if (!data) return;
+        if (!data.results) {
+          setShouldFetchNextOption(true);
+        }
 
         const transformedData = data.results ? dataTransformerLite(data) : [];
         setMarkerData(transformedData);
@@ -189,12 +196,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                <FilterMenu>
-                  <FilterMenu.Reasoning
-                    onChange={setReasoningFilterMenuOption}
-                  />
-                  <FilterMenu.Time onChangeTime={setNewerThanTimestamp} />
-                </FilterMenu>
+                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
+                <FilterTimeMenu
+                  onChangeTime={setNewerThanTimestamp}
+                  shouldFetchNextOption={shouldFetchNextOption}
+                  resetShouldFetchNextOption={resetShouldFetchNextOption}
+                />
               </div>
             </div>
             <LeafletMap />
