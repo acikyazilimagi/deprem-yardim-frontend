@@ -137,7 +137,7 @@ const SitesIcon = () => {
               horizontal: "right",
             }}
             sx={{
-              background: "rgba(0, 0, 0, 0.1)",
+              background: "#00000000",
               pointerEvents: "none",
               zIndex: 600,
             }}
