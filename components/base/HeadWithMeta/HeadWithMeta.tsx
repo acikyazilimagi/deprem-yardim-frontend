@@ -43,7 +43,7 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
       ]
     : [
         {
-          url: "base-og-img.png",
+          url: "icons/base-og-img.png",
           width: 1200,
           height: 630,
           alt: `${ADDRESS}`,
