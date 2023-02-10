@@ -9,6 +9,7 @@ export interface BaseFeedChannel<T> {
   timestamp?: string;
   extra_parameters: T;
   formatted_address?: string;
+  reason?: string | null;
 }
 
 export type BabalaParameters = {

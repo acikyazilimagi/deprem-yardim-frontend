@@ -3,6 +3,7 @@ import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
 import { LayerGroup, LayersControl } from "react-leaflet";
 import ClusterGroup from "./ClusterGroup";
+import { useTranslation } from "next-i18next";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -14,12 +15,16 @@ type Props = {
 };
 
 const LayerControl = ({ points, data }: Props) => {
+  const { t } = useTranslation("home");
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
   return (
     <LayersControl position="topleft">
-      <LayersControl.Overlay checked name="Isı haritası">
+      <LayersControl.Overlay
+        checked
+        name={t("map.layerControl.heatmap").toString()}
+      >
         <HeatmapLayer
           fitBoundsOnUpdate
           radius={15}
@@ -30,7 +35,10 @@ const LayerControl = ({ points, data }: Props) => {
           useLocalExtrema={false}
         />
       </LayersControl.Overlay>
-      <LayersControl.Overlay checked name="Noktalar">
+      <LayersControl.Overlay
+        checked
+        name={t("map.layerControl.dots").toString()}
+      >
         <LayerGroup>
           <ClusterGroup data={data} />
         </LayerGroup>
