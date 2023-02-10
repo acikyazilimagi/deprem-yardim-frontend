@@ -127,7 +127,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     setUrl(areasURL + "?" + urlParams);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp, coordinatesAndEventType]);
+  }, [newerThanTimestamp]);
 
   useEffect(() => {
     if (url) {
