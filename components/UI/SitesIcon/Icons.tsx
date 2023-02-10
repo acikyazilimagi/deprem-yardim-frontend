@@ -95,6 +95,60 @@ const SitesIcon = () => {
             </Typography>
           </Popover>
         </Box>
+        <Box sx={toBiggerIcon}>
+          <Link
+            href="https://www.afetbilgi.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => handlePopoverOpen("afetBilgi")}
+            onMouseLeave={handlePopoverClose}
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Box
+              sx={{
+                color: "white",
+                height: "100%",
+                width: 40,
+                borderRadius: 20,
+                backgroundColor: "orange",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textDecoration: "none !important",
+                textTransform: "none",
+              }}
+            >
+              <Typography fontSize={14}>AFET</Typography>
+            </Box>
+          </Link>
+
+          <Popover
+            anchorReference="anchorEl"
+            anchorEl={anchorEl}
+            open={"afetBilgi" === isOpen ? true : false}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            sx={{
+              background: "#00000000",
+              pointerEvents: "none",
+              zIndex: 600,
+            }}
+            onClose={handlePopoverClose}
+          >
+            <Typography sx={{ padding: "10px", width: "450px" }}>
+              Afetle ilgili çeşitli konularda bilgi almak için kullandığımız web
+              sitesi.
+            </Typography>
+          </Popover>
+        </Box>
 
         <Box sx={toBiggerIcon}>
           <Link
