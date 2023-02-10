@@ -3,7 +3,9 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import ReasoningFilterMenu, {
+
+// ReasoningFilterMenu
+import {
   initialReasoningFilter,
   ReasoningFilterMenuOption,
 } from "@/components/UI/ReasoningFilterMenu";
@@ -45,8 +47,9 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
-    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
+  const [reasoningFilterMenuOption] = useState<ReasoningFilterMenuOption>(
+    initialReasoningFilter
+  );
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
@@ -161,7 +164,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
+                {/* <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} /> */}
                 <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
               </div>
             </div>

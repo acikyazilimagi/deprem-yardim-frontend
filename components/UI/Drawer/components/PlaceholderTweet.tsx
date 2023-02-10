@@ -11,13 +11,13 @@ const PlaceholderTweet = ({ source }: Props) => {
     <>
       <div style={styles.container}>
         <div style={styles.user}>
-          {source.name && (
+          {source?.name && (
             <div style={styles.avatarAndName}>
               <div style={styles.avatar}></div>
               <div style={styles.name}>
-                <div style={styles.username}>{source.screen_name}</div>
+                <div style={styles.username}>{source?.screen_name}</div>
                 <div style={styles.userIdArea}>
-                  <div style={styles.userText}>@{source.name}</div>
+                  <div style={styles.userText}>@{source?.name}</div>
                   <div style={styles.dot}>·</div>
                   <div style={styles.followText}>Follow</div>
                 </div>
@@ -28,7 +28,7 @@ const PlaceholderTweet = ({ source }: Props) => {
             <TwitterLogo />
           </div>
         </div>
-        <Typography style={styles.fullText}>{source.full_text}</Typography>
+        <Typography style={styles.fullText}>{source?.full_text}</Typography>
       </div>
     </>
   );
