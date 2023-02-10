@@ -1,4 +1,5 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
+import { Fragment, MouseEvent } from "react";
 import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
