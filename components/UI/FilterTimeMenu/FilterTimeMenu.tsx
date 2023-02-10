@@ -3,6 +3,9 @@ import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 type TimeOption =
+  | "last30Minutes"
+  | "last1Hour"
+  | "last3Hours"
   | "last6Hours"
   | "last12Hours"
   | "last24Hours"
@@ -15,25 +18,43 @@ type FilterOption = {
   value: TimeOption;
 };
 
+const HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
+const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
+
 const FilterOptions: readonly FilterOption[] = [
   {
+    label: "Son 30 dakika",
+    inMilliseconds: (1 * HOUR_IN_MILLISECONDS) / 2,
+    value: "last30Minutes",
+  },
+  {
+    label: "Son 1 Saat",
+    inMilliseconds: 1 * HOUR_IN_MILLISECONDS,
+    value: "last1Hour",
+  },
+  {
+    label: "Son 3 Saat",
+    inMilliseconds: 3 * HOUR_IN_MILLISECONDS,
+    value: "last3Hours",
+  },
+  {
     label: "Son 6 Saat",
-    inMilliseconds: 6 * 60 * 60 * 1000,
+    inMilliseconds: 6 * HOUR_IN_MILLISECONDS,
     value: "last6Hours",
   },
   {
     label: "Son 12 Saat",
-    inMilliseconds: 12 * 60 * 60 * 1000,
+    inMilliseconds: 12 * HOUR_IN_MILLISECONDS,
     value: "last12Hours",
   },
   {
     label: "Son 24 Saat",
-    inMilliseconds: 24 * 60 * 60 * 1000,
+    inMilliseconds: 24 * HOUR_IN_MILLISECONDS,
     value: "last24Hours",
   },
   {
     label: "Son 3 Gün",
-    inMilliseconds: 3 * 24 * 60 * 60 * 1000,
+    inMilliseconds: 3 * DAY_IN_MILLISECONDS,
     value: "last3Days",
   },
   { label: "Tüm zamanlar", inMilliseconds: -1, value: "all" },

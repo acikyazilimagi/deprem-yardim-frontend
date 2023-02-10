@@ -83,15 +83,10 @@ const MapEvents = () => {
       locationWithZoomLevel.append("lng", _lng.toString());
       locationWithZoomLevel.append("zoom", _zoomLevel.toString());
       const query = locationWithZoomLevel.toString();
-      router.push(
-        { query },
-        { query },
-        {
-          shallow: true,
-        }
-      );
+
+      router.push({ query }, { query }, { shallow: true });
     },
-    1000
+    100
   );
 
   const map = useMapEvents({
@@ -192,9 +187,12 @@ function LeafletMap() {
         }
         zoomSnap={0.25}
         zoomDelta={0.5}
-        whenReady={(map: any) =>
-          setCoordinates(map.target.getBounds(), "ready")
-        }
+        whenReady={(map: any) => {
+          setTimeout(() => {
+            setCoordinates(map.target.getBounds(), "ready");
+            map.target.invalidateSize();
+          }, 100);
+        }}
         preferCanvas
         maxBounds={bounds}
         maxBoundsViscosity={1}
