@@ -1,23 +1,24 @@
 import { useEffect, useState, MouseEvent } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
+import { useTranslation } from "next-i18next";
 
 type ReasoningFilterMenuOptionType = "reason" | "channel";
 
 export const reasoningFilterMenuOptions: readonly ReasoningFilterMenuOption[] =
   [
     {
-      label: "Depremzede",
+      label: "earthquake",
       value: "twitter",
       type: "channel",
     },
     {
-      label: "Erzak Yardımı",
+      label: "provisions",
       value: "erzak",
       type: "reason",
     },
     {
-      label: "Teyitli",
+      label: "confirmed",
       value: "enkaz",
       type: "reason",
     },
@@ -46,6 +47,7 @@ export interface FilterReasoningMenuProps {
 const ReasoningFilterMenu: React.FC<FilterReasoningMenuProps> = ({
   onChange,
 }) => {
+  const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<string>(
     initialReasoningFilter.value
@@ -82,11 +84,13 @@ const ReasoningFilterMenu: React.FC<FilterReasoningMenuProps> = ({
         onClick={handleClick}
         ariaControls="CHANGEME-filtrele"
       >
-        {
-          reasoningFilterMenuOptions.find(
-            (option) => option.value === selectedValue
-          )?.label
-        }
+        {t(
+          `filter.reason.${
+            reasoningFilterMenuOptions.find(
+              (option) => option.value === selectedValue
+            )?.label
+          }`
+        )}
       </FilterMenuButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {reasoningFilterMenuOptions.map((option) => (
@@ -96,7 +100,7 @@ const ReasoningFilterMenu: React.FC<FilterReasoningMenuProps> = ({
             data-value={option.value}
             disableRipple
           >
-            {option.label}
+            {t(`filter.reason.${option.label}`)}
           </MenuItem>
         ))}
       </Menu>
