@@ -1,27 +1,26 @@
 ---
-name: Refactor İsteği
-about: Yeni bir refactor isteği için kullanın
+name: Refactor Request
+about: Use to request some new refactoring
 title: 'refactor: '
 labels: discussion, new, unchecked
 assignees: ''
 ---
 
 
-### Refactor İsteği
+### Refactor Request
 
--- bu bilgiyi ekleyiniz
-** discord kullanıcı adı: @afetharita#0001 **
+-- fill in the line below:
+** discord username: afetharita#0001 **
+
+Is your refactor request pertaining to a problem? Please elaborate.
+
+Explain what the problem is, clearly and briefly. For example: I'm having trouble reading the code, because [...]
 
 
-Refactor isteğiniz bir sorunla ilgili mi? Lütfen açıklayın.
+### Suggested solution
 
-Açık ve öz bir şekilde sorunun ne olduğunu açıklayın. Örneğin, kodu okumakta zorluk çekiyorum çünkü [...]
+If you have a solution in mind, please elaborate.
 
+### Extra context
 
-### Çözüm Önerisi
-
-Kafanızda bir çözüm varsa, lütfen açıklayın.
-
-### Ek Bağlam
-
-Lütfen ek bağlamı buraya ekleyin.
+Please add extra context here.
