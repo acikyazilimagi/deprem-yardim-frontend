@@ -9,7 +9,7 @@ import ReasoningFilterMenu, {
   ReasoningFilterMenuOption,
 } from "@/components/UI/ReasoningFilterMenu";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
-import Maintenance from "@/components/UI/Maintenance/Maintenance";
+import { MaintenanceError } from "@/errors";
 import {
   CoordinatesURLParametersWithEventType,
   DeviceType,
@@ -41,6 +41,19 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
+const getReasoningFilter = (
+  reasoningFilterMenuOption: ReasoningFilterMenuOption
+) => {
+  reasoningFilterMenuOption.type;
+  if (reasoningFilterMenuOption.type === "channel") {
+    return undefined;
+  }
+
+  if (reasoningFilterMenuOption.type === "reason") {
+    return reasoningFilterMenuOption.value;
+  }
+};
+
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
@@ -60,23 +73,24 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
-  const urlParams = useMemo(
-    () =>
-      new URLSearchParams({
-        ne_lat: coordinatesAndEventType?.ne_lat,
-        ne_lng: coordinatesAndEventType?.ne_lng,
-        sw_lat: coordinatesAndEventType?.sw_lat,
-        sw_lng: coordinatesAndEventType?.sw_lng,
-        time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      } as any).toString(),
-    [
-      coordinatesAndEventType?.ne_lat,
-      coordinatesAndEventType?.ne_lng,
-      coordinatesAndEventType?.sw_lat,
-      coordinatesAndEventType?.sw_lng,
-      newerThanTimestamp,
-    ]
-  );
+  const urlParams = useMemo(() => {
+    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
+    return new URLSearchParams({
+      ne_lat: coordinatesAndEventType?.ne_lat,
+      ne_lng: coordinatesAndEventType?.ne_lng,
+      sw_lat: coordinatesAndEventType?.sw_lat,
+      sw_lng: coordinatesAndEventType?.sw_lng,
+      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
+      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
+    } as any).toString();
+  }, [
+    coordinatesAndEventType?.ne_lat,
+    coordinatesAndEventType?.ne_lng,
+    coordinatesAndEventType?.sw_lat,
+    coordinatesAndEventType?.sw_lng,
+    newerThanTimestamp,
+    reasoningFilterMenuOption,
+  ]);
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
@@ -93,6 +107,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       },
     }
   );
+
+  if (error) {
+    throw new MaintenanceError(
+      "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin."
+    );
+  }
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
@@ -134,11 +154,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       const _url = new URL(url);
       const params = new URLSearchParams(urlParams);
 
-      params.append(
-        reasoningFilterMenuOption.type,
-        reasoningFilterMenuOption.value
-      );
-
       setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,7 +164,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<Maintenance />}>
+          <RenderIf condition={!error}>
             <div
               style={{
                 position: "fixed",

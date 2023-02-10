@@ -1,6 +1,5 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { Fragment, MouseEvent } from "react";
-import MarkerClusterGroup from "./MarkerClusterGroup";
+import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
 import { MarkerData } from "@/mocks/types";
@@ -55,7 +54,7 @@ const ClusterGroup = ({ data }: Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 150, maxZoom: 18 },
+    options: { radius: 150, maxZoom: 17 },
   });
 
   return (
