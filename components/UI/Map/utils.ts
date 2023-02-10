@@ -10,3 +10,7 @@ export const DEFAULT_MAX_BOUNDS: LatLngBoundsExpression = [
 ];
 export const DEFAULT_MIN_ZOOM_DESKTOP = 6.4;
 export const DEFAULT_MIN_ZOOM_MOBILE = 4.5;
+
+export const localStorageKeys = {
+  coordinatesURL: "coordinatesURL",
+} as const;
