@@ -71,6 +71,14 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
     handleClose();
   };
 
+  const getLabel = (
+    options: readonly ReasoningFilterMenuOption[],
+    value: string
+  ) => {
+    const option = options?.find((option) => option.value === value);
+    return option?.label;
+  };
+
   useEffect(() => {
     const option = valueToOption(selectedValue);
 
@@ -113,11 +121,7 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
           disableRipple
           disableTouchRipple
         >
-          {
-            reasoningFilterMenuOptions.find((option) => {
-              return option.value === selectedValue;
-            })?.label
-          }
+          {getLabel(reasoningFilterMenuOptions, selectedValue)}
         </Button>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           {reasoningFilterMenuOptions.map((option) => (

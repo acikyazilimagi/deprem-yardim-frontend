@@ -93,6 +93,11 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
     handleClose();
   };
 
+  const getLabel = (options: readonly FilterOption[], value: string) => {
+    const option = options.find((option) => option.value === value);
+    return option?.label;
+  };
+
   useEffect(() => {
     const option = valueToOption(selectedValue);
 
@@ -140,10 +145,7 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
           disableRipple
           disableTouchRipple
         >
-          {
-            FilterOptions.find((option) => option.value === selectedValue)
-              ?.label
-          }
+          {getLabel(FilterOptions, selectedValue)}
         </Button>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
           {FilterOptions.map((option) => (
