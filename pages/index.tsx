@@ -9,7 +9,7 @@ import ReasoningFilterMenu, {
   ReasoningFilterMenuOption,
 } from "@/components/UI/ReasoningFilterMenu";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
-import Maintenance from "@/components/UI/Maintenance/Maintenance";
+import { MaintenanceError } from "@/errors";
 import {
   CoordinatesURLParametersWithEventType,
   DeviceType,
@@ -93,6 +93,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     }
   );
 
+  if (error) {
+    throw new MaintenanceError(
+      "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin."
+    );
+  }
+
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     () => setUrl(areasURL + "?" + urlParams),
@@ -148,7 +154,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error} fallback={<Maintenance />}>
+          <RenderIf condition={!error}>
             <div
               style={{
                 position: "fixed",
