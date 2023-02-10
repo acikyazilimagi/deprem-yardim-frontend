@@ -74,7 +74,7 @@ const MapEvents = () => {
           url: localCoordinatesURL,
         },
         "",
-        localCoordinatesURL
+        "?" + localCoordinatesURL
       );
     }
 
