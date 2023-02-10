@@ -135,15 +135,8 @@ const Drawer = () => {
   useEffect(() => {
     if (isOpen && router) {
       const path = setUrlQuery({ id: drawerData?.reference }, router);
-      router.push(
-        {
-          query: `${path}`,
-        },
-        {
-          query: `${path}`,
-        },
-        { shallow: true }
-      );
+      const query = path;
+      router.push(query, query, { shallow: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);

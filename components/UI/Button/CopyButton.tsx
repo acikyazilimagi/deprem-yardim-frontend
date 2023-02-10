@@ -1,10 +1,11 @@
+import React from "react";
+
 import { useWindowSize } from "@/hooks/useWindowSize";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { Button, Typography } from "@mui/material";
-import { ComponentProps } from "react";
 
-type IconButtonProps = ComponentProps<typeof Button> & {
-  iconProps?: ComponentProps<typeof FileCopyIcon>;
+type IconButtonProps = React.ComponentProps<typeof Button> & {
+  iconProps?: React.ComponentProps<typeof FileCopyIcon>;
 };
 
 function copyBillboard(url: string) {
@@ -26,7 +27,7 @@ export function CopyButton({
   const windowSize = useWindowSize();
 
   const handleCopyButtonClick = (
-    event: MouseEvent<HTMLButtonElement, MouseEvent>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
     copyBillboard(data);

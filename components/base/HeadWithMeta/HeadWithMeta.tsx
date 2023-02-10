@@ -55,7 +55,7 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
       description={ENTRY}
       openGraph={{
         type: "website",
-        url: `https://afetharita.com/`,
+        url: "https://afetharita.com/",
         title: ADDRESS,
         description: ENTRY,
         siteName: "Afet Haritası",

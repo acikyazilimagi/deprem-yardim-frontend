@@ -78,17 +78,14 @@ const MapEvents = () => {
       const _lng = localCoordinates.getCenter().lng;
       const _zoomLevel = zoomLevel;
 
-      // set cordinates and zoom level to url
-      const cordinatesURL = `lat=${_lat}&lng=${_lng}&zoom=${_zoomLevel}`;
-      router.push(
-        {
-          query: cordinatesURL,
-        },
-        { query: cordinatesURL },
-        {
-          shallow: true,
-        }
-      );
+      const locationWithZoomLevel = new URLSearchParams();
+      locationWithZoomLevel.append("lat", _lat.toString());
+      locationWithZoomLevel.append("lng", _lng.toString());
+      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
+      const query = locationWithZoomLevel.toString();
+      router.push(query, query, {
+        shallow: true,
+      });
     },
     1000
   );
@@ -170,7 +167,6 @@ function LeafletMap() {
           },
         },
       };
-      console.log("isIdExists", isIdExists, tempDrawerData);
       toggleDrawer();
       setDrawerData(tempDrawerData);
     }
