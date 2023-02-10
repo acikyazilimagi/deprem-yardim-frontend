@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-
 import { FeedChannelBabalaProps } from "../../types";
 import { Divider } from "@mui/material";
 
