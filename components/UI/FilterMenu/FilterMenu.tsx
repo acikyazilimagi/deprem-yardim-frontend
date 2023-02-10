@@ -4,7 +4,7 @@ import FilterReasoningMenu, {
   FilterReasoningMenuProps,
 } from "./FilterReasoningMenu";
 import FilterTimeMenu, { FilterTimeMenuProps } from "./FilterTimeMenu";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 type FilterMenuProps = {
   children: React.ReactNode;
