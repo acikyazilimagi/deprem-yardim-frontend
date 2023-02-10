@@ -54,7 +54,7 @@ const ClusterGroup = ({ data }: Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 150, maxZoom: 18 },
+    options: { radius: 150, maxZoom: 17 },
   });
 
   return (
