@@ -8,7 +8,7 @@ export type Data = {
     timestamp: string;
     is_resolved: boolean;
     channel: Channel;
-    reason: string
+    reason: string | null
 };
 
 export type Raw = {
