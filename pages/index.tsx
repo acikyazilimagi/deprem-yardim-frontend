@@ -20,6 +20,7 @@ import {
   useCoordinates,
   useMapActions,
   setMarkerData,
+  useDevice,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
@@ -54,6 +55,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const device = useDevice();
+  const isMobile = device === "mobile";
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -169,7 +172,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               </div>
             </div>
             <LeafletMap />
-            <SitesIcon />
+            {!isMobile && <SitesIcon />}
             <Box
               sx={{
                 position: "fixed",
