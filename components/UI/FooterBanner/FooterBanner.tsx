@@ -3,6 +3,7 @@ import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { useEffect, useState } from "react";
 import styles from "./FooterBanner.module.css";
+import { Trans } from "next-i18next";
 
 export default function FooterBanner() {
   useDisableZoom();
@@ -26,12 +27,12 @@ export default function FooterBanner() {
         <RenderIf condition={!hideFooter}>
           <span className={styles.dismissible}>
             <span>
-              <b>Açıklama:</b> Twitter, Instagram, Whatsapp ve çeşitli web
-              siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını
-              topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine
-              hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili
-              kurum ve STK&apos;lara yardımcı olmak ve afet zamanlarında açık
-              bir veri platformu sağlamak.
+              <Trans
+                i18nKey="common:footer.banner"
+                components={{
+                  b: <b />,
+                }}
+              />
             </span>
             <span className={styles.closeButton}>
               <HighlightOffIcon onClick={handleOffIconClick} />

@@ -1,0 +1,56 @@
+{
+    "scanner": {
+        "text": "SCAN FIELD",
+        "remaining": "It will be scanned automatically after <strong>{{time}}</strong> sec"
+    },
+    "filter": {
+        "title": "Notifications",
+        "reason": {
+            "earthquake": "Earthquake Victims",
+            "provisions": "Provision Aid",
+            "confirmed": "Confirmed"
+        },
+        "time": {
+            "lastHalfHour": "Last 30 minutes",
+            "lastHour": "Last 1 hour",
+            "lastThreeHours": "Last 3 hours",
+            "lastSixHours": "Last 6 hours",
+            "lastTwelveHours": "Last 12 hours",
+            "lastDay": "Last 24 hours",
+            "lastThreeDays": "Last 3 days",
+            "all": "all time"
+        }
+    },
+    "tag": {
+        "safe": "Low Dense",
+        "low": "Low - Medium Intense",
+        "midLow": "Medium Dense",
+        "mid": "Medium - High Intensity",
+        "midHigh": "High Dense",
+        "high": "Very Intense"
+    },
+    "cluster": {
+        "actions": {
+            "copied": "Coordinate information was copied."
+        },
+        "mapButtons": {
+            "copy": "Copy",
+            "google": "Open in Google Maps",
+            "apple": "Open in Apple Maps",
+            "direction": "Get Directions"
+        },
+        "noticeCount": "{{count}} notice available"
+    },
+    "map": {
+        "layerControl": {
+            "heatmap": "Heatmap",
+            "dots": "Dots"
+        }
+    },
+    "content": {
+        "notifyTime": "Notify Time",
+        "source": "Source",
+        "helpContent": "Help Content",
+        "showData": "Show recorded data"
+    }
+}

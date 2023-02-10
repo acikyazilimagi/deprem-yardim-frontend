@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
+import { useTranslation } from "next-i18next";
 import {
   generateGoogleMapsUrl,
   mapsButtons,
@@ -43,6 +44,7 @@ const PopupCard = styled(Card)`
 `;
 
 const ClusterPopup = (props: ComponentProps<typeof Card>) => {
+  const { t } = useTranslation("home");
   useDisableZoom();
   const { setPopUpData } = useMapActions();
   const { enqueueInfo, closeSnackbar } = useSnackbar();
@@ -57,13 +59,13 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
 
   useEffect(() => {
     if (copyButtonClicked) {
-      enqueueInfo("Koordinat bilgisi kopyalandı.");
+      enqueueInfo(t("cluster.actions.copied").toString());
       setCopyButtonClicked(false);
       setTimeout(() => {
         closeSnackbar();
       }, 3000);
     }
-  }, [copyButtonClicked, enqueueInfo, closeSnackbar]);
+  }, [copyButtonClicked, enqueueInfo, closeSnackbar, t]);
 
   if (!data) return null;
 
@@ -90,7 +92,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
                 fontWeight="500"
                 sx={{ color: "#121926" }}
               >
-                {data?.count ?? 0} ihbar mevcut
+                {t("cluster.noticeCount", { count: data?.count ?? 0 })}
               </Typography>
               <Button
                 variant="text"
@@ -104,7 +106,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
                   },
                 }}
               >
-                {tag.intensity}
+                {t(`tags.${tag.intensity}`)}
               </Button>
             </Stack>
           </Grid>
@@ -133,7 +135,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
             >
               {mapsButtons.slice(0, 2).map((button) => (
                 <Button
-                  key={button.label}
+                  key={t(`cluster.mapButtons.${button.label}`).toString()}
                   color={button.color}
                   size="small"
                   sx={{
@@ -158,7 +160,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
                       fontSize: 12,
                     }}
                   >
-                    {button.label}
+                    {t(`cluster.mapButtons.${button.label}`)}
                   </Typography>
                 </Button>
               ))}
@@ -207,7 +209,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
                       fontSize: 12,
                     }}
                   >
-                    {button.label}
+                    {t(`cluster.mapButtons.${button.label}`)}
                   </Typography>
                 </Button>
               ))}
@@ -216,7 +218,7 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
                 size="small"
                 data={generateGoogleMapsUrl(lat, lng)}
                 onClick={() => setCopyButtonClicked(true)}
-                title="Kopyala"
+                title={t("cluster.mapButtons.copy").toString()}
                 iconProps={{
                   sx: {
                     fontSize: 16,

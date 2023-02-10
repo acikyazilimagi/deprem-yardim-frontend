@@ -5,22 +5,24 @@ import Switch from "@mui/material/Switch";
 import PlaceholderTweet from "./PlaceholderTweet";
 import { FeedChannelTwitterProps } from "../../types";
 import EmbedTweet from "./EmbedTweet";
+import { useTranslation } from "react-i18next";
 
 const FeedChannelTwitter = ({
   full_text,
   extra_parameters,
 }: FeedChannelTwitterProps) => {
+  const { t } = useTranslation("home");
   const [showSavedData, setShowSavedData] = useState(true);
 
   return (
     <div className={styles.sourceContent}>
       <div className={styles.sourceHelpContent}>
         <Typography className={styles.sourceContentTitle}>
-          Yardım İçeriği
+          {t("content.helpContent")}
         </Typography>
         {extra_parameters && extra_parameters.name && (
           <div className={styles.sourceContentSwitch}>
-            <p>Kayıtlı veriyi göster</p>
+            <p> {t("content.showData")}</p>
             <Switch
               checked={showSavedData}
               onChange={() => setShowSavedData((s) => !s)}

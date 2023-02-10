@@ -4,8 +4,10 @@ import { Button, ClickAwayListener, Popper, Typography } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { Tags } from "../Tag/Tag.types";
 import styles from "./Map.module.css";
+import { useTranslation } from "next-i18next";
 
 const MapLegend = () => {
+  const { t } = useTranslation("home");
   const [isLegendOpen, setIsLegendOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<{
     el: HTMLButtonElement;
@@ -33,7 +35,7 @@ const MapLegend = () => {
           <div key={intensity}>
             <Button
               className={styles.legend_item}
-              aria-label={Tags[intensity].intensity}
+              aria-label={t(`tags.${Tags[intensity].intensity}`).toString()}
               onClick={(event) => handleClick(event, intensity)}
             >
               <div
@@ -41,7 +43,7 @@ const MapLegend = () => {
                 style={{ backgroundColor: Tags[intensity].color }}
               />
               <span className={styles.legend_item__text}>
-                {Tags[intensity].intensity}
+                {t(`tags.${Tags[intensity].intensity}`)}
               </span>
             </Button>
             <Popper
@@ -52,7 +54,7 @@ const MapLegend = () => {
             >
               <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
                 <Typography sx={{ p: 2 }}>
-                  {Tags[intensity].intensity}
+                  {t(`tags.${Tags[intensity].intensity}`)}
                 </Typography>
               </ClickAwayListener>
             </Popper>

@@ -1,1 +1,22 @@
-{}
+{
+    "errors": {
+        "maintenance": "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin."
+    },
+    "loaders": {
+        "stillLoading": "Hala Yükleniyor...",
+        "loading": "Yükleniyor..."
+    },
+    "footer": {
+        "banner": "<b>Açıklama:</b> Twitter, Instagram, Whatsapp ve çeşitli web siteleri gibi farklı kaynaklardan gelen tüm yardım çağrılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamak.",
+        "politic": {
+            "cookie": "Çerez Politikası",
+            "privacy": "Gizlilik Politikası"
+        }
+    },
+    "site": {
+        "depremyardim": "Depremzedeleri aramak ve yardım etmek için kullandığımız site.",
+        "afetbilgi": "Afetle ilgili çeşitli konularda bilgi almak için kullandığımız web sitesi.",
+        "depremio": "Depremzedelere erzak yardımı için kullandığımız site.",
+        "discord": "Projelerimizi geliştirmek ve birbirimizle iletişim kurmak için kullandığımız Discord sunucusu."
+    }
+}
