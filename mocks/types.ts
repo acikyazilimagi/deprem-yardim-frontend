@@ -1,3 +1,5 @@
+import { Channel } from "@/components/UI/Drawer/components/types";
+
 export type Point = {
   lat: number;
   lng: number;
@@ -31,8 +33,9 @@ export type Raw = {
 export type DrawerData = {
   id?: number;
   formatted_address?: string;
-  fullText?: string;
-  extraParameters?: string;
+  full_text?: string;
+  extra_parameters: any;
+  channel?: Channel;
 };
 
 export type CoordinatesURLParameters = {

@@ -17,7 +17,10 @@ import {
 } from "@mui/material";
 import formatcoords from "formatcoords";
 import { CopyButton } from "../Button/CopyButton";
-import { generateGoogleMapsUrl, mapsButtons } from "../Drawer/Drawer";
+import {
+  generateGoogleMapsUrl,
+  mapsButtons,
+} from "../Drawer/components/MapButtons";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import useDisableZoom from "@/hooks/useDisableZoom";
 

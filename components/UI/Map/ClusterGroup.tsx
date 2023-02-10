@@ -1,5 +1,6 @@
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MouseEvent } from "react";
+import { Fragment, MouseEvent } from "react";
+import MarkerClusterGroup from "./MarkerClusterGroup";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
 import { MarkerData } from "@/mocks/types";
@@ -73,7 +74,7 @@ const ClusterGroup = ({ data }: Props) => {
               icon={fetchIcon(pointCount)}
               eventHandlers={{
                 click: () => {
-                  handleClusterClick(data);
+                  handleClusterClick(data, pointCount);
                   const expansionZoom = Math.min(
                     supercluster.getClusterExpansionZoom(cluster.id),
                     18

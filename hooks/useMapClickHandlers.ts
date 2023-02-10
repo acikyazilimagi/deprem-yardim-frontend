@@ -25,9 +25,9 @@ export function useMapClickHandlers() {
   );
 
   const handleClusterClick = useCallback(
-    (markers: MarkerData[]) => {
+    (markers: MarkerData[], count: number = 0) => {
       setPopUpData({
-        count: markers.length ?? 0,
+        count,
         baseMarker: markers[0],
         markers: [],
       });
