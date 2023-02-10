@@ -25,7 +25,7 @@ import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL, locationsURL } from "@/utils/urls";
@@ -65,14 +65,15 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
+  const [triggerFetch, setTriggerFetch] = useState(true);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
-  const [url, setUrl] = useState<string | null>(null);
   const device = useDevice();
   const isMobile = device === "mobile";
+  const requestURL = useRef("");
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -97,70 +98,70 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     reasoningFilterMenuOption,
   ]);
 
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
-    dataFetcher,
-    {
-      isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (!data) return;
+  const { error, isLoading, isValidating, mutate } = useSWR<
+    DataLite | undefined
+  >(triggerFetch ? requestURL.current : null, dataFetcher, {
+    isPaused: () => !coordinatesAndEventType,
+    onLoadingSlow: () => setSlowLoading(true),
+    revalidateOnFocus: false,
+    onSuccess: (data) => {
+      if (!data) return;
 
-        const transformedData = data.results ? dataTransformerLite(data) : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+      setTriggerFetch(false);
+    },
+  });
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(() => {
+    {
+      setTriggerFetch(true), mutate();
+    }
+  }, REQUEST_THROTTLING_INITIAL_SEC);
 
-  const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
+  const setRequestURL = (urlParams: string) => {
+    requestURL.current = `${areasURL}?${urlParams}`;
+  };
+
+  const handleScanButtonClick = () => {
+    mutate();
+    setTriggerFetch(true);
     resetThrottling();
-  }, [resetThrottling, urlParams]);
+  };
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
   useEffect(() => {
-    if (
-      typeof coordinatesAndEventType === "undefined" ||
-      !urlParams ||
-      coordinatesAndEventType?.eventType === "moveend" ||
-      coordinatesAndEventType?.eventType === "zoomend"
-    ) {
-      resetThrottling();
+    // Set the URL once the map is ready
+    if (coordinatesAndEventType?.eventType !== "ready") {
       return;
     }
 
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
+    setRequestURL(urlParams);
+  }, [coordinatesAndEventType, urlParams]);
 
   useEffect(() => {
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp]);
+    setRequestURL(urlParams);
+    setTriggerFetch(true);
+  }, [newerThanTimestamp, urlParams]);
 
   useEffect(() => {
-    if (url) {
-      const _url = new URL(url);
-      const params = new URLSearchParams(urlParams);
-
-      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
+    if (requestURL.current.length === 0) {
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasoningFilterMenuOption]);
+    const _url = new URL(requestURL.current);
+    const params = new URLSearchParams(urlParams);
+
+    requestURL.current = `${_url.origin}${_url.pathname}?${params.toString()}`;
+    setTriggerFetch(true);
+  }, [reasoningFilterMenuOption, urlParams]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
