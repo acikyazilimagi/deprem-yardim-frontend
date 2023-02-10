@@ -8,11 +8,13 @@
   width: 100vw;
   z-index: 1000;
   text-align: center;
+  top: 0;
+  left: 0;
 }
 
 .maintenanceContainer .maintenanceContent {
   height: max-content;
-  width: 100%;
+  width: calc(100% - 40px);
   display: flex;
   flex-direction: column;
   justify-content: center;
