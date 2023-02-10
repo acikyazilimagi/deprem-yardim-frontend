@@ -266,28 +266,8 @@ const Drawer = () => {
               </div>
             </div>
             <div className={styles.sourceContent}>
-              <div className={styles.sourceHelpContent}>
-                <Typography className={styles.sourceContentTitle}>
-                  Yardım İçeriği
-                </Typography>
-                {extraParameters.name && (
-                  <div className={styles.sourceContentSwitch}>
-                    <p>Kayıtlı veriyi göster</p>
-                    <Switch
-                      checked={showSavedData}
-                      onChange={() => setShowSavedData((s) => !s)}
-                    />
-                  </div>
-                )}
-              </div>
-              {showSavedData ? (
-                <PlaceholderTweet source={extraParameters} />
-              ) : (
-                <EmbedTweet source={extraParameters} />
-              )}
-            </div>
+
           </div>
-        )}
 
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>

@@ -5,7 +5,7 @@ export type Data = {
     extra_parameters?: string,
     timestamp: string;
     is_resolved: boolean;
-    channel: string;
+    channel: "twitter" | "Babala";
 };
 
 export type Raw = {
