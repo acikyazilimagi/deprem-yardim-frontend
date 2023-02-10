@@ -7,11 +7,7 @@ export function useMapClickHandlers() {
 
   const handleMarkerClick = useCallback(
     (event: KeyboardEvent | MouseEvent, markerData?: MarkerData) => {
-      if (
-        event.type === "keydown" &&
-        ((event as KeyboardEvent).key === "Tab" ||
-          (event as KeyboardEvent).key === "Shift")
-      )
+      if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
 
       toggleDrawer();
