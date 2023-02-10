@@ -1,4 +1,4 @@
-export type Channel = "twitter" | "Babala";
+export type Channel = "twitter" | "Babala" | "generic";
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {

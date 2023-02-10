@@ -4,8 +4,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.organizeImports": false
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

@@ -1,23 +1,23 @@
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import FeedContent from "./channels/FeedContent";
-import CloseIcon from "@mui/icons-material/Close";
+import useSWR from "swr";
+import formatcoords from "formatcoords";
 import { dataTransformer } from "@/utils/dataTransformer";
 import { Data } from "@/mocks/TypesAreasEndpoint";
 import { MarkerData } from "@/mocks/types";
-import formatcoords from "formatcoords";
 import { getTimeAgo } from "@/utils/date";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import CircularProgress from "@mui/material/CircularProgress";
-import GenericError from "../../GenericError/GenericError";
 import { locationsURL } from "@/utils/urls";
 import { dataFetcher } from "@/services/dataFetcher";
 import { CopyAll, OpenInNew } from "@mui/icons-material";
-import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
-import useSWR from "swr";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import CloseIcon from "@mui/icons-material/Close";
+import CircularProgress from "@mui/material/CircularProgress";
 import styles from "../Drawer.module.css";
+import FeedContent from "./channels/FeedContent";
+import GenericError from "../../GenericError/GenericError";
+import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
@@ -51,9 +51,9 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
 
   const hasSource =
     data.channel === "twitter" &&
-    // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+    // @ts-ignore TODO: gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
     data.extra_parameters?.tweet_id &&
-    // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+    // @ts-ignore
     data.extra_parameters?.tweet_id !== "";
 
   return (

@@ -33,51 +33,6 @@ const styles = {
     justifyContent: "space-between",
     paddingBottom: 11,
   },
-  avatarAndName: {
-    display: "flex",
-  },
-  avatar: {
-    width: 46,
-    height: 46,
-    borderRadius: "50%",
-    backgroundColor: "#e1e8ed",
-  },
-  name: {
-    display: "flex",
-    flexDirection: "column" as "column",
-    margin: "0 4px",
-    justifyContent: "flex-end",
-  },
-  username: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-    fontWeight: 800,
-    fontSize: 14,
-  },
-  userIdArea: {
-    display: "flex",
-  },
-  userText: {
-    color: "rgb(83, 100, 113)",
-    fontSize: 14,
-    fontWeight: 500,
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-  },
-  dot: {
-    padding: "0 4px",
-    fontSize: 14,
-  },
-  followText: {
-    color: "rgb(0, 111, 214)",
-    fontSize: 14,
-    fontWeight: 800,
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-  },
-  logo: {
-    alignSelf: "flex-start",
-  },
   fullText: {
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
