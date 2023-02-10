@@ -215,7 +215,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 mobile={isMobile}
               />
             </Box>
-            {!isMobile && <SitesIcon></SitesIcon>}
+            <SitesIcon mobile={isMobile} />
             <Box
               sx={{
                 position: "fixed",

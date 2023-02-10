@@ -51,6 +51,7 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
           borderRadius: "8px",
           height: mobile ? "32px" : "36px",
           fontSize: mobile ? "12px" : "14px",
+          bottom: mobile ? "440px" : "0px",
         }}
       >
         <TranslateIcon

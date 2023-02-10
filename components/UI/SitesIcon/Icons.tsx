@@ -4,13 +4,15 @@ import Popover from "@mui/material/Popover";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
-const SitesIcon = () => {
+export type SitesIconProps = {
+  mobile: boolean;
+};
+
+const SitesIcon: React.FC<SitesIconProps> = ({ mobile }) => {
   const { t } = useTranslation("common");
-  const isMinWidth = useMediaQuery("(min-width:1024px)");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpen, setIsOpen] = useState<any>(null);
   const anchor = useRef(null);
@@ -35,8 +37,8 @@ const SitesIcon = () => {
   };
 
   const littleIcon = {
-    width: 28,
-    height: 28,
+    width: mobile ? 24 : 28,
+    height: mobile ? 24 : 28,
   };
 
   return (
@@ -47,13 +49,13 @@ const SitesIcon = () => {
         direction="row"
         spacing={2}
         sx={{
-          display: isMinWidth ? "flex" : "none",
+          display: mobile ? "flex" : "none",
           background: "rgba(220, 20, 60, 0.5)",
-          padding: "10px",
+          padding: mobile ? "5px" : "10px",
           borderRadius: "10px",
           position: "absolute",
           bottom: "30px",
-          right: "26px",
+          right: mobile ? "10px" : "26px",
           zIndex: 500,
         }}
       >
