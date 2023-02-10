@@ -83,15 +83,10 @@ const MapEvents = () => {
       locationWithZoomLevel.append("lng", _lng.toString());
       locationWithZoomLevel.append("zoom", _zoomLevel.toString());
       const query = locationWithZoomLevel.toString();
-      router.push(
-        { query },
-        { query },
-        {
-          shallow: true,
-        }
-      );
+
+      router.push({ query }, { query }, { shallow: true });
     },
-    1000
+    100
   );
 
   const map = useMapEvents({

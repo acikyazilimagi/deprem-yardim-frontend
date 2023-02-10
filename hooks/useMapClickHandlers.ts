@@ -2,6 +2,7 @@ import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
+
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
 
@@ -24,12 +25,11 @@ export function useMapClickHandlers() {
   );
 
   const handleClusterClick = useCallback(
-    (e: any) => {
-      const markers = e.layer.getAllChildMarkers();
+    (markers: MarkerData[]) => {
       setPopUpData({
         count: markers.length ?? 0,
-        baseMarker: markers[0].options.markerData,
-        markers: markers,
+        baseMarker: markers[0],
+        markers: [],
       });
     },
     [setPopUpData]
