@@ -3,6 +3,10 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import ReasoningFilterMenu, {
+  initialReasoningFilter,
+  ReasoningFilterMenuOption,
+} from "@/components/UI/ReasoningFilterMenu";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import Maintenance from "@/components/UI/Maintenance/Maintenance";
 import {
@@ -41,10 +45,12 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
+  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
+    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
-  const [url, setURL] = useState<string | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -85,12 +91,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setURL(areasURL + "?" + urlParams),
+    () => setUrl(areasURL + "?" + urlParams),
     REQUEST_THROTTLING_INITIAL_SEC
   );
 
   const handleScanButtonClick = useCallback(() => {
-    setURL(areasURL + "?" + urlParams);
+    setUrl(areasURL + "?" + urlParams);
     resetThrottling();
   }, [resetThrottling, urlParams]);
 
@@ -109,14 +115,29 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       return;
     }
 
-    setURL(areasURL + "?" + urlParams);
+    setUrl(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinatesAndEventType]);
 
   useEffect(() => {
-    setURL(areasURL + "?" + urlParams);
+    setUrl(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newerThanTimestamp]);
+
+  useEffect(() => {
+    if (url) {
+      const _url = new URL(url);
+      const params = new URLSearchParams(urlParams);
+
+      params.append(
+        reasoningFilterMenuOption.type,
+        reasoningFilterMenuOption.value
+      );
+
+      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reasoningFilterMenuOption]);
 
   return (
     <>
@@ -124,7 +145,26 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error} fallback={<Maintenance />}>
-            <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
+            <div
+              style={{
+                position: "fixed",
+                right: "10px",
+                top: "15px",
+                zIndex: "502",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                  gap: 2,
+                }}
+              >
+                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
+                <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
+              </div>
+            </div>
             <LeafletMap />
             <SitesIcon />
             <Box
