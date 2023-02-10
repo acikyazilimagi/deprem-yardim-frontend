@@ -13,4 +13,6 @@ export const DEFAULT_MIN_ZOOM_MOBILE = 4.5;
 
 export const localStorageKeys = {
   coordinatesURL: "coordinatesURL",
+  timeFilter: "timeFilter",
+  reasonFilter: "reasonFilter",
 } as const;

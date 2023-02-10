@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../../styles/Home.module.css";
+import { localStorageKeys } from "../Map/utils";
 
 type TimeOption =
   | "last30Minutes"
@@ -22,7 +23,7 @@ type FilterOption = {
 const HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
 const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
 
-const FilterOptions: readonly FilterOption[] = [
+export const FilterOptions: readonly FilterOption[] = [
   {
     label: "Son 30 dakika",
     inMilliseconds: (1 * HOUR_IN_MILLISECONDS) / 2,
@@ -84,9 +85,11 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as TimeOption;
-
     setSelectedValue(value);
-
+    window.localStorage.setItem(
+      localStorageKeys.timeFilter,
+      JSON.stringify(valueToOption(value))
+    );
     handleClose();
   };
 
@@ -104,6 +107,15 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
       onChangeTime(Math.floor(pastTimestampInSeconds));
     }
   }, [onChangeTime, selectedValue]);
+
+  useEffect(() => {
+    const timeFilter = window.localStorage.getItem(localStorageKeys.timeFilter);
+
+    if (timeFilter) {
+      const timeFilterValue = JSON.parse(timeFilter);
+      setSelectedValue(timeFilterValue.value);
+    }
+  }, []);
 
   return (
     <Box>

@@ -2,6 +2,7 @@ import { useEffect, useState, MouseEvent } from "react";
 import { Box, Button, Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../../styles/Home.module.css";
+import { localStorageKeys } from "../Map/utils";
 
 type ReasoningFilterMenuOptionType = "reason" | "channel";
 
@@ -63,7 +64,10 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
     const value = event.currentTarget.dataset.value as string;
 
     setSelectedValue(value);
-
+    window.localStorage.setItem(
+      localStorageKeys.reasonFilter,
+      JSON.stringify(valueToOption(value))
+    );
     handleClose();
   };
 
@@ -73,6 +77,17 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
     onChange(option);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedValue]);
+
+  useEffect(() => {
+    const reasonFilter = window.localStorage.getItem(
+      localStorageKeys.reasonFilter
+    );
+
+    if (reasonFilter) {
+      const reasonFilterValue = JSON.parse(reasonFilter);
+      setSelectedValue(reasonFilterValue.value);
+    }
+  }, []);
 
   return (
     <Box>
@@ -99,9 +114,9 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
           disableTouchRipple
         >
           {
-            reasoningFilterMenuOptions.find(
-              (option) => option.value === selectedValue
-            )?.label
+            reasoningFilterMenuOptions.find((option) => {
+              return option.value === selectedValue;
+            })?.label
           }
         </Button>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
