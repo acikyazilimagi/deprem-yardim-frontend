@@ -1,6 +1,7 @@
 export const getTimeAgo = (value: string): string | null => {
   const now = new Date().getTime();
-  const valueTime = new Date(value).getTime();
+  const valueZtoGMT3 = value.replace("Z", "+03:00");
+  const valueTime = new Date(valueZtoGMT3).getTime();
 
   if (!valueTime) return null;
 
