@@ -195,11 +195,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 {isLoading || isValidating ? (
                   <LoadingSpinner slowLoading={slowLoading} />
                 ) : (
-                  "ALANI TARA"
+                  <span>ALANI TARA</span>
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
-                <strong>{remainingTime}</strong> sn sonra otomatik taranacak
+                <strong>{remainingTime}</strong>
+                <span> sn sonra otomatik taranacak</span>
               </small>
             </Box>
           </RenderIf>
