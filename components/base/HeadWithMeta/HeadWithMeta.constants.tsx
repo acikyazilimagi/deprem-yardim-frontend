@@ -10,5 +10,5 @@ export const SEO_LANG = {
   HREF_TR: "https://afetharita.com/tr",
   HREF_EN: "https://afetharita.com/en",
   HREFLANG_TR: "tr",
-  HREFLANG_EN: "en-us",
+  HREFLANG_EN: "en",
 };
