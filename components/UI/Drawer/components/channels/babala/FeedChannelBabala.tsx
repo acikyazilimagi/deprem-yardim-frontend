@@ -11,10 +11,12 @@ const FeedChannelBabala = ({
         <div style={styles.user}></div>
         <Typography style={styles.fullText}>{full_text}</Typography>
         <Typography style={styles.fullText}>
-          {extra_parameters?.status}
+          {extra_parameters?.status == "nan" ? "" : extra_parameters?.status}
         </Typography>
         <Typography style={styles.confirmation}>
-          {extra_parameters?.manual_confirmation}
+          {extra_parameters?.manual_confirmation == "nan"
+            ? ""
+            : extra_parameters?.manual_confirmation}
         </Typography>
       </div>
     </>
