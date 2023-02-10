@@ -63,6 +63,7 @@ const MapEvents = () => {
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
+      console.log("useDebouncedCallback");
       const zoomLevel = map.getZoom();
       let localCoordinates = value;
 
