@@ -32,12 +32,13 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
     ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
     : "";
 
+  const query = new URLSearchParams();
+  query.append("loc", LOC);
+  query.append("address", ADDRESS);
+  query.append("entry", ENTRY);
+
   const URL = isPropsValid
-    ? `${OG_EDGE_URL_DYNAMIC}?loc=${encodeURIComponent(
-        LOC
-      )}&address=${encodeURIComponent(ADDRESS)}&entry=${encodeURIComponent(
-        ENTRY
-      )}`
+    ? `${OG_EDGE_URL_DYNAMIC}${query.toString()}`
     : `${OG_EDGE_URL_BASE}`;
   const IMAGES: OpenGraphMedia[] = [
     {

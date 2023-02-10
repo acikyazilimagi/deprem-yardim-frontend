@@ -5,16 +5,12 @@ export function useUrlPath() {
   const setUrlQuery = useCallback((key: Object, router: NextRouter) => {
     const queries = router.query;
     const modifiedQuery = { ...queries, ...key };
-
+    const query = new URLSearchParams();
     const modifiedArray = Object.entries(modifiedQuery);
-    modifiedArray.forEach((entry, index) => {
-      if (entry[1] === undefined) {
-        modifiedArray.splice(index, 1);
-      }
+    modifiedArray.forEach((entry) => {
+      query.append(entry[0], entry[1].toString());
     });
-
-    const toPath = modifiedArray.map((item) => item.join("=")).join("&");
-    return toPath;
+    return query.toString();
   }, []);
 
   return {
