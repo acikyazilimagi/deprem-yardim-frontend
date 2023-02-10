@@ -1,6 +1,11 @@
 import React from "react";
 import { NextSeo } from "next-seo";
-import { DESCRIPTION, OG_EDGE_URL, TITLE } from "./HeadWithMeta.constants";
+import {
+  DESCRIPTION,
+  OG_EDGE_URL_DYNAMIC,
+  OG_EDGE_URL_BASE,
+  TITLE,
+} from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
 
 interface IHeadWithMeta {
@@ -27,21 +32,23 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
   const LOC = isPropsValid
     ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
     : "";
-  const IMAGES: OpenGraphMedia[] | undefined = isPropsValid
-    ? [
-        {
-          url: `${OG_EDGE_URL}?loc=${encodeURIComponent(
-            LOC
-          )}&address=${encodeURIComponent(ADDRESS)}&entry=${encodeURIComponent(
-            ENTRY
-          )}`,
-          width: 1200,
-          height: 630,
-          alt: `${ADDRESS}`,
-          type: "image/png",
-        },
-      ]
-    : undefined;
+
+  const URL = isPropsValid
+    ? `${OG_EDGE_URL_DYNAMIC}?loc=${encodeURIComponent(
+        LOC
+      )}&address=${encodeURIComponent(ADDRESS)}&entry=${encodeURIComponent(
+        ENTRY
+      )}`
+    : `${OG_EDGE_URL_BASE}`;
+  const IMAGES: OpenGraphMedia[] = [
+    {
+      url: URL,
+      width: 1200,
+      height: 630,
+      alt: `${ADDRESS}`,
+      type: "image/png",
+    },
+  ];
 
   return (
     <NextSeo
