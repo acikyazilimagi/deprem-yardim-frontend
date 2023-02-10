@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import styles from "../../../styles/Home.module.css";
+import { Menu, MenuItem } from "@mui/material";
+import FilterMenuButton from "./FilterMenuButton";
 
 type TimeOption =
   | "last30Minutes"
@@ -65,11 +64,11 @@ const valueToOption = (value: string): FilterOption | undefined => {
   return FilterOptions.find((option) => option.value === value);
 };
 
-type Props = {
+export type FilterTimeMenuProps = {
   onChangeTime: (_newerThanTimestamp?: number) => void;
 };
 
-const FilterTimeMenu = ({ onChangeTime }: Props) => {
+const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
   const open = Boolean(anchorEl);
@@ -106,47 +105,27 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
   }, [onChangeTime, selectedValue]);
 
   return (
-    <Box>
-      <div className={styles.filterMenu}>
-        <Button
-          aria-controls={open ? "zaman-filtrele" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          sx={{
-            background: "white",
-            color: "#344054",
-            "&:hover": { background: "white" },
-            border: "1px solid #BABBBE",
-            borderRadius: "8px",
-            height: "48px",
-          }}
-          variant="contained"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-        >
-          {
-            FilterOptions.find((option) => option.value === selectedValue)
-              ?.label
-          }
-        </Button>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          {FilterOptions.map((option) => (
-            <MenuItem
-              key={option.value}
-              onClick={handleMenuItemClick}
-              data-value={option.value}
-              disableRipple
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </div>
-    </Box>
+    <>
+      <FilterMenuButton
+        ariaControls={"zaman-filtrele"}
+        open={open}
+        onClick={handleClick}
+      >
+        {FilterOptions.find((option) => option.value === selectedValue)?.label}
+      </FilterMenuButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {FilterOptions.map((option) => (
+          <MenuItem
+            key={option.value}
+            onClick={handleMenuItemClick}
+            data-value={option.value}
+            disableRipple
+          >
+            {option.label}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 };
 
