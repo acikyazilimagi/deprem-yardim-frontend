@@ -1,11 +1,11 @@
-import FeedChannelTwitter from "./channels/FeedChannelTwitter";
-import FeedChannelBabala from "./channels/FeedChannelBabala";
-import FeedChannelGeneric from "./channels/FeedChannelGeneric";
+import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
+import FeedChannelBabala from "./babala/FeedChannelBabala";
+import FeedChannelGeneric from "./FeedChannelGeneric";
 import {
   BaseFeedChannel,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
-} from "./types";
+} from "../types";
 
 type Props = {
   content: FeedChannelTwitterProps | FeedChannelBabalaProps;

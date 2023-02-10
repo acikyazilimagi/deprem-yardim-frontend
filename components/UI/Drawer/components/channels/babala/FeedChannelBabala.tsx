@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { FeedChannelBabalaProps } from "../types";
+import { FeedChannelBabalaProps } from "../../types";
 
 const FeedChannelBabala = ({
   full_text,

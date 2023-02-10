@@ -1,10 +1,10 @@
 import { useState } from "react";
-import styles from "./FeedChannel.module.css";
+import styles from "./FeedChannelTwitter.module.css";
 import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
-import PlaceholderTweet from "../PlaceholderTweet";
-import { FeedChannelTwitterProps } from "../types";
-import EmbedTweet from "../EmbedTweet";
+import PlaceholderTweet from "./PlaceholderTweet";
+import { FeedChannelTwitterProps } from "../../types";
+import EmbedTweet from "./EmbedTweet";
 
 const FeedChannelTwitter = ({
   full_text,

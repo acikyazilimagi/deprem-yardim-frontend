@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
-import { FeedChannelTwitterProps, TwitterParameters } from "./types";
+import { FeedChannelTwitterProps, TwitterParameters } from "../../types";
 
 type Props = {
   source: TwitterParameters;
@@ -13,7 +13,7 @@ const PlaceholderTweet = ({ source, full_text }: Props) => {
     <>
       <div style={styles.container}>
         <div style={styles.user}>
-          {source.name && (
+          {source && source.name && (
             <div style={styles.avatarAndName}>
               <div style={styles.avatar}></div>
               <div style={styles.name}>
