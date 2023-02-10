@@ -141,7 +141,7 @@ const Drawer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  const list = useMemo(() => {
+  const list = () => {
     const { formatted_address, extraParameters: extraParametersAsJSON } =
       dataTransformer(data);
 
@@ -313,7 +313,7 @@ const Drawer = () => {
         <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
       </Box>
     );
-  }, [data, size.width, toggler, showSavedData, isLoading, error, drawerData]);
+  };
 
   const handleClose = useCallback(
     (e: MouseEvent) => {
@@ -336,7 +336,7 @@ const Drawer = () => {
         open={isOpen}
         onClose={handleClose}
       >
-        {list}
+        {list()}
       </MuiDrawer>
     </div>
   );
