@@ -66,6 +66,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const [nextUrl, setNextUrl] = useState<string>("");
   const device = useDevice();
   const isMobile = device === "mobile";
 
@@ -92,21 +93,19 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     reasoningFilterMenuOption,
   ]);
 
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
-    dataFetcher,
-    {
-      isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (!data) return;
+  const { error, isLoading, isValidating, mutate } = useSWR<
+    DataLite | undefined
+  >(url, dataFetcher, {
+    isPaused: () => !coordinatesAndEventType,
+    onLoadingSlow: () => setSlowLoading(true),
+    revalidateOnFocus: false,
+    onSuccess: (data) => {
+      if (!data) return;
 
-        const transformedData = data.results ? dataTransformerLite(data) : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
+      const transformedData = data.results ? dataTransformerLite(data) : [];
+      setMarkerData(transformedData);
+    },
+  });
 
   if (error) {
     throw new MaintenanceError(
@@ -115,15 +114,19 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   }
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(() => {
+    setUrl(areasURL + "?" + urlParams);
+  }, REQUEST_THROTTLING_INITIAL_SEC);
 
   const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
+    if (nextUrl.length) {
+      setUrl(nextUrl);
+      setNextUrl("");
+    } else {
+      mutate();
+    }
     resetThrottling();
-  }, [resetThrottling, urlParams]);
+  }, [resetThrottling, mutate, setUrl, nextUrl, setNextUrl]);
 
   useEffect(() => {
     setDevice(deviceType);
@@ -137,6 +140,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       coordinatesAndEventType?.eventType === "zoomend"
     ) {
       resetThrottling();
+      setNextUrl(areasURL + "?" + urlParams);
       return;
     }
 
