@@ -38,7 +38,7 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
   query.append("entry", ENTRY);
 
   const URL = isPropsValid
-    ? `${OG_EDGE_URL_DYNAMIC}/?${query.toString()}`
+    ? `${OG_EDGE_URL_DYNAMIC}${query.toString()}`
     : `${OG_EDGE_URL_BASE}`;
   const IMAGES: OpenGraphMedia[] = [
     {
