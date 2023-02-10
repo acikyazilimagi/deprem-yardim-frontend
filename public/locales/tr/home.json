@@ -22,7 +22,7 @@
         }
     },
     "tags": {
-        "safe": "Az Yoğun",  
+        "safe": "Az Yoğun",
         "low": "Az - Orta Yoğun",
         "midLow": "Orta Yoğun",
         "mid": "Orta - Yüksek Yoğun",
@@ -42,6 +42,10 @@
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {
+        "base": {
+            "map": "Harita",
+            "satellite": "Uydu"
+        },
         "layerControl": {
             "heatmap": "Isı Haritası",
             "dots": "Noktalar"

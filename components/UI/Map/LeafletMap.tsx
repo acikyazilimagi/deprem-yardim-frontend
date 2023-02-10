@@ -156,7 +156,9 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap() {
+type LeafletMapProps = { tileLayer: string };
+
+function LeafletMap({ tileLayer = "m" }: LeafletMapProps) {
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
@@ -216,6 +218,8 @@ function LeafletMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const baseUrl = `https://mt0.google.com/vt/lyrs=${tileLayer}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
+
   return (
     <>
       <Global styles={GlobalClusterStyle} />
@@ -245,9 +249,7 @@ function LeafletMap() {
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
         <LayerControl points={points} data={data} />
-        <TileLayer
-          url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
-        />
+        <TileLayer url={baseUrl} />
       </Map>
     </>
   );

@@ -42,6 +42,10 @@
         "noticeCount": "{{count}} notice available"
     },
     "map": {
+        "base": {
+            "map": "Map",
+            "satellite": "Satellite"
+        },
         "layerControl": {
             "heatmap": "Heatmap",
             "dots": "Dots"
