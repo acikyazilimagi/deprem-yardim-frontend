@@ -12,6 +12,10 @@ export const tileLayerMenuOptions: readonly TileLayerMenuOption[] = [
     label: "satellite",
     value: "s",
   },
+  {
+    label: "terrain",
+    value: "p",
+  },
 ] as const;
 
 export const initialTileLayer = tileLayerMenuOptions[0];

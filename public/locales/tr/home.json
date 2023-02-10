@@ -44,7 +44,8 @@
     "map": {
         "base": {
             "map": "Harita",
-            "satellite": "Uydu"
+            "satellite": "Uydu",
+            "terrain": "Arazi"
         },
         "layerControl": {
             "heatmap": "Isı Haritası",

@@ -44,7 +44,8 @@
     "map": {
         "base": {
             "map": "Map",
-            "satellite": "Satellite"
+            "satellite": "Satellite",
+            "terrain": "Terrain"
         },
         "layerControl": {
             "heatmap": "Heatmap",
