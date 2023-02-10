@@ -13,7 +13,7 @@ interface MapsButton {
 }
 
 export const generateGoogleMapsUrl = (lat: number, lng: number) => {
-  return `https://www.google.com/maps/?q=${lat},${lng}&ll=${lat},${lng}&z=21`;
+  return `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lng}`;
 };
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
