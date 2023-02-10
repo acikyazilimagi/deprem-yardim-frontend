@@ -20,7 +20,7 @@ const FeedChannelBabala = ({
     </>
   );
 };
-
+// TODO#642: Babala channelından gelen veriler için gösterilecek tasarım
 const styles = {
   container: {
     padding: "11px 15px 15px 15px",

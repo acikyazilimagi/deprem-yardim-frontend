@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
-import { FeedChannelBabalaProps } from "../types";
+import { BaseFeedChannel } from "../types";
 
-const FeedChannelGeneric = ({ full_text }: FeedChannelBabalaProps) => {
+const FeedChannelGeneric = ({ full_text }: BaseFeedChannel<any>) => {
   return (
     <>
       <div style={styles.container}>
@@ -12,6 +12,7 @@ const FeedChannelGeneric = ({ full_text }: FeedChannelBabalaProps) => {
   );
 };
 
+// TODO#642: Herhangi bir channeldan gelmeyen veriler için gösterilecek tasarım
 const styles = {
   container: {
     padding: "11px 15px 15px 15px",

@@ -51,7 +51,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
 
   const hasSource =
     data.channel === "twitter" &&
-    // @ts-ignore TODO: gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
+    // @ts-ignore gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
     data.extra_parameters?.tweet_id &&
     // @ts-ignore
     data.extra_parameters?.tweet_id !== "";
@@ -141,7 +141,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
                   size="small"
                   onClick={() =>
                     window.open(
-                      // @ts-ignore: TODO tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
+                      // @ts-ignore: tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
                       `https://twitter.com/anyuser/status/${data.extra_parameters?.tweet_id}`
                     )
                   }

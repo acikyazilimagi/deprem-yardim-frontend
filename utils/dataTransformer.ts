@@ -2,7 +2,7 @@ import {
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
 } from "@/components/UI/Drawer/components/types";
-import { DrawerData, MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/mocks/types";
 import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
 
 export const dataTransformerLite = (data: DataLite): MarkerData[] =>
@@ -32,8 +32,8 @@ export const dataTransformer = (
   return {
     full_text: data?.full_text,
     formatted_address: data?.formatted_address,
-    id: data?.id, // TODO: Burası şimdilik any olarak bırakıldı, sonrasında type güncellemesi yapılacak
-    extra_parameters: rawExtraParams as any,
+    id: data?.id,
+    extra_parameters: rawExtraParams as any, // TODO: Burası şimdilik any olarak bırakıldı, sonrasında type güncellemesi yapılacak
     channel: data?.channel,
     is_resolved: data?.is_resolved,
     timestamp: data?.timestamp,
