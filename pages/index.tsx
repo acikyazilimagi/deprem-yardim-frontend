@@ -72,6 +72,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     url,
     dataFetcher,
     {
+      isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
       onSuccess: (data) => {
