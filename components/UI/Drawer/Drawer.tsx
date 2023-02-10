@@ -267,7 +267,7 @@ const Drawer = () => {
                 >
                   Kopyala
                 </Button>
-                {extraParameters.tweet_id && (
+                {extraParameters?.tweet_id && (
                   <Button
                     variant="outlined"
                     className={styles.clipboard}
@@ -291,7 +291,7 @@ const Drawer = () => {
                 <Typography className={styles.sourceContentTitle}>
                   Yardım İçeriği
                 </Typography>
-                {extraParameters.name && (
+                {extraParameters?.name && (
                   <div className={styles.sourceContentSwitch}>
                     <p>Kayıtlı veriyi göster</p>
                     <Switch

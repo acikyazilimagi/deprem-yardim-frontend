@@ -3,7 +3,9 @@ import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
-import ReasoningFilterMenu, {
+
+// ReasoningFilterMenu
+import {
   initialReasoningFilter,
   ReasoningFilterMenuOption,
 } from "@/components/UI/ReasoningFilterMenu";
@@ -18,6 +20,7 @@ import {
   useCoordinates,
   useMapActions,
   setMarkerData,
+  useDevice,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
@@ -45,12 +48,15 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
-    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
+  const [reasoningFilterMenuOption] = useState<ReasoningFilterMenuOption>(
+    initialReasoningFilter
+  );
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const device = useDevice();
+  const isMobile = device === "mobile";
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -161,12 +167,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
+                {/* <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} /> */}
                 <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
               </div>
             </div>
             <LeafletMap />
-            <SitesIcon />
+            {!isMobile && <SitesIcon />}
             <Box
               sx={{
                 position: "fixed",
