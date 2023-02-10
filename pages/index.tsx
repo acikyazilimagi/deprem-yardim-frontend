@@ -123,9 +123,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   }, [coordinatesAndEventType]);
 
   useEffect(() => {
+    if (typeof coordinatesAndEventType === "undefined") return;
     setUrl(areasURL + "?" + urlParams);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp]);
+  }, [newerThanTimestamp, coordinatesAndEventType]);
 
   useEffect(() => {
     if (url) {
