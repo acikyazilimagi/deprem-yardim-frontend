@@ -71,12 +71,16 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const [shouldFetchNextOption, setShouldFetchNextOption] =
+    useState<boolean>(false);
   const device = useDevice();
   const isMobile = device === "mobile";
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
+
+  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
   const urlParams = useMemo(() => {
     const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
@@ -105,6 +109,9 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
       onSuccess: (data) => {
+        if (!data.results) {
+          setShouldFetchNextOption(true);
+        }
         if (!data) return;
 
         const transformedData = data.results ? dataTransformerLite(data) : [];
@@ -189,12 +196,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                <FilterMenu>
-                  <FilterMenu.Reasoning
-                    onChange={setReasoningFilterMenuOption}
-                  />
-                  <FilterMenu.Time onChangeTime={setNewerThanTimestamp} />
-                </FilterMenu>
+                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
+                <FilterTimeMenu
+                  onChangeTime={setNewerThanTimestamp}
+                  shouldFetchNextOption={shouldFetchNextOption}
+                  resetShouldFetchNextOption={resetShouldFetchNextOption}
+                />
               </div>
             </div>
             <LeafletMap />
