@@ -37,5 +37,6 @@ export const dataTransformer = (
     channel: data?.channel,
     is_resolved: data?.is_resolved,
     timestamp: data?.timestamp,
+    reason: data?.reason,
   };
 };
