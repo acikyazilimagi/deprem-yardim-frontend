@@ -73,7 +73,7 @@ const ClusterGroup = ({ data }: Props) => {
               icon={fetchIcon(pointCount)}
               eventHandlers={{
                 click: () => {
-                  handleClusterClick(data);
+                  handleClusterClick(data, pointCount);
                   const expansionZoom = Math.min(
                     supercluster.getClusterExpansionZoom(cluster.id),
                     18
