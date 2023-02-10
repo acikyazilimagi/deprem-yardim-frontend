@@ -1,20 +1,20 @@
 ---
-name: Özellik isteği
-about: Özellik isteği için kullanın
+name: Feature Request
+about: Use to request a new feature
 title: 'feat: '
 labels: waiting-approval, enhancement, unchecked 
 assignees: ''
 
 ---
 
-## İsteğiniz şeyi tanımlayın 
-Açık ve kısa bir şekilde istediğiniz feature'ın ne olduğunu tanımlayın.
+## Define your request
+Define the feature you're requesting clearly and briefly.
 
--- bu bilgiyi ekleyiniz
-** discord kullanıcı adı: @afetharita#0001 **
+-- fill in the line below:
+** discord username: @afetharita#0001 **
 
-## Değerlendirdiğiniz alternatifleri tanımlayın
-Değerlendirdiğiniz herhangi bir alternatif çözüm veya özellik hakkında açık ve kısa bir açıklama.
+## Define the alternatives you have in mind
+Provide a clear and brief explanation to any alternative solution or feature you have in mind.
 
-## Ek Bağlam
-Bu özellik isteği hakkında herhangi bir başka bağlam veya ekran görüntüsü ekleyin.
+## Extra context
+Add some extra context or screenshot pertaining to said feature request.
