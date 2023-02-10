@@ -26,6 +26,7 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
   DEFAULT_ZOOM,
   DEFAULT_ZOOM_MOBILE,
+  localStorageKeys,
 } from "./utils";
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
@@ -61,6 +62,31 @@ const MapEvents = () => {
   const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
 
+  useEffect(() => {
+    const localCoordinatesURL = window.localStorage.getItem(
+      localStorageKeys.coordinatesURL
+    );
+    if (localCoordinatesURL) {
+      window.history.replaceState(
+        {
+          ...window.history.state,
+          as: localCoordinatesURL,
+          url: localCoordinatesURL,
+        },
+        "",
+        localCoordinatesURL
+      );
+    }
+
+    return () => {
+      const coordinatesURL = window.location.hash;
+      window.localStorage.setItem(
+        localStorageKeys.coordinatesURL,
+        coordinatesURL
+      );
+    };
+  }, []);
+
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
       const zoomLevel = map.getZoom();
@@ -83,8 +109,14 @@ const MapEvents = () => {
       locationWithZoomLevel.append("lng", _lng.toString());
       locationWithZoomLevel.append("zoom", _zoomLevel.toString());
       const query = locationWithZoomLevel.toString();
-
-      router.push({ query }, { query }, { shallow: true });
+      window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
+      router.push(
+        { query },
+        { query },
+        {
+          shallow: true,
+        }
+      );
     },
     100
   );
@@ -142,13 +174,25 @@ function LeafletMap() {
   );
   const { lat, lng, zoom, id } = router.query;
   const device = useDevice();
+
+  const localCoordinatesURL = window.localStorage.getItem(
+    localStorageKeys.coordinatesURL
+  );
+
   const defaultCenter: LatLngExpression =
     lat && lng
       ? [parseFloat(lat as string), parseFloat(lng as string)]
+      : localCoordinatesURL
+      ? [
+          parseFloat(localCoordinatesURL.split("lat=")[1].split("&")[0]),
+          parseFloat(localCoordinatesURL.split("lng=")[1].split("&")[0]),
+        ]
       : DEFAULT_CENTER;
 
   const defaultZoom = zoom
     ? parseFloat(zoom as string)
+    : localCoordinatesURL
+    ? parseFloat(localCoordinatesURL.split("zoom=")[1].split("&")[0])
     : device === "desktop"
     ? DEFAULT_ZOOM
     : DEFAULT_ZOOM_MOBILE;

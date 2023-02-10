@@ -4,8 +4,7 @@ import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 
-// ReasoningFilterMenu
-import {
+import ReasoningFilterMenu, {
   initialReasoningFilter,
   ReasoningFilterMenuOption,
 } from "@/components/UI/ReasoningFilterMenu";
@@ -48,9 +47,8 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption] = useState<ReasoningFilterMenuOption>(
-    initialReasoningFilter
-  );
+  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
+    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
@@ -167,7 +165,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   gap: 2,
                 }}
               >
-                {/* <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} /> */}
+                <ReasoningFilterMenu onChange={setReasoningFilterMenuOption} />
                 <FilterTimeMenu onChangeTime={setNewerThanTimestamp} />
               </div>
             </div>
@@ -195,11 +193,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 {isLoading || isValidating ? (
                   <LoadingSpinner slowLoading={slowLoading} />
                 ) : (
-                  "ALANI TARA"
+                  <span>ALANI TARA</span>
                 )}
               </Button>
               <small className={styles.autoScanInfoTextIndex}>
-                <strong>{remainingTime}</strong> sn sonra otomatik taranacak
+                <strong>{remainingTime}</strong>
+                <span> sn sonra otomatik taranacak</span>
               </small>
             </Box>
           </RenderIf>
