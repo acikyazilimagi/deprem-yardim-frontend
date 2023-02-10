@@ -5,8 +5,8 @@ import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
-import theme from "../utils/theme";
-import createEmotionCache from "../utils/createEmotionCache";
+import theme from "@/utils/theme";
+import createEmotionCache from "@/utils/createEmotionCache";
 import { SnackbarProvider } from "@/components/base/Snackbar";
 import { appWithTranslation } from "next-i18next";
 
@@ -18,7 +18,7 @@ interface MyAppProps extends AppProps {
 }
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  require("../mocks");
+  require("@/mocks");
 }
 
 function MyApp(props: MyAppProps) {

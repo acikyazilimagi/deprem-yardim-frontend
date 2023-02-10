@@ -81,7 +81,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       ne_lng: coordinatesAndEventType?.ne_lng,
       sw_lat: coordinatesAndEventType?.sw_lat,
       sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
+      time_stamp: newerThanTimestamp ?? undefined,
       ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
     } as any).toString();
   }, [

@@ -11,13 +11,9 @@ interface RenderIfProps {
 const RenderIf = ({ condition, children, fallback }: RenderIfProps) => {
   if (condition) {
     return <>{children}</>;
-  } else {
-    if (fallback) {
-      return <>{fallback}</>;
-    } else {
-      return <></>;
-    }
   }
+
+  return fallback ? <>{fallback}</> : <></>;
 };
 
 export default RenderIf;

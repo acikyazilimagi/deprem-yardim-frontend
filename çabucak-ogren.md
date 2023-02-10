@@ -44,8 +44,8 @@
 
 **Yardım İçeriği** bölümünde bir bilgi, bir twit karşınıza çıkmıyor ise şunları deneyiniz.
 
-1- Kaynak düğmesine tıklayıp bilgiye doğruca ulaşmayı deneyiniz.
-2- Kayıtlı veriyi göster düğmesini etkin kılarak yedek olarak alınmış yazılı bilgiyi görmeyi deneyiniz.
+1. Kaynak düğmesine tıklayıp bilgiye doğruca ulaşmayı deneyiniz.
+2. Kayıtlı veriyi göster düğmesini etkin kılarak yedek olarak alınmış yazılı bilgiyi görmeyi deneyiniz.
 
 **_Bunların dışındaki durumlar altında bilgi bir biçimde erişilemez olmuştur. Bunun için üzgünüz._**
 
