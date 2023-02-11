@@ -20,13 +20,13 @@ export const LayerContent = () => {
   const size = useWindowSize();
   const { toggleDrawer, toggleMapLayer, setMapType } = useMapActions();
   const close = () => toggleDrawer();
-
+  const isMobile = size.width > 768;
   return (
     <Box
       sx={{
-        width: size.width > 768 ? 400 : "full",
+        width: isMobile ? "full" : 400,
         display: "flex",
-        height: "100%",
+        height: isMobile ? "100%" : 400,
         padding: "1rem",
         overflow: "auto",
       }}
@@ -75,7 +75,6 @@ export const LayerContent = () => {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "flex-start",
             margin: "0.5rem 0 2rem",
           }}

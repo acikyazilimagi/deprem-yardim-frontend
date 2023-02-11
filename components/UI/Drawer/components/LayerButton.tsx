@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import Image from "next/image";
+import styles from "./LayerButton.module.css";
 
 type LayerButtonProps = {
   onClick: () => void;
@@ -27,19 +27,12 @@ export const LayerButton = ({
       }}
     >
       <div
+        className={styles.buttonImage}
         style={{
-          border: "2px solid",
           borderColor: checked ? "teal" : "transparent",
-          display: "inline-flex",
-          height: "66px",
-          width: "66px",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "14px",
+          backgroundImage: `url(/images/${image}.png)`,
         }}
-      >
-        <Image alt={title} width="56" height="56" src={`images/${image}.png`} />
-      </div>
+      />
       <Typography
         sx={{ color: checked ? "teal" : undefined, fontSize: "12px" }}
       >
