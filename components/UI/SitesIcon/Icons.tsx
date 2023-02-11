@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const SitesIcon = () => {
   const { t } = useTranslation("common");

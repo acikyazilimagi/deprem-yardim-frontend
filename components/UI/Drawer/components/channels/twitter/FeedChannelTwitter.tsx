@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import PlaceholderTweet from "./PlaceholderTweet";
 import { FeedChannelTwitterProps } from "../../types";
 import EmbedTweet from "./EmbedTweet";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 const FeedChannelTwitter = ({
   full_text,
