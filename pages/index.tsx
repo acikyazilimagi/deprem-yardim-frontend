@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -25,7 +26,6 @@ import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL, locationsURL } from "@/utils/urls";
@@ -71,12 +71,16 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const [shouldFetchNextOption, setShouldFetchNextOption] =
+    useState<boolean>(false);
   const device = useDevice();
   const isMobile = device === "mobile";
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
+
+  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
   const urlParams = useMemo(() => {
     const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
@@ -106,6 +110,9 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       revalidateOnFocus: false,
       onSuccess: (data) => {
         if (!data) return;
+        if (!data.results) {
+          setShouldFetchNextOption(true);
+        }
 
         const transformedData = data.results ? dataTransformerLite(data) : [];
         setMarkerData(transformedData);
@@ -193,7 +200,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                   <FilterMenu.Reasoning
                     onChange={setReasoningFilterMenuOption}
                   />
-                  <FilterMenu.Time onChangeTime={setNewerThanTimestamp} />
+                  <FilterMenu.Time
+                    onChangeTime={setNewerThanTimestamp}
+                    shouldFetchNextOption={shouldFetchNextOption}
+                    resetShouldFetchNextOption={resetShouldFetchNextOption}
+                  />
                 </FilterMenu>
               </div>
             </div>
