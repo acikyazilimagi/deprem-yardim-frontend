@@ -4,7 +4,6 @@ import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import { AhbapData } from "@/components/UI/Drawer/components/types";
 
-
 import * as localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";
 
@@ -13,7 +12,7 @@ export function useMapClickHandlers() {
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
-      markerData?: MarkerData | AhbapData
+      markerData?: MarkerData | AhbapData,
       selectedMarkerData?: MarkerData,
       allMarkers?: MarkerData[]
     ) => {
