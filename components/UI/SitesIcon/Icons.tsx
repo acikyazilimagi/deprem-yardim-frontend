@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
+import ArrowForwardNewIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 export type SitesIconProps = {
   mobile: boolean;
@@ -24,7 +26,7 @@ const SitesIcon: React.FC<SitesIconProps> = ({ mobile }) => {
 
   const handlePopoverClose = () => {
     setAnchorEl(null);
-    setIsOpen(null);
+    setIsOpen(!isOpen);
   };
   // I make this way because = https://smartdevpreneur.com/4-mui-sx-hover-examples/
   const toBiggerIcon = {
@@ -37,8 +39,8 @@ const SitesIcon: React.FC<SitesIconProps> = ({ mobile }) => {
   };
 
   const littleIcon = {
-    width: mobile ? 24 : 28,
-    height: mobile ? 24 : 28,
+    width: mobile ? 24 : 24,
+    height: mobile ? 24 : 24,
   };
 
   return (
@@ -49,184 +51,195 @@ const SitesIcon: React.FC<SitesIconProps> = ({ mobile }) => {
         direction="row"
         spacing={2}
         sx={{
-          background: "rgba(220, 20, 60, 0.5)",
-          padding: mobile ? "5px" : "10px",
-          borderRadius: "10px",
+          background: "white",
+          padding: "3px",
+          borderRadius: "5px",
+          border: "1px solid #19857B",
           position: "absolute",
-          bottom: "30px",
-          right: mobile ? "10px" : "26px",
+          top: "173px",
+          left: mobile ? "10px" : "10px",
           zIndex: 500,
         }}
       >
-        <Box sx={toBiggerIcon}>
-          <Link
-            href="https://depremyardim.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => handlePopoverOpen("depremYardim")}
-            onMouseLeave={handlePopoverClose}
-          >
-            <Avatar
-              sx={littleIcon}
-              alt="deprem yardim icon"
-              src="/icons/depremyardımIcon.svg"
-            />
-          </Link>
-          <Popover
-            anchorReference="anchorEl"
-            anchorEl={anchorEl}
-            open={"depremYardim" === isOpen ? true : false}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              background: "#00000000",
-              pointerEvents: "none",
-              zIndex: 600,
-            }}
-            onClose={handlePopoverClose}
-          >
-            <Typography sx={{ padding: "10px", width: "450px" }}>
-              {t("site.depremyardim")}
-            </Typography>
-          </Popover>
-        </Box>
-        <Box sx={toBiggerIcon}>
-          <Link
-            href="https://www.afetbilgi.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => handlePopoverOpen("afetBilgi")}
-            onMouseLeave={handlePopoverClose}
-            style={{
-              textDecoration: "none",
-            }}
-          >
-            <Box
-              sx={{
-                color: "white",
-                height: "100%",
-                width: 40,
-                borderRadius: 20,
-                backgroundColor: "orange",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textDecoration: "none !important",
-                textTransform: "none",
-              }}
-            >
-              <Typography fontSize={14}>AFET</Typography>
+        {isOpen ? (
+          <>
+            <ArrowBackIosNewIcon color="#19857B" onClick={handlePopoverClose} />
+            <Box sx={toBiggerIcon}>
+              <Link
+                href="https://depremyardim.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => handlePopoverOpen("depremYardim")}
+                onMouseLeave={handlePopoverClose}
+              >
+                <Avatar
+                  sx={littleIcon}
+                  alt="deprem yardim icon"
+                  src="/icons/depremyardımIcon.svg"
+                />
+              </Link>
+              <Popover
+                anchorReference="anchorEl"
+                anchorEl={anchorEl}
+                open={"depremYardim" === isOpen ? true : false}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                sx={{
+                  background: "#00000000",
+                  pointerEvents: "none",
+                  zIndex: 600,
+                }}
+                onClose={handlePopoverClose}
+              >
+                <Typography sx={{ padding: "10px", width: "450px" }}>
+                  {t("site.depremyardim")}
+                </Typography>
+              </Popover>
             </Box>
-          </Link>
+            <Box sx={toBiggerIcon}>
+              <Link
+                href="https://www.afetbilgi.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => handlePopoverOpen("afetBilgi")}
+                onMouseLeave={handlePopoverClose}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <Box
+                  sx={{
+                    color: "white",
+                    height: "100%",
+                    width: 40,
+                    borderRadius: 20,
+                    backgroundColor: "orange",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textDecoration: "none !important",
+                    textTransform: "none",
+                  }}
+                >
+                  <Typography fontSize={14}>AFET</Typography>
+                </Box>
+              </Link>
 
-          <Popover
-            anchorReference="anchorEl"
-            anchorEl={anchorEl}
-            open={"afetBilgi" === isOpen ? true : false}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              background: "#00000000",
-              pointerEvents: "none",
-              zIndex: 600,
-            }}
-            onClose={handlePopoverClose}
-          >
-            <Typography sx={{ padding: "10px", width: "450px" }}>
-              {t("site.afetbilgi")}
-            </Typography>
-          </Popover>
-        </Box>
-        <Box sx={toBiggerIcon}>
-          <Link
-            href="https://deprem.io/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => handlePopoverOpen("depremIO")}
-            onMouseLeave={handlePopoverClose}
-          >
-            <Avatar
-              sx={littleIcon}
-              alt="deprem io icon"
-              src="/icons/depremIOIcon.svg"
-            />
-          </Link>
+              <Popover
+                anchorReference="anchorEl"
+                anchorEl={anchorEl}
+                open={"afetBilgi" === isOpen ? true : false}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                sx={{
+                  background: "#00000000",
+                  pointerEvents: "none",
+                  zIndex: 600,
+                }}
+                onClose={handlePopoverClose}
+              >
+                <Typography sx={{ padding: "10px", width: "450px" }}>
+                  {t("site.afetbilgi")}
+                </Typography>
+              </Popover>
+            </Box>
+            <Box sx={toBiggerIcon}>
+              <Link
+                href="https://deprem.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => handlePopoverOpen("depremIO")}
+                onMouseLeave={handlePopoverClose}
+              >
+                <Avatar
+                  sx={littleIcon}
+                  alt="deprem io icon"
+                  src="/icons/depremIOIcon.svg"
+                />
+              </Link>
 
-          <Popover
-            anchorReference="anchorEl"
-            anchorEl={anchorEl}
-            open={"depremIO" === isOpen ? true : false}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              background: "#00000000",
-              pointerEvents: "none",
-              zIndex: 600,
-            }}
-            onClose={handlePopoverClose}
-          >
-            <Typography sx={{ padding: "10px", width: "450px" }}>
-              {t("site.depremio")}
-            </Typography>
-          </Popover>
-        </Box>
-        <Box sx={toBiggerIcon}>
-          <Link
-            href="https://discord.gg/itdepremyardim"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => handlePopoverOpen("depremDiscord")}
-            onMouseLeave={handlePopoverClose}
-          >
-            <Avatar
-              sx={littleIcon}
-              alt="discord icon"
-              src="/icons/discordIcon.svg"
-            />
-          </Link>
+              <Popover
+                anchorReference="anchorEl"
+                anchorEl={anchorEl}
+                open={"depremIO" === isOpen ? true : false}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                sx={{
+                  background: "#00000000",
+                  pointerEvents: "none",
+                  zIndex: 600,
+                }}
+                onClose={handlePopoverClose}
+              >
+                <Typography sx={{ padding: "10px", width: "450px" }}>
+                  {t("site.depremio")}
+                </Typography>
+              </Popover>
+            </Box>
+            <Box sx={toBiggerIcon}>
+              <Link
+                href="https://discord.gg/itdepremyardim"
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => handlePopoverOpen("depremDiscord")}
+                onMouseLeave={handlePopoverClose}
+              >
+                <Avatar
+                  sx={littleIcon}
+                  alt="discord icon"
+                  src="/icons/discordIcon.svg"
+                />
+              </Link>
 
-          <Popover
-            anchorReference="anchorEl"
-            anchorEl={anchorEl}
-            open={"depremDiscord" === isOpen ? true : false}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              background: "#00000000",
-              pointerEvents: "none",
-              zIndex: 600,
-            }}
-            onClose={handlePopoverClose}
-          >
-            <Typography sx={{ padding: "10px", width: "450px" }}>
-              {t("site.discord")}
-            </Typography>
-          </Popover>
-        </Box>
+              <Popover
+                anchorReference="anchorEl"
+                anchorEl={anchorEl}
+                open={"depremDiscord" === isOpen ? true : false}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                sx={{
+                  background: "#00000000",
+                  pointerEvents: "none",
+                  zIndex: 600,
+                }}
+                onClose={handlePopoverClose}
+              >
+                <Typography sx={{ padding: "10px", width: "450px" }}>
+                  {t("site.discord")}
+                </Typography>
+              </Popover>
+            </Box>
+          </>
+        ) : (
+          <ArrowForwardNewIosIcon
+            color="#333030"
+            onClick={handlePopoverClose}
+          />
+        )}
       </Stack>
     </>
   );

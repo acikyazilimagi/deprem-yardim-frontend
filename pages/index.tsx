@@ -226,7 +226,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 mobile={isMobile}
               />
             </Box>
-            <SitesIcon mobile={isMobile} />
             <Box
               sx={{
                 position: "fixed",
@@ -261,6 +260,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
             </Box>
           </RenderIf>
         </Container>
+        <SitesIcon mobile={isMobile} />
         <Drawer />
         <ClusterPopup />
         <FooterBanner />
