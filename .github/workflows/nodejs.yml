@@ -1,4 +1,4 @@
-name: Node.JS CI - Check Lint and Code Format
+name: Node.JS CI - Check Lint - Code Format - Build AfetHarita
 on:
   push:
     branches: [main, development]
