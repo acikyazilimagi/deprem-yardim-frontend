@@ -130,16 +130,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
     onSuccess: (data) => {
       if (!data) return;
-      console.log(data.results);
-
       const features = data.results.map((item: any) => {
         let extra_params = {};
         try {
           extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"')
+            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
           );
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
 
         return {
@@ -151,9 +149,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
           properties: extra_params,
         };
       });
-
-      console.log(features);
-
       setAhbapLocations(features);
     },
   });
