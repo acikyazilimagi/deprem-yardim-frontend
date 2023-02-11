@@ -1,3 +1,8 @@
+const YEAR_IN_SEC = 31536000;
+const MONTH_IN_SEC = 2628000;
+const DAY_IN_SEC = 86400;
+const HOUR_IN_SEC = 3600;
+
 export const getTimeAgo = (value: string) => {
   let result = "";
   const now = new Date().getTime();
@@ -6,12 +11,12 @@ export const getTimeAgo = (value: string) => {
 
   if (!valueTime) return null;
 
-  const seconds = Math.floor((now - valueTime) / 1000);
+  const valueInSeconds = Math.floor((now - valueTime) / 1000);
 
-  const years = Math.floor(seconds / 31536000);
-  const months = Math.floor((seconds % 31536000) / 2628000);
-  const days = Math.floor((seconds % 2628000) / 86400);
-  const hours = Math.floor((seconds % 86400) / 3600);
+  const years = Math.floor(valueInSeconds / YEAR_IN_SEC);
+  const months = Math.floor((valueInSeconds % YEAR_IN_SEC) / MONTH_IN_SEC);
+  const days = Math.floor((valueInSeconds % MONTH_IN_SEC) / DAY_IN_SEC);
+  const hours = Math.floor((valueInSeconds % DAY_IN_SEC) / HOUR_IN_SEC);
 
   const formatterYears = new Intl.PluralRules("tr", { type: "ordinal" });
   const formatterMonths = new Intl.PluralRules("tr", { type: "ordinal" });
