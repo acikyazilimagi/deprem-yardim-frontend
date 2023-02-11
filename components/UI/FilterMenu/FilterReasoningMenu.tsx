@@ -1,7 +1,7 @@
 import { useEffect, useState, MouseEvent } from "react";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import styles from "../../../styles/Home.module.css";
+import { Menu, MenuItem } from "@mui/material";
+import FilterMenuButton from "./FilterMenuButton";
+import { useTranslation } from "next-i18next";
 import { useUrlPath } from "@/hooks/useUrlPath";
 import { useRouter } from "next/router";
 
@@ -10,17 +10,17 @@ type ReasoningFilterMenuOptionType = "reason" | "channel";
 export const reasoningFilterMenuOptions: readonly ReasoningFilterMenuOption[] =
   [
     {
-      label: "Depremzede",
+      label: "earthquake",
       value: "twitter",
       type: "channel",
     },
     {
-      label: "Erzak Yardımı",
+      label: "provisions",
       value: "erzak",
       type: "reason",
     },
     {
-      label: "Teyitli",
+      label: "confirmed",
       value: "enkaz",
       type: "reason",
     },
@@ -42,11 +42,14 @@ const valueToOption = (value: string): ReasoningFilterMenuOption => {
   ) as ReasoningFilterMenuOption;
 };
 
-interface ReasoningFilterMenuProps {
+export interface FilterReasoningMenuProps {
   onChange: (_option: ReasoningFilterMenuOption) => void;
 }
 
-const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
+const ReasoningFilterMenu: React.FC<FilterReasoningMenuProps> = ({
+  onChange,
+}) => {
+  const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<string>(
     initialReasoningFilter.value
@@ -87,49 +90,33 @@ const ReasoningFilterMenu = ({ onChange }: ReasoningFilterMenuProps) => {
   }, [selectedValue]);
 
   return (
-    <Box>
-      <div className={styles.filterMenu}>
-        <span>Bildirimler</span>
-        <Button
-          aria-controls={open ? "CHANGEME-filtrele" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          sx={{
-            background: "white",
-            color: "#344054",
-            "&:hover": { background: "white" },
-            border: "1px solid #BABBBE",
-            borderRadius: "8px",
-            height: "48px",
-          }}
-          variant="contained"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-        >
-          {
+    <>
+      <FilterMenuButton
+        open={open}
+        onClick={handleClick}
+        ariaControls="CHANGEME-filtrele"
+      >
+        {t(
+          `filter.reason.${
             reasoningFilterMenuOptions.find(
               (option) => option.value === selectedValue
             )?.label
-          }
-        </Button>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          {reasoningFilterMenuOptions.map((option) => (
-            <MenuItem
-              key={option.value}
-              onClick={handleMenuItemClick}
-              data-value={option.value}
-              disableRipple
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </div>
-    </Box>
+          }`
+        )}
+      </FilterMenuButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {reasoningFilterMenuOptions.map((option) => (
+          <MenuItem
+            key={option.value}
+            onClick={handleMenuItemClick}
+            data-value={option.value}
+            disableRipple
+          >
+            {t(`filter.reason.${option.label}`)}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 };
 
