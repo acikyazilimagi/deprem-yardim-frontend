@@ -32,6 +32,7 @@ export function useMapClickHandlers() {
           const changedMarkerIndex = allMarkers.findIndex(
             (marker) => marker.reference === markerData?.reference
           );
+
           if (changedMarkerIndex !== -1) {
             const finalArr = allMarkers;
             // @ts-ignore
@@ -40,6 +41,7 @@ export function useMapClickHandlers() {
               geometry: markerData?.geometry,
               isVisited: true,
             };
+
             setMarkerData(finalArr);
           }
         });

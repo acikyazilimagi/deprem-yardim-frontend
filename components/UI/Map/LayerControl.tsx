@@ -15,7 +15,6 @@ type Props = {
   points: Point[];
   data: MarkerData[];
 };
-
 const LayerControl = ({ points, data }: Props) => {
   const { t } = useTranslation("home");
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
@@ -24,11 +23,9 @@ const LayerControl = ({ points, data }: Props) => {
   const [markersVisited, setMarkersVisited] = useState({});
 
   useEffect(() => {
-    console.log("LayerControl useEffect");
     localForage
       .getItem(localForageKeys.markersVisited)
       .then(function (markersVisitedMap) {
-        console.log("LayerControl useEffect value", markersVisitedMap);
         if (markersVisitedMap === null) {
           localForage.setItem(localForageKeys.markersVisited, {});
         } else {
