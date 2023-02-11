@@ -146,7 +146,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: item.loc,
+            coordinates: item.loc?.reverse(),
           },
           properties: extra_params,
         };
