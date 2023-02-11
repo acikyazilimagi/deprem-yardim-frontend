@@ -1,18 +1,28 @@
 import styles from "@/styles/Home.module.css";
 import { NextPage } from "next";
 import { ErrorProps } from "next/error";
-// import NextErrorComponent from "next/error";
 import Image from "next/image";
 import Link from "next/link";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface CustomErrorPageProps extends ErrorProps {
   detail?: string;
 }
 
 const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
+  const router = useRouter();
   const { t } = useTranslation("error");
+
+  useEffect(() => {
+    if (navigator.language.indexOf("en") > -1) {
+      const { pathname, asPath, query } = router;
+      router.push({ pathname, query }, asPath, { locale: "en" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={styles.errorContainer}>
       <div className={styles.errorContent}>
@@ -40,17 +50,5 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
     </div>
   );
 };
-
-// CustomErrorPage.getInitialProps = async (contextData) => {
-//   return NextErrorComponent.getInitialProps(contextData);
-// };
-
-export async function getStaticProps(context: any) {
-  return {
-    props: {
-      ...(await serverSideTranslations(context.locale, ["error"])),
-    },
-  };
-}
 
 export default CustomErrorPage;
