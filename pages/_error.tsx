@@ -1,7 +1,6 @@
 import styles from "@/styles/Home.module.css";
 import { NextPage } from "next";
 import { ErrorProps } from "next/error";
-import NextErrorComponent from "next/error";
 import Image from "next/image";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -41,11 +40,7 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
   );
 };
 
-CustomErrorPage.getInitialProps = async (contextData) => {
-  return NextErrorComponent.getInitialProps(contextData);
-};
-
-export async function getStaticProps(context: any) {
+export async function getServerSideProps(context: any) {
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["error"])),
