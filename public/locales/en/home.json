@@ -10,6 +10,10 @@
             "provisions": "Provision Aid",
             "confirmed": "Confirmed"
         },
+        "verified":{
+            "verified":"Verified",
+            "unVerified":"Unverified"
+        },
         "time": {
             "lastHalfHour": "Last 30 minutes",
             "lastHour": "Last 1 hour",

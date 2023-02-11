@@ -65,6 +65,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
+  const [verified, setVerified] = useState(true);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
@@ -90,6 +91,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       sw_lat: coordinatesAndEventType?.sw_lat,
       sw_lng: coordinatesAndEventType?.sw_lng,
       time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
+      verified: verified,
       ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
     } as any).toString();
   }, [
@@ -98,6 +100,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     coordinatesAndEventType?.sw_lat,
     coordinatesAndEventType?.sw_lng,
     newerThanTimestamp,
+    verified,
     reasoningFilterMenuOption,
   ]);
 
@@ -159,7 +162,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useEffect(() => {
     setUrl(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp]);
+  }, [newerThanTimestamp, verified]);
 
   useEffect(() => {
     if (url) {
@@ -207,6 +210,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                     shouldFetchNextOption={shouldFetchNextOption}
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
+                  <FilterMenu.FilterVerifiedMenu onChange={setVerified} />
                 </FilterMenu>
               </div>
             </div>
