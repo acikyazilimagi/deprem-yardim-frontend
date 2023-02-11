@@ -1,0 +1,11 @@
+{
+    "404": {
+        "title": "定期的に再試行してください。 私たちは常にバグの修正に取り組んでいます。",
+        "detail": "Don't lose hope, try again soon. We're sorry you got an error. We are constantly working to fix the errors. Please try again periodically. This website is constantly being tested and developed by hundreds of volunteer programmers. We will not give up. We are with you."
+    },
+    "defaults": {
+        "title": "エラー",
+        "detail": "技術的なエラーが発生しました。もう一度お試しください。"
+    },
+    "returnHome": "Return to home"
+}

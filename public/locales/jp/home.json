@@ -1,0 +1,64 @@
+{
+    "scanner": {
+        "text": "現場をスキャンする",
+        "remaining": "<strong>{{time}}</strong> 秒に自動にスキャンされます"
+    },
+    "filter": {
+        "title": "お知らせ",
+        "reason": {
+            "earthquake": "地震被災者",
+            "provisions": "糧援助",
+            "confirmed": "確認済み"
+        },
+        "time": {
+            "lastHalfHour": "最新の30分間",
+            "lastHour": "最新の1時間",
+            "lastThreeHours": "最新の3時間",
+            "lastSixHours": "最新の6時間",
+            "lastTwelveHours": "最新の12時間",
+            "lastDay": "最新の24時間",
+            "lastThreeDays": "最新の3日間",
+            "all": "今までの全て"
+        }
+    },
+    "tag": {
+        "safe": "密度：低い",
+        "low": "密度：低い・中",
+        "midLow": "密度中：",
+        "mid": "密度：中・高い",
+        "midHigh": "密度：高い",
+        "high": "密度：最大"
+    },
+    "cluster": {
+        "actions": {
+            "copied": "座標情報はコピーされました。"
+        },
+        "mapButtons": {
+            "copy": "コピー",
+            "google": "グーグルマップで開く",
+            "apple": "Appleマップで開く",
+            "direction": "道順を取る"
+        },
+        "noticeCount": "通報数 {{count}}"
+    },
+    "map": {
+        "details": "マップ詳細",
+        "type": "マップタイプ",
+        "base": {
+            "default": "デフォルト",
+            "satellite": "衛星",
+            "terrain": "地形"
+        },
+        "layer": {
+            "heatmap": "ヒートマップ",
+            "markers": "ドット",
+            "earthquakes": "最新の"
+        }
+    },
+    "content": {
+        "notifyTime": "お知らせの時間",
+        "source": "出典",
+        "helpContent": "お知らせ内容",
+        "showData": "記録されたデータを表示する"
+    }
+}

@@ -12,6 +12,10 @@ const languages = [
     locale: "tr",
     text: "TR",
   },
+  {
+    locale: "jp",
+    text: "JP",
+  },
 ];
 
 export type LocaleSwitchProps = {
