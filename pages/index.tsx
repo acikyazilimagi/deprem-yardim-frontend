@@ -44,10 +44,6 @@ import {
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 
-import * as converter from "@tmcw/togeojson";
-import { DOMParser } from "xmldom";
-import KMZ from "parse2-kmz";
-
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
@@ -325,12 +321,6 @@ export async function getServerSideProps(context: any) {
     itemDetail = await dataFetcher(url);
   }
 
-  // const kml = await KMZ.toKML(
-  //   "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ"
-  // );
-
-  // const parsedKML = new DOMParser().parseFromString(kml, "utf-8");
-  // const geojson = converter.kml(parsedKML);
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
