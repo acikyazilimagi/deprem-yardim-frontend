@@ -493,6 +493,30 @@
   padding: 4px;
   border-radius: 4px;
 }
+.filterMenuButton {
+  background: #fff;
+  color: #344054;
+  border: 1px solid #babbbe;
+  border-radius: 8px;
+  height: 48px;
+}
+
+.filterMenuButton:hover {
+  background: #e9e6e6;
+}
+
+@media screen and (max-width: 768px) {
+  .filterMenuButton {
+    height: 32px;
+  }
+  .filterMenu {
+    min-width: 120px;
+    gap: 0.2rem;
+  }
+  .filterMenu span {
+    font-size: 14px;
+  }
+}
 
 .filterMenu span {
   display: flex;

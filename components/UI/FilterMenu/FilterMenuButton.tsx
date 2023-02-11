@@ -1,6 +1,7 @@
 import { Button, SxProps, Theme } from "@mui/material";
 import type { MouseEvent } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import styles from "@/styles/Home.module.css";
 
 type FilterMenuButtonProps = {
   // eslint-disable-next-line no-unused-vars
@@ -16,21 +17,13 @@ const FilterMenuButton: React.FC<FilterMenuButtonProps> = ({
   onClick,
   open,
   ariaControls,
-  sx = {
-    background: "white",
-    color: "#344054",
-    "&:hover": { background: "white" },
-    border: "1px solid #BABBBE",
-    borderRadius: "8px",
-    height: "48px",
-  },
 }) => {
   return (
     <Button
+      className={styles.filterMenuButton}
       aria-controls={open ? ariaControls : undefined}
       aria-haspopup="true"
       aria-expanded={open ? "true" : undefined}
-      sx={sx}
       variant="contained"
       disableElevation
       onClick={onClick}
