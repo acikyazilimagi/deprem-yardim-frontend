@@ -1,0 +1,90 @@
+name: Next Bundle Analysis
+
+on:
+  pull_request:
+
+jobs:
+  build-base:
+    name: Build base
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.base_ref }}
+
+    - name: Install dependencies
+      run: yarn
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+    - name: Build
+      run: yarn build
+
+    - name: Upload base stats.json
+      uses: actions/upload-artifact@v2
+      with:
+        name: base
+        path: base/stats.json
+        retention-days: 1
+
+  build-pr:
+    name: Build PR
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: yarn
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.TOKEN_REPO}}
+
+    - name: Build
+      run: yarn build
+
+    - name: Upload base stats.json
+      uses: actions/upload-artifact@v2
+      with:
+        name: pr
+        path: pr/stats.json
+        retention-days: 1
+
+  report:
+    name: Generate report
+    runs-on: ubuntu-latest
+    needs: [build-base, build-pr]
+
+    steps:
+    - name: Checkout PR
+      uses: actions/checkout@v2
+
+    - name: Download base stats
+      uses: actions/download-artifact@v2
+      with:
+        name: base
+        path: base
+
+    - name: Download PR stats
+      uses: actions/download-artifact@v2
+      with:
+        name: pr
+        path: pr
+
+    - name: Get diff
+      id: get-diff
+      uses: ./
+      with:
+        base_path: 'base/stats.json'
+        pr_path: 'pr/stats.json'
+
+    - name: Comment
+      uses: NejcZdovc/comment-pr@v1
+      with:
+        file: 'comment.md'
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        OLD: ${{steps.get-diff.outputs.base_file_string}}
+        NEW: ${{steps.get-diff.outputs.pr_file_string}}
+        DIFF: ${{steps.get-diff.outputs.diff_file_string}}
+        DIFF_PERCENT: ${{steps.get-diff.outputs.percent}}
