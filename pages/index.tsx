@@ -45,6 +45,8 @@ import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
+const pageLoadStartTime = Date.now();
+const pageLoadDefaultDelay = 6000;
 
 const getReasoningFilter = (
   reasoningFilterMenuOption: ReasoningFilterMenuOption
@@ -109,11 +111,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     dataFetcher,
     {
       isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => {
-        setSlowLoading(true);
-        setShowModal(true);
-      },
-      loadingTimeout: 6000,
+      onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
       onSuccess: (data) => {
         if (!data) return;
@@ -137,6 +135,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     REQUEST_THROTTLING_INITIAL_SEC
   );
 
+  useEffect(() => {
+    const pageLoadEndTime = Date.now();
+    if (pageLoadEndTime - pageLoadStartTime > pageLoadDefaultDelay) {
+      setShowModal(true);
+    }
+  }, []);
   const handleScanButtonClick = useCallback(() => {
     setUrl(areasURL + "?" + urlParams);
     resetThrottling();
