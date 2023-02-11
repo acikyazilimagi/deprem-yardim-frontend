@@ -88,10 +88,5 @@
   },
   "msw": {
     "workerDirectory": "public"
-  },
-  "nextBundleAnalysis": {
-    "budget": null,
-    "budgetPercentIncreaseRed": 20,
-    "showDetails": true
   }
 }
