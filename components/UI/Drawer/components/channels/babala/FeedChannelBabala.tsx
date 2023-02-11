@@ -20,13 +20,17 @@ const FeedChannelBabala = ({
       }
     });
 
+  const isReasonDisplayable = !!reason && reason !== "NaN";
+
   return (
     <>
       <div style={styles.container}>
         <div style={styles.logo_container}>
           <Typography style={styles.logo}>Babala</Typography>
           <div style={styles.chip_container}>
-            {!!reason && <Chip label={reason.toLowerCase()} color="info" />}
+            {isReasonDisplayable && (
+              <Chip label={reason.toLowerCase()} color="info" />
+            )}
           </div>
         </div>
         <Divider />
