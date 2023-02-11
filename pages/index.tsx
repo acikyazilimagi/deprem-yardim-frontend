@@ -21,11 +21,11 @@ import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { areasURL, locationsURL } from "@/utils/urls";
@@ -47,7 +47,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const getReasoningFilter = (
   reasoningFilterMenuOption: ReasoningFilterMenuOption
 ) => {
-  reasoningFilterMenuOption.type;
   if (reasoningFilterMenuOption.type === "channel") {
     return undefined;
   }
@@ -65,7 +64,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [triggerFetch, setTriggerFetch] = useState(true);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
@@ -73,45 +71,28 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   >(undefined);
   const device = useDevice();
   const isMobile = device === "mobile";
-  const requestURL = useRef("");
+  const urlParams = useRef(new URLSearchParams());
+  const requestURL = `${areasURL}?${urlParams.current.toString()}`;
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
     | undefined = useCoordinates();
 
-  const urlParams = useMemo(() => {
-    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
-    return new URLSearchParams({
-      ne_lat: coordinatesAndEventType?.ne_lat,
-      ne_lng: coordinatesAndEventType?.ne_lng,
-      sw_lat: coordinatesAndEventType?.sw_lat,
-      sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
-    } as any).toString();
-  }, [
-    coordinatesAndEventType?.ne_lat,
-    coordinatesAndEventType?.ne_lng,
-    coordinatesAndEventType?.sw_lat,
-    coordinatesAndEventType?.sw_lng,
-    newerThanTimestamp,
-    reasoningFilterMenuOption,
-  ]);
+  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
+    `${areasURL}?${urlParams.current.toString()}`,
+    dataFetcher,
+    {
+      isPaused: () => !coordinatesAndEventType,
+      onLoadingSlow: () => setSlowLoading(true),
+      revalidateOnFocus: false,
+      onSuccess: (data) => {
+        if (!data) return;
 
-  const { error, isLoading, isValidating, mutate } = useSWR<
-    DataLite | undefined
-  >(triggerFetch ? requestURL.current : null, dataFetcher, {
-    isPaused: () => !coordinatesAndEventType,
-    onLoadingSlow: () => setSlowLoading(true),
-    revalidateOnFocus: false,
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const transformedData = data.results ? dataTransformerLite(data) : [];
-      setMarkerData(transformedData);
-      setTriggerFetch(false);
-    },
-  });
+        const transformedData = data.results ? dataTransformerLite(data) : [];
+        setMarkerData(transformedData);
+      },
+    }
+  );
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
@@ -119,49 +100,56 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(() => {
-    {
-      setTriggerFetch(true), mutate();
-    }
+    setCoordinatesURLParams();
+    mutate(requestURL);
   }, REQUEST_THROTTLING_INITIAL_SEC);
 
-  const setRequestURL = (urlParams: string) => {
-    requestURL.current = `${areasURL}?${urlParams}`;
-  };
+  useEffect(() => {
+    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
+    if (reasoningFilterValue) {
+      urlParams.current.set("reason", reasoningFilterValue);
+    } else {
+      urlParams.current.delete("reason");
+    }
+  }, [reasoningFilterMenuOption]);
 
   const handleScanButtonClick = () => {
-    mutate();
-    setTriggerFetch(true);
+    setCoordinatesURLParams();
+    mutate(requestURL);
     resetThrottling();
   };
+
+  const setCoordinatesURLParams = useCallback(() => {
+    if (!coordinatesAndEventType) {
+      return;
+    }
+    urlParams.current.set("ne_lat", coordinatesAndEventType?.ne_lat.toString());
+    urlParams.current.set("ne_lng", coordinatesAndEventType?.ne_lng.toString());
+    urlParams.current.set("sw_lat", coordinatesAndEventType?.sw_lat.toString());
+    urlParams.current.set("sw_lng", coordinatesAndEventType?.sw_lng.toString());
+  }, [coordinatesAndEventType]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
   useEffect(() => {
+    resetThrottling();
     // Set the URL once the map is ready
     if (coordinatesAndEventType?.eventType !== "ready") {
       return;
     }
 
-    setRequestURL(urlParams);
-  }, [coordinatesAndEventType, urlParams]);
+    setCoordinatesURLParams();
+    console.log(urlParams.current.toString());
+  }, [coordinatesAndEventType, setCoordinatesURLParams, resetThrottling]);
 
   useEffect(() => {
-    setRequestURL(urlParams);
-    setTriggerFetch(true);
-  }, [newerThanTimestamp, urlParams]);
-
-  useEffect(() => {
-    if (requestURL.current.length === 0) {
+    if (!newerThanTimestamp) {
       return;
     }
-    const _url = new URL(requestURL.current);
-    const params = new URLSearchParams(urlParams);
-
-    requestURL.current = `${_url.origin}${_url.pathname}?${params.toString()}`;
-    setTriggerFetch(true);
-  }, [reasoningFilterMenuOption, urlParams]);
+    urlParams.current.set("time_stamp", newerThanTimestamp.toString());
+  }, [newerThanTimestamp]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
