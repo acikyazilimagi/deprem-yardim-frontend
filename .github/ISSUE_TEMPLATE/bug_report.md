@@ -1,45 +1,45 @@
 ---
-name: Hata raporlama
-about: Hata raporlama için kullanın
+name: Bug Reporting
+about: Use for bug reporting
 title: 'bug: '
-labels: 'bug, unchecked'
+labels: 'bug, unchecked, waiting-test'
 assignees: ''
 
 ---
-## Hata Tanımı
-Hatanın ne olduğu hakkında açık ve kısa bir açıklama.
+## Bug Definition
+A clear and short text to decribe the bug.
 
--- bu bilgiyi ekleyiniz
-** discord kullanıcı adı: @afetharita#0001 **
+-- Please add discord contact information
+** discord username: @afetharita#0001 **
 
 
-## Hata Ortamı
-Hatanın ortaya çıktığı ortamı açıklayın. Örneğin:
+## Bug environment
+Describe the environment produces the bug. For example:
 rc.afetharita.com
 afetharita.com
-## Hatayı nasıl aldığınızı adım adım açıklayın
+## Describe how you are producing the bug step by step
 
-1. '...' a gidin
-2. '....' ye tıklayın
-3. '....' ye kaydırın
-4. Hata görünüyor
+1. Go to '...'
+2. Click '....' 
+3. Scroll to '....' 
+4. Bug appears
 
-## Beklenen Davranış
-Beklediğiniz şeyin açık ve kısa bir açıklaması.
+## Expected Behaviour
+A clear and short text to decribe the expected behaviour.
 
-## Ekran Görüntüleri
-Uygulanabilirse, sorununuzu açıklamak için ekran görüntüleri ekleyin.
+## Screen shots
+If possible, add screenshots to describe your bug.
 
-## Masaüstü Bilgileri
-- İşletim Sistemi: [örneğin iOS]
-- Tarayıcı [örneğin chrome, safari]
-- Sürüm [örneğin 22]
+## Desktop Information
+- Operating System: [for example iOS]
+- Browser [for example, safari]
+- Version [for example 22]
 
-## Akıllı Telefon Bilgileri
-- Cihaz: [örneğin iPhone6]
-- İşletim Sistemi: [örneğin iOS8.1]
-- Tarayıcı [örneğin varsayılan tarayıcı, safari]
-- Sürüm [örneğin 22]
+## Mobile Phone Information
+- Devıce: [for example iPhone6]
+- Operating System (with the version): [for example iOS8.1]
+- Version [for example default browser, safari]
+- Browser Version [for example 22]
 
-## Ek Bağlam
-Sorun hakkında diğer herhangi bir bağlamı burada ekleyin.
+## Additional Context
+Add any other context about the bug here

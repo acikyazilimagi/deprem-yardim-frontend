@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Menu, MenuItem } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import styles from "../../../styles/Home.module.css";
+import { useEffect, useState } from "react";
+import { Menu, MenuItem } from "@mui/material";
+import FilterMenuButton from "./FilterMenuButton";
+import { useTranslation } from "next-i18next";
 
 type TimeOption =
   | "last30Minutes"
@@ -24,52 +24,59 @@ const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
 
 const FilterOptions: readonly FilterOption[] = [
   {
-    label: "Son 30 dakika",
+    label: "lastHalfHour",
     inMilliseconds: (1 * HOUR_IN_MILLISECONDS) / 2,
     value: "last30Minutes",
   },
   {
-    label: "Son 1 Saat",
+    label: "lastHour",
     inMilliseconds: 1 * HOUR_IN_MILLISECONDS,
     value: "last1Hour",
   },
   {
-    label: "Son 3 Saat",
+    label: "lastThreeHours",
     inMilliseconds: 3 * HOUR_IN_MILLISECONDS,
     value: "last3Hours",
   },
   {
-    label: "Son 6 Saat",
+    label: "lastSixHours",
     inMilliseconds: 6 * HOUR_IN_MILLISECONDS,
     value: "last6Hours",
   },
   {
-    label: "Son 12 Saat",
+    label: "lastTwelveHours",
     inMilliseconds: 12 * HOUR_IN_MILLISECONDS,
     value: "last12Hours",
   },
   {
-    label: "Son 24 Saat",
+    label: "lastDay",
     inMilliseconds: 24 * HOUR_IN_MILLISECONDS,
     value: "last24Hours",
   },
   {
-    label: "Son 3 Gün",
+    label: "lastThreeDays",
     inMilliseconds: 3 * DAY_IN_MILLISECONDS,
     value: "last3Days",
   },
-  { label: "Tüm zamanlar", inMilliseconds: -1, value: "all" },
+  { label: "all", inMilliseconds: -1, value: "all" },
 ] as const;
 
 const valueToOption = (value: string): FilterOption | undefined => {
   return FilterOptions.find((option) => option.value === value);
 };
 
-type Props = {
+export type FilterTimeMenuProps = {
   onChangeTime: (_newerThanTimestamp?: number) => void;
+  shouldFetchNextOption: Boolean;
+  resetShouldFetchNextOption: Function;
 };
 
-const FilterTimeMenu = ({ onChangeTime }: Props) => {
+const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
+  onChangeTime,
+  shouldFetchNextOption,
+  resetShouldFetchNextOption,
+}) => {
+  const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
   const open = Boolean(anchorEl);
@@ -91,6 +98,19 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
   };
 
   useEffect(() => {
+    let currentOptionIndex = FilterOptions.findIndex(
+      (option) => option.value === selectedValue
+    );
+
+    if (shouldFetchNextOption && selectedValue !== "all") {
+      setSelectedValue(FilterOptions[currentOptionIndex + 1].value);
+      resetShouldFetchNextOption();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchNextOption]);
+
+  useEffect(() => {
     const option = valueToOption(selectedValue);
 
     if (!option) return;
@@ -106,47 +126,32 @@ const FilterTimeMenu = ({ onChangeTime }: Props) => {
   }, [onChangeTime, selectedValue]);
 
   return (
-    <Box>
-      <div className={styles.filterMenu}>
-        <Button
-          aria-controls={open ? "zaman-filtrele" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          sx={{
-            background: "white",
-            color: "#344054",
-            "&:hover": { background: "white" },
-            border: "1px solid #BABBBE",
-            borderRadius: "8px",
-            height: "48px",
-          }}
-          variant="contained"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          disableFocusRipple
-          disableRipple
-          disableTouchRipple
-        >
-          {
+    <>
+      <FilterMenuButton
+        ariaControls={"zaman-filtrele"}
+        open={open}
+        onClick={handleClick}
+      >
+        {t(
+          `filter.time.${
             FilterOptions.find((option) => option.value === selectedValue)
               ?.label
-          }
-        </Button>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          {FilterOptions.map((option) => (
-            <MenuItem
-              key={option.value}
-              onClick={handleMenuItemClick}
-              data-value={option.value}
-              disableRipple
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </div>
-    </Box>
+          }`
+        )}
+      </FilterMenuButton>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        {FilterOptions.map((option) => (
+          <MenuItem
+            key={option.value}
+            onClick={handleMenuItemClick}
+            data-value={option.value}
+            disableRipple
+          >
+            {t(`filter.time.${option.label}`)}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 };
 
