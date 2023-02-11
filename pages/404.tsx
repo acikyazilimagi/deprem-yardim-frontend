@@ -1,15 +1,25 @@
 import CustomErrorPage from "@/pages/_error";
 import type { NextPage } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const NotFoundPage: NextPage = () => {
+  const { t } = useTranslation("error");
   return (
     <CustomErrorPage
-      title="Lütfen aralıklı olarak tekrar dene. Hataları düzeltmek için sürekli çalışıyoruz"
-      detail="Umudunu kaybetme, birazdan tekrar dene. Hata aldığın için üzgünüz. Hataları düzeltmek için sürekli çalışıyoruz.
-      Lütfen aralıklı olarak tekrar dene. Bu websitesi gönüllü yüzlerce yazılımcı tarafından sürekli test edilip, geliştirilmeye devam ediyor. Vazgeçmeyeceğiz. Yanınızdayız. "
+      title={t("404.title").toString()}
+      detail={t("404.detail").toString()}
       statusCode={404}
     />
   );
 };
+
+export async function getStaticProps(context: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale, ["error"])),
+    },
+  };
+}
 
 export default NotFoundPage;
