@@ -1,7 +1,8 @@
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
 import { FeedChannelTwitterProps, TwitterParameters } from "../../types";
-import { Chip } from "@mui/material";
+import { capitalize, Chip } from "@mui/material";
+import { isNaN } from "@/utils/helpers";
 
 type Props = {
   source: TwitterParameters;
@@ -10,12 +11,8 @@ type Props = {
 };
 
 const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
-  const isNotNan = (value: any) => {
-    return !!value && value.toLowerCase() !== "nan";
-  };
-
   const reasons = reason.split(",").map((reason) => {
-    return reason.charAt(0).toUpperCase() + reason.slice(1);
+    return capitalize(reason);
   });
 
   return (
@@ -41,7 +38,7 @@ const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
         </div>
         <Typography style={styles.fullText}>{full_text}</Typography>
         <div style={styles.chipContainer}>
-          {isNotNan(reason) &&
+          {!isNaN(reason) &&
             reasons.map((reason, i) => (
               <Chip style={styles.chip} key={i} label={reason} color="info" />
             ))}
