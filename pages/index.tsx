@@ -36,28 +36,13 @@ import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import {
-  initialReasoningFilter,
-  ReasoningFilterMenuOption,
-} from "@/components/UI/FilterMenu/FilterReasoningMenu";
+import { initialChannelFilter } from "@/components/UI/FilterMenu/FilterChannelMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
-
-const getReasoningFilter = (
-  reasoningFilterMenuOption: ReasoningFilterMenuOption
-) => {
-  if (reasoningFilterMenuOption.type === "channel") {
-    return undefined;
-  }
-
-  if (reasoningFilterMenuOption.type === "reason") {
-    return reasoningFilterMenuOption.value;
-  }
-};
 
 type Props = {
   deviceType: DeviceType;
@@ -69,8 +54,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
-    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
+  const [channelFilterMenuOption, setChannelFilterMenuOption] = useState(
+    initialChannelFilter.value
+  );
+  const [reasonFilterMenuOption, setReasonFilterMenuOption] = useState<
+    string | null
+  >(null);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
@@ -88,14 +77,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
   const urlParams = useMemo(() => {
-    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
     return new URLSearchParams({
       ne_lat: coordinatesAndEventType?.ne_lat,
       ne_lng: coordinatesAndEventType?.ne_lng,
       sw_lat: coordinatesAndEventType?.sw_lat,
       sw_lng: coordinatesAndEventType?.sw_lng,
       time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
+      ...(channelFilterMenuOption ? { channel: channelFilterMenuOption } : {}),
+      ...(reasonFilterMenuOption ? { reason: reasonFilterMenuOption } : {}),
     } as any).toString();
   }, [
     coordinatesAndEventType?.ne_lat,
@@ -103,7 +92,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     coordinatesAndEventType?.sw_lat,
     coordinatesAndEventType?.sw_lng,
     newerThanTimestamp,
-    reasoningFilterMenuOption,
+    channelFilterMenuOption,
+    reasonFilterMenuOption,
   ]);
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
@@ -200,7 +190,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasoningFilterMenuOption]);
+  }, [channelFilterMenuOption, reasonFilterMenuOption]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -230,14 +220,13 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.Reasoning
-                    onChange={setReasoningFilterMenuOption}
-                  />
+                  <FilterMenu.Channel onChange={setChannelFilterMenuOption} />
                   <FilterMenu.Time
                     onChangeTime={setNewerThanTimestamp}
                     shouldFetchNextOption={shouldFetchNextOption}
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
+                  <FilterMenu.Reason onChange={setReasonFilterMenuOption} />
                 </FilterMenu>
               </div>
             </div>

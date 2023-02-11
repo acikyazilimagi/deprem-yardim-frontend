@@ -40,7 +40,7 @@ export const AhbapClusterGroup = ({ data }: Props) => {
 
   return (
     <>
-      {clusters.map((cluster) => {
+      {clusters.map((cluster, idx) => {
         const [longitude, latitude] = cluster.geometry.coordinates;
         // the point may be either a cluster or a crime point
         const { cluster: isCluster, point_count: pointCount } =
@@ -69,7 +69,7 @@ export const AhbapClusterGroup = ({ data }: Props) => {
 
         return (
           <Marker
-            key={cluster.properties.id}
+            key={`cluster-${idx}`}
             position={[latitude, longitude]}
             icon={L.icon({
               iconUrl: cluster.properties.icon || emptyIcon,
