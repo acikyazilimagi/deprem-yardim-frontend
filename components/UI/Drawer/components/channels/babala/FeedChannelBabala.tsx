@@ -10,7 +10,7 @@ const FeedChannelBabala = ({
 }: FeedChannelBabalaProps) => {
   const isNotNan = (value: any) => {
     return !!value && value !== "NaN" && value !== "nan";
-  }
+  };
 
   const extraValues =
     extra_parameters &&
@@ -23,7 +23,6 @@ const FeedChannelBabala = ({
         );
       }
     });
-
 
   return (
     <>
