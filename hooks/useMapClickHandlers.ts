@@ -12,8 +12,7 @@ export function useMapClickHandlers() {
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
-      markerData?: MarkerData | AhbapData,
-      selectedMarkerData?: MarkerData,
+      selectedMarkerData?: MarkerData | AhbapData,
       allMarkers?: MarkerData[]
     ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
