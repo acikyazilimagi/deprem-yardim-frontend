@@ -31,11 +31,11 @@ const FeedChannelBabala = ({
         <Typography style={styles.fullText}>{full_text}</Typography>
         {extraValues}
 
-        <div style={styles.chip_container}>
-          {!isNaN(reason) && reason && (
+        {!isNaN(reason) && reason && (
+          <div style={styles.chip_container}>
             <Chip label={capitalize(reason)} color="info" />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
