@@ -1,3 +1,13 @@
 .iconBigger {
   transform: scale(1.2);
 }
+
+.wrapper {
+  background: rgba(220, 20, 60, 0.5);
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 30px;
+  right: 26px;
+  z-index: 500;
+}

@@ -109,7 +109,7 @@ const MapEvents = () => {
       const locationWithZoomLevel = new URLSearchParams();
       locationWithZoomLevel.append("lat", _lat.toString());
       locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", Math.round(_zoomLevel).toString());
+      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
       const query = locationWithZoomLevel.toString();
       window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
       router.push(
@@ -158,7 +158,7 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap() {
+function LeafletMap({ ahbap }: { ahbap: any[] }) {
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
@@ -234,8 +234,8 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        zoomSnap={1}
+        zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
             setCoordinates(map.target.getBounds(), "ready");
@@ -255,7 +255,10 @@ function LeafletMap() {
           }}
         />
         <MapEvents />
-        <LayerControl points={points} data={data} />
+        <LayerControl points={points} data={data} ahbap={ahbap} />
+        <TileLayer
+          url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
+        />
         <TileLayer url={baseMapUrl} />
       </Map>
     </>
