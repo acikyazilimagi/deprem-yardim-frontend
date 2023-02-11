@@ -1,7 +1,6 @@
 import { MarkerData } from "@/mocks/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
-import { LayerGroup, LayersControl } from "react-leaflet";
 import { AhbapClusterGroup } from "./AhbapClusterGroup";
 import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";

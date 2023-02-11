@@ -20,7 +20,6 @@ import {
 import styles from "@/styles/Home.module.css";
 import {
   AHBAP_LOCATIONS_URL,
-  BASE_URL,
   REQUEST_THROTTLING_INITIAL_SEC,
 } from "@/utils/constants";
 import Button from "@mui/material/Button";
@@ -66,7 +65,7 @@ type Props = {
   ahbap: any[];
 };
 
-export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
+export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
