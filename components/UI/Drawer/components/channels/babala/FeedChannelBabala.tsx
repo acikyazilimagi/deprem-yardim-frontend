@@ -29,15 +29,16 @@ const FeedChannelBabala = ({
       <div style={styles.container}>
         <div style={styles.logo_container}>
           <Typography style={styles.logo}>Babala</Typography>
-          <div style={styles.chip_container}>
-            {isNotNan(reason) && (
-              <Chip label={reason?.toLowerCase()} color="info" />
-            )}
-          </div>
         </div>
         <Divider />
         <Typography style={styles.fullText}>{full_text}</Typography>
         {extraValues}
+
+        <div style={styles.chip_container}>
+          {isNotNan(reason) && (
+            <Chip label={reason?.toLowerCase()} color="info" />
+          )}
+        </div>
       </div>
     </>
   );
@@ -47,6 +48,7 @@ const styles = {
   chip_container: {
     display: "flex",
     gap: 5,
+    marginTop: "10px",
     fontWeight: 500,
   },
   logo_container: {

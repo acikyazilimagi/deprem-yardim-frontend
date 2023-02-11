@@ -8,6 +8,7 @@ import EmbedTweet from "./EmbedTweet";
 import { useTranslation } from "next-i18next";
 
 const FeedChannelTwitter = ({
+  reason,
   full_text,
   extra_parameters,
 }: FeedChannelTwitterProps) => {
@@ -31,7 +32,11 @@ const FeedChannelTwitter = ({
         )}
       </div>
       {showSavedData ? (
-        <PlaceholderTweet source={extra_parameters!} full_text={full_text} />
+        <PlaceholderTweet
+          reason={reason || ""}
+          source={extra_parameters!}
+          full_text={full_text}
+        />
       ) : (
         <EmbedTweet source={extra_parameters!} />
       )}
