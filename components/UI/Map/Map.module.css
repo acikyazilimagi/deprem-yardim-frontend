@@ -49,6 +49,10 @@
   border: transparent;
 }
 
+.marker_icon__visited {
+  filter: grayscale(1);
+}
+
 @media (min-width: 1056px) {
   .open {
     gap: 12px;
