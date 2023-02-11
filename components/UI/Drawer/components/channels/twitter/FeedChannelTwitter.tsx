@@ -1,13 +1,14 @@
-import { useState } from "react";
-import styles from "./FeedChannelTwitter.module.css";
-import Typography from "@mui/material/Typography";
+import useSnackbarHook from "@/components/base/Snackbar/useSnackbar";
+import { CopyAll } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import Switch from "@mui/material/Switch";
-import PlaceholderTweet from "./PlaceholderTweet";
+import Typography from "@mui/material/Typography";
+import { useTranslation } from "next-i18next";
+import { useCallback, useState } from "react";
 import { FeedChannelTwitterProps } from "../../types";
 import EmbedTweet from "./EmbedTweet";
-import { useTranslation } from "next-i18next";
-import { Button } from "@mui/material";
-import { CopyAll } from "@mui/icons-material";
+import styles from "./FeedChannelTwitter.module.css";
+import PlaceholderTweet from "./PlaceholderTweet";
 
 const FeedChannelTwitter = ({
   full_text,
@@ -15,6 +16,12 @@ const FeedChannelTwitter = ({
 }: FeedChannelTwitterProps) => {
   const { t } = useTranslation("home");
   const [showSavedData, setShowSavedData] = useState(true);
+  const { enqueueInfo } = useSnackbarHook();
+
+  const handleClickCopyFullText = useCallback(() => {
+    navigator.clipboard.writeText(full_text as string);
+    enqueueInfo(t("cluster.copiedContentSuccessfully"));
+  }, [full_text, t, enqueueInfo]);
 
   return (
     <div className={styles.sourceContent}>
@@ -43,7 +50,7 @@ const FeedChannelTwitter = ({
           variant="outlined"
           size="small"
           fullWidth
-          onClick={() => navigator.clipboard.writeText(full_text)}
+          onClick={handleClickCopyFullText}
           startIcon={<CopyAll className={styles.btnIcon} />}
         >
           {t("cluster.copyFullText")}
