@@ -24,7 +24,7 @@ export const LayerContent = () => {
   return (
     <Box
       sx={{
-        width: isMobile ? "full" : 400,
+        width: isMobile ? 400 : "full",
         display: "flex",
         height: isMobile ? "100%" : 400,
         padding: "1rem",
