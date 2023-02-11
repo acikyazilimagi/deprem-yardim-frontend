@@ -49,7 +49,6 @@ const SitesIcon: React.FC<SitesIconProps> = ({ mobile }) => {
         direction="row"
         spacing={2}
         sx={{
-          display: mobile ? "flex" : "none",
           background: "rgba(220, 20, 60, 0.5)",
           padding: mobile ? "5px" : "10px",
           borderRadius: "10px",
