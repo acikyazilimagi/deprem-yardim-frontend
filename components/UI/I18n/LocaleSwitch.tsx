@@ -28,13 +28,15 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
   mobile = false,
 }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const open = Boolean(anchorEl);
+  const [open, setOpen] = useState<boolean>(false);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    setOpen(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setOpen(false);
   };
 
   return (
@@ -65,7 +67,10 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
         {languages.map((language) => (
           <MenuItem
             key={language.locale}
-            onClick={() => onChange(language.locale)}
+            onClick={() => {
+              onChange(language.locale);
+              handleClose();
+            }}
             data-value={language.locale}
             disableRipple
           >
