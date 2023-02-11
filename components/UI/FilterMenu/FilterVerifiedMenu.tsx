@@ -111,7 +111,7 @@
 
 // export { FilterVerifiedMenu };
 
-import * as React from "react";
+import React, { useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -143,11 +143,14 @@ const FilterVerifiedMenu: React.FC<FilterVerifiedMenuProps> = ({
     const {
       target: { value },
     } = event;
+    console.log(value);
     setSelectedStatus(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+  };
 
+  const handleClose = () => {
     onChange(selectedStatus);
   };
 
@@ -160,6 +163,7 @@ const FilterVerifiedMenu: React.FC<FilterVerifiedMenuProps> = ({
           multiple
           value={selectedStatus}
           onChange={handleChange}
+          onClose={handleClose}
           // input={<OutlinedInput label="Tag" />}
           renderValue={(selected) => selected.join(", ")}
           MenuProps={MenuProps}

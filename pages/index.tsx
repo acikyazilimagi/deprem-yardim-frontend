@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -18,11 +18,14 @@ import {
   useDevice,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import {
+  AHBAP_LOCATIONS_URL,
+  REQUEST_THROTTLING_INITIAL_SEC,
+} from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
@@ -47,7 +50,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const getReasoningFilter = (
   reasoningFilterMenuOption: ReasoningFilterMenuOption
 ) => {
-  reasoningFilterMenuOption.type;
   if (reasoningFilterMenuOption.type === "channel") {
     return undefined;
   }
@@ -60,23 +62,27 @@ const getReasoningFilter = (
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
+  ahbap: any[];
 };
+
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [verifiedStatus, setVerifiedStatus] = useState(["verified"]);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
-  const [url, setUrl] = useState<string | null>(null);
-  const [channels, setChannels] = useState<string[] | null>(null);
   const [shouldFetchNextOption, setShouldFetchNextOption] =
     useState<boolean>(false);
+  const [verifiedStatus, setVerifiedStatus] = useState(["verified"]);
   const device = useDevice();
   const isMobile = device === "mobile";
+  const urlParams = useRef(new URLSearchParams());
+  const requestURL = `${areasURL}?${urlParams.current.toString()}`;
+
+  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -84,32 +90,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
-  const urlParams = useMemo(() => {
-    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
-    return new URLSearchParams({
-      ne_lat: coordinatesAndEventType?.ne_lat,
-      ne_lng: coordinatesAndEventType?.ne_lng,
-      sw_lat: coordinatesAndEventType?.sw_lat,
-      sw_lng: coordinatesAndEventType?.sw_lng,
-      // time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
-    } as any).toString();
-  }, [
-    coordinatesAndEventType?.ne_lat,
-    coordinatesAndEventType?.ne_lng,
-    coordinatesAndEventType?.sw_lat,
-    coordinatesAndEventType?.sw_lng,
-    // newerThanTimestamp,
-    reasoningFilterMenuOption,
-  ]);
-
-  // verified -> babala, ahbap
-  // unverified -> twitter
-
-  // default -> verified
-
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
+    `${areasURL}?${urlParams.current.toString()}`,
     dataFetcher,
     {
       isPaused: () => !coordinatesAndEventType,
@@ -125,105 +107,104 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
           ? await dataTransformerLite(data)
           : [];
         setMarkerData(transformedData);
-        setChannels(["ahbap_location", "babala"]);
       },
     }
   );
-  const getVerifiedDataByGivenChannels = async () => {
-    const promises: any = [];
-    channels?.forEach((channel) => {
-      promises.push(dataFetcher(`${areasURL}?${urlParams}&channel=${channel}`));
-    });
 
-    const [res1, res2] = await Promise.all(promises);
-    return {
-      count: res1.count + res2.count,
-      results: [...res1.results, ...res2.results],
-    };
-  };
+  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
 
-  useEffect(() => {
-    console.log("cganged");
-  }, [newerThanTimestamp]);
-
-  const {
-    error: verifiedDataError,
-    isLoading: verifiedDataIsLoading,
-    isValidating: verifiedDataIsValidating,
-  } = useSWR<DataLite | undefined>(
-    `${channels}-${newerThanTimestamp}`,
-    getVerifiedDataByGivenChannels,
-    {
-      isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: async (data) => {
-        if (!data) return;
-        if (!data.results) {
-          setShouldFetchNextOption(true);
+      const features = data.results.map((item: any) => {
+        let extra_params = {};
+        try {
+          extra_params = JSON.parse(
+            item.extra_parameters?.replaceAll("'", '"')
+          );
+        } catch (error) {
+          console.log(error);
         }
 
-        const transformedData = data.results
-          ? await dataTransformerLite(data)
-          : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: item.loc,
+          },
+          properties: extra_params,
+        };
+      });
+
+      setAhbapLocations(features);
+    },
+  });
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
+  const [remainingTime, resetThrottling] = useIncrementalThrottling(() => {
+    // setCoordinatesURLParams();
+    // mutate(requestURL);
+  }, REQUEST_THROTTLING_INITIAL_SEC);
 
-  const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
+  const handleScanButtonClick = () => {
+    setCoordinatesURLParams();
+    mutate(requestURL);
     resetThrottling();
-  }, [resetThrottling, urlParams]);
+  };
+
+  const setCoordinatesURLParams = useCallback(() => {
+    if (!coordinatesAndEventType) {
+      return;
+    }
+    urlParams.current.set("ne_lat", coordinatesAndEventType?.ne_lat.toString());
+    urlParams.current.set("ne_lng", coordinatesAndEventType?.ne_lng.toString());
+    urlParams.current.set("sw_lat", coordinatesAndEventType?.sw_lat.toString());
+    urlParams.current.set("sw_lng", coordinatesAndEventType?.sw_lng.toString());
+  }, [coordinatesAndEventType]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
+  // Set the URL once the map is ready
   useEffect(() => {
-    if (
-      typeof coordinatesAndEventType === "undefined" ||
-      !urlParams ||
-      coordinatesAndEventType?.eventType === "moveend" ||
-      coordinatesAndEventType?.eventType === "zoomend"
-    ) {
-      resetThrottling();
+    resetThrottling();
+    if (coordinatesAndEventType?.eventType !== "ready") {
       return;
     }
 
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
+    setCoordinatesURLParams();
+  }, [coordinatesAndEventType, setCoordinatesURLParams, resetThrottling]);
 
+  // Set reason URL param
   useEffect(() => {
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
+    if (reasoningFilterValue) {
+      urlParams.current.set("reason", reasoningFilterValue);
+    } else {
+      urlParams.current.delete("reason");
+    }
+  }, [reasoningFilterMenuOption]);
+
+  // Set time_stamp URL param
+  useEffect(() => {
+    if (!newerThanTimestamp) {
+      return;
+    }
+    urlParams.current.set("time_stamp", newerThanTimestamp.toString());
   }, [newerThanTimestamp]);
 
-  // useEffect(() => {
-  // if (!coordinatesAndEventType) return;
-  // getVerifiedDataByGivenChannels();
-  // }, [verifiedStatus, coordinatesAndEventType]);
-
   useEffect(() => {
-    if (url) {
-      const _url = new URL(url);
-      const params = new URLSearchParams(urlParams);
-
-      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
+    console.log(verifiedStatus);
+    if (verifiedStatus.includes("verified")) {
+      urlParams.current.set("channel", "babala");
+    } else {
+      urlParams.current.set("channel", "twitter");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasoningFilterMenuOption]);
+  }, [verifiedStatus]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -265,7 +246,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap />
+            <LeafletMap ahbap={ahbapLocations} />
             <Box
               sx={{
                 display: "flex",
@@ -345,6 +326,7 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
+      ahbap: [],
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }
         : {},
