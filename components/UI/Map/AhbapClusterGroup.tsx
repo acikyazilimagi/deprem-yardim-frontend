@@ -53,8 +53,7 @@ export const AhbapClusterGroup = ({ data }: Props) => {
               position={[latitude, longitude]}
               icon={fetchIcon(pointCount)}
               eventHandlers={{
-                click: (e) => {
-                  console.log(e, cluster);
+                click: () => {
                   const expansionZoom = Math.min(
                     supercluster.getClusterExpansionZoom(cluster.id),
                     18
@@ -79,7 +78,6 @@ export const AhbapClusterGroup = ({ data }: Props) => {
             })}
             eventHandlers={{
               click: (e) => {
-                console.log(e, cluster);
                 handleMarkerClick(e, {
                   channel: "ahbap",
                   properties: {
