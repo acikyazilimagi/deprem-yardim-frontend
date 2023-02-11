@@ -1,20 +1,12 @@
 import Typography from "@mui/material/Typography";
 import { FeedChannelAhbapProps } from "../../types";
 import { Divider } from "@mui/material";
+import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
 
 const getTypeLabel = (type: string) => {
   const id = type.split("-")[1];
 
-  switch (id) {
-    case "1507":
-      return "Hayvanlar İçin Ücretsiz Tedavi";
-    case "1826":
-      return "Güvenli Noktalar";
-    case "1602":
-      return "Konaklama - Beslenme";
-    default:
-      return "";
-  }
+  return CHANNEL_AHBAP_TYPES?.[id] || "";
 };
 
 export const FeedChannelAhbap = ({
