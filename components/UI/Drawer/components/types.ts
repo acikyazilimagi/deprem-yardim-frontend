@@ -1,4 +1,4 @@
-export type Channel = "twitter" | "Babala" | "generic";
+export type Channel = "twitter" | "Babala" | "ahbap" | "generic";
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {
@@ -31,6 +31,25 @@ export type TwitterParameters = {
   media: string;
 };
 
+export type AhbapData = {
+  channel: "ahbap";
+  properties: {
+    name: string;
+    description: string;
+    type: string;
+    icon: string;
+  };
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+};
+
 export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
 
 export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
+
+export type FeedChannelAhbapProps = AhbapData;

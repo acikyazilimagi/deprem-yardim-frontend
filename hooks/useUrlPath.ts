@@ -8,8 +8,12 @@ export function useUrlPath() {
     const query = new URLSearchParams();
     const modifiedArray = Object.entries(modifiedQuery);
     modifiedArray.forEach((entry) => {
-      query.append(entry[0], entry[1].toString());
+      if (entry[0] && entry[1]) {
+        query.append(entry[0], entry[1].toString());
+      }
     });
+    console.log(query.toString(), ">>>");
+
     return query.toString();
   }, []);
 

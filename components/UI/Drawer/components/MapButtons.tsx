@@ -4,6 +4,7 @@ import styles from "../Drawer.module.css";
 import Button from "@mui/material/Button";
 import { MarkerData } from "@/mocks/types";
 import { useTranslation } from "next-i18next";
+import { AhbapData } from "./types";
 
 interface MapsButton {
   label: string;
@@ -66,7 +67,7 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 interface Props {
-  drawerData: MarkerData;
+  drawerData: MarkerData | AhbapData;
 }
 
 export default function MapButtons({ drawerData }: Props) {

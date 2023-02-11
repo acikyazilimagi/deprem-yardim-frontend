@@ -40,6 +40,10 @@ import {
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 
+import * as converter from "@tmcw/togeojson";
+import { DOMParser } from "xmldom";
+import KMZ from "parse2-kmz";
+
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
@@ -47,7 +51,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const getReasoningFilter = (
   reasoningFilterMenuOption: ReasoningFilterMenuOption
 ) => {
-  reasoningFilterMenuOption.type;
   if (reasoningFilterMenuOption.type === "channel") {
     return undefined;
   }
@@ -60,8 +63,10 @@ const getReasoningFilter = (
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
+  ahbap: any[];
 };
-export default function Home({ deviceType, singleItemDetail }: Props) {
+
+export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
@@ -197,7 +202,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap />
+            <LeafletMap ahbap={ahbap} />
             <Box
               sx={{
                 display: "flex",
@@ -273,10 +278,17 @@ export async function getServerSideProps(context: any) {
     itemDetail = await dataFetcher(url);
   }
 
+  const kml = await KMZ.toKML(
+    "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ"
+  );
+
+  const parsedKML = new DOMParser().parseFromString(kml, "utf-8");
+  const geojson = converter.kml(parsedKML);
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
+      ahbap: geojson.features,
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }
         : {},

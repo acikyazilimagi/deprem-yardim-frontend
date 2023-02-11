@@ -1,3 +1,4 @@
+import { AhbapData } from "@/components/UI/Drawer/components/types";
 import { LatLngBounds } from "leaflet";
 import { create } from "zustand";
 import {
@@ -10,18 +11,18 @@ import {
 
 interface MapState {
   popUpData: ClusterPopupData | null;
-  drawerData: MarkerData | null;
+  drawerData: MarkerData | AhbapData | null;
   isDrawerOpen: boolean;
   coordinates?: CoordinatesURLParametersWithEventType;
   device: DeviceType;
   markerData: MarkerData[];
   actions: {
     toggleDrawer: () => void;
-    setDrawerData: (data: MarkerData) => void;
-    setPopUpData: (data: ClusterPopupData | null) => void;
-    setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
-    setDevice: (device: DeviceType) => void;
-    setMarkerData: (data: MarkerData[]) => void;
+    setDrawerData: (_data: MarkerData | AhbapData) => void;
+    setPopUpData: (_data: ClusterPopupData | null) => void;
+    setCoordinates: (_data: LatLngBounds, _eventType: EVENT_TYPES) => void;
+    setDevice: (_device: DeviceType) => void;
+    setMarkerData: (_data: MarkerData[]) => void;
   };
 }
 
@@ -34,7 +35,8 @@ export const useMapStore = create<MapState>()((set) => ({
   markerData: [],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
-    setDrawerData: (data: MarkerData) => set(() => ({ drawerData: data })),
+    setDrawerData: (data: MarkerData | AhbapData) =>
+      set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) =>

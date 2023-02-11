@@ -156,7 +156,7 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap() {
+function LeafletMap({ ahbap }: { ahbap: any[] }) {
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
@@ -244,7 +244,7 @@ function LeafletMap() {
       >
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
         <MapEvents />
-        <LayerControl points={points} data={data} />
+        <LayerControl points={points} data={data} ahbap={ahbap} />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
