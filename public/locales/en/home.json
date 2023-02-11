@@ -34,11 +34,12 @@
             "copied": "Coordinate information was copied."
         },
         "mapButtons": {
-            "copy": "Copy",
+            "copy": "Copy Map Link",
             "google": "Open in Google Maps",
             "apple": "Open in Apple Maps",
             "direction": "Get Directions"
         },
+        "copyFullText": "Copy Content",
         "noticeCount": "{{count}} notice available"
     },
     "map": {
@@ -52,7 +53,8 @@
         "layer": {
             "heatmap": "Heatmap",
             "markers": "Markers",
-            "earthquakes": "Latest Earthquakes"
+            "earthquakes": "Latest Earthquakes",
+            "ahbap": "Ahbap Locations"
         }
     },
     "content": {

@@ -28,7 +28,11 @@ export const dataTransformerLite = async (
 
 export const dataTransformer = (
   data?: Data
-): FeedChannelTwitterProps | FeedChannelBabalaProps => {
+): FeedChannelTwitterProps | FeedChannelBabalaProps | undefined => {
+  if (!data) {
+    return;
+  }
+
   let rawExtraParams = `{ tweet_id: "", name: "", full_text: "", user_id: "" }`;
 
   try {

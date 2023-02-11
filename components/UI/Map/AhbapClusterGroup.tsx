@@ -1,25 +1,12 @@
-// FIXME: REMOVE BELOW LINE LATER
-// @ts-nocheck
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MouseEvent } from "react";
-import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
-import { MarkerData } from "@/mocks/types";
-import { Marker, MarkerProps, useMap } from "react-leaflet";
+import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
-import styles from "./Map.module.css";
+import { findTagByClusterCount } from "../Tag/Tag.types";
 
 type Props = {
-  data: MarkerData[];
+  data: any[];
 };
-
-type ExtendedMarkerProps = MarkerProps & {
-  markerData: MarkerData;
-};
-
-function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
-  return <Marker {...props} />;
-}
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -30,36 +17,17 @@ const fetchIcon = (count: number) => {
   });
 };
 
-const markerBlueIcon = L.Icon.Default.extend({
-  options: {},
-});
+const emptyIcon =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
 
-const markerGrayIcon = L.Icon.Default.extend({
-  options: {
-    className: styles.marker_icon__visited,
-  },
-});
-
-const ClusterGroup = ({ data }: Props) => {
-  const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
+export const AhbapClusterGroup = ({ data }: Props) => {
+  const { handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
-
-  const geoJSONPlaces = data.map((marker) => ({
-    type: "Feature",
-    properties: {
-      cluster: false,
-      marker,
-    },
-    geometry: {
-      type: "Point",
-      coordinates: [marker.geometry.location.lng, marker.geometry.location.lat],
-    },
-  }));
 
   const bounds = map.getBounds();
 
   const { clusters, supercluster } = useSupercluster({
-    points: geoJSONPlaces,
+    points: data,
     bounds: [
       bounds.getSouthWest().lng,
       bounds.getSouthWest().lat,
@@ -67,7 +35,7 @@ const ClusterGroup = ({ data }: Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 150, maxZoom: 17 },
+    options: { radius: 10, maxZoom: 17 },
   });
 
   return (
@@ -86,7 +54,6 @@ const ClusterGroup = ({ data }: Props) => {
               icon={fetchIcon(pointCount)}
               eventHandlers={{
                 click: () => {
-                  handleClusterClick(data, pointCount);
                   const expansionZoom = Math.min(
                     supercluster.getClusterExpansionZoom(cluster.id),
                     18
@@ -101,29 +68,36 @@ const ClusterGroup = ({ data }: Props) => {
         }
 
         return (
-          <ExtendedMarker
-            key={cluster.properties.marker.reference}
+          <Marker
+            key={cluster.properties.id}
             position={[latitude, longitude]}
-            icon={
-              cluster.properties.marker.isVisited === true
-                ? new markerGrayIcon()
-                : new markerBlueIcon()
-            }
+            icon={L.icon({
+              iconUrl: cluster.properties.icon || emptyIcon,
+              iconSize: [28, 28],
+              iconAnchor: [14, 14],
+            })}
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(
-                  e as any as MouseEvent,
-                  cluster.properties.marker,
-                  data
-                );
+                handleMarkerClick(e, {
+                  channel: "ahbap",
+                  properties: {
+                    name: cluster.properties.name,
+                    description: cluster.properties.description ?? "",
+                    type: cluster.properties.styleUrl ?? "",
+                    icon: cluster.properties.icon,
+                  },
+                  geometry: {
+                    location: {
+                      lng: longitude,
+                      lat: latitude,
+                    },
+                  },
+                });
               },
             }}
-            markerData={cluster.properties.marker}
           />
         );
       })}
     </>
   );
 };
-
-export default ClusterGroup;
