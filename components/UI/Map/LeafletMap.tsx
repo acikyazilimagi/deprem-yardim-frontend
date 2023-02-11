@@ -109,7 +109,7 @@ const MapEvents = () => {
       const locationWithZoomLevel = new URLSearchParams();
       locationWithZoomLevel.append("lat", _lat.toString());
       locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", Math.round(_zoomLevel).toString());
+      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
       const query = locationWithZoomLevel.toString();
       window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
       router.push(
@@ -234,8 +234,8 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        zoomSnap={1}
+        zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
             setCoordinates(map.target.getBounds(), "ready");
