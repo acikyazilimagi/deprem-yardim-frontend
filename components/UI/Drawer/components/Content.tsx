@@ -61,7 +61,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   return (
     <Box
       sx={{
-        width: size.width > 768 ? "full" : 400,
+        width: size.width > 768 ? 400 : "full",
         display: "flex",
         height: "100%",
         padding: "1rem 2rem 1rem 1rem",
