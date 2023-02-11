@@ -134,7 +134,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         let extra_params = {};
         try {
           extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"')
+            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
           );
         } catch (error) {
           console.error(error);
