@@ -18,7 +18,11 @@ import {
   useDevice,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import {
+  AHBAP_LOCATIONS_URL,
+  BASE_URL,
+  REQUEST_THROTTLING_INITIAL_SEC,
+} from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -80,6 +84,7 @@ export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
     useState<boolean>(false);
   const device = useDevice();
   const isMobile = device === "mobile";
+  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -124,6 +129,37 @@ export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
       },
     }
   );
+
+  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
+      console.log(data.results);
+
+      const features = data.results.map((item: any) => {
+        let extra_params = {};
+        try {
+          extra_params = JSON.parse(
+            item.extra_parameters?.replaceAll("'", '"')
+          );
+        } catch (error) {
+          console.log(error);
+        }
+
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: item.loc,
+          },
+          properties: extra_params,
+        };
+      });
+
+      console.log(features);
+
+      setAhbapLocations(features);
+    },
+  });
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
@@ -213,7 +249,7 @@ export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap ahbap={ahbap} />
+            <LeafletMap ahbap={ahbapLocations} />
             <Box
               sx={{
                 display: "flex",
@@ -289,17 +325,17 @@ export async function getServerSideProps(context: any) {
     itemDetail = await dataFetcher(url);
   }
 
-  const kml = await KMZ.toKML(
-    "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ"
-  );
+  // const kml = await KMZ.toKML(
+  //   "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ"
+  // );
 
-  const parsedKML = new DOMParser().parseFromString(kml, "utf-8");
-  const geojson = converter.kml(parsedKML);
+  // const parsedKML = new DOMParser().parseFromString(kml, "utf-8");
+  // const geojson = converter.kml(parsedKML);
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      ahbap: geojson.features,
+      ahbap: [],
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }
         : {},

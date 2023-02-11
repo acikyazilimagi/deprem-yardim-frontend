@@ -7,3 +7,6 @@ export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
   "1826": "Güvenli Noktalar",
   "1602": "Konaklama - Beslenme",
 };
+
+export const AHBAP_LOCATIONS_URL =
+  BASE_URL + "/feeds/areas?channel=ahbap_location&extraParams=true";

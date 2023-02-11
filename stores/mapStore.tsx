@@ -19,6 +19,7 @@ export enum MapLayer {
   Heatmap = "heatmap",
   Markers = "markers",
   Earthquakes = "earthquakes",
+  Ahbap = "Ahbap",
 }
 
 interface MapState {

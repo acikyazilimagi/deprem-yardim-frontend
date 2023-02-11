@@ -36,11 +36,7 @@ const LayerControl = ({ points, data, ahbap }: Props) => {
         />
       )}
       {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
-      <LayersControl.Overlay checked={false} name="Ahbap data">
-        <LayerGroup>
-          <AhbapClusterGroup data={ahbap} />
-        </LayerGroup>
-      </LayersControl.Overlay>
+      {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
     </>
   );
 };

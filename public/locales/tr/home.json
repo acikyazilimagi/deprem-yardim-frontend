@@ -52,7 +52,8 @@
         "layer": {
             "heatmap": "Isı Haritası",
             "markers": "Depremzede Konumları",
-            "earthquakes": "Son Depremler"
+            "earthquakes": "Son Depremler",
+            "ahbap": "Ahbap Lokasyon"
         }
     },
     "content": {
