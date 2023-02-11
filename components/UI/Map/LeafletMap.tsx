@@ -109,7 +109,7 @@ const MapEvents = () => {
       const locationWithZoomLevel = new URLSearchParams();
       locationWithZoomLevel.append("lat", _lat.toString());
       locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
+      locationWithZoomLevel.append("zoom", parseInt(_zoomLevel.toString(), 10));
       const query = locationWithZoomLevel.toString();
       window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
       router.push(
