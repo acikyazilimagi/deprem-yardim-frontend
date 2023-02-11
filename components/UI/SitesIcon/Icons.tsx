@@ -187,45 +187,6 @@ const SitesIcon = () => {
             </Typography>
           </Popover>
         </Box>
-        <Box sx={toBiggerIcon}>
-          <Link
-            href="https://discord.gg/itdepremyardim"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={() => handlePopoverOpen("depremDiscord")}
-            onMouseLeave={handlePopoverClose}
-          >
-            <Avatar
-              sx={littleIcon}
-              alt="discord icon"
-              src="/icons/discordIcon.svg"
-            />
-          </Link>
-
-          <Popover
-            anchorReference="anchorEl"
-            anchorEl={anchorEl}
-            open={"depremDiscord" === isOpen ? true : false}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            sx={{
-              background: "#00000000",
-              pointerEvents: "none",
-              zIndex: 600,
-            }}
-            onClose={handlePopoverClose}
-          >
-            <Typography sx={{ padding: "10px", width: "450px" }}>
-              {t("site.discord")}
-            </Typography>
-          </Popover>
-        </Box>
       </Stack>
     </>
   );
