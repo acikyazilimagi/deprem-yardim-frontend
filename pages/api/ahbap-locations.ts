@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as converter from "@tmcw/togeojson";
 import { DOMParser } from "xmldom";
+import KMZ from "parse2-kmz";
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,11 +20,10 @@ export default async function handler(
   );
 
   // fetch Ahbap locations from Google Maps
-  const response = await fetch(
-    "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ&forcekml=1"
-  );
-  const text = await response.text();
-  const parsedKML = new DOMParser().parseFromString(text, "utf8");
+  const kml = (await KMZ.toKML(
+    "https://www.google.com/maps/d/u/0/kml?mid=1aQ0TJi4q_46XAZiSLggkbTjPzLGkTzQ"
+  )) as string;
+  const parsedKML = new DOMParser().parseFromString(kml, "utf8");
 
   // convert our kml to geojson
   const geojson = converter.kml(parsedKML);
