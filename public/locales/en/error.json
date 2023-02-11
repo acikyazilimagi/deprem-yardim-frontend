@@ -1,7 +1,7 @@
 {
     "404": {
         "title": "Please try again periodically. We are constantly working on fixing bugs",
-        "detail": "Don't lose hope, try again soon. We're sorry you got an error. We are constantly working to fix the errors. Please try again periodically. This website is constantly being tested and developed by hundreds of volunteer programmers. We will not give up. We are with you."
+        "detail": "Don't lose hope, try again soon. We are sorry for the error you received. We are constantly working to fix the errors. Please try again intermittently. This website is constantly tested and improved by hundreds of volunteer programmers. We won't give up. We are with you."
     },
     "defaults": {
         "title": "Error",

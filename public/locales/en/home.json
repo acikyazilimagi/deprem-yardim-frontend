@@ -1,7 +1,7 @@
 {
     "scanner": {
         "text": "SCAN FIELD",
-        "remaining": "It will be scanned automatically after <strong>{{time}}</strong> sec"
+        "remaining": "Area will be scanned automatically after <strong>{{time}}</strong> sec"
     },
     "filter": {
         "title": "Notifications",
