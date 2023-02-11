@@ -34,11 +34,12 @@
             "copied": "Koordinat bilgisi kopyalandı."
         },
         "mapButtons": {
-            "copy": "Kopyala",
+            "copy": "Harita Linkini Kopyala",
             "google": "Google Haritalarda Aç",
             "apple": "Apple Haritalarda Aç",
             "direction": "Yol Tarifi Al"
         },
+        "copyFullText": "İçeriği Kopyala",
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {
