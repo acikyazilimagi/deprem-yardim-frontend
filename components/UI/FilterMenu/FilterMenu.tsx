@@ -2,7 +2,7 @@ import styles from "@/styles/Home.module.css";
 import { Box } from "@mui/system";
 import LocaleSwitch, { LocaleSwitchProps } from "../I18n/LocaleSwitch";
 import FilterChannelMenu, { FilterChannelMenuProps } from "./FilterChannelMenu";
-import ReasonFilterMenu, { FilterReasonMenuProps } from "./FilterReasonMenu";
+import ReasonFilterMenu from "./FilterReasonMenu";
 import FilterTimeMenu, { FilterTimeMenuProps } from "./FilterTimeMenu";
 import { useTranslation } from "next-i18next";
 
@@ -13,7 +13,7 @@ type FilterMenuProps = {
 type FilterMenuType = React.FC<FilterMenuProps> & {
   Time: React.FC<FilterTimeMenuProps>;
   Channel: React.FC<FilterChannelMenuProps>;
-  Reason: React.FC<FilterReasonMenuProps>;
+  Reason: React.FC;
   LocaleSwitch: React.FC<LocaleSwitchProps>;
 };
 

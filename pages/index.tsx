@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -6,16 +6,13 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import {
-  CoordinatesURLParametersWithEventType,
-  DeviceType,
-} from "@/mocks/types";
+import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import {
-  useCoordinates,
   useMapActions,
   setMarkerData,
   useDevice,
+  useEventType,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import {
@@ -31,14 +28,14 @@ import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { areasURL, locationsURL } from "@/utils/urls";
+import { locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import { initialChannelFilter } from "@/components/UI/FilterMenu/FilterChannelMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import { useURL, useURLActions } from "@/stores/urlStore";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -54,53 +51,33 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [channelFilterMenuOption, setChannelFilterMenuOption] = useState(
-    initialChannelFilter.value
-  );
-  const [reasonFilterMenuOption, setReasonFilterMenuOption] = useState<
-    string | null
-  >(null);
-  const [newerThanTimestamp, setNewerThanTimestamp] = useState<
-    number | undefined
-  >(undefined);
-  const [url, setUrl] = useState<string | null>(null);
   const [shouldFetchNextOption, setShouldFetchNextOption] =
     useState<boolean>(false);
+  const eventType = useEventType();
+  const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
+  const url = useURL();
   const device = useDevice();
   const isMobile = device === "mobile";
-  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
 
-  const coordinatesAndEventType:
-    | CoordinatesURLParametersWithEventType
-    | undefined = useCoordinates();
+  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
+  const [sendRequest, setSendRequest] = useState(false);
 
   const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
-  const urlParams = useMemo(() => {
-    return new URLSearchParams({
-      ne_lat: coordinatesAndEventType?.ne_lat,
-      ne_lng: coordinatesAndEventType?.ne_lng,
-      sw_lat: coordinatesAndEventType?.sw_lat,
-      sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(channelFilterMenuOption ? { channel: channelFilterMenuOption } : {}),
-      ...(reasonFilterMenuOption ? { reason: reasonFilterMenuOption } : {}),
-    } as any).toString();
-  }, [
-    coordinatesAndEventType?.ne_lat,
-    coordinatesAndEventType?.ne_lng,
-    coordinatesAndEventType?.sw_lat,
-    coordinatesAndEventType?.sw_lng,
-    newerThanTimestamp,
-    channelFilterMenuOption,
-    reasonFilterMenuOption,
-  ]);
+  const getMarkers = useCallback(
+    (_url: string) => {
+      if (!sendRequest || !url.search) return;
+      setSendRequest(false);
+
+      return dataFetcher(_url);
+    },
+    [sendRequest, url.search]
+  );
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
-    dataFetcher,
+    sendRequest ? url.href : null,
+    getMarkers,
     {
-      isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
       onSuccess: async (data) => {
@@ -120,6 +97,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
     onSuccess: (data) => {
       if (!data) return;
+
       const features = data.results.map((item: any) => {
         let extra_params = {};
         try {
@@ -139,6 +117,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
           properties: extra_params,
         };
       });
+
       setAhbapLocations(features);
     },
   });
@@ -149,48 +128,28 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
+    () => setSendRequest(true),
     REQUEST_THROTTLING_INITIAL_SEC
   );
 
   const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
+    setSendRequest(true);
+
     resetThrottling();
-  }, [resetThrottling, urlParams]);
+  }, [resetThrottling]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
   useEffect(() => {
-    if (
-      typeof coordinatesAndEventType === "undefined" ||
-      !urlParams ||
-      coordinatesAndEventType?.eventType === "moveend" ||
-      coordinatesAndEventType?.eventType === "zoomend"
-    ) {
+    if (eventType === "moveend" || eventType === "zoomend") {
       resetThrottling();
       return;
     }
 
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
-
-  useEffect(() => {
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp]);
-
-  useEffect(() => {
-    if (url) {
-      const _url = new URL(url);
-      const params = new URLSearchParams(urlParams);
-
-      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channelFilterMenuOption, reasonFilterMenuOption]);
+    setSendRequest(true);
+  }, [eventType, resetThrottling, url.href, sendRequest]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -222,11 +181,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 <FilterMenu>
                   <FilterMenu.Channel onChange={setChannelFilterMenuOption} />
                   <FilterMenu.Time
-                    onChangeTime={setNewerThanTimestamp}
+                    onChangeTime={setTimeStamp}
                     shouldFetchNextOption={shouldFetchNextOption}
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
-                  <FilterMenu.Reason onChange={setReasonFilterMenuOption} />
+                  <FilterMenu.Reason />
                 </FilterMenu>
               </div>
             </div>
