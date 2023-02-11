@@ -1,0 +1,11 @@
+{
+    "404": {
+        "title": "Lütfen aralıklı olarak tekrar dene. Hataları düzeltmek için sürekli çalışıyoruz",
+        "detail": "Umudunu kaybetme, birazdan tekrar dene. Hata aldığın için üzgünüz. Hataları düzeltmek için sürekli çalışıyoruz. Lütfen aralıklı olarak tekrar dene. Bu websitesi gönüllü yüzlerce yazılımcı tarafından sürekli test edilip, geliştirilmeye devam ediyor. Vazgeçmeyeceğiz. Yanınızdayız."
+    },
+    "defaults": {
+        "title": "Hata",
+        "detail": "Teknik hatayla karşılaşıldı, lütfen tekrar deneyin."
+    },
+    "returnHome": "Anasayfaya dön"
+}
