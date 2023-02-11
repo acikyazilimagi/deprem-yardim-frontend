@@ -15,7 +15,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { memo, useEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
 import { Tags } from "../Tag/Tag.types";
@@ -157,6 +157,7 @@ const corners = {
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 function LeafletMap() {
+  const [defaultZoom, setDefaultZoom] = useState(DEFAULT_ZOOM);
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
@@ -189,13 +190,26 @@ function LeafletMap() {
         ]
       : DEFAULT_CENTER;
 
-  const defaultZoom = zoom
-    ? parseFloat(zoom as string)
-    : localCoordinatesURL
-    ? parseFloat(localCoordinatesURL.split("zoom=")[1].split("&")[0])
-    : device === "desktop"
-    ? DEFAULT_ZOOM
-    : DEFAULT_ZOOM_MOBILE;
+  useEffect(() => {
+    const zoomFromQuery = Number(zoom);
+    if (zoomFromQuery) {
+      setDefaultZoom(zoomFromQuery);
+      return;
+    }
+
+    const zoomParamFromURL = localCoordinatesURL
+      ?.split("zoom=")?.[1]
+      ?.split("&")?.[0];
+    if (zoomParamFromURL) {
+      setDefaultZoom(parseFloat(zoomParamFromURL));
+      return;
+    }
+
+    if (device == "mobile") {
+      setDefaultZoom(DEFAULT_ZOOM_MOBILE);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const isIdExists = id;
 
