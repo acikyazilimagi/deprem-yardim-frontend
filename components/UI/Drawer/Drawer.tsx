@@ -16,6 +16,7 @@ import styles from "./Drawer.module.css";
 import { useUrlPath } from "@/hooks/useUrlPath";
 import { useRouter } from "next/router";
 import { Content } from "./components/Content";
+import { LayerContent } from "./components/LayerContent";
 
 const Drawer = () => {
   useDisableZoom();
@@ -38,7 +39,7 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   useEffect(() => {
-    if (isOpen && router) {
+    if (isOpen && router && drawerData) {
       const path = setUrlQuery({ id: drawerData?.reference }, router);
       const query = path;
       router.push({ query }, { query }, { shallow: true });
@@ -70,6 +71,7 @@ const Drawer = () => {
         {!!drawerData && (
           <Content drawerData={drawerData} onCopyBillboard={copyBillboard} />
         )}
+        {!drawerData && <LayerContent />}
       </MuiDrawer>
     </div>
   );

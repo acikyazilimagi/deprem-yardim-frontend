@@ -100,7 +100,7 @@ const ClusterGroup = ({ data }: Props) => {
 
         return (
           <ExtendedMarker
-            key={cluster.properties.reference}
+            key={cluster.properties.marker.reference}
             position={[latitude, longitude]}
             icon={
               cluster.properties.marker.isVisited === true
