@@ -11,10 +11,12 @@ type Props = {
 
 const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
   const isNotNan = (value: any) => {
-    return !!value && value !== "NaN" && value !== "nan";
+    return !!value && value.toLowerCase() !== "nan";
   };
 
-  const reasons = reason.split(",");
+  const reasons = reason.split(",").map((reason) => {
+    return reason.charAt(0).toUpperCase() + reason.slice(1);
+  });
 
   return (
     <>
@@ -41,12 +43,7 @@ const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
         <div style={styles.chipContainer}>
           {isNotNan(reason) &&
             reasons.map((reason, i) => (
-              <Chip
-                style={styles.chip}
-                key={i}
-                label={reason?.toLowerCase()}
-                color="info"
-              />
+              <Chip style={styles.chip} key={i} label={reason} color="info" />
             ))}
         </div>
       </div>

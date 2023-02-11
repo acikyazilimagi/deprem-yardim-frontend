@@ -41,7 +41,7 @@ const FeedChannelTwitter = ({
           full_text={full_text}
         />
       ) : (
-        <EmbedTweet source={extra_parameters!} />
+        <EmbedTweet reason={reason || ""} source={extra_parameters!} />
       )}
       {!!full_text && (
         <Button

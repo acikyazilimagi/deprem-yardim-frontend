@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";
 import { TwitterParameters } from "../../types";
 
 type Props = {
+  reason: string;
   source: TwitterParameters;
 };
 
-const EmbedTweet = ({ source }: Props) => {
+const EmbedTweet = ({ source, reason }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReadyForRender, setIsReadyForRender] = useState(false);
 
@@ -22,7 +23,7 @@ const EmbedTweet = ({ source }: Props) => {
 
   return (
     <>
-      {isLoading && <PlaceholderTweet source={source} />}
+      {isLoading && <PlaceholderTweet reason={reason} source={source} />}
       {isReadyForRender && (
         <TweetEmbed
           options={{ conversation: "none" }}
