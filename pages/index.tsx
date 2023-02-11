@@ -29,13 +29,14 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
-import { Box } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import FilterTimeMenu from "@/components/UI/FilterTimeMenu/FilterTimeMenu";
 import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
+import Link from "next/link";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -60,6 +61,7 @@ type Props = {
 };
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [slowLoading, setSlowLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
@@ -97,7 +99,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     dataFetcher,
     {
       isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
+      onLoadingSlow: () => {
+        setSlowLoading(true);
+        setShowModal(true);
+      },
+      loadingTimeout: 6000,
       revalidateOnFocus: false,
       onSuccess: (data) => {
         if (!data) return;
@@ -161,6 +167,62 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   return (
     <>
+      <Modal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            İnternet bağlatınız yavaş
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Bu sitede kal veya basit sürüme geç
+          </Typography>
+          <Box
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              width: "100%",
+              justifyContent: "space-between",
+              gap: ".5rem",
+              marginTop: "1rem",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setShowModal(false)}
+            >
+              Sitede kal
+            </Button>
+            <Link
+              href="https://e.afetharita.com/"
+              passHref
+              style={{
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <Button variant="contained" color="primary">
+                Basit sürüme geç
+              </Button>
+            </Link>
+          </Box>
+        </Box>
+      </Modal>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
