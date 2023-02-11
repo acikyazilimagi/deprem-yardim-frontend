@@ -1,4 +1,4 @@
-name: Node.JS CI - Check Lint and Code Format
+name: Node.JS CI - Check Lint - Code Format - Build AfetHarita
 on:
   push:
     branches: [main, development]
@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-      - name: Build
+      - name: Install Packages
         run: |
           yarn
       - name: Lint Check
@@ -30,3 +30,7 @@ jobs:
         if: ${{ success() }}
         run: |
           yarn prettier
+      - name: Build AfetHarita
+        if: ${{ success() }}
+        run: |
+          yarn build

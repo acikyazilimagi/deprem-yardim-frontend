@@ -114,13 +114,15 @@ export default function Home({ deviceType, singleItemDetail, ahbap }: Props) {
       isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         if (!data) return;
         if (!data.results) {
           setShouldFetchNextOption(true);
         }
 
-        const transformedData = data.results ? dataTransformerLite(data) : [];
+        const transformedData = data.results
+          ? await dataTransformerLite(data)
+          : [];
         setMarkerData(transformedData);
       },
     }

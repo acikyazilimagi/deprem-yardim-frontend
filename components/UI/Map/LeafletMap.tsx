@@ -212,6 +212,7 @@ function LeafletMap({ ahbap }: { ahbap: any[] }) {
             lng: parseFloat(lng as string),
           },
         },
+        isVisited: false,
       };
       toggleDrawer();
       setDrawerData(tempDrawerData);
@@ -233,8 +234,8 @@ function LeafletMap({ ahbap }: { ahbap: any[] }) {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        zoomSnap={1}
+        zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
             setCoordinates(map.target.getBounds(), "ready");
