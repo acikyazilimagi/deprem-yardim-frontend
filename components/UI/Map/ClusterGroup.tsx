@@ -8,7 +8,6 @@ import useSupercluster from "use-supercluster";
 
 type Props = {
   data: MarkerData[];
-  markersVisited: any;
 };
 
 type ExtendedMarkerProps = MarkerProps & {
@@ -36,16 +35,11 @@ const grayIcon = new LeafIcon();
 blueIcon.options.iconUrl = "/icons/marker-icon-blue.png";
 grayIcon.options.iconUrl = "/icons/marker-icon-gray.png";
 
-const ClusterGroup = ({ data, markersVisited }: Props) => {
+const ClusterGroup = ({ data }: Props) => {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
 
-  const processedData = data.map((marker) => ({
-    ...marker,
-    isVisited: markersVisited[marker.reference],
-  }));
-
-  const geoJSONPlaces = processedData.map((marker) => ({
+  const geoJSONPlaces = data.map((marker) => ({
     type: "Feature",
     properties: {
       cluster: false,
@@ -112,7 +106,8 @@ const ClusterGroup = ({ data, markersVisited }: Props) => {
               click: (e) => {
                 handleMarkerClick(
                   e as any as MouseEvent,
-                  cluster.properties.marker
+                  cluster.properties.marker,
+                  data
                 );
               },
             }}

@@ -2,11 +2,19 @@ import {
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
 } from "@/components/UI/Drawer/components/types";
-import { MarkerData } from "@/mocks/types";
+import { MarkerData, MarkerVisited } from "@/mocks/types";
 import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
+import localForage from "localforage";
+import { localForageKeys } from "@/components/UI/Map/utils";
 
-export const dataTransformerLite = (data: DataLite): MarkerData[] =>
-  data.results.map((result) => ({
+export const dataTransformerLite = async (
+  data: DataLite
+): Promise<MarkerData[]> => {
+  const markerVisitedMap: MarkerVisited | null = await localForage.getItem(
+    localForageKeys.markersVisited
+  );
+
+  return data.results.map((result) => ({
     reference: result.entry_id,
     geometry: {
       location: {
@@ -14,8 +22,9 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
         lng: result.loc?.[1] || 0,
       },
     },
-    isVisited: false,
+    isVisited: markerVisitedMap ? markerVisitedMap[result.entry_id] : false,
   }));
+};
 
 export const dataTransformer = (
   data?: Data

@@ -1,50 +1,49 @@
-import { MarkerData } from "@/mocks/types";
-import { setMarkerData, useMapActions, useMarkerData } from "@/stores/mapStore";
+import { MarkerData, MarkerVisited } from "@/mocks/types";
+import { useMapActions, setMarkerData } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import * as localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";
-
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
-  const allMarkers = useMarkerData();
-
   const handleMarkerClick = useCallback(
-    (
+    async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
-      markerData?: MarkerData
+      selectedMarkerData?: MarkerData,
+      allMarkers?: MarkerData[]
     ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
 
       toggleDrawer();
 
-      if (markerData) {
-        setDrawerData(markerData);
+      if (selectedMarkerData) {
+        setDrawerData(selectedMarkerData);
       }
-      localForage
-        .getItem(localForageKeys.markersVisited)
-        .then(function (markerVisitedMap) {
-          // @ts-ignore
-          markerVisitedMap[markerData?.reference] = true;
-          localForage.setItem(localForageKeys.markersVisited, markerVisitedMap);
 
-          const changedMarkerIndex = allMarkers.findIndex(
-            (marker) => marker.reference === markerData?.reference
-          );
+      const markerVisitedMap: MarkerVisited =
+        (await localForage.getItem(localForageKeys.markersVisited)) || {};
 
-          if (changedMarkerIndex !== -1) {
-            const finalArr = allMarkers;
-            // @ts-ignore
-            finalArr[changedMarkerIndex] = {
-              reference: markerData?.reference,
-              geometry: markerData?.geometry,
-              isVisited: true,
-            };
+      if (allMarkers && selectedMarkerData?.reference) {
+        markerVisitedMap[selectedMarkerData?.reference] = true;
 
-            setMarkerData(finalArr);
-          }
-        });
+        localForage.setItem(localForageKeys.markersVisited, markerVisitedMap);
+
+        const changedMarkerIndex = allMarkers.findIndex(
+          (marker) => marker.reference === selectedMarkerData?.reference
+        );
+
+        if (changedMarkerIndex !== -1) {
+          const finalArr = allMarkers;
+          finalArr[changedMarkerIndex] = {
+            reference: selectedMarkerData?.reference,
+            geometry: selectedMarkerData?.geometry,
+            isVisited: true,
+          } as MarkerData;
+
+          setMarkerData(finalArr);
+        }
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []

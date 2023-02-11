@@ -1,10 +1,8 @@
 import { MarkerData } from "@/mocks/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback } from "react";
 import { LayerGroup, LayersControl } from "react-leaflet";
 import ClusterGroup from "./ClusterGroup";
-import localForage from "localforage";
-import { localForageKeys } from "@/components/UI/Map/utils";
 import { useTranslation } from "next-i18next";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
@@ -20,23 +18,6 @@ const LayerControl = ({ points, data }: Props) => {
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
-  const [markersVisited, setMarkersVisited] = useState({});
-
-  useEffect(() => {
-    localForage
-      .getItem(localForageKeys.markersVisited)
-      .then(function (markersVisitedMap) {
-        if (markersVisitedMap === null) {
-          localForage.setItem(localForageKeys.markersVisited, {});
-        } else {
-          // @ts-ignore
-          setMarkersVisited(markersVisitedMap);
-        }
-      })
-      .catch(function (err) {
-        console.log("localForageKeys.markersVisited", err);
-      });
-  }, [data]);
 
   return (
     <LayersControl position="topleft">
@@ -59,7 +40,7 @@ const LayerControl = ({ points, data }: Props) => {
         name={t("map.layerControl.dots").toString()}
       >
         <LayerGroup>
-          <ClusterGroup data={data} markersVisited={markersVisited} />
+          <ClusterGroup data={data} />
         </LayerGroup>
       </LayersControl.Overlay>
     </LayersControl>
