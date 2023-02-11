@@ -1,0 +1,11 @@
+{
+    "404": {
+        "title": "Si prega di riprovare. Stiamo lavorando costantemente per risolvere i bug e migliorare la qualità del nostro servizio.",
+        "detail": "\"Non perdere la speranza, riprova presto. Ci scusiamo per l'errore che hai ricevuto. Stiamo lavorando costantemente per risolvere gli errori. Si prega di riprovare intermittentemente. Questo sito web viene costantemente testato e migliorato da centinaia di programmatori volontari. Non ci arrenderemo. Saremo con te"
+    },
+    "defaults": {
+        "title": "Errore interno del server",
+        "detail": "Si è verificato un errore interno del server. Si prega di riprovare."
+    },
+    "returnHome": "Torna alla home"
+}

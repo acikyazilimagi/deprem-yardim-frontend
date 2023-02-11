@@ -1,0 +1,22 @@
+{
+    "errors": {
+        "maintenance": "Questa pagina è in manutenzione per servirti meglio. Riprova più tardi o visita DepremYardim.com."
+    },
+    "loaders": {
+        "stillLoading": "Ancora in caricamento...",
+        "loading": "Caricamento..."
+    },
+    "footer": {
+        "banner": "<b>Divulgazione:</b> Raccogliamo tutte le richieste di aiuto da diverse fonti come Twitter, Instagram, Whatsapp e vari siti web e raffiniamo questi dati per l'uso sul campo. Aiutando le ONG e fornendo una piattaforma di dati aperti in tempi di disastro.",
+        "politic": {
+            "cookie": "Politica sull'uso dei cookie",
+            "privacy": "Informativa sulla privacy"
+        }
+    },
+    "site": {
+        "depremyardim": "Cercare e aiutare le vittime di terremoti.",
+        "afetbilgi": "Ottenere informazioni su vari argomenti correlati ai disastri.",
+        "depremio": "Aiutare le vittime di terremoti fornendo forniture.",
+        "discord": "Sviluppare i nostri progetti e comunicare tra di developers."
+    }
+}

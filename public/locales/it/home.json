@@ -1,0 +1,56 @@
+{
+    "scanner": {
+        "text": "Scansiona l'area",
+        "remaining": " <strong>{{time}}</strong> secondi rimanenti per scansionare l'area"
+    },
+    "filter": {
+        "title": "Notifiche",
+        "reason": {
+            "earthquake": "Vittime del terremoto",
+            "provisions": "Fornitura di aiuti",
+            "confirmed": "Vittime Accertate"
+        },
+        "time": {
+            "lastHalfHour": "Ultimi 30 minuti",
+            "lastHour": "Ultima ora",
+            "lastThreeHours": "Ultime 3 ore",
+            "lastSixHours": "Ultime 6 ore",
+            "lastTwelveHours": "Ultime 12 ore",
+            "lastDay": "Ultimo giorno",
+            "lastThreeDays":    "Ultimi 3 giorni",
+            "all": "Tutte le notifiche"
+        }
+    },
+    "tag": {
+        "safe": "Sicuro",
+        "low": "Basso",
+        "midLow": "Basso-Medio",
+        "mid": "Medio",
+        "midHigh": "Alto",
+        "high": "Molto Alto"
+    },
+    "cluster": {
+        "actions": {
+            "copied": "Copiato!"
+        },
+        "mapButtons": {
+            "copy": "Copia",
+            "google": "Apri in Google Maps",
+            "apple": "Apri in Apple Maps",
+            "direction": "Indicazioni"
+        },
+        "noticeCount": "{{count}} notifica effettuata"
+    },
+    "map": {
+        "layerControl": {
+            "heatmap": "Mappa di calore",
+            "dots": "Punti"
+        }
+    },
+    "content": {
+        "notifyTime": "Notificato Tempo",
+        "source": "Fonte",
+        "helpContent": "Aiuto",
+        "showData": "Mostra dati"
+    }
+}
