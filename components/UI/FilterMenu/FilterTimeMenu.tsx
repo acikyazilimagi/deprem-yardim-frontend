@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
@@ -67,9 +67,15 @@ const valueToOption = (value: string): FilterOption | undefined => {
 
 export type FilterTimeMenuProps = {
   onChangeTime: (_newerThanTimestamp?: number) => void;
+  shouldFetchNextOption: Boolean;
+  resetShouldFetchNextOption: Function;
 };
 
-const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
+const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
+  onChangeTime,
+  shouldFetchNextOption,
+  resetShouldFetchNextOption,
+}) => {
   const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
@@ -90,6 +96,19 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({ onChangeTime }) => {
 
     handleClose();
   };
+
+  useEffect(() => {
+    let currentOptionIndex = FilterOptions.findIndex(
+      (option) => option.value === selectedValue
+    );
+
+    if (shouldFetchNextOption && selectedValue !== "all") {
+      setSelectedValue(FilterOptions[currentOptionIndex + 1].value);
+      resetShouldFetchNextOption();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchNextOption]);
 
   useEffect(() => {
     const option = valueToOption(selectedValue);
