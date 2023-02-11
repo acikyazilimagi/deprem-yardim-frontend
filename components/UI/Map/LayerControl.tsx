@@ -4,7 +4,7 @@ import { memo, useCallback } from "react";
 import { LayerGroup, LayersControl } from "react-leaflet";
 import { AhbapClusterGroup } from "./AhbapClusterGroup";
 import ClusterGroup from "./ClusterGroup";
-import { useTranslation } from "next-i18next";
+import { MapLayer, useMapLayers } from "@/stores/mapStore";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -17,17 +17,14 @@ type Props = {
 };
 
 const LayerControl = ({ points, data, ahbap }: Props) => {
-  const { t } = useTranslation("home");
+  const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
 
   return (
-    <LayersControl position="topleft">
-      <LayersControl.Overlay
-        checked
-        name={t("map.layerControl.heatmap").toString()}
-      >
+    <>
+      {mapLayers.includes(MapLayer.Heatmap) && (
         <HeatmapLayer
           fitBoundsOnUpdate
           radius={15}
@@ -37,21 +34,14 @@ const LayerControl = ({ points, data, ahbap }: Props) => {
           intensityExtractor={intensityExtractor}
           useLocalExtrema={false}
         />
-      </LayersControl.Overlay>
-      <LayersControl.Overlay
-        checked
-        name={t("map.layerControl.dots").toString()}
-      >
-        <LayerGroup>
-          <ClusterGroup data={data} />
-        </LayerGroup>
-      </LayersControl.Overlay>
+      )}
+      {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
       <LayersControl.Overlay checked={false} name="Ahbap data">
         <LayerGroup>
           <AhbapClusterGroup data={ahbap} />
         </LayerGroup>
       </LayersControl.Overlay>
-    </LayersControl>
+    </>
   );
 };
 
