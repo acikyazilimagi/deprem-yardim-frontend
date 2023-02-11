@@ -39,7 +39,6 @@ import {
 } from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
-import { TileLayerMenuOption } from "@/components/UI/FilterMenu/TileLayer";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -66,7 +65,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [tileLayer, setTileLayer] = useState("m");
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
@@ -171,9 +169,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reasoningFilterMenuOption]);
 
-  const onTileChange = (option: TileLayerMenuOption) =>
-    setTileLayer(option.value);
-
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
@@ -202,7 +197,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.TileLayer onChange={onTileChange} />
                   <FilterMenu.Reasoning
                     onChange={setReasoningFilterMenuOption}
                   />
@@ -214,7 +208,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap tileLayer={tileLayer} />
+            <LeafletMap />
             <Box
               sx={{
                 display: "flex",

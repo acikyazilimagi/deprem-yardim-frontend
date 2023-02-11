@@ -4,6 +4,7 @@ import {
   useDevice,
   useIsDrawerOpen,
   useMapActions,
+  useMapType,
   useMarkerData,
 } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
@@ -30,6 +31,7 @@ import {
 } from "./utils";
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
+import ViewControl from "./ViewControl";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -156,13 +158,12 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-type LeafletMapProps = { tileLayer: string };
-
-function LeafletMap({ tileLayer = "m" }: LeafletMapProps) {
+function LeafletMap() {
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
   const isOpen = useIsDrawerOpen();
+  const mapType = useMapType();
   const { toggleDrawer, setDrawerData } = useMapActions();
 
   const points: Point[] = useMemo(
@@ -217,8 +218,7 @@ function LeafletMap({ tileLayer = "m" }: LeafletMapProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const baseUrl = `https://mt0.google.com/vt/lyrs=${tileLayer}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
+  const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
   return (
     <>
@@ -247,9 +247,15 @@ function LeafletMap({ tileLayer = "m" }: LeafletMapProps) {
         maxZoom={18}
       >
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
+        <ViewControl
+          onClick={() => {
+            setDrawerData(null);
+            toggleDrawer();
+          }}
+        />
         <MapEvents />
         <LayerControl points={points} data={data} />
-        <TileLayer url={baseUrl} />
+        <TileLayer url={baseMapUrl} />
       </Map>
     </>
   );

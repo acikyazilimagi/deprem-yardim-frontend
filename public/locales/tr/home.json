@@ -42,14 +42,17 @@
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {
+        "details": "Harita Ayrıntıları",
+        "type": "Harita Türü",
         "base": {
-            "map": "Harita",
+            "default": "Varsayılan",
             "satellite": "Uydu",
             "terrain": "Arazi"
         },
-        "layerControl": {
+        "layer": {
             "heatmap": "Isı Haritası",
-            "dots": "Noktalar"
+            "markers": "Depremzede Konumları",
+            "earthquakes": "Son Depremler"
         }
     },
     "content": {
