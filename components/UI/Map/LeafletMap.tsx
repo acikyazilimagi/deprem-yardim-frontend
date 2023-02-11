@@ -209,6 +209,7 @@ function LeafletMap() {
             lng: parseFloat(lng as string),
           },
         },
+        isVisited: false,
       };
       toggleDrawer();
       setDrawerData(tempDrawerData);

@@ -14,6 +14,7 @@ export const dataTransformerLite = (data: DataLite): MarkerData[] =>
         lng: result.loc?.[1] || 0,
       },
     },
+    isVisited: false,
   }));
 
 export const dataTransformer = (

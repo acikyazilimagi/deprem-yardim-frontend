@@ -8,6 +8,7 @@ import useSupercluster from "use-supercluster";
 
 type Props = {
   data: MarkerData[];
+  markersVisited: any;
 };
 
 type ExtendedMarkerProps = MarkerProps & {
@@ -27,11 +28,24 @@ const fetchIcon = (count: number) => {
   });
 };
 
-const ClusterGroup = ({ data }: Props) => {
+const LeafIcon = L.Icon.extend({
+  options: {},
+});
+const blueIcon = new LeafIcon();
+const grayIcon = new LeafIcon();
+blueIcon.options.iconUrl = "/icons/marker-icon-blue.png";
+grayIcon.options.iconUrl = "/icons/marker-icon-gray.png";
+
+const ClusterGroup = ({ data, markersVisited }: Props) => {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
 
-  const geoJSONPlaces = data.map((marker) => ({
+  const processedData = data.map((marker) => ({
+    ...marker,
+    isVisited: markersVisited[marker.reference],
+  }));
+
+  const geoJSONPlaces = processedData.map((marker) => ({
     type: "Feature",
     properties: {
       cluster: false,
@@ -91,6 +105,9 @@ const ClusterGroup = ({ data }: Props) => {
           <ExtendedMarker
             key={cluster.properties.reference}
             position={[latitude, longitude]}
+            icon={
+              cluster.properties.marker.isVisited === true ? grayIcon : blueIcon
+            }
             eventHandlers={{
               click: (e) => {
                 handleMarkerClick(

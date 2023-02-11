@@ -102,6 +102,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       onSuccess: (data) => {
         if (!data) return;
 
+        console.log("dataTransformerLite!!!");
         const transformedData = data.results ? dataTransformerLite(data) : [];
         setMarkerData(transformedData);
       },
