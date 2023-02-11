@@ -133,3 +133,23 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.layerContent {
+  width: 100%;
+  display: flex;
+  padding: 1rem;
+  overflow: auto;
+}
+
+@media (min-width: 768px) {
+  .layerContent {
+    height: auto;
+    width: 300px;
+    position: fixed;
+    background: white;
+    left: 50px;
+    border-radius: 4px;
+    top: 130px;
+    border: 1px solid teal;
+  }
+}
