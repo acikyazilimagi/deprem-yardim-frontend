@@ -91,7 +91,12 @@ export const LayerContent = () => {
             checked={mapLayers.includes(MapLayer.Heatmap)}
             title={t("map.layer.heatmap")}
           />
-          {/* <LayerButton onClick={() => toggleMapLayer(MapLayer.Earthquakes)} image="bubblemap" checked={mapLayers.includes(MapLayer.Earthquakes)} title={t("map.layer.earthquakes")} /> */}
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Ahbap)}
+            image="icon-7"
+            checked={mapLayers.includes(MapLayer.Ahbap)}
+            title={t("map.layer.ahbap")}
+          />
         </Box>
       </Box>
     </Box>

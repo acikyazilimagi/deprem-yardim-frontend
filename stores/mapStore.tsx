@@ -1,3 +1,4 @@
+import { AhbapData } from "@/components/UI/Drawer/components/types";
 import { LatLngBounds } from "leaflet";
 import { create } from "zustand";
 import {
@@ -18,11 +19,12 @@ export enum MapLayer {
   Heatmap = "heatmap",
   Markers = "markers",
   Earthquakes = "earthquakes",
+  Ahbap = "Ahbap",
 }
 
 interface MapState {
   popUpData: ClusterPopupData | null;
-  drawerData: MarkerData | null;
+  drawerData: MarkerData | AhbapData | null;
   isDrawerOpen: boolean;
   coordinates?: CoordinatesURLParametersWithEventType;
   device: DeviceType;
@@ -32,7 +34,7 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
-    setDrawerData: (data: MarkerData | null) => void;
+    setDrawerData: (data: MarkerData | AhbapData | null) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
     setDevice: (device: DeviceType) => void;
@@ -58,7 +60,7 @@ export const useMapStore = create<MapState>()((set) => ({
           ? mapLayers.filter((layer) => layer !== mapLayer)
           : mapLayers.concat(mapLayer),
       })),
-    setDrawerData: (data: MarkerData | null) =>
+    setDrawerData: (data: MarkerData | AhbapData | null) =>
       set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
