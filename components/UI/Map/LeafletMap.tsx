@@ -4,6 +4,7 @@ import {
   useDevice,
   useIsDrawerOpen,
   useMapActions,
+  useMapType,
   useMarkerData,
 } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
@@ -30,6 +31,7 @@ import {
 } from "./utils";
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
+import ViewControl from "./ViewControl";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -156,11 +158,12 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap() {
+function LeafletMap({ ahbap }: { ahbap: any[] }) {
   const { setCoordinates } = useMapActions();
   const router = useRouter();
   const data = useMarkerData();
   const isOpen = useIsDrawerOpen();
+  const mapType = useMapType();
   const { toggleDrawer, setDrawerData } = useMapActions();
 
   const points: Point[] = useMemo(
@@ -209,12 +212,14 @@ function LeafletMap() {
             lng: parseFloat(lng as string),
           },
         },
+        isVisited: false,
       };
       toggleDrawer();
       setDrawerData(tempDrawerData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
   return (
     <>
@@ -229,8 +234,8 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        zoomSnap={1}
+        zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
             setCoordinates(map.target.getBounds(), "ready");
@@ -243,11 +248,18 @@ function LeafletMap() {
         maxZoom={18}
       >
         <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
+        <ViewControl
+          onClick={() => {
+            setDrawerData(null);
+            toggleDrawer();
+          }}
+        />
         <MapEvents />
-        <LayerControl points={points} data={data} />
+        <LayerControl points={points} data={data} ahbap={ahbap} />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
+        <TileLayer url={baseMapUrl} />
       </Map>
     </>
   );

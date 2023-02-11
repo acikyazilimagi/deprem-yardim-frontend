@@ -18,7 +18,10 @@ import {
   useDevice,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
+import {
+  AHBAP_LOCATIONS_URL,
+  REQUEST_THROTTLING_INITIAL_SEC,
+} from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -47,7 +50,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 const getReasoningFilter = (
   reasoningFilterMenuOption: ReasoningFilterMenuOption
 ) => {
-  reasoningFilterMenuOption.type;
   if (reasoningFilterMenuOption.type === "channel") {
     return undefined;
   }
@@ -60,7 +62,9 @@ const getReasoningFilter = (
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
+  ahbap: any[];
 };
+
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
@@ -75,6 +79,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     useState<boolean>(false);
   const device = useDevice();
   const isMobile = device === "mobile";
+  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -108,17 +113,50 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
       revalidateOnFocus: false,
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         if (!data) return;
         if (!data.results) {
           setShouldFetchNextOption(true);
         }
 
-        const transformedData = data.results ? dataTransformerLite(data) : [];
+        const transformedData = data.results
+          ? await dataTransformerLite(data)
+          : [];
         setMarkerData(transformedData);
       },
     }
   );
+
+  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
+      console.log(data.results);
+
+      const features = data.results.map((item: any) => {
+        let extra_params = {};
+        try {
+          extra_params = JSON.parse(
+            item.extra_parameters?.replaceAll("'", '"')
+          );
+        } catch (error) {
+          console.log(error);
+        }
+
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: item.loc?.reverse(),
+          },
+          properties: extra_params,
+        };
+      });
+
+      console.log(features);
+
+      setAhbapLocations(features);
+    },
+  });
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
@@ -208,7 +246,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap />
+            <LeafletMap ahbap={ahbapLocations} />
             <Box
               sx={{
                 display: "flex",
@@ -288,6 +326,7 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
+      ahbap: [],
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }
         : {},

@@ -22,7 +22,7 @@
         }
     },
     "tags": {
-        "safe": "Az Yoğun",  
+        "safe": "Az Yoğun",
         "low": "Az - Orta Yoğun",
         "midLow": "Orta Yoğun",
         "mid": "Orta - Yüksek Yoğun",
@@ -34,17 +34,27 @@
             "copied": "Koordinat bilgisi kopyalandı."
         },
         "mapButtons": {
-            "copy": "Kopyala",
+            "copy": "Harita Linkini Kopyala",
             "google": "Google Haritalarda Aç",
             "apple": "Apple Haritalarda Aç",
             "direction": "Yol Tarifi Al"
         },
+        "copyFullText": "İçeriği Kopyala",
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {
-        "layerControl": {
+        "details": "Harita Ayrıntıları",
+        "type": "Harita Türü",
+        "base": {
+            "default": "Varsayılan",
+            "satellite": "Uydu",
+            "terrain": "Arazi"
+        },
+        "layer": {
             "heatmap": "Isı Haritası",
-            "dots": "Noktalar"
+            "markers": "Depremzede Konumları",
+            "earthquakes": "Son Depremler",
+            "ahbap": "Ahbap Lokasyon"
         }
     },
     "content": {

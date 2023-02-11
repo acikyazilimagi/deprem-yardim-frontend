@@ -34,17 +34,27 @@
             "copied": "Coordinate information was copied."
         },
         "mapButtons": {
-            "copy": "Copy",
+            "copy": "Copy Map Link",
             "google": "Open in Google Maps",
             "apple": "Open in Apple Maps",
             "direction": "Get Directions"
         },
+        "copyFullText": "Copy Content",
         "noticeCount": "{{count}} notice available"
     },
     "map": {
-        "layerControl": {
+        "details": "Map Details",
+        "type": "Map Type",
+        "base": {
+            "default": "Default",
+            "satellite": "Satellite",
+            "terrain": "Terrain"
+        },
+        "layer": {
             "heatmap": "Heatmap",
-            "dots": "Dots"
+            "markers": "Markers",
+            "earthquakes": "Latest Earthquakes",
+            "ahbap": "Ahbap Locations"
         }
     },
     "content": {

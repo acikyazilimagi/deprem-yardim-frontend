@@ -16,7 +16,11 @@ export type Photo = {
 export type MarkerData = {
   geometry: Geometry;
   reference: number;
+  isVisited: boolean;
 };
+export type MarkerVisited = {
+    [key: number]: boolean;
+}
 export type ClusterPopupData = {
   count: number;
   baseMarker: MarkerData;
