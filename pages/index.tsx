@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -42,6 +42,7 @@ import {
 } from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import { multiChannelDataFetcher } from "@/services/multiChannelDataFetcher";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -80,9 +81,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const device = useDevice();
   const isMobile = device === "mobile";
   const urlParams = useRef(new URLSearchParams());
-  const requestURL = `${areasURL}?${urlParams.current.toString()}`;
+  const requestURL = useRef("");
 
   const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
+
+  const setRequestURLandMutate = () => {
+    requestURL.current = `${areasURL}?${urlParams.current.toString()}`;
+    mutate(requestURL.current);
+  };
 
   const coordinatesAndEventType:
     | CoordinatesURLParametersWithEventType
@@ -91,8 +97,10 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    `${areasURL}?${urlParams.current.toString()}`,
-    dataFetcher,
+    requestURL.current,
+    // If both verified / unverified are selected, use multiChannelDataFetcher which
+    // fetches both twitter and babala
+    verifiedStatus.length > 1 ? multiChannelDataFetcher : dataFetcher,
     {
       isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
@@ -111,45 +119,53 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     }
   );
 
-  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
-          );
-        } catch (error) {
-          console.error(error);
-        }
+  useSWR(
+    // Do not fetch Ahbap if verified is not selected
+    verifiedStatus.includes("verified") && AHBAP_LOCATIONS_URL,
+    dataFetcher,
+    {
+      onSuccess: (data) => {
+        if (!data) return;
+        const features = data.results.map((item: any) => {
+          let extra_params = {};
+          try {
+            extra_params = JSON.parse(
+              item.extra_parameters
+                ?.replaceAll("'", '"')
+                .replaceAll("\\xa0", "")
+            );
+          } catch (error) {
+            console.error(error);
+          }
 
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-      setAhbapLocations(features);
-    },
-  });
+          return {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: item.loc?.reverse(),
+            },
+            properties: extra_params,
+          };
+        });
+        setAhbapLocations(features);
+      },
+    }
+  );
 
   if (error) {
+    console.log(error);
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
 
   const { setDevice } = useMapActions();
   const [remainingTime, resetThrottling] = useIncrementalThrottling(() => {
-    // setCoordinatesURLParams();
-    // mutate(requestURL);
+    setCoordinatesURLParams();
+    setRequestURLandMutate();
   }, REQUEST_THROTTLING_INITIAL_SEC);
 
   const handleScanButtonClick = () => {
     setCoordinatesURLParams();
-    mutate(requestURL);
+    setRequestURLandMutate();
     resetThrottling();
   };
 
@@ -175,6 +191,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     }
 
     setCoordinatesURLParams();
+    setRequestURLandMutate();
   }, [coordinatesAndEventType, setCoordinatesURLParams, resetThrottling]);
 
   // Set reason URL param
@@ -185,6 +202,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     } else {
       urlParams.current.delete("reason");
     }
+
+    setRequestURLandMutate();
   }, [reasoningFilterMenuOption]);
 
   // Set time_stamp URL param
@@ -193,15 +212,23 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       return;
     }
     urlParams.current.set("time_stamp", newerThanTimestamp.toString());
+
+    setRequestURLandMutate();
   }, [newerThanTimestamp]);
 
+  // Set channel URL param
   useEffect(() => {
-    console.log(verifiedStatus);
     if (verifiedStatus.includes("verified")) {
       urlParams.current.set("channel", "babala");
-    } else {
+    } else if (verifiedStatus.includes("unverified")) {
+      setAhbapLocations([]);
       urlParams.current.set("channel", "twitter");
+    } else {
+      setAhbapLocations([]);
+      urlParams.current.delete("channel");
     }
+
+    setRequestURLandMutate();
   }, [verifiedStatus]);
 
   const onLanguageChange = (newLocale: string) => {
