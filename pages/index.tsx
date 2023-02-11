@@ -204,7 +204,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 padding: "0",
                 borderRadius: "10px",
                 position: "absolute",
-                bottom: isMobile ? "30px" : "90px",
+                bottom: isMobile ? "76%" : "90px",
                 right: isMobile ? "10px" : "26px",
                 zIndex: 500,
               }}
