@@ -4,6 +4,7 @@ import {
   OG_EDGE_URL_DYNAMIC,
   OG_EDGE_URL_BASE,
   TITLE,
+  SEO_LANG,
 } from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
 
@@ -82,6 +83,16 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
         {
           rel: "shortcut icon",
           href: "/favicon.ico",
+        },
+      ]}
+      languageAlternates={[
+        {
+          hrefLang: SEO_LANG.HREFLANG_TR,
+          href: SEO_LANG.HREF_TR,
+        },
+        {
+          hrefLang: SEO_LANG.HREFLANG_EN,
+          href: SEO_LANG.HREF_EN,
         },
       ]}
     />
