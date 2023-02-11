@@ -12,12 +12,12 @@ type Props = {
   points: Point[];
   data: MarkerData[];
 };
-
 const LayerControl = ({ points, data }: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
+
   return (
     <>
       {mapLayers.includes(MapLayer.Heatmap) && (

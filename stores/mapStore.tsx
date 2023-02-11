@@ -88,5 +88,4 @@ export const usePopUpData = () => useMapStore((state) => state.popUpData);
 export const useCoordinates = () => useMapStore((state) => state.coordinates);
 export const useDevice = () => useMapStore((state) => state.device);
 export const useMarkerData = () => useMapStore((state) => state.markerData);
-
 export const setMarkerData = useMapStore.getState().actions.setMarkerData;
