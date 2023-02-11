@@ -15,12 +15,6 @@ export function useMapClickHandlers() {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
 
-      toggleDrawer();
-
-      if (selectedMarkerData) {
-        setDrawerData(selectedMarkerData);
-      }
-
       const markerVisitedMap: MarkerVisited =
         (await localForage.getItem(localForageKeys.markersVisited)) || {};
 
@@ -43,6 +37,12 @@ export function useMapClickHandlers() {
 
           setMarkerData(finalArr);
         }
+      }
+
+      toggleDrawer();
+
+      if (selectedMarkerData) {
+        setDrawerData(selectedMarkerData);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
