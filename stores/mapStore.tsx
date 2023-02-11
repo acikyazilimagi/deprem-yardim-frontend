@@ -33,7 +33,7 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
-    setDrawerData: (data: MarkerData | AhbapData) => void;
+    setDrawerData: (data: MarkerData | AhbapData | null) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
     setDevice: (device: DeviceType) => void;
