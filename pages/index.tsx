@@ -65,13 +65,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { t } = useTranslation(["common", "home"]);
   const router = useRouter();
   const [slowLoading, setSlowLoading] = useState(false);
-  const [verified, setVerified] = useState(true);
+  const [verifiedStatus, setVerifiedStatus] = useState(["verified"]);
   const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
     useState<ReasoningFilterMenuOption>(initialReasoningFilter);
   const [newerThanTimestamp, setNewerThanTimestamp] = useState<
     number | undefined
   >(undefined);
   const [url, setUrl] = useState<string | null>(null);
+  const [channels, setChannels] = useState<string[] | null>(null);
   const [shouldFetchNextOption, setShouldFetchNextOption] =
     useState<boolean>(false);
   const device = useDevice();
@@ -90,8 +91,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       ne_lng: coordinatesAndEventType?.ne_lng,
       sw_lat: coordinatesAndEventType?.sw_lat,
       sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      verified: verified,
+      // time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
       ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
     } as any).toString();
   }, [
@@ -99,14 +99,60 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     coordinatesAndEventType?.ne_lng,
     coordinatesAndEventType?.sw_lat,
     coordinatesAndEventType?.sw_lng,
-    newerThanTimestamp,
-    verified,
+    // newerThanTimestamp,
     reasoningFilterMenuOption,
   ]);
+
+  // verified -> babala, ahbap
+  // unverified -> twitter
+
+  // default -> verified
 
   const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
     url,
     dataFetcher,
+    {
+      isPaused: () => !coordinatesAndEventType,
+      onLoadingSlow: () => setSlowLoading(true),
+      revalidateOnFocus: false,
+      onSuccess: async (data) => {
+        if (!data) return;
+        if (!data.results) {
+          setShouldFetchNextOption(true);
+        }
+
+        const transformedData = data.results
+          ? await dataTransformerLite(data)
+          : [];
+        setMarkerData(transformedData);
+        setChannels(["ahbap_location", "babala"]);
+      },
+    }
+  );
+  const getVerifiedDataByGivenChannels = async () => {
+    const promises: any = [];
+    channels?.forEach((channel) => {
+      promises.push(dataFetcher(`${areasURL}?${urlParams}&channel=${channel}`));
+    });
+
+    const [res1, res2] = await Promise.all(promises);
+    return {
+      count: res1.count + res2.count,
+      results: [...res1.results, ...res2.results],
+    };
+  };
+
+  useEffect(() => {
+    console.log("cganged");
+  }, [newerThanTimestamp]);
+
+  const {
+    error: verifiedDataError,
+    isLoading: verifiedDataIsLoading,
+    isValidating: verifiedDataIsValidating,
+  } = useSWR<DataLite | undefined>(
+    `${channels}-${newerThanTimestamp}`,
+    getVerifiedDataByGivenChannels,
     {
       isPaused: () => !coordinatesAndEventType,
       onLoadingSlow: () => setSlowLoading(true),
@@ -162,7 +208,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useEffect(() => {
     setUrl(areasURL + "?" + urlParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp, verified]);
+  }, [newerThanTimestamp]);
+
+  // useEffect(() => {
+  // if (!coordinatesAndEventType) return;
+  // getVerifiedDataByGivenChannels();
+  // }, [verifiedStatus, coordinatesAndEventType]);
 
   useEffect(() => {
     if (url) {
@@ -210,7 +261,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                     shouldFetchNextOption={shouldFetchNextOption}
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
-                  <FilterMenu.FilterVerifiedMenu onChange={setVerified} />
+                  <FilterMenu.FilterVerifiedMenu onChange={setVerifiedStatus} />
                 </FilterMenu>
               </div>
             </div>
