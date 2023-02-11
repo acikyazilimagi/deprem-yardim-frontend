@@ -5,6 +5,7 @@ import L from "leaflet";
 import { MarkerData } from "@/mocks/types";
 import { Marker, MarkerProps, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
+import styles from "./Map.module.css";
 
 type Props = {
   data: MarkerData[];
@@ -27,13 +28,15 @@ const fetchIcon = (count: number) => {
   });
 };
 
-const LeafIcon = L.Icon.extend({
+const markerBlueIcon = L.Icon.Default.extend({
   options: {},
 });
-const blueIcon = new LeafIcon();
-const grayIcon = new LeafIcon();
-blueIcon.options.iconUrl = "/icons/marker-icon-blue.png";
-grayIcon.options.iconUrl = "/icons/marker-icon-gray.png";
+
+const markerGrayIcon = L.Icon.Default.extend({
+  options: {
+    className: styles.marker_icon__visited,
+  },
+});
 
 const ClusterGroup = ({ data }: Props) => {
   const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
@@ -100,7 +103,9 @@ const ClusterGroup = ({ data }: Props) => {
             key={cluster.properties.reference}
             position={[latitude, longitude]}
             icon={
-              cluster.properties.marker.isVisited === true ? grayIcon : blueIcon
+              cluster.properties.marker.isVisited === true
+                ? new markerGrayIcon()
+                : new markerBlueIcon()
             }
             eventHandlers={{
               click: (e) => {
