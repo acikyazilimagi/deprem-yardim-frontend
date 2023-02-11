@@ -1,6 +1,7 @@
 import { createControlComponent } from "@react-leaflet/core";
 import { Control, DomUtil, DomEvent } from "leaflet";
 import type { Map, ControlOptions } from "leaflet";
+import { i18n } from "next-i18next";
 
 type ViewControlProps = {
   onClick: () => void;
@@ -11,8 +12,8 @@ const _getControl = Control.extend({
   onAdd: function (_map: Map) {
     const container = DomUtil.create("div", "leaflet-bar");
     const link = DomUtil.create("a", "", container);
-
-    link.setAttribute("title", "Layers");
+    // @ts-ignore
+    link.setAttribute("title", i18n?.t("home:viewControls.layers")?.toString());
     link.setAttribute("href", "#");
     link.style.backgroundImage = "url(/icons/stack-line.svg)";
 

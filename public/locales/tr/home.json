@@ -51,7 +51,7 @@
         },
         "layer": {
             "heatmap": "Isı Haritası",
-            "markers": "Depremzede Konumları",
+            "markers": "İşaretçiler",
             "earthquakes": "Son Depremler"
         }
     },
@@ -60,5 +60,9 @@
         "source": "Kaynak",
         "helpContent": "Yardım İçeriği",
         "showData": "Kayıtlı veriyi göster"
+    },
+    "viewControls" : {
+        "reset": "Sıfırla",
+        "layers": "Katmanlar"
     }
 }

@@ -32,6 +32,7 @@ import {
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
+import { useTranslation } from "next-i18next";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -165,6 +166,7 @@ function LeafletMap() {
   const isOpen = useIsDrawerOpen();
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData } = useMapActions();
+  const { t } = useTranslation("home");
 
   const points: Point[] = useMemo(
     () =>
@@ -247,7 +249,10 @@ function LeafletMap() {
         maxBoundsViscosity={1}
         maxZoom={18}
       >
-        <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
+        <ResetViewControl
+          title={t("viewControls.reset").toString()}
+          icon="url(/icons/circular.png)"
+        />
         <ViewControl
           onClick={() => {
             setDrawerData(null);

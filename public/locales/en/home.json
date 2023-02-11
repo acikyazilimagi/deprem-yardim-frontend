@@ -21,7 +21,7 @@
             "all": "all time"
         }
     },
-    "tag": {
+    "tags": {
         "safe": "Low Dense",
         "low": "Low - Medium Intense",
         "midLow": "Medium Dense",
@@ -60,5 +60,9 @@
         "source": "Source",
         "helpContent": "Help Content",
         "showData": "Show recorded data"
+    },
+    "viewControls" : {
+        "reset": "Reset",
+        "layers": "Layers"
     }
 }
