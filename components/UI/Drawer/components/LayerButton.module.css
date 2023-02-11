@@ -1,0 +1,12 @@
+.buttonImage {
+  border: 2px solid;
+  display: inline-flex;
+  height: 66px;
+  width: 66px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background-size: 56px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}

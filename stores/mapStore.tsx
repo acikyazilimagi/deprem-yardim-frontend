@@ -8,6 +8,18 @@ import {
   DeviceType,
 } from "../mocks/types";
 
+export enum MapType {
+  Terrain = "p",
+  Satellite = "s",
+  Default = "m",
+}
+
+export enum MapLayer {
+  Heatmap = "heatmap",
+  Markers = "markers",
+  Earthquakes = "earthquakes",
+}
+
 interface MapState {
   popUpData: ClusterPopupData | null;
   drawerData: MarkerData | null;
@@ -15,13 +27,17 @@ interface MapState {
   coordinates?: CoordinatesURLParametersWithEventType;
   device: DeviceType;
   markerData: MarkerData[];
+  mapType: MapType;
+  mapLayers: MapLayer[];
   actions: {
     toggleDrawer: () => void;
-    setDrawerData: (data: MarkerData) => void;
+    toggleMapLayer: (mapLayer: MapLayer) => void;
+    setDrawerData: (data: MarkerData | null) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
     setDevice: (device: DeviceType) => void;
     setMarkerData: (data: MarkerData[]) => void;
+    setMapType: (mapType: MapType) => void;
   };
 }
 
@@ -32,9 +48,18 @@ export const useMapStore = create<MapState>()((set) => ({
   coordinates: undefined,
   device: "desktop",
   markerData: [],
+  mapType: MapType.Default,
+  mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
-    setDrawerData: (data: MarkerData) => set(() => ({ drawerData: data })),
+    toggleMapLayer: (mapLayer: MapLayer) =>
+      set(({ mapLayers }) => ({
+        mapLayers: mapLayers.includes(mapLayer)
+          ? mapLayers.filter((layer) => layer !== mapLayer)
+          : mapLayers.concat(mapLayer),
+      })),
+    setDrawerData: (data: MarkerData | null) =>
+      set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
     setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) =>
@@ -49,12 +74,16 @@ export const useMapStore = create<MapState>()((set) => ({
       })),
     setDevice: (device: DeviceType) => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
+    setMapType: (mapType) => set(() => ({ mapType })),
   },
 }));
 
 export const useIsDrawerOpen = () => useMapStore((state) => state.isDrawerOpen);
 export const useDrawerData = () => useMapStore((state) => state.drawerData);
 export const useMapActions = () => useMapStore((state) => state.actions);
+export const useMapLayers = () => useMapStore((state) => state.mapLayers);
+export const useMapType = () =>
+  useMapStore((state) => state.mapType ?? MapType.Default);
 export const usePopUpData = () => useMapStore((state) => state.popUpData);
 export const useCoordinates = () => useMapStore((state) => state.coordinates);
 export const useDevice = () => useMapStore((state) => state.device);
