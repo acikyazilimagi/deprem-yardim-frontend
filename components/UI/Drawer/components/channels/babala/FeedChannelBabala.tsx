@@ -8,10 +8,14 @@ const FeedChannelBabala = ({
   reason,
   extra_parameters,
 }: FeedChannelBabalaProps) => {
+  const isNotNan = (value: any) => {
+    return !!value && value !== "NaN" && value !== "nan";
+  }
+
   const extraValues =
     extra_parameters &&
     Object.entries(extra_parameters).map(([k, v]) => {
-      if (v && v !== "nan") {
+      if (isNotNan(v)) {
         return (
           <Typography key={k} style={styles.fullText}>
             {v}
@@ -20,7 +24,6 @@ const FeedChannelBabala = ({
       }
     });
 
-  const isReasonDisplayable = !!reason && reason !== "NaN";
 
   return (
     <>
@@ -28,8 +31,8 @@ const FeedChannelBabala = ({
         <div style={styles.logo_container}>
           <Typography style={styles.logo}>Babala</Typography>
           <div style={styles.chip_container}>
-            {isReasonDisplayable && (
-              <Chip label={reason.toLowerCase()} color="info" />
+            {isNotNan(reason) && (
+              <Chip label={reason?.toLowerCase()} color="info" />
             )}
           </div>
         </div>
