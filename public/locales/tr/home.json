@@ -4,11 +4,22 @@
         "remaining": "<strong>{{time}}</strong> sn sonra otamatik taranacak"
     },
     "filter": {
-        "title": "Bildirimler",
-        "reason": {
-            "earthquake": "Depremzede",
-            "provisions": "Erzak Yardımı",
-            "confirmed": "Teyitli"
+        "title": "Filtre",
+        "reasons": {
+            "all": "Hepsi",
+            "shelter": "Barinma",
+            "electronics": "Elektronik",
+            "wreckage": "Enkaz",
+            "provisions": "Erzak",
+            "clothes": "Giysi",
+            "safe-points": "Guvenli Noktalar",
+            "animal-theraphy": "Hayvanlar İçin Tedavi",
+            "accomodation": "Konaklama",
+            "rescue": "Kurtarma",
+            "logistics": "Lojistik",
+            "water": "Su",
+            "looting": "Yagma",
+            "food": "Yemek"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
