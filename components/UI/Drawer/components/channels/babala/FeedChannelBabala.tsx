@@ -2,20 +2,17 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import { FeedChannelBabalaProps } from "../../types";
 import { Divider } from "@mui/material";
+import { capitalize, isNaN } from "@/utils/helpers";
 
 const FeedChannelBabala = ({
   full_text,
   reason,
   extra_parameters,
 }: FeedChannelBabalaProps) => {
-  const isNotNan = (value: any) => {
-    return !!value && value !== "NaN" && value !== "nan";
-  };
-
   const extraValues =
     extra_parameters &&
     Object.entries(extra_parameters).map(([k, v]) => {
-      if (isNotNan(v)) {
+      if (!isNaN(v)) {
         return (
           <Typography key={k} style={styles.fullText}>
             {v}
@@ -29,15 +26,16 @@ const FeedChannelBabala = ({
       <div style={styles.container}>
         <div style={styles.logo_container}>
           <Typography style={styles.logo}>Babala</Typography>
-          <div style={styles.chip_container}>
-            {isNotNan(reason) && (
-              <Chip label={reason?.toLowerCase()} color="info" />
-            )}
-          </div>
         </div>
         <Divider />
         <Typography style={styles.fullText}>{full_text}</Typography>
         {extraValues}
+
+        {!isNaN(reason) && reason && (
+          <div style={styles.chip_container}>
+            <Chip label={capitalize(reason)} color="info" />
+          </div>
+        )}
       </div>
     </>
   );
@@ -47,6 +45,7 @@ const styles = {
   chip_container: {
     display: "flex",
     gap: 5,
+    marginTop: "10px",
     fontWeight: 500,
   },
   logo_container: {
