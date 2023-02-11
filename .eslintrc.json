@@ -12,6 +12,17 @@
         "message": "Unexpected property on console object was called"
       }
     ],
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-i18next",
+            "message": "Please use next-i18next import instead to avoid hydration errors"
+          }
+        ]
+      }
+    ]
   }
 }

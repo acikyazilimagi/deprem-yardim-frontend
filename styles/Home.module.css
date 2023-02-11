@@ -484,6 +484,7 @@
   min-width: 180px;
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   background: rgba(242, 242, 242, 0.5);

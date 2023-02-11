@@ -6,8 +6,10 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useRef, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const SitesIcon = () => {
+  const { t } = useTranslation("common");
   const isMinWidth = useMediaQuery("(min-width:1024px)");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpen, setIsOpen] = useState<any>(null);
@@ -69,7 +71,6 @@ const SitesIcon = () => {
               src="/icons/depremyardımIcon.svg"
             />
           </Link>
-
           <Popover
             anchorReference="anchorEl"
             anchorEl={anchorEl}
@@ -90,7 +91,7 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Depremzedeleri aramak ve yardım etmek için kullandığımız site.
+              {t("site.depremyardim")}
             </Typography>
           </Popover>
         </Box>
@@ -143,12 +144,10 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Afetle ilgili çeşitli konularda bilgi almak için kullandığımız web
-              sitesi.
+              {t("site.afetbilgi")}
             </Typography>
           </Popover>
         </Box>
-
         <Box sx={toBiggerIcon}>
           <Link
             href="https://deprem.io/"
@@ -184,11 +183,10 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Depremzedelere erzak yardımı için kullandığımız site.
+              {t("site.depremio")}
             </Typography>
           </Popover>
         </Box>
-
         <Box sx={toBiggerIcon}>
           <Link
             href="https://discord.gg/itdepremyardim"
@@ -224,8 +222,7 @@ const SitesIcon = () => {
             onClose={handlePopoverClose}
           >
             <Typography sx={{ padding: "10px", width: "450px" }}>
-              Projelerimizi geliştirmek ve birbirimizle iletişim kurmak için
-              kullandığımız Discord sunucusu.
+              {t("site.discord")}
             </Typography>
           </Popover>
         </Box>
