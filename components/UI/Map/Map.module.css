@@ -76,7 +76,6 @@
   .legend {
     gap: 4px;
     padding: 6px;
-    bottom: 45px;
     border-radius: 16px;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
