@@ -12,20 +12,20 @@
             "ahbap": "Ahbap"
         },
         "reasons": {
-            "all": "Tüm türler",
-            "shelter": "Barınma",
-            "electronics": "Elektronik",
-            "wreckage": "Enkaz",
-            "provisions": "Erzak",
-            "clothes": "Giysi",
-            "safe-points": "Güvenli noktalar",
-            "animal-theraphy": "Hayvanlar için tedavi",
-            "accomodation": "Konaklama",
-            "rescue": "Kurtarma",
-            "logistics": "Lojistik",
-            "water": "Su",
-            "looting": "Yağma",
-            "food": "Yemek"
+            "barinma": "Barınma",
+            "elektronik": "Elektronik",
+            "enkaz": "Enkaz",
+            "erzak": "Erzak",
+            "giysi": "Giysi",
+            "guvenli-noktalar": "Güvenli noktalar",
+            "hayvanlar-icin-tedavi": "Hayvanlar için tedavi",
+            "konaklama": "Konaklama",
+            "kurtarma": "Kurtarma",
+            "lojistik": "Lojistik",
+            "su": "Su",
+            "yagma": "Yağma",
+            "yemek": "Yemek"
+
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
