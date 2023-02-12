@@ -37,7 +37,7 @@ export const LayerContent = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            margin: "0.5rem 0 2rem",
+            margin: "0.5rem 0",
           }}
         >
           <LayerButton
@@ -65,6 +65,7 @@ export const LayerContent = () => {
             display: "flex",
             alignItems: "flex-start",
             margin: "0.5rem 0 0",
+            flexWrap: "wrap",
           }}
         >
           <LayerButton
@@ -81,15 +82,21 @@ export const LayerContent = () => {
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Ahbap)}
-            image="icon-7"
+            image="ahbap"
             checked={mapLayers.includes(MapLayer.Ahbap)}
             title={t("map.layer.ahbap")}
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Hospital)}
             image="hospitals"
-            checked={!mapLayers.includes(MapLayer.Hospital)}
-            title={t("map.layer.hospital")}
+            checked={mapLayers.includes(MapLayer.Hospital)}
+            title={t("map.layer.health")}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Food)}
+            image="food"
+            checked={mapLayers.includes(MapLayer.Food)}
+            title={t("map.layer.food")}
           />
         </Box>
       </Box>
