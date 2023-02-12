@@ -11,9 +11,12 @@ type Props = {
 };
 
 const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
-  const reasons = reason.split(",").map((reason) => {
-    return capitalize(reason);
-  });
+  const reasons = reason
+    .split(",")
+    .filter((s) => s)
+    .map((reason) => {
+      return capitalize(reason);
+    });
 
   return (
     <>
