@@ -4,11 +4,11 @@ import FilterMenuButton from "./FilterMenuButton";
 
 export const channelFilterMenuOptions: readonly ChannelFilterMenuOption[] = [
   {
-    label: "Twitter",
+    label: "Social Media",
     value: "twitter",
   },
   {
-    label: "Babala",
+    label: "Verified",
     value: "babala",
   },
 ] as const;

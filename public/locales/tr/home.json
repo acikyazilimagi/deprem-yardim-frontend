@@ -19,7 +19,8 @@
             "logistics": "Lojistik",
             "water": "Su",
             "looting": "Yagma",
-            "food": "Yemek"
+            "food": "Yemek",
+            "hospital": "Health"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
@@ -65,7 +66,8 @@
             "heatmap": "Isı Haritası",
             "markers": "Depremzede Konumları",
             "earthquakes": "Son Depremler",
-            "ahbap": "Ahbap Lokasyon"
+            "ahbap": "Ahbap Lokasyon",
+            "hospital": "Hastane Lokasyon"
         }
     },
     "content": {
