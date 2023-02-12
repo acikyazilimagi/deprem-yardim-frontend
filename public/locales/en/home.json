@@ -26,7 +26,6 @@
             "water": "Water",
             "looting": "Looting",
             "food": "Food",
-            "health": "Health"
         },
         "time": {
             "lastHalfHour": "Last 30 minutes",
