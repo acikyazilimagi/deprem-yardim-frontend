@@ -39,7 +39,7 @@ type Props = {
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const { ahbapLocations } = useAhbapLocations();
   const { t } = useTranslation(["common", "home"]);
-  const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
+  const { setTimeStamp } = useURLActions();
   const router = useRouter();
   const device = useDevice();
   const {
@@ -100,7 +100,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.Channel onChange={setChannelFilterMenuOption} />
+                  <FilterMenu.Channel />
                   <FilterMenu.Time
                     onChangeTime={setTimeStamp}
                     shouldFetchNextOption={shouldFetchNextOption}

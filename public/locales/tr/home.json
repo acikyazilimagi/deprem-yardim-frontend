@@ -5,8 +5,14 @@
     },
     "filter": {
         "title": "Filtre",
+        "channels": {
+            "all": "Tüm kanallar",
+            "twitter": "Twitter",
+            "babala": "Babala",
+            "ahbap": "Ahbap"
+        },
         "reasons": {
-            "all": "Hepsi",
+            "all": "Tüm türler",
             "shelter": "Barinma",
             "electronics": "Elektronik",
             "wreckage": "Enkaz",

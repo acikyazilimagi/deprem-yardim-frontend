@@ -1,12 +1,18 @@
 {
     "scanner": {
         "text": "SCAN FIELD",
-        "remaining": "It will be scanned automatically after <strong>{{time}}</strong> sec"
+        "remaining": "Will be scanned automatically in <strong>{{time}}</strong> sec"
     },
     "filter": {
         "title": "Filter",
+        "channels": {
+            "all": "All channels",
+            "twitter": "Twitter",
+            "babala": "Babala",
+            "ahbap": "Ahbap"
+        },
         "reasons": {
-            "all": "All",
+            "all": "All reasons",
             "shelter": "Shelter",
             "electronics": "Electronics",
             "wreckage": "Wreckage",
@@ -29,7 +35,7 @@
             "lastTwelveHours": "Last 12 hours",
             "lastDay": "Last 24 hours",
             "lastThreeDays": "Last 3 days",
-            "all": "all time"
+            "all": "All time"
         }
     },
     "tag": {
