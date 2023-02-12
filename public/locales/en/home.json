@@ -25,7 +25,8 @@
             "logistics": "Logistics",
             "water": "Water",
             "looting": "Looting",
-            "food": "Food"
+            "food": "Food",
+            "health": "Health"
         },
         "time": {
             "lastHalfHour": "Last 30 minutes",
