@@ -21,7 +21,7 @@
             "all": "all time"
         }
     },
-    "tag": {
+    "tags": {
         "safe": "Low Dense",
         "low": "Low - Medium Intense",
         "midLow": "Medium Dense",
