@@ -24,7 +24,7 @@ import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
 import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
-import { useAhbapLocations } from "@/hooks/useAhbapLocations";
+import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,7 +37,7 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const { ahbapLocations } = useAhbapLocations();
+  const { ahbapLocations, hospitalLocations } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
   const router = useRouter();
@@ -110,7 +110,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap ahbap={ahbapLocations} />
+            <LeafletMap ahbap={ahbapLocations} hospital={hospitalLocations} />
             <Box
               sx={{
                 display: "flex",

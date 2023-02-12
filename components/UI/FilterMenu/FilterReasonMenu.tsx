@@ -19,6 +19,7 @@ export const reasonFilterMenuOptions: readonly ReasonFilterMenuOption[] = [
   { label: "water", value: "su" },
   { label: "looting", value: "yagma" },
   { label: "food", value: "yemek" },
+  { label: "saglik", value: "hastahane_locations" },
 ] as const;
 
 export const [initialReasonFilter] = reasonFilterMenuOptions;
