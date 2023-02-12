@@ -26,11 +26,9 @@ export const ReasonFilterMenu: React.FC = () => {
   const { t } = useTranslation("home");
 
   const { setReasoningFilterMenuOption } = useURLActions();
-  const [filterValues, setValues] = React.useState<string[]>([]);
-
-  React.useEffect(() => {
-    setValues(reasonFilterMenuOptions);
-  }, []);
+  const [filterValues, setValues] = React.useState<string[]>(
+    reasonFilterMenuOptions
+  );
 
   const handleChange = (event: SelectChangeEvent<any>) => {
     const {
@@ -40,8 +38,11 @@ export const ReasonFilterMenu: React.FC = () => {
       typeof value === "string" ? value.split(",") : value;
 
     setValues(selectedReasons);
-    setReasoningFilterMenuOption(selectedReasons);
   };
+
+  React.useEffect(() => {
+    setReasoningFilterMenuOption(filterValues.join(","));
+  }, [filterValues, setReasoningFilterMenuOption]);
 
   return (
     <Select
