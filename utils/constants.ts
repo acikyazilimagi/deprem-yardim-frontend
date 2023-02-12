@@ -10,3 +10,6 @@ export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
 
 export const AHBAP_LOCATIONS_URL =
   BASE_URL + "/feeds/areas?channel=ahbap_location&extraParams=true";
+
+export const HOSPITAL_LOCATIONS_URL =
+  BASE_URL + "/feeds/areas?channel=hastahane_locations&extraParams=true";

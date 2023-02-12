@@ -161,7 +161,12 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap({ ahbap }: { ahbap: any[] }) {
+interface ILeafletMap {
+  ahbap: any[];
+  hospital: any[];
+}
+
+function LeafletMap(props: ILeafletMap) {
   const { setCoordinates } = useURLActions();
   const router = useRouter();
   const data = useMarkerData();
@@ -259,7 +264,12 @@ function LeafletMap({ ahbap }: { ahbap: any[] }) {
           }}
         />
         <MapEvents />
-        <LayerControl points={points} data={data} ahbap={ahbap} />
+        <LayerControl
+          points={points}
+          data={data}
+          ahbap={props.ahbap}
+          hospital={props.hospital}
+        />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
