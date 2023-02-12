@@ -17,7 +17,7 @@ export type MarkerData = {
   geometry: Geometry;
   reference: number;
   isVisited: boolean;
-  closeByRecords?: any[];
+  closeByRecords?: number[];
 };
 export type MarkerVisited = {
     [key: number]: boolean;

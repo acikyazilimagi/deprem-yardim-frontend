@@ -46,6 +46,7 @@ export type AhbapData = {
       lng: number;
     };
   };
+  closeByRecords?: number[];
 };
 
 export type HospitalData = {
