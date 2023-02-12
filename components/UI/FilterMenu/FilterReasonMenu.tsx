@@ -2,6 +2,7 @@ import { useEffect, useState, MouseEvent } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
+import { useURLActions } from "@/stores/urlStore";
 
 export const reasonFilterMenuOptions: readonly ReasonFilterMenuOption[] = [
   { label: "all", value: null },
@@ -27,15 +28,12 @@ export interface ReasonFilterMenuOption {
   value: string | null;
 }
 
-export interface FilterReasonMenuProps {
-  onChange: (_option: string | null) => void;
-}
-
-const ReasonFilterMenu: React.FC<FilterReasonMenuProps> = ({ onChange }) => {
+const ReasonFilterMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<string | null>(
     initialReasonFilter.value
   );
+  const { setReasoningFilterMenuOption: onChange } = useURLActions();
   const { t } = useTranslation("home");
   const open = Boolean(anchorEl);
 
@@ -56,7 +54,7 @@ const ReasonFilterMenu: React.FC<FilterReasonMenuProps> = ({ onChange }) => {
   };
 
   useEffect(() => {
-    onChange(selectedValue);
+    onChange(selectedValue as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedValue]);
   const selectedLabel = selectedValue
