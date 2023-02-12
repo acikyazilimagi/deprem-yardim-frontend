@@ -12,7 +12,7 @@ const FeedChannelBabala = ({
   const extraValues =
     extra_parameters &&
     Object.entries(extra_parameters).map(([k, v]) => {
-      if (!isNaN(v)) {
+      if (!isNaN(v) && v !== "<nil>" && (typeof v !== "string" || !!v.trim())) {
         return (
           <Typography key={k} style={styles.fullText}>
             {v}

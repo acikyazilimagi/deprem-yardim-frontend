@@ -1,36 +1,97 @@
 import { useURLActions } from "@/stores/urlStore";
-import CommonFilterMenu, { FilterMenuOption } from "./CommonFilterMenu";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import * as React from "react";
+import { useTranslation } from "next-i18next";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 
-type ReasonValueType = string | null;
-
-const reasonFilterMenuOptions: FilterMenuOption<ReasonValueType>[] = [
-  { label: "all", value: null },
-  { label: "shelter", value: "barinma" },
-  { label: "electronics", value: "elektronik" },
-  { label: "wreckage", value: "enkaz" },
-  { label: "provisions", value: "erzak" },
-  { label: "clothes", value: "giysi" },
-  { label: "safe-points", value: "guvenli-noktalar" },
-  { label: "animal-theraphy", value: "hayvanlar-icin-tedavi" },
-  { label: "accomodation", value: "konaklama" },
-  { label: "rescue", value: "kurtarma" },
-  { label: "logistics", value: "lojistik" },
-  { label: "water", value: "su" },
-  { label: "looting", value: "yagma" },
-  { label: "food", value: "yemek" },
-  { label: "saglik", value: "hastahane_locations" },
+const reasonFilterMenuOptions: string[] = [
+  "barinma",
+  "elektronik",
+  "enkaz",
+  "erzak",
+  "guvenli-noktalar",
+  "hayvanlar-icin-tedavi",
+  "giysi",
+  "konaklama",
+  "kurtarma",
+  "lojistik",
+  "su",
+  "yagma",
+  "yemek",
 ];
 
-const [initialReasonFilter] = reasonFilterMenuOptions;
-
 export const ReasonFilterMenu: React.FC = () => {
+  const { t } = useTranslation("home");
+
   const { setReasoningFilterMenuOption } = useURLActions();
+  const [filterValues, setValues] = React.useState<string[]>(
+    reasonFilterMenuOptions
+  );
+
+  const handleChange = (event: SelectChangeEvent<any>) => {
+    const {
+      target: { value },
+    } = event;
+    const selectedReasons =
+      typeof value === "string" ? value.split(",") : value;
+
+    setValues(selectedReasons);
+  };
+
+  React.useEffect(() => {
+    setReasoningFilterMenuOption(filterValues.join(","));
+  }, [filterValues, setReasoningFilterMenuOption]);
+
   return (
-    <CommonFilterMenu<ReasonValueType>
-      initialValue={initialReasonFilter.value}
-      menuOptions={reasonFilterMenuOptions}
-      onChange={setReasoningFilterMenuOption}
-      translationPath="filter.reasons"
-    />
+    <Select
+      sx={{
+        width: 170,
+        background: "white",
+        height: "48px",
+        borderRadius: "8px",
+      }}
+      labelId="demo-multiple-name-label"
+      id="demo-multiple-name"
+      multiple
+      renderValue={(selected) =>
+        selected
+          .map((val: any) => t(`filter.reasons.${val}`).toLocaleUpperCase())
+          .join(", ")
+      }
+      value={filterValues}
+      onChange={handleChange}
+    >
+      {reasonFilterMenuOptions.map((item, i) => (
+        <MenuItem
+          sx={{
+            maxWidth: "170px",
+            padding: "5px",
+          }}
+          key={i}
+          value={item}
+        >
+          <Checkbox
+            sx={{
+              padding: "0",
+              margin: "0",
+            }}
+            checked={filterValues.indexOf(item) > -1}
+          />
+
+          <ListItemText
+            sx={{
+              padding: "0",
+              margin: "0 4px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            primary={t(`filter.reasons.${item}`).toLocaleUpperCase()}
+          />
+        </MenuItem>
+      ))}
+    </Select>
   );
 };
