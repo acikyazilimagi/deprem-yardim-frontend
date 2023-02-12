@@ -26,7 +26,7 @@
             "water": "Su",
             "looting": "Yagma",
             "food": "Yemek",
-            "saglik": "Sağlık"
+            "health": "Sağlık"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
