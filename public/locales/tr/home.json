@@ -13,18 +13,18 @@
         },
         "reasons": {
             "all": "Tüm türler",
-            "shelter": "Barinma",
+            "shelter": "Barınma",
             "electronics": "Elektronik",
             "wreckage": "Enkaz",
             "provisions": "Erzak",
             "clothes": "Giysi",
-            "safe-points": "Guvenli Noktalar",
-            "animal-theraphy": "Hayvanlar İçin Tedavi",
+            "safe-points": "Güvenli noktalar",
+            "animal-theraphy": "Hayvanlar için tedavi",
             "accomodation": "Konaklama",
             "rescue": "Kurtarma",
             "logistics": "Lojistik",
             "water": "Su",
-            "looting": "Yagma",
+            "looting": "Yağma",
             "food": "Yemek"
         },
         "time": {
@@ -82,6 +82,10 @@
         "notifyTime": "Bildirim Zamanı",
         "source": "Kaynak",
         "helpContent": "Yardım İçeriği",
-        "showData": "Kayıtlı veriyi göster"
+        "showData": "Kayıtlı veriyi göster",
+        "closeBy": {
+            "title": "Diğer kayıtlar",
+            "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
+        }
     }
 }
