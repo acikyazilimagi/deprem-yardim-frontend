@@ -12,20 +12,19 @@
             "ahbap": "Ahbap"
         },
         "reasons": {
-            "all": "All reasons",
-            "shelter": "Shelter",
-            "electronics": "Electronics",
-            "wreckage": "Wreckage",
-            "provisions": "Provisions",
-            "clothes": "Clothes",
-            "safe-points": "Safe-points",
-            "animal-theraphy": "Animal Theraphy",
-            "accomodation": "Accomodation",
-            "rescue": "Rescue",
-            "logistics": "Logistics",
-            "water": "Water",
-            "looting": "Looting",
-            "food": "Food"
+            "barinma": "Shelter",
+            "elektronik": "Electronics",
+            "enkaz": "Wreckage",
+            "erzak": "Provisions",
+            "giysi": "Clothes",
+            "guvenli-noktalar": "Safe-points",
+            "hayvanlar-icin-tedavi": "Animal Theraphy",
+            "konaklama": "Accomodation",
+            "kurtarma": "Rescue",
+            "lojistik": "Logistics",
+            "su": "Water",
+            "yagma": "Looting",
+            "yemek": "Food"
         },
         "time": {
             "lastHalfHour": "Last 30 minutes",
