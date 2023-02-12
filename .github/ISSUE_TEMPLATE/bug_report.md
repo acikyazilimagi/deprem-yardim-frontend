@@ -2,10 +2,11 @@
 name: Bug Reporting
 about: Use for bug reporting
 title: 'bug: '
-labels: 'bug, unchecked, waiting-test'
+labels: bug, unchecked, waiting-test
 assignees: ''
 
 ---
+
 ## Bug Definition
 A clear and short text to decribe the bug.
 
