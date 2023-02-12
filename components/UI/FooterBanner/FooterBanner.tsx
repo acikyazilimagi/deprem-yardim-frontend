@@ -1,13 +1,17 @@
 import RenderIf from "@/components/UI/Common/RenderIf";
 import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "./FooterBanner.module.css";
 import { Trans } from "next-i18next";
 
-export default function FooterBanner() {
+interface Props {
+  hideFooter: boolean;
+  setHideFooter: (_hideFooter: boolean) => void;
+}
+
+export default function FooterBanner({ hideFooter, setHideFooter }: Props) {
   useDisableZoom();
-  const [hideFooter, setHideFooter] = useState(true);
 
   const handleOffIconClick = () => {
     setHideFooter(true);
@@ -19,7 +23,7 @@ export default function FooterBanner() {
     if (!localHideFooter) {
       setHideFooter(false);
     }
-  }, []);
+  }, [setHideFooter]);
 
   return (
     <footer className={styles.footer}>

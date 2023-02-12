@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -54,6 +54,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     isLoading,
     isValidating,
   } = useGetAreas();
+  const [hideFooter, setHideFooter] = useState(true);
 
   const isMobile = device === "mobile";
 
@@ -170,8 +171,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner />
-        <Footer />
+        <FooterBanner hideFooter={hideFooter} setHideFooter={setHideFooter} />
+        <Footer setHideFooter={setHideFooter} />
       </main>
     </>
   );

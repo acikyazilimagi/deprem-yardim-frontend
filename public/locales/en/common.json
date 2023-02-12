@@ -10,7 +10,8 @@
         "banner": "<b>Disclosure:</b> We collect all calls for help from different sources such as Twitter, Instagram, Whatsapp and various websites and refine this data for use in the field. Helping NGOs and providing an open data platform in times of disaster.",
         "politic": {
             "cookie": "Cookie Policy",
-            "privacy": "Privacy Policy"
+            "privacy": "Privacy Policy",
+            "data":"Data Sources"
         }
     },
     "site": {
