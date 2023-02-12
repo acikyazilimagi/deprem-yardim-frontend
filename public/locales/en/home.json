@@ -82,6 +82,10 @@
         "notifyTime": "Notify Time",
         "source": "Source",
         "helpContent": "Help Content",
-        "showData": "Show recorded data"
+        "showData": "Show recorded data",
+        "closeBy": {
+            "title": "Other records",
+            "details": "You can click the below records to access the other records in the <b>same location</b>"
+        }
     }
 }
