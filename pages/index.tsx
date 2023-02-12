@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -10,11 +10,9 @@ import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { AHBAP_LOCATIONS_URL } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
 import { Box } from "@mui/material";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
@@ -26,6 +24,7 @@ import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
 import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
+import { useAhbapLocations } from "@/hooks/useAhbapLocations";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -38,8 +37,7 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
-
+  const { ahbapLocations } = useAhbapLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
   const router = useRouter();
@@ -57,34 +55,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   } = useGetAreas();
 
   const isMobile = device === "mobile";
-
-  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
-          );
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setAhbapLocations(features);
-    },
-  });
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
