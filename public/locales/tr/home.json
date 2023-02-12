@@ -25,7 +25,8 @@
             "logistics": "Lojistik",
             "water": "Su",
             "looting": "Yagma",
-            "food": "Yemek"
+            "food": "Yemek",
+            "saglik": "Sağlık"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
