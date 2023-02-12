@@ -1,6 +1,5 @@
 import React from "react";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Checkbox, ListItemText } from "@mui/material";
 
@@ -43,25 +42,32 @@ const FilterVerifiedMenu: React.FC<FilterVerifiedMenuProps> = ({
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={selectedStatus}
-          onChange={handleChange}
-          onClose={handleClose}
-          renderValue={(selected) => selected.join(", ")}
-          MenuProps={MenuProps}
-        >
-          {options.map((option) => (
-            <MenuItem key={option} value={option}>
-              <Checkbox checked={selectedStatus.indexOf(option) > -1} />
-              <ListItemText primary={option} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <Select
+        labelId="filter-verified-menu-label"
+        id="filter-verified-menu"
+        multiple
+        sx={{
+          background: "white",
+          color: "#344054",
+          "&:hover": { background: "white" },
+          border: "1px solid #BABBBE",
+          borderRadius: "8px",
+          height: "48px",
+          width: "100%",
+        }}
+        value={selectedStatus}
+        onChange={handleChange}
+        onClose={handleClose}
+        renderValue={(selected) => selected.join(", ")}
+        MenuProps={MenuProps}
+      >
+        {options.map((option) => (
+          <MenuItem key={option} value={option}>
+            <Checkbox checked={selectedStatus.indexOf(option) > -1} />
+            <ListItemText primary={option} />
+          </MenuItem>
+        ))}
+      </Select>
     </div>
   );
 };
