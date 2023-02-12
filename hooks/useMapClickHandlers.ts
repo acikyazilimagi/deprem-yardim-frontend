@@ -31,11 +31,25 @@ export function useMapClickHandlers() {
         );
 
         if (changedMarkerIndex !== -1) {
+          const geometry = selectedMarkerData?.geometry;
+          const reference = selectedMarkerData?.reference;
+          const closeByRecords: number[] = [];
+          if (geometry) {
+            allMarkers.forEach(({ geometry: { location }, reference: ref }) => {
+              if (
+                location.lat !== geometry.location.lat ||
+                location.lng !== geometry.location.lng
+              )
+                return;
+              closeByRecords.push(ref);
+            });
+          }
           const finalArr = allMarkers;
           finalArr[changedMarkerIndex] = {
-            reference: selectedMarkerData?.reference,
-            geometry: selectedMarkerData?.geometry,
+            reference,
+            geometry,
             isVisited: true,
+            closeByRecords,
           } as MarkerData;
 
           setMarkerData(finalArr);
