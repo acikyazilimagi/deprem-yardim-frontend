@@ -13,18 +13,18 @@
         },
         "reasons": {
             "all": "Tüm türler",
-            "shelter": "Barinma",
+            "shelter": "Barınma",
             "electronics": "Elektronik",
             "wreckage": "Enkaz",
             "provisions": "Erzak",
             "clothes": "Giysi",
-            "safe-points": "Guvenli Noktalar",
-            "animal-theraphy": "Hayvanlar İçin Tedavi",
+            "safe-points": "Güvenli noktalar",
+            "animal-theraphy": "Hayvanlar için tedavi",
             "accomodation": "Konaklama",
             "rescue": "Kurtarma",
             "logistics": "Lojistik",
             "water": "Su",
-            "looting": "Yagma",
+            "looting": "Yağma",
             "food": "Yemek"
         },
         "time": {
