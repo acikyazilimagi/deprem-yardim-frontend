@@ -57,6 +57,8 @@
             "direction": "Yol Tarifi Al"
         },
         "copyFullText": "İçeriği Kopyala",
+        "copiedContentSuccessfully": "İçerik başarıyla kopyalandı.",
+        "copiedMapLinkSuccessfully": "Harita linki başarıyla kopyalandı.",
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {

@@ -57,6 +57,8 @@
             "direction": "Get Directions"
         },
         "copyFullText": "Copy Content",
+        "copiedContentSuccessfully": "Copied successfully.",
+        "copiedMapLinkSuccessfully": "Copied map link successfully.",
         "noticeCount": "{{count}} notice available"
     },
     "map": {
