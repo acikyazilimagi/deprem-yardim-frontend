@@ -21,6 +21,7 @@ export function useMapClickHandlers() {
       const markerVisitedMap: MarkerVisited =
         (await localForage.getItem(localForageKeys.markersVisited)) || {};
 
+      const closeByRecords: number[] = [];
       if (allMarkers && selectedMarkerData?.reference) {
         markerVisitedMap[selectedMarkerData?.reference] = true;
 
@@ -31,10 +32,22 @@ export function useMapClickHandlers() {
         );
 
         if (changedMarkerIndex !== -1) {
+          const geometry = selectedMarkerData?.geometry;
+          const reference = selectedMarkerData?.reference;
+          if (geometry) {
+            allMarkers.forEach(({ geometry: { location }, reference: ref }) => {
+              if (
+                location.lat !== geometry.location.lat ||
+                location.lng !== geometry.location.lng
+              )
+                return;
+              closeByRecords.push(ref);
+            });
+          }
           const finalArr = allMarkers;
           finalArr[changedMarkerIndex] = {
-            reference: selectedMarkerData?.reference,
-            geometry: selectedMarkerData?.geometry,
+            reference,
+            geometry,
             isVisited: true,
           } as MarkerData;
 
@@ -45,7 +58,7 @@ export function useMapClickHandlers() {
       toggleDrawer();
 
       if (selectedMarkerData) {
-        setDrawerData(selectedMarkerData);
+        setDrawerData({ ...selectedMarkerData, closeByRecords });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

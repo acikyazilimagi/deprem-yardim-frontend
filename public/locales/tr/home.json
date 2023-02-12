@@ -25,8 +25,7 @@
             "logistics": "Lojistik",
             "water": "Su",
             "looting": "Yagma",
-            "food": "Yemek",
-            "health": "Sağlık"
+            "food": "Yemek"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
@@ -83,6 +82,10 @@
         "notifyTime": "Bildirim Zamanı",
         "source": "Kaynak",
         "helpContent": "Yardım İçeriği",
-        "showData": "Kayıtlı veriyi göster"
+        "showData": "Kayıtlı veriyi göster",
+        "closeBy": {
+            "title": "Diğer kayıtlar",
+            "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
+        }
     }
 }

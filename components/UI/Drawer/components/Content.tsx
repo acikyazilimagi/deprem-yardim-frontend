@@ -20,6 +20,7 @@ import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
 import { AhbapData } from "./types";
+import { CloseByRecord } from "./OtherRecordsInSameLocation";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
@@ -168,6 +169,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
           )}
         </div>
       )}
+
+      <CloseByRecord drawerData={drawerData} />
 
       <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
     </Box>
