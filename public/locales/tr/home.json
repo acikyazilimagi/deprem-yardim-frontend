@@ -72,8 +72,8 @@
             "heatmap": "Isı Haritası",
             "markers": "Depremzede Konumları",
             "earthquakes": "Son Depremler",
-            "ahbap": "Ahbap Lokasyon",
-            "hospital": "Hastane Lokasyon"
+            "ahbap": "Ahbap Konumları",
+            "health": "Hastaneler"
         }
     },
     "content": {

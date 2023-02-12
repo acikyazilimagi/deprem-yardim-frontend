@@ -65,6 +65,7 @@ export const LayerContent = () => {
             display: "flex",
             alignItems: "flex-start",
             margin: "0.5rem 0 0",
+            flexWrap: "wrap",
           }}
         >
           <LayerButton
@@ -89,7 +90,7 @@ export const LayerContent = () => {
             onClick={() => toggleMapLayer(MapLayer.Hospital)}
             image="hospitals"
             checked={mapLayers.includes(MapLayer.Hospital)}
-            title={t("map.layer.hospital")}
+            title={t("map.layer.health")}
           />
         </Box>
       </Box>
