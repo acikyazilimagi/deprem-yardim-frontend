@@ -2,7 +2,7 @@
 name: Bug Reporting
 about: Use for bug reporting
 title: 'bug: '
-labels: bug, unchecked, waiting-test
+labels: bug, discussion, unchecked, waiting-test
 assignees: ''
 
 ---
