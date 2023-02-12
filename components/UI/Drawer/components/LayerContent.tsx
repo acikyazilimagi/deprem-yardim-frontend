@@ -82,7 +82,7 @@ export const LayerContent = () => {
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Ahbap)}
-            image="icon-7"
+            image="ahbap"
             checked={mapLayers.includes(MapLayer.Ahbap)}
             title={t("map.layer.ahbap")}
           />
