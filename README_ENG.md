@@ -1,5 +1,7 @@
 ## To support the project
 
+[Story of Project](./STORY/STORY-BEHIND.md)
+
 Communications:
 
 - [Discord Channel](https://t.co/MzLdlNPOmY)
