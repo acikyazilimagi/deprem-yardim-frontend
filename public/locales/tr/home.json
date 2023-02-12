@@ -5,8 +5,14 @@
     },
     "filter": {
         "title": "Filtre",
+        "channels": {
+            "all": "Tüm kanallar",
+            "twitter": "Sosyal medya",
+            "babala": "Onaylı",
+            "ahbap": "Ahbap"
+        },
         "reasons": {
-            "all": "Hepsi",
+            "all": "Tüm türler",
             "shelter": "Barinma",
             "electronics": "Elektronik",
             "wreckage": "Enkaz",
@@ -20,7 +26,7 @@
             "water": "Su",
             "looting": "Yagma",
             "food": "Yemek",
-            "hospital": "Health"
+            "health": "Health"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
