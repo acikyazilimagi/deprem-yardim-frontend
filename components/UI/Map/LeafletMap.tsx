@@ -63,21 +63,35 @@ const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const router = useRouter();
   const { setCoordinates, setPopUpData } = useMapActions();
+  const id = router.query["id"];
 
   useEffect(() => {
     const localCoordinatesURL = window.localStorage.getItem(
       localStorageKeys.coordinatesURL
     );
+
     if (localCoordinatesURL) {
-      window.history.replaceState(
-        {
-          ...window.history.state,
-          as: localCoordinatesURL,
-          url: localCoordinatesURL,
-        },
-        "",
-        "?" + localCoordinatesURL
-      );
+      if (id) {
+        window.history.replaceState(
+          {
+            ...window.history.state,
+            as: localCoordinatesURL,
+            url: localCoordinatesURL,
+          },
+          "",
+          `?${localCoordinatesURL}&id=${id}`
+        );
+      } else {
+        window.history.replaceState(
+          {
+            ...window.history.state,
+            as: localCoordinatesURL,
+            url: localCoordinatesURL,
+          },
+          "",
+          "?" + localCoordinatesURL
+        );
+      }
     }
 
     return () => {
@@ -87,7 +101,7 @@ const MapEvents = () => {
         coordinatesURL
       );
     };
-  }, []);
+  }, [id]);
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
@@ -110,8 +124,12 @@ const MapEvents = () => {
       locationWithZoomLevel.append("lat", _lat.toString());
       locationWithZoomLevel.append("lng", _lng.toString());
       locationWithZoomLevel.append("zoom", _zoomLevel.toString());
+      if (id) {
+        locationWithZoomLevel.append("id", id.toString());
+      }
       const query = locationWithZoomLevel.toString();
       window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
+
       router.push(
         { query },
         { query },
@@ -224,7 +242,6 @@ function LeafletMap() {
     <>
       <Global styles={GlobalClusterStyle} />
       <MapLegend />
-
       <Map
         center={defaultCenter}
         zoom={defaultZoom}
