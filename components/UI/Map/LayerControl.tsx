@@ -13,9 +13,10 @@ type Props = {
   points: Point[];
   data: MarkerData[];
   ahbap: any[];
+  hospital: any[];
 };
 
-const LayerControl = ({ points, data, ahbap }: Props) => {
+const LayerControl = ({ points, data, ahbap, hospital }: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
@@ -36,6 +37,9 @@ const LayerControl = ({ points, data, ahbap }: Props) => {
       )}
       {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
       {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
+      {mapLayers.includes(MapLayer.Hospital) && (
+        <AhbapClusterGroup data={hospital} />
+      )}
     </>
   );
 };

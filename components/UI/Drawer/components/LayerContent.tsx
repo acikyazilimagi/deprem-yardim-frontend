@@ -85,6 +85,12 @@ export const LayerContent = () => {
             checked={mapLayers.includes(MapLayer.Ahbap)}
             title={t("map.layer.ahbap")}
           />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Hospital)}
+            image="hospitals"
+            checked={mapLayers.includes(MapLayer.Hospital)}
+            title={t("map.layer.hospital")}
+          />
         </Box>
       </Box>
     </Box>
