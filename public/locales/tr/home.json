@@ -25,7 +25,7 @@
             "logistics": "Lojistik",
             "water": "Su",
             "looting": "Yagma",
-            "food": "Yemek",
+            "food": "Yemek"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
@@ -85,11 +85,7 @@
         "showData": "Kayıtlı veriyi göster",
         "closeBy": {
             "title": "Diğer kayıtlar",
-<<<<<<< Updated upstream
-            "details": "Aşağıdaki seçeneklere tıklayarak <strong>aynı</strong> konumdaki diğer kayıtlara ulaşabilirsiniz."
-=======
             "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
->>>>>>> Stashed changes
         }
     }
 }
