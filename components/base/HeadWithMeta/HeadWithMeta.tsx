@@ -94,6 +94,7 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
           hrefLang: SEO_LANG.HREFLANG_EN,
           href: SEO_LANG.HREF_EN,
         },
+        
       ]}
     />
   );

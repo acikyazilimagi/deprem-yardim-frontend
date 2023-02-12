@@ -1,0 +1,86 @@
+{
+    "scanner": {
+        "text": "مجال المسح",
+        "remaining": "سيتم المسح تلقائيًا في غضون <strong> {{time}} </strong> ثانية"
+    },
+    "filter": {
+        "title": "التصنيف",
+        "channels": {
+            "all": "جميع القنوات",
+            "twitter": "وسائل التواصل الاجتماعي",
+            "babala": "موثوق",
+            "ahbap": "Ahbap"
+        },
+        "reasons": {
+            "all": "جميع الأنواع",
+            "shelter": "مَأوى",
+            "electronics": "إلكتروني",
+            "wreckage": "أنقاض",
+            "provisions": "مؤن",
+            "clothes": "ملابس",
+            "safe-points": "مناطق آمنة",
+            "animal-theraphy": "علاج للحيوانات",
+            "accomodation": "مكان مبيت",
+            "rescue": "إنقاذ",
+            "logistics": "الخدمات اللوجستية",
+            "water": "ماء",
+            "looting": "نهب",
+            "food": "طعام"
+        },
+        "time": {
+            "lastHalfHour": "آخر 30 دقيقة",
+            "lastHour": "آخر ساعة",
+            "lastThreeHours": "آخر 3 ساعات",
+            "lastSixHours": "آخر 6 ساعات",
+            "lastTwelveHours": "آخر 12 ساعة",
+            "lastDay": "أخر 24 ساعه",
+            "lastThreeDays": "آخر 3 أيام",
+            "all": "جميع الأوقات"
+        }
+    },
+    "tags": {
+        "safe": "أعداد منخفضة",
+        "low": "أعداد منخفضة - متوسطة",
+        "midLow": "أعداد متوسطة",
+        "mid": "أعداد متوسطة - كبيرة",
+        "midHigh": "أعداد كبيرة",
+        "high": "أعداد هائلة"
+    },
+    "cluster": {
+        "actions": {
+            "copied": "تم نسخ احداثيات المعلومات"
+        },
+        "mapButtons": {
+            "copy": "انسخ رابط الخريطة",
+            "google": "افتح بواسطة خرائط جوجل",
+            "apple": "افتح في خرائط آبل",
+            "direction": "احصل على الاتجاهات"
+        },
+        "copyFullText": "نسخ المحتوى",
+        "copiedContentSuccessfully": "تم النسخ بنجاح.",
+        "copiedMapLinkSuccessfully": "تم نسخ رابط الخريطة بنجاح.",
+        "noticeCount": "{{count}} إشعار متاح"
+    },
+    "map": {
+        "details": "تفاصيل الخريطة",
+        "type": "نوع الخريطة",
+        "base": {
+            "default": "الافتراضي",
+            "satellite": "الأقمار الصناعية",
+            "terrain": "تضاريس"
+        },
+        "layer": {
+            "heatmap": "خريطة الانتشار",
+            "markers": "العلامات",
+            "earthquakes": "أحدث الزلازل",
+            "ahbap": "Ahbap مواقع ",
+            "health": "المستشفيات"
+        }
+    },
+    "content": {
+        "notifyTime": "وقت الإشعار",
+        "source": "المصدر",
+        "helpContent": "محتوى المساعدة",
+        "showData": "إظهار البيانات المسجلة"
+    }
+}

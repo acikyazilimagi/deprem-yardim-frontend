@@ -9,6 +9,9 @@ export const OG_EDGE_URL_BASE =
 export const SEO_LANG = {
   HREF_TR: "https://afetharita.com/tr",
   HREF_EN: "https://afetharita.com/en",
+  HREF_AR: "https://afetharita.com/ar",
   HREFLANG_TR: "tr",
   HREFLANG_EN: "en",
+  HREFLANG_AR: "ar",
+
 };

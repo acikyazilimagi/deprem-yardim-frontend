@@ -17,6 +17,10 @@ const languages: Language[] = [
     locale: "tr",
     text: "TR",
   },
+  {
+    locale:"ar",
+    text:"AR"
+  }
 ];
 
 export type LocaleSwitchProps = {
