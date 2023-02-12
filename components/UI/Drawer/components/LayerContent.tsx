@@ -37,7 +37,7 @@ export const LayerContent = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            margin: "0.5rem 0 2rem",
+            margin: "0.5rem 0",
           }}
         >
           <LayerButton
@@ -82,7 +82,7 @@ export const LayerContent = () => {
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Ahbap)}
-            image="icon-7"
+            image="ahbap"
             checked={mapLayers.includes(MapLayer.Ahbap)}
             title={t("map.layer.ahbap")}
           />
