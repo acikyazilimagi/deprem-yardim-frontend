@@ -11,7 +11,6 @@ const reasonFilterMenuOptions: FilterMenuOption<ReasonValueType>[] = [
   { label: "provisions", value: "erzak" },
   { label: "clothes", value: "giysi" },
   { label: "safe-points", value: "guvenli-noktalar" },
-  { label: "health", value: "hastahane_locations" },
   { label: "animal-theraphy", value: "hayvanlar-icin-tedavi" },
   { label: "accomodation", value: "konaklama" },
   { label: "rescue", value: "kurtarma" },
