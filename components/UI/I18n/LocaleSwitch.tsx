@@ -3,7 +3,12 @@ import { Menu, MenuItem } from "@mui/material";
 import TranslateIcon from "@mui/icons-material/Translate";
 import FilterMenuButton from "@/components/UI/FilterMenu/FilterMenuButton";
 
-const languages = [
+type Language = {
+  locale: string;
+  text: string;
+};
+
+const languages: Language[] = [
   {
     locale: "en",
     text: "EN",
@@ -37,6 +42,11 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
     setAnchorEl(null);
   };
 
+  const handleMenuItemClick = (language: Language) => () => {
+    onChange(language.locale);
+    handleClose();
+  };
+
   return (
     <>
       <FilterMenuButton
@@ -65,7 +75,7 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
         {languages.map((language) => (
           <MenuItem
             key={language.locale}
-            onClick={() => onChange(language.locale)}
+            onClick={handleMenuItemClick(language)}
             data-value={language.locale}
             disableRipple
           >
