@@ -37,9 +37,10 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const { ahbapLocations, hospitalLocations } = useVerifiedLocations();
+  const { ahbapLocations, hospitalLocations, foodLocations } =
+    useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
-  const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
+  const { setTimeStamp } = useURLActions();
   const router = useRouter();
   const device = useDevice();
   const {
@@ -100,7 +101,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.Channel onChange={setChannelFilterMenuOption} />
+                  <FilterMenu.Channel />
                   <FilterMenu.Time
                     onChangeTime={setTimeStamp}
                     shouldFetchNextOption={shouldFetchNextOption}
@@ -110,7 +111,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap ahbap={ahbapLocations} hospital={hospitalLocations} />
+            <LeafletMap
+              ahbap={ahbapLocations}
+              hospital={hospitalLocations}
+              food={foodLocations}
+            />
             <Box
               sx={{
                 display: "flex",

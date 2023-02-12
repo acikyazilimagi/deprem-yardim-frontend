@@ -164,6 +164,7 @@ const bounds = latLngBounds(corners.southWest, corners.northEast);
 interface ILeafletMap {
   ahbap: any[];
   hospital: any[];
+  food: any[];
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -267,6 +268,7 @@ function LeafletMap(props: ILeafletMap) {
         <LayerControl
           points={points}
           data={data}
+          food={props.food}
           ahbap={props.ahbap}
           hospital={props.hospital}
         />

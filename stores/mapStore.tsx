@@ -19,6 +19,7 @@ export enum MapLayer {
   Earthquakes = "earthquakes",
   Ahbap = "Ahbap",
   Hospital = "Hospital",
+  Food = "Food",
 }
 
 interface MapState {
@@ -49,7 +50,13 @@ export const useMapStore = create<MapState>()((set) => ({
   device: "desktop",
   markerData: [],
   mapType: MapType.Default,
-  mapLayers: [MapLayer.Heatmap, MapLayer.Markers, MapLayer.Ahbap],
+  mapLayers: [
+    MapLayer.Heatmap,
+    MapLayer.Markers,
+    MapLayer.Ahbap,
+    MapLayer.Hospital,
+    MapLayer.Food,
+  ],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     toggleMapLayer: (mapLayer: MapLayer) =>
