@@ -61,12 +61,32 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
         &nbsp;&nbsp;
         {languages.find((language) => language.locale === current)?.text}
       </FilterMenuButton>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        sx={{ left: mobile ? "5px" : "0" }}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+      >
         {languages.map((language) => (
           <MenuItem
             key={language.locale}
-            onClick={() => onChange(language.locale)}
+            onClick={() => {
+              onChange(language.locale);
+              handleClose();
+            }}
             data-value={language.locale}
+            sx={{
+              width: mobile ? "95px" : "102px",
+              minHeight: mobile ? "32px" : "48px",
+            }}
             disableRipple
           >
             {language.text}
