@@ -2,10 +2,10 @@
 name: Refactor Request
 about: Use to request some new refactoring
 title: 'refactor: '
-labels: discussion, new, unchecked
+labels: discussion, unchecked
 assignees: ''
----
 
+---
 
 ### Refactor Request
 
