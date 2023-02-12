@@ -1,13 +1,16 @@
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { dataFetcher } from "@/services/dataFetcher";
+import { useEventType, setMarkerData } from "@/stores/mapStore";
 import {
-  useEventType,
-  setMarkerData,
-} from "@/stores/mapStore";
-import { useURL } from "@/stores/urlStore";
+  useChannelFilterMenuOption,
+  useCoordinates,
+  useReasoningFilterMenuOption,
+  useTimeStamp,
+} from "@/stores/urlStore";
 import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import { dataTransformerLite } from "@/utils/dataTransformer";
+import { areasURL } from "@/utils/urls";
 import { useState, useEffect, useCallback } from "react";
 import useSWR from "swr";
 
@@ -15,10 +18,34 @@ export function useGetAreas() {
   const [sendRequest, setSendRequest] = useState(false);
   const [shouldFetchNextOption, setShouldFetchNextOption] =
     useState<boolean>(false);
-  const [slowLoading, setSlowLoading] = useState(false)
+  const [slowLoading, setSlowLoading] = useState(false);
+  const [url, setURL] = useState(new URL(areasURL));
 
   const eventType = useEventType();
-  const url = useURL();
+  const coordinates = useCoordinates();
+  const timeStamp = useTimeStamp();
+  const reasoning = useReasoningFilterMenuOption();
+  const channel = useChannelFilterMenuOption();
+
+  useEffect(() => {
+    if (!coordinates) return;
+
+    const url = new URL(areasURL);
+
+    const searchParams = new URLSearchParams(coordinates);
+    searchParams.delete("eventType");
+
+    if (reasoning) searchParams.append("reason", reasoning);
+
+    if (channel) searchParams.append("channel", channel);
+
+    if (timeStamp) searchParams.append("time_stamp", `${timeStamp}`);
+
+    url.search = searchParams.toString();
+
+    setURL(url);
+    setSendRequest(true);
+  }, [channel, coordinates, reasoning, timeStamp]);
 
   const [remainingTime, resetThrottling] = useIncrementalThrottling(
     () => setSendRequest(true),
@@ -27,12 +54,12 @@ export function useGetAreas() {
 
   const getMarkers = useCallback(
     (_url: string) => {
-      if (!sendRequest || !url.search) return;
+      if (!sendRequest) return;
       setSendRequest(false);
 
       return dataFetcher(_url);
     },
-    [sendRequest, url.search]
+    [sendRequest]
   );
 
   useEffect(() => {
@@ -76,4 +103,3 @@ export function useGetAreas() {
     isValidating,
   };
 }
-

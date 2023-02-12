@@ -8,14 +8,9 @@ import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
 import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import {
-  useMapActions,
-  useDevice,
-} from "@/stores/mapStore";
+import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import {
-  AHBAP_LOCATIONS_URL,
-} from "@/utils/constants";
+import { AHBAP_LOCATIONS_URL } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -101,7 +96,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     setSendRequest(true);
 
     resetThrottling();
-  }, [resetThrottling]);
+  }, [resetThrottling, setSendRequest]);
 
   useEffect(() => {
     setDevice(deviceType);

@@ -53,27 +53,5 @@ export const useReasoningFilterMenuOption = () =>
   useURLStore((state) => state.reasoningFilterMenuOption);
 export const useURL = () => useURLStore((state) => state.url);
 export const useTimeStamp = () => useURLStore((state) => state.timeStamp);
-
-useURLStore.subscribe((state) => {
-  if (!state.coordinates) return;
-
-  const url = new URL(areasURL);
-  const searchParams = new URLSearchParams(state.coordinates as any);
-  searchParams.delete("eventType");
-
-  const reasoningFilterMenuOption = state.reasoningFilterMenuOption;
-  if (reasoningFilterMenuOption)
-    searchParams.append("reason", reasoningFilterMenuOption);
-
-  const channelFilterMenuOption = state.channelFilterMenuOption;
-  if (channelFilterMenuOption)
-    searchParams.append("channel", channelFilterMenuOption);
-
-  if (state.timeStamp) searchParams.append("time_stamp", `${state.timeStamp}`);
-
-  url.search = searchParams.toString();
-
-  if (url.href == state.url.href) return;
-
-  state.actions.setURL(url);
-});
+export const useChannelFilterMenuOption = () =>
+  useURLStore((state) => state.channelFilterMenuOption);
