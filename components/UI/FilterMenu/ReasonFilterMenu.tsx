@@ -18,7 +18,6 @@ const reasonFilterMenuOptions: FilterMenuOption<ReasonValueType>[] = [
   { label: "water", value: "su" },
   { label: "looting", value: "yagma" },
   { label: "food", value: "yemek" },
-  { label: "saglik", value: "hastahane_locations" },
 ];
 
 const [initialReasonFilter] = reasonFilterMenuOptions;
