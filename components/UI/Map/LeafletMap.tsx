@@ -64,6 +64,7 @@ const MapEvents = () => {
   const { setPopUpData, setEventType } = useMapActions();
   const { setCoordinates } = useURLActions();
   const id = router.query["id"];
+  const locale = router.locale;
 
   useEffect(() => {
     const localCoordinatesURL = window.localStorage.getItem(
@@ -75,8 +76,8 @@ const MapEvents = () => {
         window.history.replaceState(
           {
             ...window.history.state,
-            as: localCoordinatesURL,
-            url: localCoordinatesURL,
+            as: `/${locale}?${localCoordinatesURL}`,
+            url: `/?${localCoordinatesURL}`,
           },
           "",
           `?${localCoordinatesURL}&id=${id}`
@@ -85,8 +86,8 @@ const MapEvents = () => {
         window.history.replaceState(
           {
             ...window.history.state,
-            as: localCoordinatesURL,
-            url: localCoordinatesURL,
+            as: `/${locale}?${localCoordinatesURL}`,
+            url: `/?${localCoordinatesURL}`,
           },
           "",
           "?" + localCoordinatesURL
