@@ -19,8 +19,9 @@ export const CloseByRecord = ({ drawerData }: Props) => {
   )
     return null;
   const onClick = (reference: number) => () => {
-    const tempDrawerData: MarkerData = {
+    const tempDrawerData: MarkerData | AhbapData = {
       ...drawerData,
+      isVisited: true,
       reference,
       closeByRecords: drawerData.closeByRecords,
     };
