@@ -3,7 +3,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import { useTranslation } from "next-i18next";
-import { Theme, useTheme } from "@mui/material/styles";
+import Checkbox from "@mui/material/Checkbox";
+import ListItemText from "@mui/material/ListItemText";
 
 const reasonFilterMenuOptions: string[] = [
   "barinma",
@@ -21,22 +22,8 @@ const reasonFilterMenuOptions: string[] = [
   "yemek",
 ];
 
-function getStyles(value: string, values: string[], theme: Theme) {
-  return {
-    fontWeight:
-      values.indexOf(value) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-    background: values.indexOf(value) === -1 ? "white" : "#bbc3d253",
-    margin: "1px",
-    fontSize: "0.8rem",
-    maxWidth: "170px",
-  };
-}
-
 export const ReasonFilterMenu: React.FC = () => {
   const { t } = useTranslation("home");
-  const theme = useTheme();
 
   const { setReasoningFilterMenuOption } = useURLActions();
   const [filterValues, setValues] = React.useState<string[]>([]);
@@ -67,16 +54,41 @@ export const ReasonFilterMenu: React.FC = () => {
       labelId="demo-multiple-name-label"
       id="demo-multiple-name"
       multiple
+      renderValue={(selected) =>
+        selected
+          .map((val: any) => t(`filter.reasons.${val}`).toLocaleUpperCase())
+          .join(", ")
+      }
       value={filterValues}
       onChange={handleChange}
     >
       {reasonFilterMenuOptions.map((item, i) => (
         <MenuItem
+          sx={{
+            maxWidth: "170px",
+            padding: "5px",
+          }}
           key={i}
           value={item}
-          style={getStyles(item, filterValues, theme)}
         >
-          {t(`filter.reasons.${item}`).toLocaleUpperCase()}
+          <Checkbox
+            sx={{
+              padding: "0",
+              margin: "0",
+            }}
+            checked={filterValues.indexOf(item) > -1}
+          />
+
+          <ListItemText
+            sx={{
+              padding: "0",
+              margin: "0 4px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            primary={t(`filter.reasons.${item}`).toLocaleUpperCase()}
+          />
         </MenuItem>
       ))}
     </Select>
