@@ -1,9 +1,8 @@
 import styles from "@/styles/Home.module.css";
 import { Box } from "@mui/system";
 import LocaleSwitch, { LocaleSwitchProps } from "../I18n/LocaleSwitch";
-import FilterReasoningMenu, {
-  FilterReasoningMenuProps,
-} from "./FilterReasoningMenu";
+import FilterChannelMenu, { FilterChannelMenuProps } from "./FilterChannelMenu";
+import ReasonFilterMenu from "./FilterReasonMenu";
 import FilterTimeMenu, { FilterTimeMenuProps } from "./FilterTimeMenu";
 import { useTranslation } from "next-i18next";
 
@@ -13,7 +12,8 @@ type FilterMenuProps = {
 
 type FilterMenuType = React.FC<FilterMenuProps> & {
   Time: React.FC<FilterTimeMenuProps>;
-  Reasoning: React.FC<FilterReasoningMenuProps>;
+  Channel: React.FC<FilterChannelMenuProps>;
+  Reason: React.FC;
   LocaleSwitch: React.FC<LocaleSwitchProps>;
 };
 
@@ -29,7 +29,8 @@ const FilterMenu: FilterMenuType = ({ children }) => {
   );
 };
 FilterMenu.Time = FilterTimeMenu;
-FilterMenu.Reasoning = FilterReasoningMenu;
+FilterMenu.Channel = FilterChannelMenu;
 FilterMenu.LocaleSwitch = LocaleSwitch;
+FilterMenu.Reason = ReasonFilterMenu;
 
 export default FilterMenu;

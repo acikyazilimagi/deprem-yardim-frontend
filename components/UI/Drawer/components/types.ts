@@ -48,8 +48,27 @@ export type AhbapData = {
   };
 };
 
+export type HospitalData = {
+  channel: "hospital";
+  properties: {
+    name: string;
+    description: string;
+    type: string;
+    icon: string;
+  };
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+};
+
 export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
 
 export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
 
 export type FeedChannelAhbapProps = AhbapData;
+
+export type FeedChannelHospitalProps = HospitalData;
