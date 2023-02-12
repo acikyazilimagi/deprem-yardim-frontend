@@ -10,32 +10,27 @@ import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import {
   useMapActions,
-  setMarkerData,
   useDevice,
-  useEventType,
 } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import {
   AHBAP_LOCATIONS_URL,
-  REQUEST_THROTTLING_INITIAL_SEC,
 } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
-import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { dataTransformerLite } from "@/utils/dataTransformer";
-import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
-import { useURL, useURLActions } from "@/stores/urlStore";
+import { useURLActions } from "@/stores/urlStore";
+import { useGetAreas } from "@/hooks/useGetAreas";
+import { locationsURL } from "@/utils/urls";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -48,51 +43,25 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const { t } = useTranslation(["common", "home"]);
-  const router = useRouter();
-  const [slowLoading, setSlowLoading] = useState(false);
-  const [shouldFetchNextOption, setShouldFetchNextOption] =
-    useState<boolean>(false);
-  const eventType = useEventType();
-  const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
-  const url = useURL();
-  const device = useDevice();
-  const isMobile = device === "mobile";
-
   const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
-  const [sendRequest, setSendRequest] = useState(false);
 
-  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
+  const { t } = useTranslation(["common", "home"]);
+  const { setTimeStamp, setChannelFilterMenuOption } = useURLActions();
+  const router = useRouter();
+  const device = useDevice();
+  const {
+    resetThrottling,
+    remainingTime,
+    setSendRequest,
+    shouldFetchNextOption,
+    slowLoading,
+    resetShouldFetchNextOption,
+    error,
+    isLoading,
+    isValidating,
+  } = useGetAreas();
 
-  const getMarkers = useCallback(
-    (_url: string) => {
-      if (!sendRequest || !url.search) return;
-      setSendRequest(false);
-
-      return dataFetcher(_url);
-    },
-    [sendRequest, url.search]
-  );
-
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    sendRequest ? url.href : null,
-    getMarkers,
-    {
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: async (data) => {
-        if (!data) return;
-        if (!data.results) {
-          setShouldFetchNextOption(true);
-        }
-
-        const transformedData = data.results
-          ? await dataTransformerLite(data)
-          : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
+  const isMobile = device === "mobile";
 
   useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
     onSuccess: (data) => {
@@ -127,10 +96,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   }
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setSendRequest(true),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
 
   const handleScanButtonClick = useCallback(() => {
     setSendRequest(true);
@@ -141,15 +106,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
-
-  useEffect(() => {
-    if (eventType === "moveend" || eventType === "zoomend") {
-      resetThrottling();
-      return;
-    }
-
-    setSendRequest(true);
-  }, [eventType, resetThrottling, url.href, sendRequest]);
 
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;

@@ -15,7 +15,9 @@ interface MapState {
     setReasoningFilterMenuOption: (
       reasoningFilterMenuOption: string | null
     ) => void;
-    setChannelFilterMenuOption: (reasoningFilterMenuOption: string | null) => void;
+    setChannelFilterMenuOption: (
+      reasoningFilterMenuOption: string | null
+    ) => void;
   };
 }
 
