@@ -78,11 +78,18 @@ export const AhbapClusterGroup = ({ data }: Props) => {
             })}
             eventHandlers={{
               click: (e) => {
+                let description = cluster.properties.description;
+                if (
+                  cluster.properties.description &&
+                  typeof cluster.properties.description === "object"
+                ) {
+                  description = cluster.properties.description?.value;
+                }
                 handleMarkerClick(e, {
                   channel: "ahbap",
                   properties: {
                     name: cluster.properties.name,
-                    description: cluster.properties.description ?? "",
+                    description,
                     type: cluster.properties.styleUrl ?? "",
                     icon: cluster.properties.icon,
                   },
