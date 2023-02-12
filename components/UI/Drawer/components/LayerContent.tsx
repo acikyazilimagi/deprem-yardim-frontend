@@ -37,7 +37,7 @@ export const LayerContent = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            margin: "0.5rem 0 2rem",
+            margin: "0.5rem 0",
           }}
         >
           <LayerButton
