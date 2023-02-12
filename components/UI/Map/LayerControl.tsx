@@ -37,7 +37,7 @@ const LayerControl = ({ points, data, ahbap, hospital }: Props) => {
       )}
       {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
       {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
-      {mapLayers.includes(MapLayer.Hospital) && (
+      {!mapLayers.includes(MapLayer.Hospital) && (
         <AhbapClusterGroup data={hospital} />
       )}
     </>
