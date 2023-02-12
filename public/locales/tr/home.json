@@ -5,8 +5,14 @@
     },
     "filter": {
         "title": "Filtre",
+        "channels": {
+            "all": "Tüm kanallar",
+            "twitter": "Sosyal medya",
+            "babala": "Onaylı",
+            "ahbap": "Ahbap"
+        },
         "reasons": {
-            "all": "Hepsi",
+            "all": "Tüm türler",
             "shelter": "Barinma",
             "electronics": "Elektronik",
             "wreckage": "Enkaz",
@@ -19,8 +25,7 @@
             "logistics": "Lojistik",
             "water": "Su",
             "looting": "Yagma",
-            "food": "Yemek",
-            "hospital": "Health"
+            "food": "Yemek"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
@@ -66,8 +71,8 @@
             "heatmap": "Isı Haritası",
             "markers": "Depremzede Konumları",
             "earthquakes": "Son Depremler",
-            "ahbap": "Ahbap Lokasyon",
-            "hospital": "Hastane Lokasyon"
+            "ahbap": "Ahbap Konumları",
+            "health": "Hastaneler"
         }
     },
     "content": {

@@ -1,12 +1,18 @@
 {
     "scanner": {
         "text": "SCAN FIELD",
-        "remaining": "It will be scanned automatically after <strong>{{time}}</strong> sec"
+        "remaining": "Will be scanned automatically in <strong>{{time}}</strong> sec"
     },
     "filter": {
         "title": "Filter",
+        "channels": {
+            "all": "All channels",
+            "twitter": "Social media",
+            "babala": "Verified",
+            "ahbap": "Ahbap"
+        },
         "reasons": {
-            "all": "All",
+            "all": "All reasons",
             "shelter": "Shelter",
             "electronics": "Electronics",
             "wreckage": "Wreckage",
@@ -19,8 +25,7 @@
             "logistics": "Logistics",
             "water": "Water",
             "looting": "Looting",
-            "food": "Food",
-            "saglik": "Health"
+            "food": "Food"
         },
         "time": {
             "lastHalfHour": "Last 30 minutes",
@@ -30,7 +35,7 @@
             "lastTwelveHours": "Last 12 hours",
             "lastDay": "Last 24 hours",
             "lastThreeDays": "Last 3 days",
-            "all": "all time"
+            "all": "All time"
         }
     },
     "tag": {
@@ -67,7 +72,7 @@
             "markers": "Markers",
             "earthquakes": "Latest Earthquakes",
             "ahbap": "Ahbap Locations",
-            "hospital": "Hospital Locations"
+            "health": "Hospitals"
         }
     },
     "content": {
