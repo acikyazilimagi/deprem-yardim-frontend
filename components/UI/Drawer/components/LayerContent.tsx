@@ -1,4 +1,3 @@
-import { useWindowSize } from "@/hooks/useWindowSize";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "../Drawer.module.css";
@@ -17,21 +16,10 @@ export const LayerContent = () => {
   const { t } = useTranslation("home");
   const mapLayers = useMapLayers();
   const mapType = useMapType();
-  const size = useWindowSize();
   const { toggleDrawer, toggleMapLayer, setMapType } = useMapActions();
   const close = () => toggleDrawer();
-  const isMobile = size.width > 768;
   return (
-    <Box
-      sx={{
-        width: isMobile ? 400 : "full",
-        display: "flex",
-        height: isMobile ? "100%" : 400,
-        padding: "1rem",
-        overflow: "auto",
-      }}
-      role="presentation"
-    >
+    <Box className={styles.layerContent} role="presentation">
       <Box
         sx={{
           minHeight: "300px",
@@ -49,7 +37,7 @@ export const LayerContent = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "flex-start",
-            margin: "0.5rem 0 2rem",
+            margin: "0.5rem 0",
           }}
         >
           <LayerButton
@@ -76,7 +64,8 @@ export const LayerContent = () => {
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            margin: "0.5rem 0 2rem",
+            margin: "0.5rem 0 0",
+            flexWrap: "wrap",
           }}
         >
           <LayerButton
@@ -91,7 +80,24 @@ export const LayerContent = () => {
             checked={mapLayers.includes(MapLayer.Heatmap)}
             title={t("map.layer.heatmap")}
           />
-          {/* <LayerButton onClick={() => toggleMapLayer(MapLayer.Earthquakes)} image="bubblemap" checked={mapLayers.includes(MapLayer.Earthquakes)} title={t("map.layer.earthquakes")} /> */}
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Ahbap)}
+            image="ahbap"
+            checked={mapLayers.includes(MapLayer.Ahbap)}
+            title={t("map.layer.ahbap")}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Hospital)}
+            image="hospitals"
+            checked={mapLayers.includes(MapLayer.Hospital)}
+            title={t("map.layer.health")}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Food)}
+            image="food"
+            checked={mapLayers.includes(MapLayer.Food)}
+            title={t("map.layer.food")}
+          />
         </Box>
       </Box>
     </Box>

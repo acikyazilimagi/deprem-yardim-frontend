@@ -32,6 +32,7 @@ import {
 import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
+import { useURLActions } from "@/stores/urlStore";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -62,7 +63,8 @@ const GlobalClusterStyle = css`
 const MapEvents = () => {
   const mapZoomLevelRef = useRef(0);
   const router = useRouter();
-  const { setCoordinates, setPopUpData } = useMapActions();
+  const { setPopUpData, setEventType } = useMapActions();
+  const { setCoordinates } = useURLActions();
   const id = router.query["id"];
 
   useEffect(() => {
@@ -115,7 +117,8 @@ const MapEvents = () => {
           EXPAND_COORDINATE_BY_VALUE
         );
       }
-      setCoordinates(localCoordinates, eventType);
+      setCoordinates(localCoordinates);
+      setEventType(eventType);
       const _lat = localCoordinates.getCenter().lat;
       const _lng = localCoordinates.getCenter().lng;
       const _zoomLevel = zoomLevel;
@@ -176,13 +179,19 @@ const corners = {
 
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
-function LeafletMap() {
-  const { setCoordinates } = useMapActions();
+interface ILeafletMap {
+  ahbap: any[];
+  hospital: any[];
+  food: any[];
+}
+
+function LeafletMap(props: ILeafletMap) {
+  const { setCoordinates } = useURLActions();
   const router = useRouter();
   const data = useMarkerData();
   const isOpen = useIsDrawerOpen();
   const mapType = useMapType();
-  const { toggleDrawer, setDrawerData } = useMapActions();
+  const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
 
   const points: Point[] = useMemo(
     () =>
@@ -230,6 +239,7 @@ function LeafletMap() {
             lng: parseFloat(lng as string),
           },
         },
+        isVisited: false,
       };
       toggleDrawer();
       setDrawerData(tempDrawerData);
@@ -250,11 +260,12 @@ function LeafletMap() {
             ? DEFAULT_MIN_ZOOM_DESKTOP
             : DEFAULT_MIN_ZOOM_MOBILE
         }
-        zoomSnap={0.25}
-        zoomDelta={0.5}
+        zoomSnap={1}
+        zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
-            setCoordinates(map.target.getBounds(), "ready");
+            setCoordinates(map.target.getBounds());
+            setEventType("ready");
             map.target.invalidateSize();
           }, 100);
         }}
@@ -271,7 +282,16 @@ function LeafletMap() {
           }}
         />
         <MapEvents />
-        <LayerControl points={points} data={data} />
+        <LayerControl
+          points={points}
+          data={data}
+          food={props.food}
+          ahbap={props.ahbap}
+          hospital={props.hospital}
+        />
+        <TileLayer
+          url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
+        />
         <TileLayer url={baseMapUrl} />
       </Map>
     </>

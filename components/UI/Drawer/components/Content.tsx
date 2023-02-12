@@ -19,11 +19,13 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
+import { AhbapData } from "./types";
+import { CloseByRecord } from "./OtherRecordsInSameLocation";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
   onCopyBillboard: (clipped: string) => void;
-  drawerData: MarkerData | null;
+  drawerData: MarkerData | AhbapData | null;
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
@@ -52,16 +54,19 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp);
 
   const hasSource =
+    data &&
     data.channel === "twitter" &&
     // @ts-ignore gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
     data.extra_parameters?.tweet_id &&
     // @ts-ignore
     data.extra_parameters?.tweet_id !== "";
 
+  const title = data?.formatted_address ?? (drawerData as any).properties?.name;
+
   return (
     <Box
       sx={{
-        width: size.width > 768 ? "full" : 400,
+        width: size.width > 768 ? 400 : "full",
         display: "flex",
         height: "100%",
         padding: "1rem 2rem 1rem 1rem",
@@ -84,12 +89,14 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
         </Box>
       )}
       {error && <GenericError />}
-      {!isLoading && data && (
+      {!isLoading && (
         <div className={styles.content}>
-          <span className={styles.contentIdSection}>
-            ID: {drawerData.reference}
-          </span>
-          <h3 style={{ maxWidth: "45ch" }}>{data.formatted_address}</h3>
+          {drawerData.reference && (
+            <span className={styles.contentIdSection}>
+              ID: {drawerData.reference}
+            </span>
+          )}
+          {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
           {formattedTimeAgo && (
             <div className={styles.contentInfo}>
               <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
@@ -157,9 +164,13 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
               )}
             </div>
           </div>
-          <FeedContent content={data} />
+          {(data || (drawerData as AhbapData).channel === "ahbap") && (
+            <FeedContent content={data ?? (drawerData as AhbapData)} />
+          )}
         </div>
       )}
+
+      <CloseByRecord drawerData={drawerData} />
 
       <CloseIcon onClick={(e) => toggler(e)} className={styles.closeButton} />
     </Box>

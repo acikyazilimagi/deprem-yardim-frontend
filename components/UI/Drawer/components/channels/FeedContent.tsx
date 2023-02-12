@@ -4,12 +4,17 @@ import FeedChannelGeneric from "./FeedChannelGeneric";
 import {
   BaseFeedChannel,
   Channel,
+  FeedChannelAhbapProps,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
 } from "../types";
+import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 
 type Props = {
-  content: FeedChannelTwitterProps | FeedChannelBabalaProps;
+  content:
+    | FeedChannelTwitterProps
+    | FeedChannelBabalaProps
+    | FeedChannelAhbapProps;
 };
 
 const contentMapper = {
@@ -18,6 +23,7 @@ const contentMapper = {
     <FeedChannelTwitter {...source} />
   ),
   Babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
+  ahbap: (source: FeedChannelAhbapProps) => <FeedChannelAhbap {...source} />,
 };
 
 const isChannelExist = (channel?: string) => {
@@ -27,6 +33,7 @@ const isChannelExist = (channel?: string) => {
 
   return Object.keys(contentMapper).includes(channel);
 };
+
 const FeedContent = ({ content }: Props) => {
   // Mevcutta bulunan channeldan farklı bir channel gelmesi durumunda "generic" channel'ı basılıyor
   const channel: Channel = isChannelExist(content.channel)

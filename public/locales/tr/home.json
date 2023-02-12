@@ -4,11 +4,28 @@
         "remaining": "<strong>{{time}}</strong> sn sonra otamatik taranacak"
     },
     "filter": {
-        "title": "Bildirimler",
-        "reason": {
-            "earthquake": "Depremzede",
-            "provisions": "Erzak Yardımı",
-            "confirmed": "Teyitli"
+        "title": "Filtre",
+        "channels": {
+            "all": "Tüm kanallar",
+            "twitter": "Sosyal medya",
+            "babala": "Onaylı",
+            "ahbap": "Ahbap"
+        },
+        "reasons": {
+            "all": "Tüm türler",
+            "shelter": "Barınma",
+            "electronics": "Elektronik",
+            "wreckage": "Enkaz",
+            "provisions": "Erzak",
+            "clothes": "Giysi",
+            "safe-points": "Güvenli noktalar",
+            "animal-theraphy": "Hayvanlar için tedavi",
+            "accomodation": "Konaklama",
+            "rescue": "Kurtarma",
+            "logistics": "Lojistik",
+            "water": "Su",
+            "looting": "Yağma",
+            "food": "Yemek"
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
@@ -34,11 +51,14 @@
             "copied": "Koordinat bilgisi kopyalandı."
         },
         "mapButtons": {
-            "copy": "Kopyala",
+            "copy": "Harita Linkini Kopyala",
             "google": "Google Haritalarda Aç",
             "apple": "Apple Haritalarda Aç",
             "direction": "Yol Tarifi Al"
         },
+        "copyFullText": "İçeriği Kopyala",
+        "copiedContentSuccessfully": "İçerik başarıyla kopyalandı.",
+        "copiedMapLinkSuccessfully": "Harita linki başarıyla kopyalandı.",
         "noticeCount": "{{count}} ihbar mevcut"
     },
     "map": {
@@ -52,13 +72,20 @@
         "layer": {
             "heatmap": "Isı Haritası",
             "markers": "Depremzede Konumları",
-            "earthquakes": "Son Depremler"
+            "earthquakes": "Son Depremler",
+            "ahbap": "Ahbap Konumları",
+            "health": "Hastaneler",
+            "food": "Sıcak yemek"
         }
     },
     "content": {
         "notifyTime": "Bildirim Zamanı",
         "source": "Kaynak",
         "helpContent": "Yardım İçeriği",
-        "showData": "Kayıtlı veriyi göster"
+        "showData": "Kayıtlı veriyi göster",
+        "closeBy": {
+            "title": "Diğer kayıtlar",
+            "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
+        }
     }
 }

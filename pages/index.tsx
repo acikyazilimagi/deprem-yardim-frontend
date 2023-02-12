@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -6,173 +6,82 @@ import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import {
-  CoordinatesURLParametersWithEventType,
-  DeviceType,
-} from "@/mocks/types";
+import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
-import {
-  useCoordinates,
-  useMapActions,
-  setMarkerData,
-  useDevice,
-} from "@/stores/mapStore";
+import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
-import useSWR from "swr";
 import Footer from "@/components/UI/Footer/Footer";
-import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { Box } from "@mui/material";
-import { dataTransformerLite } from "@/utils/dataTransformer";
-import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { areasURL, locationsURL } from "@/utils/urls";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation, Trans } from "next-i18next";
-import {
-  initialReasoningFilter,
-  ReasoningFilterMenuOption,
-} from "@/components/UI/FilterMenu/FilterReasoningMenu";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import { useURLActions } from "@/stores/urlStore";
+import { useGetAreas } from "@/hooks/useGetAreas";
+import { locationsURL } from "@/utils/urls";
+import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
-const getReasoningFilter = (
-  reasoningFilterMenuOption: ReasoningFilterMenuOption
-) => {
-  reasoningFilterMenuOption.type;
-  if (reasoningFilterMenuOption.type === "channel") {
-    return undefined;
-  }
-
-  if (reasoningFilterMenuOption.type === "reason") {
-    return reasoningFilterMenuOption.value;
-  }
-};
-
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
+  ahbap: any[];
 };
+
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
+  const { ahbapLocations, hospitalLocations, foodLocations } =
+    useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
+  const { setTimeStamp } = useURLActions();
   const router = useRouter();
-  const [slowLoading, setSlowLoading] = useState(false);
-  const [reasoningFilterMenuOption, setReasoningFilterMenuOption] =
-    useState<ReasoningFilterMenuOption>(initialReasoningFilter);
-  const [newerThanTimestamp, setNewerThanTimestamp] = useState<
-    number | undefined
-  >(undefined);
-  const [url, setUrl] = useState<string | null>(null);
-  const [shouldFetchNextOption, setShouldFetchNextOption] =
-    useState<boolean>(false);
   const device = useDevice();
+  const {
+    resetThrottling,
+    remainingTime,
+    setSendRequest,
+    shouldFetchNextOption,
+    slowLoading,
+    resetShouldFetchNextOption,
+    error,
+    isLoading,
+    isValidating,
+  } = useGetAreas();
+
   const isMobile = device === "mobile";
-
-  const coordinatesAndEventType:
-    | CoordinatesURLParametersWithEventType
-    | undefined = useCoordinates();
-
-  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
-
-  const urlParams = useMemo(() => {
-    const reasoningFilterValue = getReasoningFilter(reasoningFilterMenuOption);
-    return new URLSearchParams({
-      ne_lat: coordinatesAndEventType?.ne_lat,
-      ne_lng: coordinatesAndEventType?.ne_lng,
-      sw_lat: coordinatesAndEventType?.sw_lat,
-      sw_lng: coordinatesAndEventType?.sw_lng,
-      time_stamp: newerThanTimestamp ? newerThanTimestamp : undefined,
-      ...(reasoningFilterValue ? { reason: reasoningFilterValue } : {}),
-    } as any).toString();
-  }, [
-    coordinatesAndEventType?.ne_lat,
-    coordinatesAndEventType?.ne_lng,
-    coordinatesAndEventType?.sw_lat,
-    coordinatesAndEventType?.sw_lng,
-    newerThanTimestamp,
-    reasoningFilterMenuOption,
-  ]);
-
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
-    url,
-    dataFetcher,
-    {
-      isPaused: () => !coordinatesAndEventType,
-      onLoadingSlow: () => setSlowLoading(true),
-      revalidateOnFocus: false,
-      onSuccess: (data) => {
-        if (!data) return;
-        if (!data.results) {
-          setShouldFetchNextOption(true);
-        }
-
-        const transformedData = data.results ? dataTransformerLite(data) : [];
-        setMarkerData(transformedData);
-      },
-    }
-  );
 
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
 
   const { setDevice } = useMapActions();
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setUrl(areasURL + "?" + urlParams),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
 
   const handleScanButtonClick = useCallback(() => {
-    setUrl(areasURL + "?" + urlParams);
+    setSendRequest(true);
+
     resetThrottling();
-  }, [resetThrottling, urlParams]);
+  }, [resetThrottling, setSendRequest]);
 
   useEffect(() => {
     setDevice(deviceType);
   }, [deviceType, setDevice]);
 
-  useEffect(() => {
-    if (
-      typeof coordinatesAndEventType === "undefined" ||
-      !urlParams ||
-      coordinatesAndEventType?.eventType === "moveend" ||
-      coordinatesAndEventType?.eventType === "zoomend"
-    ) {
-      resetThrottling();
-      return;
-    }
-
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coordinatesAndEventType]);
-
-  useEffect(() => {
-    setUrl(areasURL + "?" + urlParams);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newerThanTimestamp]);
-
-  useEffect(() => {
-    if (url) {
-      const _url = new URL(url);
-      const params = new URLSearchParams(urlParams);
-
-      setUrl(`${_url.origin}${_url.pathname}?${params.toString()}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reasoningFilterMenuOption]);
-
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
+
+  const handleToggleFooterBanner = useCallback(() => {
+    setIsFooterBannerOpen(!isFooterBannerOpen);
+  }, [isFooterBannerOpen]);
 
   return (
     <>
@@ -197,18 +106,21 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 }}
               >
                 <FilterMenu>
-                  <FilterMenu.Reasoning
-                    onChange={setReasoningFilterMenuOption}
-                  />
+                  <FilterMenu.Channel />
                   <FilterMenu.Time
-                    onChangeTime={setNewerThanTimestamp}
+                    onChangeTime={setTimeStamp}
                     shouldFetchNextOption={shouldFetchNextOption}
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
+                  <FilterMenu.Reason />
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap />
+            <LeafletMap
+              ahbap={ahbapLocations}
+              hospital={hospitalLocations}
+              food={foodLocations}
+            />
             <Box
               sx={{
                 display: "flex",
@@ -263,8 +175,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner />
-        <Footer />
+        <FooterBanner
+          open={isFooterBannerOpen}
+          onClick={handleToggleFooterBanner}
+        />
+        <Footer onClick={handleToggleFooterBanner} />
       </main>
     </>
   );
@@ -288,6 +203,7 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
+      ahbap: [],
       singleItemDetail: context.query.id
         ? { ...itemDetail, ...context.query }
         : {},

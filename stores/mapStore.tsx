@@ -1,8 +1,7 @@
-import { LatLngBounds } from "leaflet";
+import { AhbapData } from "@/components/UI/Drawer/components/types";
 import { create } from "zustand";
 import {
   ClusterPopupData,
-  CoordinatesURLParametersWithEventType,
   MarkerData,
   EVENT_TYPES,
   DeviceType,
@@ -18,13 +17,16 @@ export enum MapLayer {
   Heatmap = "heatmap",
   Markers = "markers",
   Earthquakes = "earthquakes",
+  Ahbap = "Ahbap",
+  Hospital = "Hospital",
+  Food = "Food",
 }
 
 interface MapState {
+  eventType?: EVENT_TYPES;
   popUpData: ClusterPopupData | null;
-  drawerData: MarkerData | null;
+  drawerData: MarkerData | AhbapData | null;
   isDrawerOpen: boolean;
-  coordinates?: CoordinatesURLParametersWithEventType;
   device: DeviceType;
   markerData: MarkerData[];
   mapType: MapType;
@@ -32,12 +34,12 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
-    setDrawerData: (data: MarkerData | null) => void;
+    setDrawerData: (data: MarkerData | AhbapData | null) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
-    setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) => void;
     setDevice: (device: DeviceType) => void;
     setMarkerData: (data: MarkerData[]) => void;
     setMapType: (mapType: MapType) => void;
+    setEventType: (eventType: EVENT_TYPES) => void;
   };
 }
 
@@ -45,11 +47,16 @@ export const useMapStore = create<MapState>()((set) => ({
   drawerData: null,
   popUpData: null,
   isDrawerOpen: false,
-  coordinates: undefined,
   device: "desktop",
   markerData: [],
   mapType: MapType.Default,
-  mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
+  mapLayers: [
+    MapLayer.Heatmap,
+    MapLayer.Markers,
+    MapLayer.Ahbap,
+    MapLayer.Hospital,
+    MapLayer.Food,
+  ],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     toggleMapLayer: (mapLayer: MapLayer) =>
@@ -58,23 +65,14 @@ export const useMapStore = create<MapState>()((set) => ({
           ? mapLayers.filter((layer) => layer !== mapLayer)
           : mapLayers.concat(mapLayer),
       })),
-    setDrawerData: (data: MarkerData | null) =>
+    setDrawerData: (data: MarkerData | AhbapData | null) =>
       set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
-    setCoordinates: (data: LatLngBounds, eventType: EVENT_TYPES) =>
-      set(() => ({
-        coordinates: {
-          eventType,
-          ne_lat: data.getNorthEast().lat,
-          ne_lng: data.getNorthEast().lng,
-          sw_lat: data.getSouthWest().lat,
-          sw_lng: data.getSouthWest().lng,
-        },
-      })),
     setDevice: (device: DeviceType) => set(() => ({ device })),
     setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
     setMapType: (mapType) => set(() => ({ mapType })),
+    setEventType: (eventType) => set(() => ({ eventType })),
   },
 }));
 
@@ -85,8 +83,7 @@ export const useMapLayers = () => useMapStore((state) => state.mapLayers);
 export const useMapType = () =>
   useMapStore((state) => state.mapType ?? MapType.Default);
 export const usePopUpData = () => useMapStore((state) => state.popUpData);
-export const useCoordinates = () => useMapStore((state) => state.coordinates);
 export const useDevice = () => useMapStore((state) => state.device);
 export const useMarkerData = () => useMapStore((state) => state.markerData);
-
+export const useEventType = () => useMapStore((state) => state.eventType);
 export const setMarkerData = useMapStore.getState().actions.setMarkerData;

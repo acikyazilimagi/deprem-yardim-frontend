@@ -1,14 +1,31 @@
 {
     "scanner": {
         "text": "SCAN FIELD",
-        "remaining": "It will be scanned automatically after <strong>{{time}}</strong> sec"
+        "remaining": "Will be scanned automatically in <strong>{{time}}</strong> sec"
     },
     "filter": {
-        "title": "Notifications",
-        "reason": {
-            "earthquake": "Earthquake Victims",
-            "provisions": "Provision Aid",
-            "confirmed": "Confirmed"
+        "title": "Filter",
+        "channels": {
+            "all": "All channels",
+            "twitter": "Social media",
+            "babala": "Verified",
+            "ahbap": "Ahbap"
+        },
+        "reasons": {
+            "all": "All reasons",
+            "shelter": "Shelter",
+            "electronics": "Electronics",
+            "wreckage": "Wreckage",
+            "provisions": "Provisions",
+            "clothes": "Clothes",
+            "safe-points": "Safe-points",
+            "animal-theraphy": "Animal Theraphy",
+            "accomodation": "Accomodation",
+            "rescue": "Rescue",
+            "logistics": "Logistics",
+            "water": "Water",
+            "looting": "Looting",
+            "food": "Food"
         },
         "time": {
             "lastHalfHour": "Last 30 minutes",
@@ -18,7 +35,7 @@
             "lastTwelveHours": "Last 12 hours",
             "lastDay": "Last 24 hours",
             "lastThreeDays": "Last 3 days",
-            "all": "all time"
+            "all": "All time"
         }
     },
     "tag": {
@@ -34,11 +51,14 @@
             "copied": "Coordinate information was copied."
         },
         "mapButtons": {
-            "copy": "Copy",
+            "copy": "Copy Map Link",
             "google": "Open in Google Maps",
             "apple": "Open in Apple Maps",
             "direction": "Get Directions"
         },
+        "copyFullText": "Copy Content",
+        "copiedContentSuccessfully": "Copied successfully.",
+        "copiedMapLinkSuccessfully": "Copied map link successfully.",
         "noticeCount": "{{count}} notice available"
     },
     "map": {
@@ -52,13 +72,20 @@
         "layer": {
             "heatmap": "Heatmap",
             "markers": "Markers",
-            "earthquakes": "Latest Earthquakes"
+            "earthquakes": "Latest Earthquakes",
+            "ahbap": "Ahbap Locations",
+            "health": "Hospitals",
+            "food": "Hot Meal"
         }
     },
     "content": {
         "notifyTime": "Notify Time",
         "source": "Source",
         "helpContent": "Help Content",
-        "showData": "Show recorded data"
+        "showData": "Show recorded data",
+        "closeBy": {
+            "title": "Other records",
+            "details": "You can click the below records to access the other records in the <b>same location</b>"
+        }
     }
 }

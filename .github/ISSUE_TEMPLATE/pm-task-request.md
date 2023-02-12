@@ -1,8 +1,8 @@
 ---
-name: Feature Request
-about: Use to request a new feature
+name: PM Task Request
+about: Task request only for PMs
 title: 'feat: '
-labels: waiting-approval, enhancement, unchecked 
+labels: enhancement, unchecked, waiting-approval
 assignees: ''
 
 ---
