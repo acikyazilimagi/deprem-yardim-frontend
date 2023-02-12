@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
@@ -37,6 +37,7 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
   const { ahbapLocations, hospitalLocations, foodLocations } =
     useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
@@ -77,6 +78,10 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
+
+  const handleToggleFooterBanner = useCallback(() => {
+    setIsFooterBannerOpen(!isFooterBannerOpen);
+  }, [isFooterBannerOpen]);
 
   return (
     <>
@@ -170,8 +175,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner />
-        <Footer />
+        <FooterBanner
+          open={isFooterBannerOpen}
+          onClick={handleToggleFooterBanner}
+        />
+        <Footer onClick={handleToggleFooterBanner} />
       </main>
     </>
   );

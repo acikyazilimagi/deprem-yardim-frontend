@@ -1,7 +1,11 @@
 import styles from "./Footer.module.css";
 import { useTranslation } from "next-i18next";
 
-export default function Footer() {
+interface FooterProps {
+  onClick: () => void;
+}
+
+export default function Footer(props: FooterProps) {
   const { t } = useTranslation("common");
   return (
     <ul className={styles.footer}>
@@ -14,6 +18,9 @@ export default function Footer() {
         <a href="./gizlilik.pdf" target="_blank">
           {t("footer.politic.privacy")}
         </a>
+      </li>
+      <li onClick={props.onClick}>
+        <a>{t("footer.politic.data")}</a>
       </li>
     </ul>
   );
