@@ -86,7 +86,7 @@
         "showData": "Kayıtlı veriyi göster",
         "closeBy": {
             "title": "Diğer kayıtlar",
-            "details": "Aşağıdaki seçeneklere tıklayarak aynı konumdaki diğer kayıtlara ulaşabilirsiniz."
+            "details": "Aşağıdaki seçeneklere tıklayarak <strong>aynı</strong> konumdaki diğer kayıtlara ulaşabilirsiniz."
         }
     }
 }
