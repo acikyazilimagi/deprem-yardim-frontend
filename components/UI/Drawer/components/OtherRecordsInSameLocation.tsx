@@ -1,6 +1,7 @@
 import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import { Box, Button, Typography } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import { AhbapData } from "./types";
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
 
 export const CloseByRecord = ({ drawerData }: Props) => {
   const { setDrawerData } = useMapActions();
+  const { t } = useTranslation("home");
   if (
     !drawerData ||
     !("closeByRecords" in drawerData) ||
@@ -35,9 +37,9 @@ export const CloseByRecord = ({ drawerData }: Props) => {
           paddingTop: "1rem",
         }}
       >
-        Other records
+        {t("content.closeBy.title")}
       </Typography>
-      <Typography>Below records have the same location</Typography>
+      <Typography>{t("content.closeBy.details")}</Typography>
       {drawerData.closeByRecords.map((record) => (
         <Button
           variant={record === drawerData.reference ? "contained" : "outlined"}
