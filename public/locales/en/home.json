@@ -85,7 +85,11 @@
         "showData": "Show recorded data",
         "closeBy": {
             "title": "Other records",
+<<<<<<< Updated upstream
             "details": "You can click the below records to access the other records in the <strong>same</strong> location"
+=======
+            "details": "You can click the below records to access the other records in the <b>same location</b>"
+>>>>>>> Stashed changes
         }
     }
 }
