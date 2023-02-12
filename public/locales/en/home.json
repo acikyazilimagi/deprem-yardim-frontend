@@ -72,7 +72,8 @@
             "markers": "Markers",
             "earthquakes": "Latest Earthquakes",
             "ahbap": "Ahbap Locations",
-            "health": "Hospitals"
+            "health": "Hospitals",
+            "food": "Hot Food"
         }
     },
     "content": {
