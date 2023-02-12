@@ -57,6 +57,8 @@
             "direction": "Get Directions"
         },
         "copyFullText": "Copy Content",
+        "copiedContentSuccessfully": "Copied successfully.",
+        "copiedMapLinkSuccessfully": "Copied map link successfully.",
         "noticeCount": "{{count}} notice available"
     },
     "map": {
@@ -72,7 +74,8 @@
             "markers": "Markers",
             "earthquakes": "Latest Earthquakes",
             "ahbap": "Ahbap Locations",
-            "health": "Hospitals"
+            "health": "Hospitals",
+            "food": "Hot Meal"
         }
     },
     "content": {
