@@ -74,7 +74,8 @@
             "markers": "Depremzede Konumları",
             "earthquakes": "Son Depremler",
             "ahbap": "Ahbap Konumları",
-            "health": "Hastaneler"
+            "health": "Hastaneler",
+            "food": "Sıcak yemek"
         }
     },
     "content": {
