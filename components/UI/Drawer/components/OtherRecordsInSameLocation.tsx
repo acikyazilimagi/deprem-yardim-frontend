@@ -46,6 +46,7 @@ export const CloseByRecord = ({ drawerData }: Props) => {
           variant={record === drawerData.reference ? "contained" : "outlined"}
           onClick={onClick(record)}
           size="small"
+          sx={{ margin: ".5rem .5rem 0 0" }}
           key={record}
         >
           ID: {record}
