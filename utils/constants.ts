@@ -19,4 +19,3 @@ export const FOOD_URL =
 
 export const TELETEYIT_URL =
   BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
-
