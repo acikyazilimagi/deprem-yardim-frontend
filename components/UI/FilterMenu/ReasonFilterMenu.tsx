@@ -67,12 +67,13 @@ export const ReasonFilterMenu: React.FC = () => {
         <MenuItem
           sx={{
             maxWidth: "170px",
-            padding: "5px",
+            padding: "4px",
           }}
           key={i}
           value={item}
         >
           <Checkbox
+            size="small"
             sx={{
               padding: "0",
               margin: "0",
@@ -81,11 +82,13 @@ export const ReasonFilterMenu: React.FC = () => {
           />
 
           <ListItemText
+            disableTypography
             sx={{
               padding: "0",
               margin: "0 4px",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontSize: "14px",
               whiteSpace: "nowrap",
             }}
             primary={t(`filter.reasons.${item}`).toLocaleUpperCase()}
