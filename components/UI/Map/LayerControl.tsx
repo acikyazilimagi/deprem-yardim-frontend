@@ -84,23 +84,6 @@ const LayerControl = ({ points, data, locations }: Props) => {
           );
         }
       })}
-
-      {/* 
-      {mapLayers.includes(MapLayer.Food) && (
-        <AhbapClusterGroup data={locations.food} />
-      )}
-      {mapLayers.includes(MapLayer.Ahbap) && (
-        <AhbapClusterGroup data={locations.ahbap} />
-      )}
-      {mapLayers.includes(MapLayer.Hospital) && (
-        <AhbapClusterGroup data={locations.hospital} />
-      )}
-      {mapLayers.includes(MapLayer.Teleteyit) && (
-        <TeleteyitClusterGroup data={locations.teleteyit} />
-      )}
-      {mapLayers.includes(MapLayer.Satellite) && (
-        <SatelliteClusterGroup data={locations.satellite} />
-      )} */}
     </>
   );
 };
