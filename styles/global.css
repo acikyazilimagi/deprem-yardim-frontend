@@ -1,0 +1,7 @@
+@media (min-width: 768px) {
+  /* Safari desktop hack */
+  [data-is-layer-drawer="true"] .MuiPaper-root {
+    background-color: unset;
+    width: 1px;
+  }
+}
