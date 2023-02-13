@@ -6,6 +6,7 @@ import {
 } from "@/utils/constants";
 import useSWR from "swr";
 import { dataFetcher } from "@/services/dataFetcher";
+import dJSON from "dirty-json";
 import { useState } from "react";
 
 export function useVerifiedLocations() {
@@ -21,9 +22,7 @@ export function useVerifiedLocations() {
       const features = data.results.map((item: any) => {
         let extra_params = {};
         try {
-          extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
-          );
+          extra_params = dJSON.parse(item.extra_parameters);
         } catch (error) {
           console.error(error);
         }
@@ -49,9 +48,7 @@ export function useVerifiedLocations() {
       const features = data.results.map((item: any) => {
         let extra_params = {};
         try {
-          extra_params = JSON.parse(
-            item.extra_parameters?.replaceAll("'", '"').replaceAll("\\xa0", "")
-          );
+          extra_params = dJSON.parse(item.extra_parameters);
         } catch (error) {
           console.error(error);
         }
@@ -77,11 +74,8 @@ export function useVerifiedLocations() {
       const features = data.results.map((item: any) => {
         let extra_params = {};
         try {
-          extra_params = JSON.parse(
-            item.extra_parameters
-              ?.replaceAll("'", '"')
-              .replaceAll("nan", false)
-              .replaceAll("\\xa0", "")
+          extra_params = dJSON.parse(
+            item.extra_parameters?.replaceAll("nan", false)
           );
           extra_params = {
             ...extra_params,
@@ -113,11 +107,8 @@ export function useVerifiedLocations() {
         let extra_params = {};
 
         try {
-          extra_params = JSON.parse(
-            item?.extra_parameters
-              .replaceAll('"', '"')
-              .replaceAll("nan", false)
-              .replaceAll("\\xa0", "")
+          extra_params = dJSON.parse(
+            item?.extra_parameters.replaceAll("nan", false)
           );
           extra_params = {
             ...extra_params,
