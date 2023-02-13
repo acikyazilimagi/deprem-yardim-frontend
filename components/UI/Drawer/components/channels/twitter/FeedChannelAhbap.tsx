@@ -10,7 +10,7 @@ const getTypeLabel = (type: string) => {
 };
 
 export const FeedChannelAhbap = ({
-  properties: { type, description, icon },
+  properties: { type = '', description = '', icon = '' },
 }: FeedChannelAhbapProps) => {
   return (
     <>
