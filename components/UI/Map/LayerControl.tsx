@@ -4,6 +4,7 @@ import { memo, useCallback } from "react";
 import { AhbapClusterGroup } from "./AhbapClusterGroup";
 import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
+import { TeleteyitClusterGroup } from "@/components/UI/Map/TeleteyitClusterGroup";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -15,9 +16,17 @@ type Props = {
   food: any[];
   ahbap: any[];
   hospital: any[];
+  teleteyit: any[];
 };
 
-const LayerControl = ({ points, data, ahbap, food, hospital }: Props) => {
+const LayerControl = ({
+  points,
+  data,
+  ahbap,
+  food,
+  hospital,
+  teleteyit,
+}: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
@@ -38,6 +47,9 @@ const LayerControl = ({ points, data, ahbap, food, hospital }: Props) => {
       )}
       {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
       {mapLayers.includes(MapLayer.Food) && <AhbapClusterGroup data={food} />}
+      {mapLayers.includes(MapLayer.Teleteyit) && (
+        <TeleteyitClusterGroup data={teleteyit} />
+      )}
       {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
       {mapLayers.includes(MapLayer.Hospital) && (
         <AhbapClusterGroup data={hospital} />
