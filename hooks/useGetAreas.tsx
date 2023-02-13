@@ -32,7 +32,7 @@ export function useGetAreas() {
 
     const url = new URL(areasURL);
 
-    const isBabala = channel === "babala";
+    const isBabala = channel?.toLowerCase() === "babala";
     const searchParams = new URLSearchParams(isBabala ? "" : coordinates);
 
     searchParams.delete("eventType");
