@@ -162,8 +162,6 @@ export function useVerifiedLocations() {
         };
       });
 
-      console.log(satelliteData);
-
       setSatelliteLocations(satelliteData);
     },
   });
