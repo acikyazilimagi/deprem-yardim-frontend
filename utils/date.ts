@@ -4,8 +4,7 @@ const DAY_IN_SEC = 86400;
 const HOUR_IN_SEC = 3600;
 const MINUTES_IN_SEC = 60;
 
-export const getTimeAgo = (value: string) => {
-  let result = "";
+export const getTimeAgo = (value: string, locale: string = "tr") => {
   const now = new Date().getTime();
   const valueZtoGMT3 = value.replace("Z", "+03:00");
   const valueTime = new Date(valueZtoGMT3).getTime();
@@ -32,40 +31,67 @@ export const getTimeAgo = (value: string) => {
   const hourCategory = formatterHours.select(hours);
   const minutesCategory = formatterMinutes.select(minutes);
 
-  const labels: any = {
-    years: {
-      one: "yıl",
-      other: "yıl",
+  const LABELS: any = {
+    tr: {
+      years: {
+        one: "yıl",
+        other: "yıl",
+      },
+      months: {
+        one: "ay",
+        other: "ay",
+      },
+      days: {
+        one: "gün",
+        other: "gün",
+      },
+      hours: {
+        one: "saat",
+        other: "saat",
+      },
+      minutes: {
+        one: "dakika",
+        other: "dakika",
+      },
+      ago: " önce",
     },
-    months: {
-      one: "ay",
-      other: "ay",
-    },
-    days: {
-      one: "gün",
-      other: "gün",
-    },
-    hours: {
-      one: "saat",
-      other: "saat",
-    },
-    minutes: {
-      one: "dakika",
-      other: "dakika",
+    en: {
+      years: {
+        one: "year",
+        other: "years",
+      },
+      months: {
+        one: "month",
+        other: "months",
+      },
+      days: {
+        one: "day",
+        other: "days",
+      },
+      hours: {
+        one: "hour",
+        other: "hours",
+      },
+      minutes: {
+        one: "minute",
+        other: "minutes",
+      },
+      ago: " ago",
     },
   };
 
-  const yearsLabel = labels.years[yearCategory];
-  const monthsLabel = labels.months[monthCategory];
-  const daysLabel = labels.days[dayCategory];
-  const hoursLabel = labels.hours[hourCategory];
-  const minutesLabel = labels.minutes[minutesCategory];
+  const yearsLabel = LABELS[locale].years[yearCategory];
+  const monthsLabel = LABELS[locale].months[monthCategory];
+  const daysLabel = LABELS[locale].days[dayCategory];
+  const hoursLabel = LABELS[locale].hours[hourCategory];
+  const minutesLabel = LABELS[locale].minutes[minutesCategory];
 
+  let result = "";
   if (years) result += `${years} ${yearsLabel} `;
   if (months) result += `${months} ${monthsLabel} `;
   if (days) result += `${days} ${daysLabel} `;
   if (hours) result += `${hours} ${hoursLabel} `;
   if (minutes) result += `${minutes} ${minutesLabel} `;
-  result += " önce";
+  result += LABELS[locale].ago;
   return result;
 };

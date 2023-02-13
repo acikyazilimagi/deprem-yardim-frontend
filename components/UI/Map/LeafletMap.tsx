@@ -25,6 +25,8 @@ import {
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
   localStorageKeys,
+  safeGetLocalStorage,
+  safeSetLocalStorage,
 } from "./utils";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
@@ -67,7 +69,7 @@ const MapEvents = () => {
   const locale = router.locale;
 
   useEffect(() => {
-    const localCoordinatesURL = window.localStorage.getItem(
+    const localCoordinatesURL = safeGetLocalStorage(
       localStorageKeys.coordinatesURL
     );
 
@@ -97,10 +99,7 @@ const MapEvents = () => {
 
     return () => {
       const coordinatesURL = window.location.hash;
-      window.localStorage.setItem(
-        localStorageKeys.coordinatesURL,
-        coordinatesURL
-      );
+      safeSetLocalStorage(localStorageKeys.coordinatesURL, coordinatesURL);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -137,7 +136,7 @@ const MapEvents = () => {
         locationWithZoomLevel.append("id", id.toString());
       }
       const query = locationWithZoomLevel.toString();
-      window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
+      safeSetLocalStorage(localStorageKeys.coordinatesURL, query);
 
       router.push(
         { query },
@@ -190,6 +189,7 @@ interface ILeafletMap {
   hospital: any[];
   food: any[];
   teleteyit: any[];
+  satellite: any[];
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -275,6 +275,7 @@ function LeafletMap(props: ILeafletMap) {
           ahbap={props.ahbap}
           hospital={props.hospital}
           teleteyit={props.teleteyit}
+          satellite={props.satellite}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}

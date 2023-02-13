@@ -2,6 +2,7 @@ import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
 import FeedChannelBabala from "./babala/FeedChannelBabala";
 import FeedChannelGeneric from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
+import { FeedChannelSatellite } from "./FeedChannelSatellite";
 import {
   BaseFeedChannel,
   Channel,
@@ -9,6 +10,7 @@ import {
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
   FeedChannelTeleteyitProps,
+  FeedChannelSatelliteProps,
 } from "../types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 
@@ -17,7 +19,8 @@ type Props = {
     | FeedChannelTwitterProps
     | FeedChannelBabalaProps
     | FeedChannelAhbapProps
-    | FeedChannelTeleteyitProps;
+    | FeedChannelTeleteyitProps
+    | FeedChannelSatelliteProps;
 };
 
 const contentMapper = {
@@ -30,6 +33,10 @@ const contentMapper = {
   teleteyit: (source: FeedChannelTeleteyitProps) => (
     // @ts-ignore
     <FeedChannelTeleteyit {...source} />
+  ),
+  uydu: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelSatellite {...source} />
   ),
 };
 
