@@ -35,7 +35,7 @@ export type AhbapData = {
   channel: "ahbap";
   properties: {
     name: string;
-    description: string;
+    description: string | { description: string };
     type: string;
     icon: string;
   };
