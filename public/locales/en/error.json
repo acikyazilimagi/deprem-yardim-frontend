@@ -7,5 +7,9 @@
         "title": "Error",
         "detail": "Technical error encountered, please try again."
     },
+    "maintenance": {
+        "title": "Maintenance",
+        "detail": "We are currently performing maintenance. Please try again later."
+    },
     "returnHome": "Return to home"
 }

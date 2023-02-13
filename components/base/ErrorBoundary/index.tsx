@@ -2,8 +2,10 @@ import { DefaultError, MaintenanceError } from "@/errors";
 import CustomErrorPage from "@/pages/_error";
 import type { ReactNode } from "react";
 import { Component } from "react";
+import { TFunction, withTranslation } from "next-i18next";
 
 interface Props {
+  t: TFunction;
   children: ReactNode;
 }
 
@@ -21,8 +23,11 @@ const isTypeError = (error: Error): error is TypeError => {
   return error.name === "TypeError";
 };
 
-const isMaintenanceError = (error: Error): error is MaintenanceError => {
-  return error.name === "Bakımdayız";
+const isMaintenanceError = (
+  error: Error,
+  t: TFunction
+): error is MaintenanceError => {
+  return error.name === t("maintenance.title");
 };
 
 class ErrorBoundary extends Component<Props, State> {
@@ -46,7 +51,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (hasError(this.state.hasError, this.state.error)) {
-      if (isMaintenanceError(this.state.error)) {
+      if (isMaintenanceError(this.state.error, this.props.t)) {
         return (
           <CustomErrorPage
             title={this.state.error.name}
@@ -59,9 +64,9 @@ class ErrorBoundary extends Component<Props, State> {
       return (
         <CustomErrorPage
           // @ts-expect-error IDK why this is causing problem, we're safe inside hasError closure
-          title={this.state.error.name}
+          title={this.props.t("defaults.title") || this.state.error.name}
           // @ts-expect-error IDK why this is causing problem, we're safe inside hasError closure
-          detail={this.state.error.message}
+          detail={this.props.t("defaults.detail") || this.state.error.message}
           statusCode={400}
         />
       );
@@ -71,4 +76,4 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary;
+export default withTranslation("error")(ErrorBoundary);

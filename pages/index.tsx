@@ -208,7 +208,11 @@ export async function getServerSideProps(context: any) {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale, ["common", "home"])),
+      ...(await serverSideTranslations(context.locale, [
+        "common",
+        "error",
+        "home",
+      ])),
       deviceType: isMobile ? "mobile" : "desktop",
       ahbap: [],
       singleItemDetail: context.query.id

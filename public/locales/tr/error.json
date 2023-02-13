@@ -7,5 +7,9 @@
         "title": "Hata",
         "detail": "Teknik hatayla karşılaşıldı, lütfen tekrar deneyin."
     },
+    "maintenance": {
+        "title": "Bakımdayız",
+        "detail": "Şu anda bakım yapılıyor. Lütfen daha sonra tekrar deneyin."
+    },
     "returnHome": "Anasayfaya dön"
 }
