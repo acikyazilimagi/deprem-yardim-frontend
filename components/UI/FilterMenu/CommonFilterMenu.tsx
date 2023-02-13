@@ -41,6 +41,11 @@ function CommonFilterMenu<ValueType>({
   };
 
   useEffect(() => {
+    setSelectedValue(initialValue);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValue]);
+
+  useEffect(() => {
     onChange(selectedValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedValue]);

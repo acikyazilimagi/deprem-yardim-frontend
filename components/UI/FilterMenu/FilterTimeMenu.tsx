@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 type TimeOption =
   | "last30Minutes"
@@ -78,7 +79,10 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
 }) => {
   const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
+  const [selectedValue, setSelectedValue] = useLocalStorage<TimeOption>(
+    "filter_time",
+    "last12Hours"
+  );
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -5,6 +5,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const reasonFilterMenuOptions: string[] = [
   "barinma",
@@ -26,7 +27,8 @@ export const ReasonFilterMenu: React.FC = () => {
   const { t } = useTranslation("home");
 
   const { setReasoningFilterMenuOption } = useURLActions();
-  const [filterValues, setValues] = React.useState<string[]>(
+  const [filterValues, setValues] = useLocalStorage<string[]>(
+    "filter_reason",
     reasonFilterMenuOptions
   );
 
