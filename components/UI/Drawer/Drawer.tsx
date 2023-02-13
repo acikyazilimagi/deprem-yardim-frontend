@@ -58,6 +58,7 @@ const Drawer = () => {
         anchor={anchor}
         open={isOpen}
         onClose={handleClose}
+        data-is-layer-drawer={!drawerData}
       >
         {!!drawerData && (
           <Content drawerData={drawerData} onCopyBillboard={copyBillboard} />
