@@ -83,20 +83,26 @@ export const LayerContent = () => {
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Ahbap)}
             image="ahbap"
-            checked={!mapLayers.includes(MapLayer.Ahbap)}
+            checked={mapLayers.includes(MapLayer.Ahbap)}
             title={t("map.layer.ahbap")}
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Hospital)}
             image="hospitals"
-            checked={!mapLayers.includes(MapLayer.Hospital)}
+            checked={mapLayers.includes(MapLayer.Hospital)}
             title={t("map.layer.health")}
           />
           <LayerButton
             onClick={() => toggleMapLayer(MapLayer.Food)}
             image="food"
-            checked={!mapLayers.includes(MapLayer.Food)}
+            checked={mapLayers.includes(MapLayer.Food)}
             title={t("map.layer.food")}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Teleteyit)}
+            image="teleteyit"
+            checked={mapLayers.includes(MapLayer.Teleteyit)}
+            title={t("map.layer.teleteyit")}
           />
         </Box>
       </Box>

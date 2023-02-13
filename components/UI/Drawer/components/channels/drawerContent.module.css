@@ -1,0 +1,38 @@
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+}
+
+.drawerContentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawerContentHeaderTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.drawerContentBody {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.drawerContentBadge {
+  padding: 5px 10px;
+  background-color: #19857b;
+  color: white;
+  border-radius: 10px;
+}
+
+.drawerContentText {
+  display: block;
+  font-size: 16px;
+  color: #424242;
+  margin-top: 5px;
+}

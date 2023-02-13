@@ -1,12 +1,14 @@
 import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
 import FeedChannelBabala from "./babala/FeedChannelBabala";
 import FeedChannelGeneric from "./FeedChannelGeneric";
+import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import {
   BaseFeedChannel,
   Channel,
   FeedChannelAhbapProps,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
+  FeedChannelTeleteyitProps,
 } from "../types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 
@@ -14,7 +16,8 @@ type Props = {
   content:
     | FeedChannelTwitterProps
     | FeedChannelBabalaProps
-    | FeedChannelAhbapProps;
+    | FeedChannelAhbapProps
+    | FeedChannelTeleteyitProps;
 };
 
 const contentMapper = {
@@ -22,8 +25,12 @@ const contentMapper = {
   twitter: (source: FeedChannelTwitterProps) => (
     <FeedChannelTwitter {...source} />
   ),
-  Babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
+  babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
   ahbap: (source: FeedChannelAhbapProps) => <FeedChannelAhbap {...source} />,
+  teleteyit: (source: FeedChannelTeleteyitProps) => (
+    // @ts-ignore
+    <FeedChannelTeleteyit {...source} />
+  ),
 };
 
 const isChannelExist = (channel?: string) => {
