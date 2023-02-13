@@ -43,6 +43,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     hospitalLocations,
     foodLocations,
     teleteyitLocations,
+    satelliteLocations,
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -125,6 +126,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               hospital={hospitalLocations}
               food={foodLocations}
               teleteyit={teleteyitLocations}
+              satellite={satelliteLocations}
             />
             <Box
               sx={{

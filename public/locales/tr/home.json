@@ -76,7 +76,8 @@
             "ahbap": "Ahbap Konumları",
             "health": "Hastaneler",
             "food": "Sıcak yemek",
-            "teleteyit": "Teleteyit"
+            "teleteyit": "Teleteyit",
+            "satellite": "Uydu"
         }
     },
     "content": {
