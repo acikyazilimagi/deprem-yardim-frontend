@@ -43,7 +43,12 @@ const LocationPropertyMap: Partial<Record<string, Record<string, string>>> = {
     open_hours: "open_hours",
   },
 
-  // {'icon': 'images/icon-18.png', 'name': 'HAKTANIR ECZ', 'city': 'ŞANLIURFA', 'state': 'Harran', 'tel': '0(414)441-25-55', 'open_hours': nan}
+  deprem_ihtiyac: {
+    name: "name",
+    city: "city",
+    state: "state",
+    tel: "tel",
+  },
 };
 
 const LayerControl = ({ points, data, locations }: Props) => {
