@@ -25,7 +25,7 @@ const contentMapper = {
   twitter: (source: FeedChannelTwitterProps) => (
     <FeedChannelTwitter {...source} />
   ),
-  Babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
+  babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
   ahbap: (source: FeedChannelAhbapProps) => <FeedChannelAhbap {...source} />,
   teleteyit: (source: FeedChannelTeleteyitProps) => (
     // @ts-ignore
