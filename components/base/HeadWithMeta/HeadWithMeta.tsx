@@ -7,6 +7,7 @@ import {
   SEO_LANG,
 } from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
+import { useMemo } from "react";
 
 interface IHeadWithMeta {
   singleItemDetail: any;
@@ -33,17 +34,22 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
     ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
     : "";
 
-  const query = new URLSearchParams();
-  query.append("loc", LOC);
-  query.append("address", ADDRESS);
-  query.append("entry", ENTRY);
+  const url = useMemo(() => {
+    if (isPropsValid) return new URL(OG_EDGE_URL_BASE).href;
 
-  const URL = isPropsValid
-    ? `${OG_EDGE_URL_DYNAMIC}/?${query.toString()}`
-    : `${OG_EDGE_URL_BASE}`;
+    const dynamicURL = new URL(OG_EDGE_URL_DYNAMIC);
+    const query = new URLSearchParams();
+    query.append("loc", LOC);
+    query.append("address", ADDRESS);
+    query.append("entry", ENTRY);
+    dynamicURL.search = query.toString();
+
+    return dynamicURL.href;
+  }, [ADDRESS, ENTRY, LOC, isPropsValid]);
+
   const IMAGES: OpenGraphMedia[] = [
     {
-      url: URL,
+      url,
       width: 1200,
       height: 630,
       alt: `${ADDRESS}`,

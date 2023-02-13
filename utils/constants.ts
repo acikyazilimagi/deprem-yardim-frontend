@@ -16,3 +16,6 @@ export const HOSPITAL_LOCATIONS_URL =
 
 export const FOOD_URL =
   BASE_URL + "/feeds/areas?channel=sicak_yemek&extraParams=true";
+
+export const TELETEYIT_URL =
+  BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
