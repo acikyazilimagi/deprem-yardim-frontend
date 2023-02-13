@@ -2,10 +2,10 @@ import { MarkerData } from "@/mocks/types";
 import { useMapActions } from "@/stores/mapStore";
 import { Box, Button, Typography } from "@mui/material";
 import { Trans, useTranslation } from "next-i18next";
-import { AhbapData, TeleteyitData } from "./types";
+import { AhbapData, SatelliteData, TeleteyitData } from "./types";
 
 type Props = {
-  drawerData: MarkerData | AhbapData | TeleteyitData | null;
+  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
 };
 
 export const CloseByRecord = ({ drawerData }: Props) => {

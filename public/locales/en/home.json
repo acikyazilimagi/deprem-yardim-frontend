@@ -75,7 +75,8 @@
             "ahbap": "Ahbap Locations",
             "health": "Hospitals",
             "food": "Hot Meal",
-            "teleteyit": "Teleteyit"
+            "teleteyit": "Teleteyit",
+            "satellite": "Satellite"
         }
     },
     "content": {
