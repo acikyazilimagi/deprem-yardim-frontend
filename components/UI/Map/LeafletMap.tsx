@@ -21,18 +21,16 @@ import { TileLayer, useMapEvents } from "react-leaflet";
 import { useDebouncedCallback } from "use-debounce";
 import { Tags } from "../Tag/Tag.types";
 import {
-  DEFAULT_CENTER,
   DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
-  DEFAULT_ZOOM,
-  DEFAULT_ZOOM_MOBILE,
   localStorageKeys,
 } from "./utils";
-import { LatLngExpression } from "leaflet";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
 import { useURLActions } from "@/stores/urlStore";
+import useDefaultZoom from "@/hooks/useDefaultZoom";
+import useDefaultCenter from "@/hooks/useDefaultCenter";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -66,6 +64,7 @@ const MapEvents = () => {
   const { setPopUpData, setEventType } = useMapActions();
   const { setCoordinates } = useURLActions();
   const id = router.query["id"];
+  const locale = router.locale;
 
   useEffect(() => {
     const localCoordinatesURL = window.localStorage.getItem(
@@ -77,8 +76,8 @@ const MapEvents = () => {
         window.history.replaceState(
           {
             ...window.history.state,
-            as: localCoordinatesURL,
-            url: localCoordinatesURL,
+            as: `/${locale}?${localCoordinatesURL}`,
+            url: `/?${localCoordinatesURL}`,
           },
           "",
           `?${localCoordinatesURL}&id=${id}`
@@ -87,8 +86,8 @@ const MapEvents = () => {
         window.history.replaceState(
           {
             ...window.history.state,
-            as: localCoordinatesURL,
-            url: localCoordinatesURL,
+            as: `/${locale}?${localCoordinatesURL}`,
+            url: `/?${localCoordinatesURL}`,
           },
           "",
           "?" + localCoordinatesURL
@@ -103,7 +102,8 @@ const MapEvents = () => {
         coordinatesURL
       );
     };
-  }, [id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
@@ -111,7 +111,13 @@ const MapEvents = () => {
       let localCoordinates = value;
 
       // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
-      if (zoomLevel === 18) {
+      const shouldExpandCoordinates =
+        zoomLevel === 18 ||
+        zoomLevel === 17 ||
+        zoomLevel === 16 ||
+        zoomLevel === 15;
+
+      if (shouldExpandCoordinates) {
         localCoordinates = expandCoordinatesBy(
           localCoordinates,
           EXPAND_COORDINATE_BY_VALUE
@@ -193,6 +199,8 @@ function LeafletMap(props: ILeafletMap) {
   const isOpen = useIsDrawerOpen();
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
+  const { defaultZoom } = useDefaultZoom();
+  const { defaultCenter } = useDefaultCenter();
 
   const points: Point[] = useMemo(
     () =>
@@ -203,31 +211,8 @@ function LeafletMap(props: ILeafletMap) {
       ]),
     [data]
   );
-  const { lat, lng, zoom, id } = router.query;
+  const { lat, lng, id } = router.query;
   const device = useDevice();
-
-  const localCoordinatesURL = window.localStorage.getItem(
-    localStorageKeys.coordinatesURL
-  );
-
-  const defaultCenter: LatLngExpression =
-    lat && lng
-      ? [parseFloat(lat as string), parseFloat(lng as string)]
-      : localCoordinatesURL
-      ? [
-          parseFloat(localCoordinatesURL.split("lat=")[1].split("&")[0]),
-          parseFloat(localCoordinatesURL.split("lng=")[1].split("&")[0]),
-        ]
-      : DEFAULT_CENTER;
-
-  const defaultZoom = zoom
-    ? parseFloat(zoom as string)
-    : localCoordinatesURL
-    ? parseFloat(localCoordinatesURL.split("zoom=")[1].split("&")[0])
-    : device === "desktop"
-    ? DEFAULT_ZOOM
-    : DEFAULT_ZOOM_MOBILE;
-
   const isIdExists = id;
 
   useEffect(() => {

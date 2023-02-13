@@ -1,5 +1,5 @@
 export const BASE_URL = "https://apigo.afetharita.com";
-export const EXPAND_COORDINATE_BY_VALUE = 0.001;
+export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
 export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
@@ -19,3 +19,4 @@ export const FOOD_URL =
 
 export const TELETEYIT_URL =
   BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
+
