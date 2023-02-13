@@ -75,7 +75,8 @@
             "earthquakes": "Latest Earthquakes",
             "ahbap": "Ahbap Locations",
             "health": "Hospitals",
-            "food": "Hot Meal"
+            "food": "Hot Meal",
+            "teleteyit": "Teleteyit"
         }
     },
     "content": {
