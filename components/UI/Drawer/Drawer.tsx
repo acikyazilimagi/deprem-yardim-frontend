@@ -42,7 +42,7 @@ const Drawer = () => {
       router.push({ query }, { query }, { shallow: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [isOpen, drawerData]);
 
   const handleClose = useCallback(
     (e: MouseEvent) => {
