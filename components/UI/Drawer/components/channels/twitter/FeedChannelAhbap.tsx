@@ -5,13 +5,20 @@ import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
 
 const getTypeLabel = (type: string) => {
   const id = type.split("-")[1];
-
-  return CHANNEL_AHBAP_TYPES?.[id] || "";
+  return CHANNEL_AHBAP_TYPES[id] ?? "";
 };
 
+function isDescriptionObject(
+  input: string | { value: string } | undefined
+): input is { value: string } {
+  return !!(input as { value: string })?.value;
+}
+
 export const FeedChannelAhbap = ({
-  properties: { type, description, icon },
+  properties: { type = "", description = "", icon = "" },
 }: FeedChannelAhbapProps) => {
+  if (isDescriptionObject(description)) description = description.value;
+
   return (
     <>
       <div style={styles.container}>
@@ -21,7 +28,7 @@ export const FeedChannelAhbap = ({
         </div>
         <Divider />
         <Typography style={styles.name}>{getTypeLabel(type)}</Typography>
-        <Typography style={styles.description}>{description}</Typography>
+        <Typography style={styles.description}>{`${description}`}</Typography>
       </div>
     </>
   );
