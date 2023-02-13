@@ -19,15 +19,15 @@ export const CloseByRecord = ({ drawerData }: Props) => {
   )
     return null;
 
-    const stateUpdate = (reference: number) => {
-        const url = new URL(window.location.href);
-        url.searchParams.set("id", reference.toString());
-        history.pushState(history.state, "", url.href);
-    };
+  const stateUpdate = (reference: number) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("id", reference.toString());
+    history.pushState(history.state, "", url.href);
+  };
   const onClick = (reference: number) => () => {
-      stateUpdate(reference);
+    stateUpdate(reference);
 
-      const tempDrawerData: MarkerData | AhbapData = {
+    const tempDrawerData: MarkerData | AhbapData = {
       ...drawerData,
       isVisited: true,
       reference,
