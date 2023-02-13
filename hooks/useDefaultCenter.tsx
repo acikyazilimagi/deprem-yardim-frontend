@@ -1,11 +1,8 @@
 import {
   DEFAULT_CENTER,
-  DEFAULT_ZOOM,
-  DEFAULT_ZOOM_MOBILE,
   localStorageKeys,
+  safeGetLocalStorage,
 } from "@/components/UI/Map/utils";
-import { useDevice } from "@/stores/mapStore";
-import { LatLngExpression } from "leaflet";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -23,7 +20,7 @@ export default function useDefaultCenter() {
     }
 
     const savedURLSearchParams = new URLSearchParams(
-      window.localStorage.getItem(localStorageKeys.coordinatesURL) || ""
+      safeGetLocalStorage(localStorageKeys.coordinatesURL) ?? ""
     );
     if (savedURLSearchParams.has("lat") && savedURLSearchParams.has("lng")) {
       setDefaultCenter([
