@@ -35,7 +35,7 @@ export const SatelliteClusterGroup = ({ data }: Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 10, maxZoom: 17 },
+    options: { radius: 100, maxZoom: 17 },
   });
 
   return (
