@@ -18,8 +18,17 @@ export const CloseByRecord = ({ drawerData }: Props) => {
     drawerData.closeByRecords.length <= 1
   )
     return null;
+
+    const stateUpdate = (reference: number) => {
+        console.log(history.state);
+        const url = new URL(window.location.href);
+        url.searchParams.set("id", reference.toString());
+        history.pushState(history.state, "", url.href);
+    };
   const onClick = (reference: number) => () => {
-    const tempDrawerData: MarkerData | AhbapData = {
+      stateUpdate(reference);
+
+      const tempDrawerData: MarkerData | AhbapData = {
       ...drawerData,
       isVisited: true,
       reference,
