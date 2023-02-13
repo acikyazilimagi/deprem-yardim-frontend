@@ -2,6 +2,7 @@ import {
   DEFAULT_ZOOM,
   DEFAULT_ZOOM_MOBILE,
   localStorageKeys,
+  safeGetLocalStorage,
 } from "@/components/UI/Map/utils";
 import { useDevice } from "@/stores/mapStore";
 import { useRouter } from "next/router";
@@ -22,7 +23,7 @@ export default function useDefaultZoom() {
     }
 
     const savedZoomValue = new URLSearchParams(
-      window.localStorage.getItem(localStorageKeys.coordinatesURL) || ""
+      safeGetLocalStorage(localStorageKeys.coordinatesURL) ?? ""
     )?.get("zoom");
     if (savedZoomValue) {
       setDefaultZoom(parseFloat(savedZoomValue));

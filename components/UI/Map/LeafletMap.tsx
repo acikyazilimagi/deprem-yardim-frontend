@@ -25,6 +25,8 @@ import {
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
   localStorageKeys,
+  safeGetLocalStorage,
+  safeSetLocalStorage,
 } from "./utils";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
@@ -67,7 +69,7 @@ const MapEvents = () => {
   const locale = router.locale;
 
   useEffect(() => {
-    const localCoordinatesURL = window.localStorage.getItem(
+    const localCoordinatesURL = safeGetLocalStorage(
       localStorageKeys.coordinatesURL
     );
 
@@ -97,10 +99,7 @@ const MapEvents = () => {
 
     return () => {
       const coordinatesURL = window.location.hash;
-      window.localStorage.setItem(
-        localStorageKeys.coordinatesURL,
-        coordinatesURL
-      );
+      safeSetLocalStorage(localStorageKeys.coordinatesURL, coordinatesURL);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -137,7 +136,7 @@ const MapEvents = () => {
         locationWithZoomLevel.append("id", id.toString());
       }
       const query = locationWithZoomLevel.toString();
-      window.localStorage.setItem(localStorageKeys.coordinatesURL, query);
+      safeSetLocalStorage(localStorageKeys.coordinatesURL, query);
 
       router.push(
         { query },
