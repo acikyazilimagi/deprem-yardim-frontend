@@ -44,6 +44,10 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     foodLocations,
     teleteyitLocations,
     satelliteLocations,
+    sahraKitchenLocations,
+    pharmacyLocations,
+    safeLocations,
+    depremIhtiyacLocations,
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -121,12 +125,19 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
+
             <LeafletMap
-              ahbap={ahbapLocations}
-              hospital={hospitalLocations}
-              food={foodLocations}
-              teleteyit={teleteyitLocations}
-              satellite={satelliteLocations}
+              locations={{
+                ahbap: ahbapLocations,
+                hospital: hospitalLocations,
+                food: foodLocations,
+                teleteyit: teleteyitLocations,
+                uydu: satelliteLocations,
+                sahra_mutfak: sahraKitchenLocations,
+                pharmacy: pharmacyLocations,
+                safe: safeLocations,
+                deprem_ihtiyac: depremIhtiyacLocations,
+              }}
             />
             <Box
               sx={{

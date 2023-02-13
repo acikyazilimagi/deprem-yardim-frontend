@@ -4,11 +4,54 @@ import {
   FOOD_URL,
   TELETEYIT_URL,
   SATELLITE_URL,
+  SAHRA_MUTFAK_URL,
+  PHARMACY_URL,
+  SAFE_LOCATION_URL,
+  DEPREM_IHTIYAC_URL,
 } from "@/utils/constants";
 import useSWR from "swr";
 import { dataFetcher } from "@/services/dataFetcher";
 import dJSON from "dirty-json";
 import { useState } from "react";
+
+type HandleLocationResponseOptions = {
+  extraParamsIcon?: string;
+};
+
+const handleLocationResponse = (
+  data: any,
+  setLocations: (newData: any) => void,
+  options: HandleLocationResponseOptions = {}
+) => {
+  if (!data) return;
+
+  const features = data.results.map((item: any) => {
+    let extra_params = {};
+    try {
+      extra_params = dJSON.parse(item.extra_parameters);
+
+      if (options?.extraParamsIcon) {
+        extra_params = {
+          ...extra_params,
+          icon: options.extraParamsIcon,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: item.loc?.reverse(),
+      },
+      properties: extra_params,
+    };
+  });
+
+  setLocations(features);
+};
 
 export function useVerifiedLocations() {
   const [foodLocations, setFoodLocations] = useState<any[]>([]);
@@ -17,153 +60,57 @@ export function useVerifiedLocations() {
   const [teleteyitLocations, setTeleteyitLocations] = useState<any[]>([]);
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
 
+  const [sahraKitchenLocations, setSahraKitchenLocations] = useState<any[]>([]);
+  const [pharmacyLocations, setPharmacyLocations] = useState<any[]>([]);
+  const [safeLocations, setSafeLocations] = useState<any[]>([]);
+  const [depremIhtiyacLocations, setDepremIhtiyacLocations] = useState<any[]>(
+    []
+  );
+
   useSWR(FOOD_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(item.extra_parameters);
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setFoodLocations(features);
-    },
+    onSuccess: (data) => handleLocationResponse(data, setFoodLocations),
   });
 
   useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(item.extra_parameters);
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setAhbapLocations(features);
-    },
+    onSuccess: (data) => handleLocationResponse(data, setAhbapLocations),
   });
 
   useSWR(HOSPITAL_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-10.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setHospitalLocations(features);
-    },
+    onSuccess: (data) =>
+      handleLocationResponse(data, setHospitalLocations, {
+        extraParamsIcon: "images/icon-10.png",
+      }),
   });
 
   useSWR(TELETEYIT_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item?.extra_parameters.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-12.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setTeleteyitLocations(features);
-    },
+    onSuccess: (data) =>
+      handleLocationResponse(data, setTeleteyitLocations, {
+        extraParamsIcon: "images/icon-12.png",
+      }),
   });
+
   useSWR(SATELLITE_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
+    onSuccess: (data) =>
+      handleLocationResponse(data, setSatelliteLocations, {
+        extraParamsIcon: "images/icon-13.png",
+      }),
+  });
 
-      const satelliteData = data.results.map((item: any) => {
-        let extra_params = {};
+  useSWR(SAHRA_MUTFAK_URL, dataFetcher, {
+    onSuccess: (data) => handleLocationResponse(data, setSahraKitchenLocations),
+  });
 
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-13.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
+  useSWR(PHARMACY_URL, dataFetcher, {
+    onSuccess: (data) => handleLocationResponse(data, setPharmacyLocations),
+  });
 
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
+  useSWR(SAFE_LOCATION_URL, dataFetcher, {
+    onSuccess: (data) => handleLocationResponse(data, setSafeLocations),
+  });
 
-      setSatelliteLocations(satelliteData);
-    },
+  useSWR(DEPREM_IHTIYAC_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setDepremIhtiyacLocations),
   });
 
   return {
@@ -172,5 +119,9 @@ export function useVerifiedLocations() {
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
+    sahraKitchenLocations,
+    pharmacyLocations,
+    safeLocations,
+    depremIhtiyacLocations,
   };
 }

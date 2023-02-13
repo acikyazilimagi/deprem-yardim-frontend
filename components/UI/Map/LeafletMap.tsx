@@ -33,6 +33,7 @@ import ViewControl from "./ViewControl";
 import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
+import { Channel } from "../Drawer/components/types";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -185,11 +186,7 @@ const corners = {
 const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 interface ILeafletMap {
-  ahbap: any[];
-  hospital: any[];
-  food: any[];
-  teleteyit: any[];
-  satellite: any[];
+  locations: Partial<Record<Channel, any[]>>;
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -232,6 +229,7 @@ function LeafletMap(props: ILeafletMap) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
   return (
@@ -268,15 +266,7 @@ function LeafletMap(props: ILeafletMap) {
           }}
         />
         <MapEvents />
-        <LayerControl
-          points={points}
-          data={data}
-          food={props.food}
-          ahbap={props.ahbap}
-          hospital={props.hospital}
-          teleteyit={props.teleteyit}
-          satellite={props.satellite}
-        />
+        <LayerControl points={points} data={data} locations={props.locations} />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />

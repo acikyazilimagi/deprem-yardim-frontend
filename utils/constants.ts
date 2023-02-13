@@ -22,3 +22,18 @@ export const TELETEYIT_URL =
 
 export const SATELLITE_URL =
   BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";
+
+export const SAHRA_MUTFAK_URL =
+  BASE_URL + "/feeds/areas?channel=sahra_mutfak&extraParams=true";
+
+// export const TURKISH_PHARMACY_URL =
+// BASE_URL + "/feeds/areas?channel=sahra_mutfak&extraParams=true"; EMPTY RESPONSE
+
+export const SAFE_LOCATION_URL =
+  BASE_URL + "/feeds/areas?channel=guvenli_yerler_oteller&extraParams=true";
+
+export const DEPREM_IHTIYAC_URL =
+  BASE_URL + "/feeds/areas?channel=depremihtiyaccom&extraParams=true";
+
+export const PHARMACY_URL =
+  BASE_URL + "/feeds/areas?channel=eczane_excel&extraParams=true";

@@ -26,6 +26,10 @@ export enum MapLayer {
   Food = "Food",
   Teleteyit = "Teleteyit",
   Satellite = "Satellite",
+  Sahra_mutfak = "Sahra_mutfak",
+  Pharmacy = "Pharmacy",
+  Safe = "Safe",
+  Deprem_ihtiyac = "DepremIhtiyac",
 }
 
 interface MapState {

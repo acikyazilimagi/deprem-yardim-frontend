@@ -4,7 +4,15 @@ export type Channel =
   | "ahbap"
   | "generic"
   | "teleteyit"
-  | "uydu";
+  | "uydu"
+  | "hospital"
+  | "satellite"
+  | "food"
+  | "sahra_mutfak"
+  | "pharmacy"
+  | "safe"
+  | "deprem_ihtiyac";
+
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {

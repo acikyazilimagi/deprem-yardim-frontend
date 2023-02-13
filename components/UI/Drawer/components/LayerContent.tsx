@@ -110,6 +110,30 @@ export const LayerContent = () => {
             checked={mapLayers.includes(MapLayer.Satellite)}
             title={t("map.layer.satellite")}
           />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Sahra_mutfak)}
+            image="uydu"
+            checked={mapLayers.includes(MapLayer.Sahra_mutfak)}
+            title={"Sahra Mutfak"}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Pharmacy)}
+            image="uydu"
+            checked={mapLayers.includes(MapLayer.Pharmacy)}
+            title={"Eczane"}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Safe)}
+            image="uydu"
+            checked={mapLayers.includes(MapLayer.Safe)}
+            title={"Guenli yerler"}
+          />
+          <LayerButton
+            onClick={() => toggleMapLayer(MapLayer.Deprem_ihtiyac)}
+            image="uydu"
+            checked={mapLayers.includes(MapLayer.Deprem_ihtiyac)}
+            title={"Deprem Ihtiyac"}
+          />
         </Box>
       </Box>
     </Box>
