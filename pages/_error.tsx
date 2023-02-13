@@ -40,7 +40,7 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
         <p className={styles.errorText}>
           {detail ?? t("defaults.detail").toString()}
         </p>
-        <Link href="https://afetharita.com">
+        <Link href="/">
           <span className={styles.errorLink}>{t("returnHome")}</span>
         </Link>
         <Link href="https://depremyardim.com">
