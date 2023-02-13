@@ -20,7 +20,6 @@ export const CloseByRecord = ({ drawerData }: Props) => {
     return null;
 
     const stateUpdate = (reference: number) => {
-        console.log(history.state);
         const url = new URL(window.location.href);
         url.searchParams.set("id", reference.toString());
         history.pushState(history.state, "", url.href);
