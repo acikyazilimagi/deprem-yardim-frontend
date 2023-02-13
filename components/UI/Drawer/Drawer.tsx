@@ -34,7 +34,9 @@ const Drawer = () => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
 
   useEffect(() => {
-    if (isOpen && router && drawerData) {
+    if (!isOpen) {
+      router.replace(router.pathname, undefined, {});
+    } else if (isOpen && router && drawerData) {
       const path = setUrlQuery({ id: drawerData?.reference }, router);
       const query = path;
       router.push({ query }, { query }, { shallow: true });
@@ -56,6 +58,7 @@ const Drawer = () => {
         anchor={anchor}
         open={isOpen}
         onClose={handleClose}
+        data-is-layer-drawer={!drawerData}
       >
         {!!drawerData && (
           <Content drawerData={drawerData} onCopyBillboard={copyBillboard} />

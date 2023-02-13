@@ -18,3 +18,19 @@ export const localStorageKeys = {
 export const localForageKeys = {
   markersVisited: "markersVisited",
 } as const;
+
+export const safeGetLocalStorage = (key: string) => {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+
+export const safeSetLocalStorage = (key: string, value: string): void => {
+  try {
+    return window.localStorage.setItem(key, value);
+  } catch {
+    //
+  }
+};

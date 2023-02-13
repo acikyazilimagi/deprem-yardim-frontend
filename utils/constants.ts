@@ -1,5 +1,5 @@
 export const BASE_URL = "https://apigo.afetharita.com";
-export const EXPAND_COORDINATE_BY_VALUE = 0.001;
+export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
 export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
@@ -15,4 +15,10 @@ export const HOSPITAL_LOCATIONS_URL =
   BASE_URL + "/feeds/areas?channel=hastahane_locations&extraParams=true";
 
 export const FOOD_URL =
-  BASE_URL + "/feeds/areas?channel=sicak_yemek&extraParams=True";
+  BASE_URL + "/feeds/areas?channel=sicak_yemek&extraParams=true";
+
+export const TELETEYIT_URL =
+  BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
+
+export const SATELLITE_URL =
+  BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";

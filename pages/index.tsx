@@ -38,8 +38,13 @@ type Props = {
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
   const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
-  const { ahbapLocations, hospitalLocations, foodLocations } =
-    useVerifiedLocations();
+  const {
+    ahbapLocations,
+    hospitalLocations,
+    foodLocations,
+    teleteyitLocations,
+    satelliteLocations,
+  } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
   const router = useRouter();
@@ -120,6 +125,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               ahbap={ahbapLocations}
               hospital={hospitalLocations}
               food={foodLocations}
+              teleteyit={teleteyitLocations}
+              satellite={satelliteLocations}
             />
             <Box
               sx={{

@@ -32,15 +32,16 @@ export function useGetAreas() {
 
     const url = new URL(areasURL);
 
-    const searchParams = new URLSearchParams(coordinates);
+    const isBabala = channel === "babala";
+    const searchParams = new URLSearchParams(isBabala ? "" : coordinates);
+
     searchParams.delete("eventType");
 
-    if (reasoning) searchParams.append("reason", reasoning);
-
     if (channel) searchParams.append("channel", channel);
-
-    if (timeStamp) searchParams.append("time_stamp", `${timeStamp}`);
-
+    if (!isBabala) {
+      if (reasoning) searchParams.append("reason", reasoning);
+      if (timeStamp) searchParams.append("time_stamp", `${timeStamp}`);
+    }
     url.search = searchParams.toString();
 
     setURL(url);

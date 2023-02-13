@@ -1,9 +1,7 @@
-body {
-  margin: 0;
-}
-
-.leaflet-control-layers-toggle {
-  width: 30px !important;
-  height: 30px !important;
-  object-fit: cover;
+@media (min-width: 768px) {
+  /* Safari desktop hack */
+  [data-is-layer-drawer="true"] .MuiPaper-root {
+    background-color: unset;
+    width: 1px;
+  }
 }

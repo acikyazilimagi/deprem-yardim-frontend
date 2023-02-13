@@ -1,6 +1,7 @@
 ## Projeye destek olmak için
 
 [For English](README_ENG.md)
+[Projenin Hikayesi](./STORY/STORY-BEHIND.md)
 
 İletişim kanalları:
 

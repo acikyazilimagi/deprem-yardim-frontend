@@ -19,13 +19,14 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
-import { AhbapData } from "./types";
+import { AhbapData, TeleteyitData, SatelliteData } from "./types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
+import { useRouter } from "next/router";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
   onCopyBillboard: (clipped: string) => void;
-  drawerData: MarkerData | AhbapData | null;
+  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
@@ -41,6 +42,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const data = dataTransformer(rawData);
   const size = useWindowSize();
   const { handleMarkerClick: toggler } = useMapClickHandlers();
+  const router = useRouter();
+  const locale = router.locale;
 
   if (!drawerData) {
     return null;
@@ -51,7 +54,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
     drawerData.geometry.location.lng,
   ]).format();
 
-  const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp);
+  const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp, locale);
 
   const hasSource =
     data &&
@@ -63,6 +66,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
 
   const title = data?.formatted_address ?? (drawerData as any).properties?.name;
 
+  // @ts-ignore
   return (
     <Box
       sx={{
@@ -114,7 +118,6 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             </svg>
             <span>{formattedCoordinates}</span>
           </div>
-
           <MapButtons drawerData={drawerData} />
           <div>
             <TextField
@@ -164,7 +167,11 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
               )}
             </div>
           </div>
-          {(data || (drawerData as AhbapData).channel === "ahbap") && (
+
+          {(data ||
+            (drawerData as AhbapData).channel === "ahbap" ||
+            (drawerData as TeleteyitData).channel === "teleteyit" ||
+            (drawerData as SatelliteData).channel === "uydu") && (
             <FeedContent content={data ?? (drawerData as AhbapData)} />
           )}
         </div>

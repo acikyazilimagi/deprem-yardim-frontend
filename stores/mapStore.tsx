@@ -1,11 +1,15 @@
-import { AhbapData } from "@/components/UI/Drawer/components/types";
+import {
+  AhbapData,
+  SatelliteData,
+  TeleteyitData,
+} from "@/components/UI/Drawer/components/types";
 import { create } from "zustand";
 import {
   ClusterPopupData,
   MarkerData,
   EVENT_TYPES,
   DeviceType,
-} from "../mocks/types";
+} from "@/mocks/types";
 
 export enum MapType {
   Terrain = "p",
@@ -20,12 +24,14 @@ export enum MapLayer {
   Ahbap = "Ahbap",
   Hospital = "Hospital",
   Food = "Food",
+  Teleteyit = "Teleteyit",
+  Satellite = "Satellite",
 }
 
 interface MapState {
   eventType?: EVENT_TYPES;
   popUpData: ClusterPopupData | null;
-  drawerData: MarkerData | AhbapData | null;
+  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
   isDrawerOpen: boolean;
   device: DeviceType;
   markerData: MarkerData[];
@@ -34,7 +40,9 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
-    setDrawerData: (data: MarkerData | AhbapData | null) => void;
+    setDrawerData: (
+      data: MarkerData | AhbapData | TeleteyitData | SatelliteData | null
+    ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setDevice: (device: DeviceType) => void;
     setMarkerData: (data: MarkerData[]) => void;
@@ -50,13 +58,7 @@ export const useMapStore = create<MapState>()((set) => ({
   device: "desktop",
   markerData: [],
   mapType: MapType.Default,
-  mapLayers: [
-    MapLayer.Heatmap,
-    MapLayer.Markers,
-    MapLayer.Ahbap,
-    MapLayer.Hospital,
-    MapLayer.Food,
-  ],
+  mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     toggleMapLayer: (mapLayer: MapLayer) =>
@@ -65,8 +67,9 @@ export const useMapStore = create<MapState>()((set) => ({
           ? mapLayers.filter((layer) => layer !== mapLayer)
           : mapLayers.concat(mapLayer),
       })),
-    setDrawerData: (data: MarkerData | AhbapData | null) =>
-      set(() => ({ drawerData: data })),
+    setDrawerData: (
+      data: MarkerData | AhbapData | TeleteyitData | SatelliteData | null
+    ) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
     setDevice: (device: DeviceType) => set(() => ({ device })),

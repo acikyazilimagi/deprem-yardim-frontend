@@ -1,4 +1,10 @@
-export type Channel = "twitter" | "Babala" | "ahbap" | "generic";
+export type Channel =
+  | "twitter"
+  | "Babala"
+  | "ahbap"
+  | "generic"
+  | "teleteyit"
+  | "uydu";
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {
@@ -35,7 +41,7 @@ export type AhbapData = {
   channel: "ahbap";
   properties: {
     name: string;
-    description: string;
+    description: string | { value: string };
     type: string;
     icon: string;
   };
@@ -66,6 +72,42 @@ export type HospitalData = {
   };
 };
 
+export type TeleteyitData = {
+  channel: "teleteyit";
+  properties: {
+    name: string;
+    description: string;
+    type: string;
+    icon: string;
+    verified: string;
+    city: string;
+    district: string;
+  };
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  closeByRecords?: number[];
+};
+
+export type SatelliteData = {
+  channel: "uydu";
+  properties: {
+    damage: string;
+  };
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  closeByRecords?: number[];
+};
+
 export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
 
 export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
@@ -73,3 +115,7 @@ export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
 export type FeedChannelAhbapProps = AhbapData;
 
 export type FeedChannelHospitalProps = HospitalData;
+
+export type FeedChannelTeleteyitProps = TeleteyitData;
+
+export type FeedChannelSatelliteProps = SatelliteData;
