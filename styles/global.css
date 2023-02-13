@@ -1,9 +1,0 @@
-body {
-  margin: 0;
-}
-
-.leaflet-control-layers-toggle {
-  width: 30px !important;
-  height: 30px !important;
-  object-fit: cover;
-}
