@@ -13,6 +13,7 @@ export const DEFAULT_MIN_ZOOM_MOBILE = 4.5;
 
 export const localStorageKeys = {
   coordinatesURL: "coordinatesURL",
+  urlStoreData: "url-store",
 } as const;
 
 export const localForageKeys = {
