@@ -5,7 +5,6 @@ const HOUR_IN_SEC = 3600;
 const MINUTES_IN_SEC = 60;
 
 export const getTimeAgo = (value: string, locale: string = "tr") => {
-  let result = "";
   const now = new Date().getTime();
   const valueZtoGMT3 = value.replace("Z", "+03:00");
   const valueTime = new Date(valueZtoGMT3).getTime();
@@ -32,7 +31,7 @@ export const getTimeAgo = (value: string, locale: string = "tr") => {
   const hourCategory = formatterHours.select(hours);
   const minutesCategory = formatterMinutes.select(minutes);
 
-  const labels: any = {
+  const LABELS: any = {
     tr: {
       years: {
         one: "yıl",
@@ -54,6 +53,7 @@ export const getTimeAgo = (value: string, locale: string = "tr") => {
         one: "dakika",
         other: "dakika",
       },
+      ago: " önce",
     },
     en: {
       years: {
@@ -76,21 +76,22 @@ export const getTimeAgo = (value: string, locale: string = "tr") => {
         one: "minute",
         other: "minutes",
       },
+      ago: " ago",
     },
   };
 
-  const yearsLabel = labels[locale].years[yearCategory];
-  const monthsLabel = labels[locale].months[monthCategory];
-  const daysLabel = labels[locale].days[dayCategory];
-  const hoursLabel = labels[locale].hours[hourCategory];
-  const minutesLabel = labels[locale].minutes[minutesCategory];
+  const yearsLabel = LABELS[locale].years[yearCategory];
+  const monthsLabel = LABELS[locale].months[monthCategory];
+  const daysLabel = LABELS[locale].days[dayCategory];
+  const hoursLabel = LABELS[locale].hours[hourCategory];
+  const minutesLabel = LABELS[locale].minutes[minutesCategory];
 
+  let result = "";
   if (years) result += `${years} ${yearsLabel} `;
   if (months) result += `${months} ${monthsLabel} `;
   if (days) result += `${days} ${daysLabel} `;
   if (hours) result += `${hours} ${hoursLabel} `;
   if (minutes) result += `${minutes} ${minutesLabel} `;
-  if (locale === "tr") result += " önce";
-  else result += " ago";
+  result += LABELS[locale].ago;
   return result;
 };
