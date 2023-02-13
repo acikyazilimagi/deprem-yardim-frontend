@@ -1,6 +1,7 @@
 {
     "errors": {
-        "maintenance": "This page is under maintenance to better serve you. Please try again later or visit EarthquakeYardim.com."
+        "maintenance": "This page is under maintenance to better serve you. Please try again later or visit EarthquakeYardim.com.",
+        "partialData": "Couldn't reach some data sources."
     },
     "loaders": {
         "stillLoading": "Still Loading...",

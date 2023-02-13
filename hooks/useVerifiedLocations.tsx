@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   AHBAP_LOCATIONS_URL,
   HOSPITAL_LOCATIONS_URL,
@@ -8,7 +9,9 @@ import {
 import useSWR from "swr";
 import { dataFetcher } from "@/services/dataFetcher";
 import dJSON from "dirty-json";
-import { useState } from "react";
+import { PartialDataError } from "@/errors";
+import { useSnackbar } from "@/components/base/Snackbar";
+import { useTranslation } from "next-i18next";
 
 export function useVerifiedLocations() {
   const [foodLocations, setFoodLocations] = useState<any[]>([]);
@@ -16,6 +19,15 @@ export function useVerifiedLocations() {
   const [hospitalLocations, setHospitalLocations] = useState<any[]>([]);
   const [teleteyitLocations, setTeleteyitLocations] = useState<any[]>([]);
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
+  const [errors, setErrors] = useState<Error[]>([]);
+
+  const { enqueueWarning } = useSnackbar();
+  const { t } = useTranslation(["common"]);
+
+  useEffect(() => {
+    errors.length && enqueueWarning(t("common:errors.partialData"));
+    // ts-expect-error adding enqueue warning rerenders
+  }, [errors]);
 
   useSWR(FOOD_URL, dataFetcher, {
     onSuccess: (data) => {
@@ -40,6 +52,9 @@ export function useVerifiedLocations() {
       });
 
       setFoodLocations(features);
+    },
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
     },
   });
 
@@ -66,6 +81,9 @@ export function useVerifiedLocations() {
       });
 
       setAhbapLocations(features);
+    },
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
     },
   });
 
@@ -98,6 +116,10 @@ export function useVerifiedLocations() {
       });
 
       setHospitalLocations(features);
+    },
+
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
     },
   });
 
@@ -132,6 +154,10 @@ export function useVerifiedLocations() {
 
       setTeleteyitLocations(features);
     },
+
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
+    },
   });
   useSWR(SATELLITE_URL, dataFetcher, {
     onSuccess: (data) => {
@@ -164,6 +190,9 @@ export function useVerifiedLocations() {
 
       setSatelliteLocations(satelliteData);
     },
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
+    },
   });
 
   return {
@@ -172,5 +201,6 @@ export function useVerifiedLocations() {
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
+    errors,
   };
 }
