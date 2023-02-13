@@ -35,6 +35,13 @@
             "lastDay": "Last 24 hours",
             "lastThreeDays": "Last 3 days",
             "all": "All time"
+        },
+        "resets":{
+            "title": "Reset",
+            "all": "Reset all",
+            "channel":"Reset channel",
+            "reason":"Reset reason",
+            "time":"Reset time"
         }
     },
     "tags": {

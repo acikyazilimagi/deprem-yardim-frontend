@@ -118,6 +118,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                     resetShouldFetchNextOption={resetShouldFetchNextOption}
                   />
                   <FilterMenu.Reason />
+                  <FilterMenu.Reset />
                 </FilterMenu>
               </div>
             </div>

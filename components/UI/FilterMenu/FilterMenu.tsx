@@ -5,7 +5,7 @@ import { ChannelFilterMenu } from "./ChannelFilterMenu";
 import { ReasonFilterMenu } from "./ReasonFilterMenu";
 import TimeFilterMenu, { FilterTimeMenuProps } from "./FilterTimeMenu";
 import { useTranslation } from "next-i18next";
-
+import { ResetFilterMenu } from "./ResetFilterMenu";
 type FilterMenuProps = {
   children: React.ReactNode;
 };
@@ -15,6 +15,7 @@ type FilterMenuType = React.FC<FilterMenuProps> & {
   Channel: React.FC;
   Reason: React.FC;
   LocaleSwitch: React.FC<LocaleSwitchProps>;
+  Reset: React.FC;
 };
 
 const FilterMenu: FilterMenuType = ({ children }) => {
@@ -32,5 +33,5 @@ FilterMenu.Time = TimeFilterMenu;
 FilterMenu.Channel = ChannelFilterMenu;
 FilterMenu.LocaleSwitch = LocaleSwitch;
 FilterMenu.Reason = ReasonFilterMenu;
-
+FilterMenu.Reset = ResetFilterMenu;
 export default FilterMenu;

@@ -36,6 +36,13 @@
             "lastDay": "Son 24 saat",
             "lastThreeDays": "Son 3 gün",
             "all": "Tüm zamanlar"
+        },
+        "resets":{
+            "title": "Sıfırla",
+            "all": "Hepsini sıfırla",
+            "channel":"Kanalı sıfırla",
+            "reason":"Türü sıfırla",
+            "time":"Zamanı sıfırla"
         }
     },
     "tags": {
