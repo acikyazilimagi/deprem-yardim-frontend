@@ -5,6 +5,8 @@ import {
   FOOD_URL,
   TELETEYIT_URL,
   SATELLITE_URL,
+  SAHRA_KITCHEN_URL,
+  PHARMACY_URL,
 } from "@/utils/constants";
 import useSWR from "swr";
 import { dataFetcher } from "@/services/dataFetcher";
@@ -19,6 +21,7 @@ export function useVerifiedLocations() {
   const [hospitalLocations, setHospitalLocations] = useState<any[]>([]);
   const [teleteyitLocations, setTeleteyitLocations] = useState<any[]>([]);
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
+  const [sahraKitchenLocations, setSahraKitchenLocations] = useState<any[]>([]);
   const [errors, setErrors] = useState<Error[]>([]);
 
   const { enqueueWarning } = useSnackbar();
@@ -195,12 +198,52 @@ export function useVerifiedLocations() {
     },
   });
 
+  useSWR(SAHRA_KITCHEN_URL, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const sahraKitchenData = data.results.map((item: any) => {
+        let extra_params = {};
+
+        try {
+          extra_params = dJSON.parse(
+            item.extra_parameters?.replaceAll("nan", false)
+          );
+          extra_params = {
+            ...extra_params,
+            icon: "images/icon-14.png",
+          };
+        } catch (error) {
+          console.error(error);
+        }
+
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: item.loc?.reverse(),
+          },
+          id: item.id,
+          properties: extra_params,
+          reason: item.reason,
+          verified: item.is_location_verified,
+        };
+      });
+
+      setSahraKitchenLocations(sahraKitchenData);
+    },
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
+    },
+  });
+
   return {
     foodLocations,
     ahbapLocations,
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
+    sahraKitchenLocations,
     errors,
   };
 }
