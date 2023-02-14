@@ -2,19 +2,9 @@ import React from "react";
 import ButtonControl from "./ButtonControl";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { AttributionControl } from "react-leaflet";
+import Control from "react-leaflet-custom-control";
 
 const MapControls: React.FC = () => {
-  const attribution = `
-    <a href="./cerez.pdf" target="_blank">
-      cookie
-    </a>
-    •
-    <a href="./gizlilik.pdf" target="_blank">
-      privacy
-    </a>
-    •
-    <a>data</a>
-  `;
   return (
     <>
       <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
@@ -43,12 +33,19 @@ const MapControls: React.FC = () => {
         icon="stack-line.svg"
       />
       <AttributionControl />
-      <ButtonControl
-        classNames="leaflet-control-attribution"
+      <Control
         position="bottomright"
-        title="Attribution"
-        html={attribution}
-      />
+      >
+        <a href="./cerez.pdf" target="_blank">
+          cookie
+        </a>
+        •
+        <a href="./gizlilik.pdf" target="_blank">
+          privacy
+        </a>
+        •
+        <a>data</a>
+      </Control>
       <ButtonControl
         position="bottomright"
         title="Language"
