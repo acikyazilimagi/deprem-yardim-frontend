@@ -38,7 +38,7 @@ export const CloseByRecord = ({ drawerData }: Props) => {
     return null;
 
   const updateStateID = (reference: number) => {
-    router.replace(
+    router.push(
       {
         pathname: "",
         query: {
