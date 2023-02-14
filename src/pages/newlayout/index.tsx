@@ -1,4 +1,3 @@
-import Map from "@/components/UI/Map/Map";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useDevice } from "@/stores/mapStore";
@@ -6,7 +5,19 @@ import {
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
-import { TileLayer } from "react-leaflet";
+
+import dynamic from "next/dynamic";
+
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  {
+    ssr: false,
+  }
+);
+
+const Map = dynamic(() => import("@/components/UI/Map/Map"), {
+  ssr: false,
+});
 
 const NHome = () => {
   const { defaultZoom } = useDefaultZoom();
