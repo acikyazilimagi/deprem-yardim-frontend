@@ -38,6 +38,13 @@ const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
 });
 
+const mapBoundaries = {
+  southWest: latLng(34.025514, 25.584519),
+  northEast: latLng(42.211024, 44.823563),
+};
+
+const bounds = latLngBounds(mapBoundaries.southWest, mapBoundaries.northEast);
+
 const GlobalClusterStyle = css`
   ${Object.values(Tags).map(
     (tag) => `
@@ -177,13 +184,6 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
   return L.latLngBounds(northEast, southWest);
 };
 
-const corners = {
-  southWest: latLng(34.325514, 28.939165),
-  northEast: latLng(41.57364, 42.770324),
-};
-
-const bounds = latLngBounds(corners.southWest, corners.northEast);
-
 interface ILeafletMap {
   ahbap: any[];
   hospital: any[];
@@ -192,6 +192,7 @@ interface ILeafletMap {
   satellite: any[];
   sahra_kitchen: any[];
   pharmacy: any[];
+  safePlaces: any[];
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -280,6 +281,7 @@ function LeafletMap(props: ILeafletMap) {
           satellite={props.satellite}
           sahra_kitchen={props.sahra_kitchen}
           pharmacy={props.pharmacy}
+          safePlaces={props.safePlaces}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}

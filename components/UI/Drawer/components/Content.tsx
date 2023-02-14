@@ -25,6 +25,7 @@ import {
   SatelliteData,
   SahraKitchenData,
   PharmacyData,
+  SafePlaceData,
 } from "./types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
@@ -39,6 +40,7 @@ export interface ContentProps {
     | SatelliteData
     | SahraKitchenData
     | PharmacyData
+    | SafePlaceData
     | null;
 }
 
@@ -183,6 +185,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
 
           {(data ||
             (drawerData as AhbapData).channel === "ahbap" ||
+            (drawerData as SafePlaceData).channel ===
+              "guvenli_yerler_oteller" ||
             (drawerData as TeleteyitData).channel === "teleteyit" ||
             (drawerData as SatelliteData).channel === "uydu" ||
             (drawerData as SahraKitchenData).channel === "sahra_mutfak" ||
