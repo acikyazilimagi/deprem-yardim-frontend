@@ -33,9 +33,7 @@ const MapControls: React.FC = () => {
         icon="stack-line.svg"
       />
       <AttributionControl />
-      <Control
-        position="bottomright"
-      >
+      <Control position="bottomright">
         <a href="./cerez.pdf" target="_blank">
           cookie
         </a>
@@ -43,8 +41,7 @@ const MapControls: React.FC = () => {
         <a href="./gizlilik.pdf" target="_blank">
           privacy
         </a>
-        •
-        <a>data</a>
+        •<a>data</a>
       </Control>
       <ButtonControl
         position="bottomright"
