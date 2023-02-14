@@ -9,6 +9,7 @@ import {
   TeleteyitData,
   SatelliteData,
   SahraKitchenData,
+  PharmacyData,
 } from "./types";
 
 interface MapsButton {
@@ -77,7 +78,8 @@ interface Props {
     | AhbapData
     | TeleteyitData
     | SatelliteData
-    | SahraKitchenData;
+    | SahraKitchenData
+    | PharmacyData;
 }
 
 export default function MapButtons({ drawerData }: Props) {

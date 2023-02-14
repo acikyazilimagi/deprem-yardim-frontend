@@ -22,6 +22,7 @@ export function useVerifiedLocations() {
   const [teleteyitLocations, setTeleteyitLocations] = useState<any[]>([]);
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
   const [sahraKitchenLocations, setSahraKitchenLocations] = useState<any[]>([]);
+  const [pharmacyLocations, setPharmacyLocations] = useState<any[]>([]);
   const [errors, setErrors] = useState<Error[]>([]);
 
   const { enqueueWarning } = useSnackbar();
@@ -236,6 +237,44 @@ export function useVerifiedLocations() {
       setErrors((errors) => [...errors, new PartialDataError()]);
     },
   });
+  useSWR(PHARMACY_URL, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const pharmcayData = data.results.map((item: any) => {
+        let extra_params = {};
+
+        try {
+          extra_params = dJSON.parse(
+            item.extra_parameters?.replaceAll("nan", false)
+          );
+          extra_params = {
+            ...extra_params,
+            icon: "images/icon-15.png",
+          };
+        } catch (error) {
+          console.error(error);
+        }
+
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: item.loc?.reverse(),
+          },
+          properties: extra_params,
+          reason: item.reason,
+          verified: item.is_location_verified,
+          id: item.id,
+        };
+      });
+
+      setPharmacyLocations(pharmcayData);
+    },
+    onError: () => {
+      setErrors((errors) => [...errors, new PartialDataError()]);
+    },
+  });
 
   return {
     foodLocations,
@@ -244,6 +283,7 @@ export function useVerifiedLocations() {
     teleteyitLocations,
     satelliteLocations,
     sahraKitchenLocations,
+    pharmacyLocations,
     errors,
   };
 }

@@ -4,6 +4,7 @@ import FeedChannelGeneric from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSatellite } from "./FeedChannelSatellite";
 import { FeedChannelSahraKitchen } from "./FeedChannelSahraKitchen";
+import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
 import {
   BaseFeedChannel,
   Channel,
@@ -44,6 +45,10 @@ const contentMapper = {
   sahra_mutfak: (source: FeedChannelSatelliteProps) => (
     // @ts-ignore
     <FeedChannelSahraKitchen {...source} />
+  ),
+  eczane_excel: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelPharmacy {...source} />
   ),
 };
 
