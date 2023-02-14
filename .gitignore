@@ -25,7 +25,6 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-public/~partytown
 
 # Dependency directories
 node_modules
@@ -50,8 +49,6 @@ jspm_packages
 # misc
 .DS_Store
 
-#partytown
-public/~partytown/*
 public/sw.js.map
 public/sw.js
 public/workbox-*

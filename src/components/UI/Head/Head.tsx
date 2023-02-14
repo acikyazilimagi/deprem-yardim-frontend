@@ -3,7 +3,6 @@ import NextHead from "next/head";
 const Head = () => {
   return (
     <NextHead>
-      {/* <Partytown debug={true} forward={["dataLayer.push"]} /> */}
       <title>Afet Haritası | Anasayfa</title>
       <meta
         name="description"

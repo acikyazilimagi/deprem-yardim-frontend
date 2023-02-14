@@ -1,4 +1,4 @@
-import { MaintenanceError, PartialDataError } from "@/errors";
+import { PartialDataError } from "@/errors";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { dataFetcher } from "@/services/dataFetcher";

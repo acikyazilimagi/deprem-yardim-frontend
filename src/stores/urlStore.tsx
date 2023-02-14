@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { areasURL } from "@/utils/urls";
 import { LatLngBounds } from "leaflet";
 import { create } from "zustand";
