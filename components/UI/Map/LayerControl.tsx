@@ -8,6 +8,7 @@ import { TeleteyitClusterGroup } from "@/components/UI/Map/TeleteyitClusterGroup
 import { SatelliteClusterGroup } from "@/components/UI/Map/SatelliteClusterGroup";
 import { SahraKitchenClusterGroup } from "@/components/UI/Map/SahraKitchenClusterGroup";
 import { PharmacyClusterGroup } from "@/components/UI/Map/PharmacyClusterGroup";
+import { SafePlacesClusterGroup } from "@/components/UI/Map/SafePlacesClusterGroup";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -23,6 +24,7 @@ type Props = {
   satellite: any[];
   sahra_kitchen: any[];
   pharmacy: any[];
+  safePlaces: any[];
 };
 
 const LayerControl = ({
@@ -35,6 +37,7 @@ const LayerControl = ({
   satellite,
   sahra_kitchen,
   pharmacy,
+  safePlaces,
 }: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
@@ -71,6 +74,9 @@ const LayerControl = ({
       )}
       {mapLayers.includes(MapLayer.Pharmacy) && (
         <PharmacyClusterGroup data={pharmacy} />
+      )}
+      {mapLayers.includes(MapLayer.SafePlaces) && (
+        <SafePlacesClusterGroup data={safePlaces} />
       )}
     </>
   );

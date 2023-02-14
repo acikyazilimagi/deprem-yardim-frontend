@@ -14,8 +14,10 @@ import {
   FeedChannelTeleteyitProps,
   FeedChannelSatelliteProps,
   FeedChannelSahraKitchenProps,
+  FeedChannelSafePlacesProps,
 } from "../types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
+import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
 
 type Props = {
   content:
@@ -49,6 +51,10 @@ const contentMapper = {
   eczane_excel: (source: FeedChannelSatelliteProps) => (
     // @ts-ignore
     <FeedChannelPharmacy {...source} />
+  ),
+  guvenli_yerler_oteller: (source: FeedChannelSafePlacesProps) => (
+    // @ts-ignore
+    <FeedChannelSafePlaces {...source} />
   ),
 };
 

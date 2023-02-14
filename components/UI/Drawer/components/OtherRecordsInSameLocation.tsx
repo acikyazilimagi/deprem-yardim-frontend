@@ -5,6 +5,7 @@ import { Trans, useTranslation } from "next-i18next";
 import {
   AhbapData,
   PharmacyData,
+  SafePlaceData,
   SahraKitchenData,
   SatelliteData,
   TeleteyitData,
@@ -18,6 +19,7 @@ type Props = {
     | SatelliteData
     | SahraKitchenData
     | PharmacyData
+    | SafePlaceData
     | null;
 };
 
