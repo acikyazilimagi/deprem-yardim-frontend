@@ -38,6 +38,13 @@ const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
 });
 
+const mapBoundaries = {
+  southWest: latLng(34.025514, 25.584519),
+  northEast: latLng(42.211024, 44.823563),
+};
+
+const bounds = latLngBounds(mapBoundaries.southWest, mapBoundaries.northEast);
+
 const GlobalClusterStyle = css`
   ${Object.values(Tags).map(
     (tag) => `
@@ -176,13 +183,6 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 
   return L.latLngBounds(northEast, southWest);
 };
-
-const corners = {
-  southWest: latLng(34.325514, 28.939165),
-  northEast: latLng(41.57364, 42.770324),
-};
-
-const bounds = latLngBounds(corners.southWest, corners.northEast);
 
 interface ILeafletMap {
   ahbap: any[];
