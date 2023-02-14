@@ -6,7 +6,7 @@ const MINUTES_IN_SEC = 60;
 
 export const getTimeAgo = (value: string, locale: string = "tr") => {
   const now = new Date().getTime();
-  const valueZtoGMT3 = value.replace("Z", "+03:00");
+  const valueZtoGMT3 = value?.replace("Z", "+03:00");
   const valueTime = new Date(valueZtoGMT3).getTime();
 
   if (!valueTime) return null;
