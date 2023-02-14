@@ -2,6 +2,7 @@ import { useEffect, useState, MouseEvent, ReactElement } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
+import { addParameterToUrl, getParameterValueFromUrl } from "@/utils/helpers";
 
 export type FilterMenuOption<ValueType> = {
   label: string;
@@ -13,6 +14,7 @@ export type FilterMenuProps<ValueType> = {
   initialValue: ValueType;
   menuOptions: FilterMenuOption<ValueType>[];
   translationPath: string;
+  parameterName: string;
 };
 
 function CommonFilterMenu<ValueType>({
@@ -20,6 +22,7 @@ function CommonFilterMenu<ValueType>({
   initialValue,
   menuOptions,
   translationPath,
+  parameterName,
 }: FilterMenuProps<ValueType>): ReactElement {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<ValueType>(initialValue);
@@ -37,8 +40,17 @@ function CommonFilterMenu<ValueType>({
   const handleMenuItemClick = (event: MouseEvent<HTMLLIElement>) => {
     const value = (event.currentTarget.dataset.value ?? null) as ValueType;
     setSelectedValue(value);
+    addParameterToUrl(
+      parameterName,
+      (event.currentTarget.dataset.value ?? null) as string
+    );
     handleClose();
   };
+
+  useEffect(() => {
+    const value = getParameterValueFromUrl(parameterName);
+    setSelectedValue(value as ValueType);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     onChange(selectedValue);

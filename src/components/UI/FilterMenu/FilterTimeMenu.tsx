@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
+import { addParameterToUrl, getParameterValueFromUrl } from "@/utils/helpers";
 
 type TimeOption =
   | "last30Minutes"
@@ -80,6 +81,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedValue, setSelectedValue] = useState<TimeOption>("last12Hours");
   const open = Boolean(anchorEl);
+  const parameterName = "lastTime";
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -89,10 +91,17 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    const value = getParameterValueFromUrl(parameterName);
+    if (!value) return;
+    setSelectedValue(value as TimeOption);
+  }, []);
+
   const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as TimeOption;
 
     setSelectedValue(value);
+    addParameterToUrl(parameterName, value);
 
     handleClose();
   };

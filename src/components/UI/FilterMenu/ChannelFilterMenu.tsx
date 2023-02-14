@@ -20,6 +20,7 @@ export const ChannelFilterMenu: React.FC = () => {
       menuOptions={channelFilterMenuOptions}
       onChange={setChannelFilterMenuOption}
       translationPath="filter.channels"
+      parameterName="channel"
     />
   );
 };
