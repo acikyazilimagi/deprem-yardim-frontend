@@ -57,8 +57,6 @@ public/workbox-*
 /ios
 /android
 
-#resources
-/resources/ios
-/resources/android
+
 
 /out
