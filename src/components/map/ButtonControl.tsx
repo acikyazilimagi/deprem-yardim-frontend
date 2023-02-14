@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Control from "react-leaflet-custom-control";
+import cn from "classnames";
 
 type Props = {
   classNames?: string;
@@ -8,9 +9,18 @@ type Props = {
   onClick?: () => void;
 } & React.ComponentProps<typeof Control>;
 
-const ButtonControl = ({ title, position, icon, onClick }: Props) => {
+const ButtonControl = ({
+  classNames,
+  title,
+  position,
+  icon,
+  onClick,
+}: Props) => {
   return (
-    <Control position={position} container={{ className: "leaflet-bar" }}>
+    <Control
+      position={position}
+      container={{ className: cn("leaflet-bar", classNames) }}
+    >
       <a onClick={onClick}>
         <Image alt={title} src={icon} width="32" height="32" />
       </a>
