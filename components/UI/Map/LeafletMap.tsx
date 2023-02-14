@@ -190,6 +190,7 @@ interface ILeafletMap {
   food: any[];
   teleteyit: any[];
   satellite: any[];
+  sahra_kitchen: any[];
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -276,6 +277,7 @@ function LeafletMap(props: ILeafletMap) {
           hospital={props.hospital}
           teleteyit={props.teleteyit}
           satellite={props.satellite}
+          sahra_kitchen={props.sahra_kitchen}
         />
         <TileLayer
           url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}

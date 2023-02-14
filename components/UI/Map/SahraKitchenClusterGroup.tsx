@@ -20,7 +20,7 @@ const fetchIcon = (count: number) => {
 const emptyIcon =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
 
-export const TeleteyitClusterGroup = ({ data }: Props) => {
+export const SahraKitchenClusterGroup = ({ data }: Props) => {
   const { handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
 
@@ -78,17 +78,17 @@ export const TeleteyitClusterGroup = ({ data }: Props) => {
             })}
             eventHandlers={{
               click: (e) => {
+                // @ts-ignore
                 handleMarkerClick(e, {
+                  channel: "sahra_mutfak",
                   // @ts-ignore
-                  channel: "teleteyit",
                   properties: {
-                    description: cluster.properties.aciklama ?? "",
-                    type: cluster.properties.styleUrl ?? "",
-                    icon: cluster.properties.icon,
-                    verified: cluster.properties.durum ?? "",
-                    city: cluster.properties.il ?? "",
-                    district: cluster.properties.ilce ?? "",
+                    description: cluster.properties.reason ?? "",
+                    name: cluster.properties.name ?? "",
                   },
+                  id: cluster.id,
+                  reason: cluster.reason,
+                  verified: cluster.verified,
                   geometry: {
                     location: {
                       lng: longitude,

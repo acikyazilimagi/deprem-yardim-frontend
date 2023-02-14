@@ -4,6 +4,7 @@ import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import {
   AhbapData,
+  SahraKitchenData,
   TeleteyitData,
 } from "@/components/UI/Drawer/components/types";
 
@@ -15,7 +16,11 @@ export function useMapClickHandlers() {
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
-      selectedMarkerData?: MarkerData | AhbapData | TeleteyitData,
+      selectedMarkerData?:
+        | MarkerData
+        | AhbapData
+        | TeleteyitData
+        | SahraKitchenData,
       allMarkers?: MarkerData[]
     ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
