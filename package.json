@@ -57,6 +57,8 @@
   },
   "devDependencies": {
     "@capacitor/cli": "4.6.3",
+    "@commitlint/cli": "^17.4.3",
+    "@commitlint/config-conventional": "^17.4.3",
     "@emotion/cache": "11.10.5",
     "@emotion/react": "11.10.5",
     "@emotion/server": "11.10.0",
