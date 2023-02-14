@@ -34,7 +34,7 @@ export default function useDefaultZoom() {
     if (device == "mobile") {
       setDefaultZoom(DEFAULT_ZOOM_MOBILE);
     }
-  }, []);
+  }, [device, zoom]);
 
   return {
     defaultZoom,

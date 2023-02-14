@@ -28,7 +28,7 @@ export default function useDefaultCenter() {
         parseFloat(savedURLSearchParams.get("lng")!),
       ]);
     }
-  }, []);
+  }, [lat, lng]);
 
   return {
     defaultCenter,
