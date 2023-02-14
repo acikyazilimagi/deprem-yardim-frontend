@@ -15,12 +15,6 @@ const MapControls: React.FC = () => {
         icon="/icons/stack-line.svg"
       />
       <ButtonControl
-        position="bottomleft"
-        title="Layers"
-        onClick={() => {}}
-        icon="stack-line.svg"
-      />
-      <ButtonControl
         position="topright"
         title="Disaster Survivors"
         onClick={() => {}}
