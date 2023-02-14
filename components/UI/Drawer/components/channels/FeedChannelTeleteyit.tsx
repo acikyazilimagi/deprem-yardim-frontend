@@ -18,18 +18,18 @@ export const FeedChannelTeleteyit = (props: FeedChannelTeleteyitProps) => {
       <DrawerContent.Header>
         <DrawerContent.Title>{capitalize(props.channel)}</DrawerContent.Title>
         <DrawerContent.Badge>
-          {capitalize(props.properties.verified)}
+          {capitalize(props.properties?.verified || "")}
         </DrawerContent.Badge>
       </DrawerContent.Header>
       <DrawerContent.Body>
         <DrawerContent.Text>
-          Açıklama: {capitalize(props.properties.description)}
+          Açıklama: {capitalize(props.properties?.description || "")}
         </DrawerContent.Text>
         <DrawerContent.Text>
-          İl: {capitalize(props.properties.city)}
+          İl: {capitalize(props.properties?.city || "")}
         </DrawerContent.Text>
         <DrawerContent.Text>
-          İlçe: {capitalize(props.properties.district)}
+          İlçe: {capitalize(props.properties?.district || "")}
         </DrawerContent.Text>
       </DrawerContent.Body>
     </DrawerContent>

@@ -6,6 +6,7 @@ import { MarkerData, MarkerVisited } from "@/mocks/types";
 import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
 import localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";
+import dJSON from "dirty-json";
 
 export const dataTransformerLite = async (
   data: DataLite
@@ -33,21 +34,18 @@ export const dataTransformer = (
     return;
   }
 
-  let rawExtraParams = `{ tweet_id: "", name: "", full_text: "", user_id: "" }`;
-
+  let extra_params = {};
   try {
-    rawExtraParams = JSON.parse(data?.extra_parameters || rawExtraParams);
-  } catch (e) {
-    //   // I don't that trust that extraParameters JSON string, so it is better
-    //   // to not to crash the UI.
-    //   console.error(e);
+    extra_params = dJSON.parse(data?.extra_parameters);
+  } catch (error) {
+    console.error(error);
   }
 
   return {
     full_text: data?.full_text,
     formatted_address: data?.formatted_address,
     id: data?.id,
-    extra_parameters: rawExtraParams as any, // TODO: Burası şimdilik any olarak bırakıldı, sonrasında type güncellemesi yapılacak
+    extra_parameters: extra_params as any, // TODO: Burası şimdilik any olarak bırakıldı, sonrasında type güncellemesi yapılacak
     channel: data?.channel,
     is_resolved: data?.is_resolved,
     timestamp: data?.timestamp,
