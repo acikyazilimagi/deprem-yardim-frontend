@@ -1,52 +1,21 @@
-import { createControlComponent } from "@react-leaflet/core";
-import { Control, DomUtil, DomEvent } from "leaflet";
-import type { Map, ControlOptions } from "leaflet";
+import Image from "next/image";
+import Control from "react-leaflet-custom-control";
 
-type ButtonControlProps = {
+type Props = {
   classNames?: string;
-  icon?: string;
+  icon: string;
   title: string;
-  html?: string;
   onClick?: () => void;
-} & ControlOptions;
+} & React.ComponentProps<typeof Control>;
 
-const _getControl = Control.extend({
-  options: { position: "topleft", title: "" } as ButtonControlProps,
-  onAdd: function (_map: Map) {
-    const { classNames, icon, html, title, onClick } = this.options;
-    const container = DomUtil.create("div", classNames ?? "leaflet-bar");
+const ButtonControl = ({ title, position, icon, onClick }: Props) => {
+  return (
+    <Control position={position} container={{ className: "leaflet-bar" }}>
+      <a onClick={onClick}>
+        <Image alt={title} src={icon} width="32" height="32" />
+      </a>
+    </Control>
+  );
+};
 
-    if (html) {
-      container.innerHTML = html;
-      return container;
-    }
-
-    const link = DomUtil.create("a", "", container);
-    link.setAttribute("title", title);
-    link.setAttribute("href", "#");
-    if (icon) {
-      link.style.backgroundImage = `url(/icons/${icon})`;
-    } else {
-      link.innerText = title;
-    }
-
-    if (onClick) {
-      DomEvent.on(link, "mousedown dblclick", DomEvent.stopPropagation)
-        .on(link, "click", DomEvent.stop)
-        .on(link, "click", this._view, this);
-    }
-
-    return container;
-  },
-  // eslint-disable-next-line no-unused-vars
-  _view: function (this: { options: ButtonControlProps; _map: Map }) {
-    this.options.onClick?.();
-  },
-});
-
-const _createControl = (props: ButtonControlProps) => new _getControl(props);
-
-export default createControlComponent<
-  ReturnType<typeof _createControl>,
-  ButtonControlProps
->(_createControl);
+export default ButtonControl;
