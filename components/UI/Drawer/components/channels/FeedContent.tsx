@@ -3,6 +3,8 @@ import FeedChannelBabala from "./babala/FeedChannelBabala";
 import FeedChannelGeneric from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSatellite } from "./FeedChannelSatellite";
+import { FeedChannelSahraKitchen } from "./FeedChannelSahraKitchen";
+import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
 import {
   BaseFeedChannel,
   Channel,
@@ -11,6 +13,7 @@ import {
   FeedChannelTwitterProps,
   FeedChannelTeleteyitProps,
   FeedChannelSatelliteProps,
+  FeedChannelSahraKitchenProps,
 } from "../types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 
@@ -20,7 +23,8 @@ type Props = {
     | FeedChannelBabalaProps
     | FeedChannelAhbapProps
     | FeedChannelTeleteyitProps
-    | FeedChannelSatelliteProps;
+    | FeedChannelSatelliteProps
+    | FeedChannelSahraKitchenProps;
 };
 
 const contentMapper = {
@@ -37,6 +41,14 @@ const contentMapper = {
   uydu: (source: FeedChannelSatelliteProps) => (
     // @ts-ignore
     <FeedChannelSatellite {...source} />
+  ),
+  sahra_mutfak: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelSahraKitchen {...source} />
+  ),
+  eczane_excel: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelPharmacy {...source} />
   ),
 };
 

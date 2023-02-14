@@ -4,7 +4,13 @@ import styles from "../Drawer.module.css";
 import Button from "@mui/material/Button";
 import { MarkerData } from "@/mocks/types";
 import { useTranslation } from "next-i18next";
-import { AhbapData, TeleteyitData, SatelliteData } from "./types";
+import {
+  AhbapData,
+  TeleteyitData,
+  SatelliteData,
+  SahraKitchenData,
+  PharmacyData,
+} from "./types";
 
 interface MapsButton {
   label: string;
@@ -67,7 +73,13 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 interface Props {
-  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData;
+  drawerData:
+    | MarkerData
+    | AhbapData
+    | TeleteyitData
+    | SatelliteData
+    | SahraKitchenData
+    | PharmacyData;
 }
 
 export default function MapButtons({ drawerData }: Props) {

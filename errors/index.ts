@@ -13,3 +13,10 @@ export class DefaultError extends Error {
     super("Teknik hatayla karşılaşıldı, lütfen tekrar deneyin.");
   }
 }
+
+export class PartialDataError extends Error {
+  name = "PartialDataError";
+  constructor() {
+    super();
+  }
+}

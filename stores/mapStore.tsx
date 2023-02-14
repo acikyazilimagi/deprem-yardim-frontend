@@ -1,5 +1,6 @@
 import {
   AhbapData,
+  SahraKitchenData,
   SatelliteData,
   TeleteyitData,
 } from "@/components/UI/Drawer/components/types";
@@ -26,12 +27,20 @@ export enum MapLayer {
   Food = "Food",
   Teleteyit = "Teleteyit",
   Satellite = "Satellite",
+  SahraMutfak = "SahraMutfak",
+  Pharmacy = "Pharmacy",
 }
 
 interface MapState {
   eventType?: EVENT_TYPES;
   popUpData: ClusterPopupData | null;
-  drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
+  drawerData:
+    | MarkerData
+    | AhbapData
+    | TeleteyitData
+    | SatelliteData
+    | SahraKitchenData
+    | null;
   isDrawerOpen: boolean;
   device: DeviceType;
   markerData: MarkerData[];
@@ -41,7 +50,13 @@ interface MapState {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
     setDrawerData: (
-      data: MarkerData | AhbapData | TeleteyitData | SatelliteData | null
+      data:
+        | MarkerData
+        | AhbapData
+        | TeleteyitData
+        | SatelliteData
+        | SahraKitchenData
+        | null
     ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setDevice: (device: DeviceType) => void;
@@ -68,7 +83,13 @@ export const useMapStore = create<MapState>()((set) => ({
           : mapLayers.concat(mapLayer),
       })),
     setDrawerData: (
-      data: MarkerData | AhbapData | TeleteyitData | SatelliteData | null
+      data:
+        | MarkerData
+        | AhbapData
+        | TeleteyitData
+        | SatelliteData
+        | SahraKitchenData
+        | null
     ) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),

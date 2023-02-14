@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
-import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
@@ -10,7 +9,6 @@ import { DeviceType } from "@/mocks/types";
 import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
 import Footer from "@/components/UI/Footer/Footer";
@@ -18,13 +16,15 @@ import { Box } from "@mui/material";
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation, Trans } from "next-i18next";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
 import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
+import { CHANNEL_COUNT } from "@/utils/constants";
+import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -44,6 +44,9 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     foodLocations,
     teleteyitLocations,
     satelliteLocations,
+    sahraKitchenLocations,
+    pharmacyLocations,
+    errors: verifiedLocationErrors,
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -51,18 +54,19 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const device = useDevice();
   const {
     resetThrottling,
-    remainingTime,
     setSendRequest,
     shouldFetchNextOption,
     slowLoading,
     resetShouldFetchNextOption,
-    error,
+    error: getAreasError,
     isLoading,
     isValidating,
   } = useGetAreas();
 
   const isMobile = device === "mobile";
 
+  const error =
+    getAreasError && verifiedLocationErrors.length === CHANNEL_COUNT;
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
@@ -127,6 +131,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               food={foodLocations}
               teleteyit={teleteyitLocations}
               satellite={satelliteLocations}
+              sahra_kitchen={sahraKitchenLocations}
+              pharmacy={pharmacyLocations}
             />
             <Box
               sx={{
@@ -160,23 +166,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 width: "210px",
               }}
             >
-              <Button
-                color="secondary"
-                variant="contained"
-                onClick={handleScanButtonClick}
-              >
-                {isLoading || isValidating ? (
-                  <LoadingSpinner slowLoading={slowLoading} />
-                ) : (
-                  <span>{t("home:scanner.text")}</span>
-                )}
-              </Button>
-              <small className={styles.autoScanInfoTextIndex}>
-                <Trans
-                  i18nKey="home:scanner.remaining"
-                  values={{ time: remainingTime }}
-                />
-              </small>
+              <ScanAreaButton
+                isLoading={isLoading}
+                isValidating={isValidating}
+                slowLoading={slowLoading}
+                handleScanButtonClick={handleScanButtonClick}
+              />
             </Box>
           </RenderIf>
         </Container>

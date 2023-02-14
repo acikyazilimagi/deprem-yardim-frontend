@@ -20,7 +20,7 @@ const fetchIcon = (count: number) => {
 const emptyIcon =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
 
-export const TeleteyitClusterGroup = ({ data }: Props) => {
+export const PharmacyClusterGroup = ({ data }: Props) => {
   const { handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
 
@@ -80,15 +80,11 @@ export const TeleteyitClusterGroup = ({ data }: Props) => {
               click: (e) => {
                 handleMarkerClick(e, {
                   // @ts-ignore
-                  channel: "teleteyit",
-                  properties: {
-                    description: cluster.properties.aciklama ?? "",
-                    type: cluster.properties.styleUrl ?? "",
-                    icon: cluster.properties.icon,
-                    verified: cluster.properties.durum ?? "",
-                    city: cluster.properties.il ?? "",
-                    district: cluster.properties.ilce ?? "",
-                  },
+                  channel: "eczane_excel",
+                  id: cluster.id,
+                  reason: cluster.reason,
+                  verified: cluster.verified,
+                  properties: cluster.properties,
                   geometry: {
                     location: {
                       lng: longitude,
