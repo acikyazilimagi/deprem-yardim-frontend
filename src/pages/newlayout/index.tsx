@@ -6,12 +6,15 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
 import dynamic from "next/dynamic";
+import { Box, FormControlLabel, Switch } from "@mui/material";
+import {
+  useHelpView,
+  HelpViewComponent,
+} from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
 const Map = dynamic(() => import("@/components/map/Map"), {
@@ -20,6 +23,68 @@ const Map = dynamic(() => import("@/components/map/Map"), {
 const MapControls = dynamic(() => import("@/components/map/MapControls"), {
   ssr: false,
 });
+
+// Development toggle menu for overlays
+const DevelopmentToggleMenu = () => {
+  const helpView = useHelpView();
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        zIndex: 90000,
+      }}
+    >
+      <FormControlLabel
+        control={
+          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+        }
+        label="Show HelpView"
+      />
+      <FormControlLabel
+        control={
+          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+        }
+        label="Show HelpView"
+      />
+      <FormControlLabel
+        control={
+          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+        }
+        label="Show HelpView"
+      />
+      <FormControlLabel
+        control={
+          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+        }
+        label="Show HelpView"
+      />
+    </Box>
+  );
+};
+
+// Development overlay container
+const UIElementsOverlay = () => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        zIndex: 90000,
+        padding: "1em",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <HelpViewComponent />
+    </Box>
+  );
+};
 
 const NHome = () => {
   const { defaultZoom } = useDefaultZoom();
@@ -53,6 +118,8 @@ const NHome = () => {
         <MapControls />
         <TileLayer url={baseMapUrl} />
       </Map>
+      <UIElementsOverlay />
+      <DevelopmentToggleMenu />
     </>
   );
 };
