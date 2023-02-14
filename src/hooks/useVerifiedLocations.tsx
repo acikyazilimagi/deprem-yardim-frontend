@@ -18,7 +18,7 @@ import { useTranslation } from "next-i18next";
 
 // @fdemir code begin =======
 type HandleLocationResponseOptions = {
-  getExtraParams?: (item: any) => any;
+  getExtraParams?: any;
 };
 
 const handleLocationResponse = (
