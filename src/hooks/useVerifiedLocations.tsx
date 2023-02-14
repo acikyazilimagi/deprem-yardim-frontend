@@ -16,16 +16,111 @@ import { PartialDataError } from "@/errors";
 import { useSnackbar } from "@/components/base/Snackbar";
 import { useTranslation } from "next-i18next";
 
-export function useVerifiedLocations() {
+// @fdemir code begin =======
+type HandleLocationResponseOptions = {
+  extraParamsIcon?: string;
+};
+
+const handleLocationResponse = (
+  data: any,
+  setLocations: any,
+  options: HandleLocationResponseOptions = {}
+) => {
+  if (!data) return;
+
+  const features = data.results.map((item: any) => {
+    let extra_params = {};
+    try {
+      extra_params = dJSON.parse(
+        item.extra_parameters?.replaceAll("nan", false)
+      );
+
+      if (options?.extraParamsIcon) {
+        extra_params = {
+          ...extra_params,
+          icon: options.extraParamsIcon,
+        };
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: item.loc?.reverse(),
+      },
+      properties: extra_params,
+    };
+  });
+
+  setLocations(features);
+};
+// @fdemir code end =======
+
+// TODO: PUT THESE HOOKS INTO THEIR OWN FILES
+export function useFoodLocations(setErrors: any) {
   const [foodLocations, setFoodLocations] = useState<any[]>([]);
+  useSWR(FOOD_URL, dataFetcher, {
+    onSuccess: (data) => handleLocationResponse(data, setFoodLocations),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return foodLocations;
+}
+
+export function useAhbapLocations(setErrors: any) {
   const [ahbapLocations, setAhbapLocations] = useState<any[]>([]);
+  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
+    onSuccess: (data) => handleLocationResponse(data, setAhbapLocations),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return ahbapLocations;
+}
+
+export function useHospitalLocations(setErrors: any) {
   const [hospitalLocations, setHospitalLocations] = useState<any[]>([]);
+  useSWR(HOSPITAL_LOCATIONS_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setHospitalLocations, {
+        extraParamsIcon: "images/icon-10.png",
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return hospitalLocations;
+}
+
+export function useTeleteyitLocations(setErrors: any) {
   const [teleteyitLocations, setTeleteyitLocations] = useState<any[]>([]);
+  useSWR(TELETEYIT_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setTeleteyitLocations, {
+        extraParamsIcon: "images/icon-12.png",
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return teleteyitLocations;
+}
+
+export function useVerifiedLocations() {
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
   const [sahraKitchenLocations, setSahraKitchenLocations] = useState<any[]>([]);
   const [pharmacyLocations, setPharmacyLocations] = useState<any[]>([]);
   const [safePlaceLocations, setSafePlaceLocations] = useState<any[]>([]);
   const [errors, setErrors] = useState<Error[]>([]);
+
+  const foodLocations = useFoodLocations(setErrors);
+  const ahbapLocations = useAhbapLocations(setErrors);
+  const hospitalLocations = useHospitalLocations(setErrors);
+  const teleteyitLocations = useTeleteyitLocations(setErrors);
 
   const { enqueueWarning } = useSnackbar();
   const { t } = useTranslation(["common"]);
@@ -35,136 +130,6 @@ export function useVerifiedLocations() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
-  useSWR(FOOD_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(item.extra_parameters);
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setFoodLocations(features);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-
-  useSWR(AHBAP_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(item.extra_parameters);
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setAhbapLocations(features);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-
-  useSWR(HOSPITAL_LOCATIONS_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-10.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setHospitalLocations(features);
-    },
-
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-
-  useSWR(TELETEYIT_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const features = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item?.extra_parameters.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-12.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setTeleteyitLocations(features);
-    },
-
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
   useSWR(SATELLITE_URL, dataFetcher, {
     onSuccess: (data) => {
       if (!data) return;
