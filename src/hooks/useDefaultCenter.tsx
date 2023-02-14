@@ -28,8 +28,7 @@ export default function useDefaultCenter() {
         parseFloat(savedURLSearchParams.get("lng")!),
       ]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [lat, lng]);
 
   return {
     defaultCenter,

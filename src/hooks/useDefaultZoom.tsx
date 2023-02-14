@@ -34,8 +34,7 @@ export default function useDefaultZoom() {
     if (device == "mobile") {
       setDefaultZoom(DEFAULT_ZOOM_MOBILE);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [device, zoom]);
 
   return {
     defaultZoom,

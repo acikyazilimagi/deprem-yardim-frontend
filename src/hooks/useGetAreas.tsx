@@ -37,7 +37,6 @@ export function useGetAreas() {
 
   useEffect(() => {
     error && enqueueWarning(t("common:errors.partialData"));
-    // ts-expect-error adding enqueue warning rerenders
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
