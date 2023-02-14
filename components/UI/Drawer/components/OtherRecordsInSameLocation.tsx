@@ -4,6 +4,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { Trans, useTranslation } from "next-i18next";
 import {
   AhbapData,
+  PharmacyData,
   SahraKitchenData,
   SatelliteData,
   TeleteyitData,
@@ -16,6 +17,7 @@ type Props = {
     | TeleteyitData
     | SatelliteData
     | SahraKitchenData
+    | PharmacyData
     | null;
 };
 

@@ -45,6 +45,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     teleteyitLocations,
     satelliteLocations,
     sahraKitchenLocations,
+    pharmacyLocations,
     errors: verifiedLocationErrors,
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
@@ -131,6 +132,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               teleteyit={teleteyitLocations}
               satellite={satelliteLocations}
               sahra_kitchen={sahraKitchenLocations}
+              pharmacy={pharmacyLocations}
             />
             <Box
               sx={{

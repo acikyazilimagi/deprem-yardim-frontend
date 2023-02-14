@@ -24,6 +24,7 @@ import {
   TeleteyitData,
   SatelliteData,
   SahraKitchenData,
+  PharmacyData,
 } from "./types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
@@ -37,6 +38,7 @@ export interface ContentProps {
     | TeleteyitData
     | SatelliteData
     | SahraKitchenData
+    | PharmacyData
     | null;
 }
 
@@ -183,7 +185,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             (drawerData as AhbapData).channel === "ahbap" ||
             (drawerData as TeleteyitData).channel === "teleteyit" ||
             (drawerData as SatelliteData).channel === "uydu" ||
-            (drawerData as SahraKitchenData).channel === "sahra_mutfak") && (
+            (drawerData as SahraKitchenData).channel === "sahra_mutfak" ||
+            (drawerData as PharmacyData).channel === "eczane_excel") && (
             <FeedContent content={data ?? (drawerData as AhbapData)} />
           )}
         </div>
