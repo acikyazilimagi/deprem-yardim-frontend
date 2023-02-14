@@ -1,12 +1,12 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
-import theme, { roboto } from "../utils/theme";
+import theme, { inter } from "../utils/theme";
 import createEmotionCache from "../utils/createEmotionCache";
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html lang="tr" className={`${roboto.className}`}>
+      <Html lang="tr" className={`${inter.className}`}>
         <Head>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
