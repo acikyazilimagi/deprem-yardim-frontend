@@ -2,6 +2,10 @@ export const BASE_URL = "https://apigo.afetharita.com";
 export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
+// IMPORTANT: UPDATE THIS WHEN YOU ADD A NEW CHANNEL
+// REQUIRED FOR ERROR HANDLING
+export const CHANNEL_COUNT = 5;
+
 export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
   "1507": "Hayvanlar İçin Ücretsiz Tedavi",
   "1826": "Güvenli Noktalar",

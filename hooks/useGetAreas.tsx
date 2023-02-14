@@ -1,3 +1,4 @@
+import { MaintenanceError, PartialDataError } from "@/errors";
 import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { dataFetcher } from "@/services/dataFetcher";
@@ -12,7 +13,9 @@ import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 import { areasURL } from "@/utils/urls";
 import { useState, useEffect, useCallback } from "react";
+import { useSnackbar } from "@/components/base/Snackbar";
 import useSWR from "swr";
+import { useTranslation } from "next-i18next";
 
 export function useGetAreas() {
   const [sendRequest, setSendRequest] = useState(false);
@@ -20,12 +23,22 @@ export function useGetAreas() {
     useState<boolean>(false);
   const [slowLoading, setSlowLoading] = useState(false);
   const [url, setURL] = useState(new URL(areasURL));
+  const [error, setError] = useState<Error | null>(null);
 
   const eventType = useEventType();
   const coordinates = useCoordinates();
   const timeStamp = useTimeStamp();
   const reasoning = useReasoningFilterMenuOption();
   const channel = useChannelFilterMenuOption();
+
+  const { t } = useTranslation(["common"]);
+
+  const { enqueueWarning } = useSnackbar();
+
+  useEffect(() => {
+    error && enqueueWarning(t("common:errors.partialData"));
+    // ts-expect-error adding enqueue warning rerenders
+  }, [error]);
 
   useEffect(() => {
     if (!coordinates) return;
@@ -72,7 +85,7 @@ export function useGetAreas() {
     setSendRequest(true);
   }, [eventType, resetThrottling, url.href, sendRequest]);
 
-  const { error, isLoading, isValidating } = useSWR<DataLite | undefined>(
+  const { isLoading, isValidating } = useSWR<DataLite | undefined>(
     sendRequest ? url.href : null,
     getMarkers,
     {
@@ -88,6 +101,9 @@ export function useGetAreas() {
           ? await dataTransformerLite(data)
           : [];
         setMarkerData(transformedData);
+      },
+      onError: () => {
+        setError(new PartialDataError());
       },
     }
   );
