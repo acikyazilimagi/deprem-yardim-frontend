@@ -76,7 +76,13 @@
             "health": "Hospitals",
             "food": "Hot Meal",
             "teleteyit": "Teleteyit",
-            "satellite": "Satellite"
+            "satellite": "Satellite",
+            "pharmacy": "Pharmacy",
+            "depremihtiyaccom":"Earthquake Needs",
+            "guvenli_yerler_oteller": "Safe Places and Hotels",
+            "teleteyit_yardim": "Teleteyit Help",
+            "gecici_barinma_gida_dagitim": "Temporary Housing and Food Delivery",
+            "sahra_mutfak": "Sahara Kitchen"
         }
     },
     "content": {

@@ -1,10 +1,13 @@
 export type Channel =
   | "twitter"
-  | "Babala"
+  | "babala"
   | "ahbap"
   | "generic"
   | "teleteyit"
-  | "uydu";
+  | "uydu"
+  | "sahra_kitchen"
+  | "turk_eczane"
+  | "eczane_excel";
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {
@@ -107,6 +110,37 @@ export type SatelliteData = {
   };
   closeByRecords?: number[];
 };
+export type SahraKitchenData = {
+  channel: "sahra_mutfak";
+  properties: {};
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  id: number;
+  reason: string;
+  verified: string;
+  closeByRecords?: number[];
+};
+
+export type PharmacyData = {
+  channel: "eczane_excel";
+  properties: {};
+  reference?: undefined;
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  id: number;
+  reason: string;
+  verified: string;
+  closeByRecords?: number[];
+};
 
 export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
 
@@ -119,3 +153,7 @@ export type FeedChannelHospitalProps = HospitalData;
 export type FeedChannelTeleteyitProps = TeleteyitData;
 
 export type FeedChannelSatelliteProps = SatelliteData;
+
+export type FeedChannelSahraKitchenProps = SahraKitchenData;
+
+export type FeedChannelPharmacyProps = PharmacyData;

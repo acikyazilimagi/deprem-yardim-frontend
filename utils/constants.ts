@@ -2,6 +2,10 @@ export const BASE_URL = "https://apigo.afetharita.com";
 export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
+// IMPORTANT: UPDATE THIS WHEN YOU ADD A NEW CHANNEL
+// REQUIRED FOR ERROR HANDLING
+export const CHANNEL_COUNT = 5;
+
 export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
   "1507": "Hayvanlar İçin Ücretsiz Tedavi",
   "1826": "Güvenli Noktalar",
@@ -22,3 +26,8 @@ export const TELETEYIT_URL =
 
 export const SATELLITE_URL =
   BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";
+export const SAHRA_KITCHEN_URL =
+  BASE_URL + "/feeds/areas?channel=sahra_mutfak&extraParams=true";
+
+export const PHARMACY_URL =
+  BASE_URL + "/feeds/areas?channel=turk_eczane,eczane_excel&extraParams=true";

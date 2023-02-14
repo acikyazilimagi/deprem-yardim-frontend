@@ -1,6 +1,7 @@
 {
     "errors": {
-        "maintenance": "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin."
+        "maintenance": "Bu sayfa sizlere daha iyi hizmet verebilmek için bakımdadır. Lütfen daha sonra tekrar deneyin veya DepremYardim.com'u ziyaret edin.",
+        "partialData": "Verinin tamamına erişilemedi."
     },
     "loaders": {
         "stillLoading": "Hala Yükleniyor...",

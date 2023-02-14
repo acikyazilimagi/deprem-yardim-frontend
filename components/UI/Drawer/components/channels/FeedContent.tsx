@@ -3,6 +3,8 @@ import FeedChannelBabala from "./babala/FeedChannelBabala";
 import FeedChannelGeneric from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSatellite } from "./FeedChannelSatellite";
+import { FeedChannelSahraKitchen } from "./FeedChannelSahraKitchen";
+import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
 import {
   BaseFeedChannel,
   Channel,
@@ -11,6 +13,7 @@ import {
   FeedChannelTwitterProps,
   FeedChannelTeleteyitProps,
   FeedChannelSatelliteProps,
+  FeedChannelSahraKitchenProps,
 } from "../types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 
@@ -20,7 +23,8 @@ type Props = {
     | FeedChannelBabalaProps
     | FeedChannelAhbapProps
     | FeedChannelTeleteyitProps
-    | FeedChannelSatelliteProps;
+    | FeedChannelSatelliteProps
+    | FeedChannelSahraKitchenProps;
 };
 
 const contentMapper = {
@@ -38,6 +42,14 @@ const contentMapper = {
     // @ts-ignore
     <FeedChannelSatellite {...source} />
   ),
+  sahra_mutfak: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelSahraKitchen {...source} />
+  ),
+  eczane_excel: (source: FeedChannelSatelliteProps) => (
+    // @ts-ignore
+    <FeedChannelPharmacy {...source} />
+  ),
 };
 
 const isChannelExist = (channel?: string) => {
@@ -45,13 +57,13 @@ const isChannelExist = (channel?: string) => {
     return false;
   }
 
-  return Object.keys(contentMapper).includes(channel);
+  return Object.keys(contentMapper).includes(channel.toLowerCase());
 };
 
 const FeedContent = ({ content }: Props) => {
   // Mevcutta bulunan channeldan farklı bir channel gelmesi durumunda "generic" channel'ı basılıyor
   const channel: Channel = isChannelExist(content.channel)
-    ? content.channel!
+    ? (content.channel!.toLowerCase() as Channel)
     : "generic";
 
   // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
