@@ -26,8 +26,12 @@ export const TELETEYIT_URL =
 
 export const SATELLITE_URL =
   BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";
+
 export const SAHRA_KITCHEN_URL =
   BASE_URL + "/feeds/areas?channel=sahra_mutfak&extraParams=true";
 
 export const PHARMACY_URL =
   BASE_URL + "/feeds/areas?channel=turk_eczane,eczane_excel&extraParams=true";
+
+export const SAFE_PLACES_URL =
+  BASE_URL + "/feeds/areas?channel=guvenli_yerler_oteller&extraParams=true";

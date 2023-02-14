@@ -3,6 +3,8 @@ import {
   SahraKitchenData,
   SatelliteData,
   TeleteyitData,
+  SafePlaceData,
+  PharmacyData,
 } from "@/components/UI/Drawer/components/types";
 import { create } from "zustand";
 import {
@@ -29,6 +31,7 @@ export enum MapLayer {
   Satellite = "Satellite",
   SahraMutfak = "SahraMutfak",
   Pharmacy = "Pharmacy",
+  SafePlaces = "SafePlaces",
 }
 
 interface MapState {
@@ -40,6 +43,8 @@ interface MapState {
     | TeleteyitData
     | SatelliteData
     | SahraKitchenData
+    | SafePlaceData
+    | PharmacyData
     | null;
   isDrawerOpen: boolean;
   device: DeviceType;
@@ -56,6 +61,8 @@ interface MapState {
         | TeleteyitData
         | SatelliteData
         | SahraKitchenData
+        | PharmacyData
+        | SafePlaceData
         | null
     ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
@@ -85,10 +92,12 @@ export const useMapStore = create<MapState>()((set) => ({
     setDrawerData: (
       data:
         | MarkerData
+        | SafePlaceData
         | AhbapData
         | TeleteyitData
         | SatelliteData
         | SahraKitchenData
+        | PharmacyData
         | null
     ) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>

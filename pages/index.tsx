@@ -46,6 +46,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     satelliteLocations,
     sahraKitchenLocations,
     pharmacyLocations,
+    safePlaceLocations,
     errors: verifiedLocationErrors,
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
@@ -133,6 +134,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               satellite={satelliteLocations}
               sahra_kitchen={sahraKitchenLocations}
               pharmacy={pharmacyLocations}
+              safePlaces={safePlaceLocations}
             />
             <Box
               sx={{
