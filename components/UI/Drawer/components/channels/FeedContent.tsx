@@ -45,13 +45,13 @@ const isChannelExist = (channel?: string) => {
     return false;
   }
 
-  return Object.keys(contentMapper).includes(channel);
+  return Object.keys(contentMapper).includes(channel.toLowerCase());
 };
 
 const FeedContent = ({ content }: Props) => {
   // Mevcutta bulunan channeldan farklı bir channel gelmesi durumunda "generic" channel'ı basılıyor
   const channel: Channel = isChannelExist(content.channel)
-    ? content.channel!
+    ? (content.channel!.toLowerCase() as Channel)
     : "generic";
 
   // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı

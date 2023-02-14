@@ -1,6 +1,6 @@
 export type Channel =
   | "twitter"
-  | "Babala"
+  | "babala"
   | "ahbap"
   | "generic"
   | "teleteyit"
