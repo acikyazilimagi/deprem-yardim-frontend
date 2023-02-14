@@ -18,7 +18,7 @@ import { useTranslation } from "next-i18next";
 
 // @fdemir code begin =======
 type HandleLocationResponseOptions = {
-  extraParamsIcon?: string;
+  getExtraParams?: (item: any) => any;
 };
 
 const handleLocationResponse = (
@@ -35,10 +35,10 @@ const handleLocationResponse = (
         item.extra_parameters?.replaceAll("nan", false)
       );
 
-      if (options?.extraParamsIcon) {
+      if (options?.getExtraParams) {
         extra_params = {
           ...extra_params,
-          icon: options.extraParamsIcon,
+          ...options.getExtraParams(item),
         };
       }
     } catch (error) {
@@ -87,7 +87,7 @@ export function useHospitalLocations(setErrors: any) {
   useSWR(HOSPITAL_LOCATIONS_URL, dataFetcher, {
     onSuccess: (data) =>
       handleLocationResponse(data, setHospitalLocations, {
-        extraParamsIcon: "images/icon-10.png",
+        getExtraParams: () => ({ icon: "images/icon-10.png" }),
       }),
     onError: () => {
       setErrors((errors: any) => [...errors, new PartialDataError()]);
@@ -101,7 +101,7 @@ export function useTeleteyitLocations(setErrors: any) {
   useSWR(TELETEYIT_URL, dataFetcher, {
     onSuccess: (data) =>
       handleLocationResponse(data, setTeleteyitLocations, {
-        extraParamsIcon: "images/icon-12.png",
+        getExtraParams: () => ({ icon: "images/icon-12.png" }),
       }),
     onError: () => {
       setErrors((errors: any) => [...errors, new PartialDataError()]);
@@ -110,17 +110,92 @@ export function useTeleteyitLocations(setErrors: any) {
   return teleteyitLocations;
 }
 
-export function useVerifiedLocations() {
+export function useSatelliteLocations(setErrors: any) {
   const [satelliteLocations, setSatelliteLocations] = useState<any[]>([]);
+  useSWR(SATELLITE_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setSatelliteLocations, {
+        getExtraParams: () => ({ icon: "images/icon-13.png" }),
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return satelliteLocations;
+}
+
+const getSahraExtraParams = (item: any) => ({
+  icon: "images/icon-14.png",
+  id: item.id,
+  properties: item.properties,
+  reason: item.reason,
+});
+
+export function useSahraKitchenLocations(setErrors: any) {
   const [sahraKitchenLocations, setSahraKitchenLocations] = useState<any[]>([]);
-  const [pharmacyLocations, setPharmacyLocations] = useState<any[]>([]);
+  useSWR(SAHRA_KITCHEN_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setSahraKitchenLocations, {
+        getExtraParams: getSahraExtraParams,
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return sahraKitchenLocations;
+}
+
+const getPharmacyExtraParams = (item: any) => ({
+  icon: "images/icon-15.png",
+  id: item.id,
+  properties: item.properties,
+  reason: item.reason,
+  verified: item.is_location_verified,
+});
+
+export function usePharmacyLocations(setErrors: any) {
+  const [pharmacyKitchenLocations, setPharmacyKitchenLocations] = useState<
+    any[]
+  >([]);
+
+  useSWR(PHARMACY_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setPharmacyKitchenLocations, {
+        getExtraParams: getPharmacyExtraParams,
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return pharmacyKitchenLocations;
+}
+
+export function useSafePlaceLocations(setErrors: any) {
   const [safePlaceLocations, setSafePlaceLocations] = useState<any[]>([]);
+  useSWR(SAFE_PLACES_URL, dataFetcher, {
+    onSuccess: (data) =>
+      handleLocationResponse(data, setSafePlaceLocations, {
+        getExtraParams: () => ({ icon: "images/icon-16.png" }),
+      }),
+    onError: () => {
+      setErrors((errors: any) => [...errors, new PartialDataError()]);
+    },
+  });
+  return safePlaceLocations;
+}
+
+// TODO: Remove this hook and use hooks defined above in relevant components
+export function useVerifiedLocations() {
   const [errors, setErrors] = useState<Error[]>([]);
 
   const foodLocations = useFoodLocations(setErrors);
   const ahbapLocations = useAhbapLocations(setErrors);
   const hospitalLocations = useHospitalLocations(setErrors);
   const teleteyitLocations = useTeleteyitLocations(setErrors);
+  const satelliteLocations = useSatelliteLocations(setErrors);
+  const sahraKitchenLocations = useSahraKitchenLocations(setErrors);
+  const pharmacyLocations = usePharmacyLocations(setErrors);
+  const safePlaceLocations = useSafePlaceLocations(setErrors);
 
   const { enqueueWarning } = useSnackbar();
   const { t } = useTranslation(["common"]);
@@ -129,159 +204,6 @@ export function useVerifiedLocations() {
     errors.length && enqueueWarning(t("common:errors.partialData"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
-
-  useSWR(SATELLITE_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const satelliteData = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-13.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-        };
-      });
-
-      setSatelliteLocations(satelliteData);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-
-  useSWR(SAHRA_KITCHEN_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const sahraKitchenData = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-14.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          id: item.id,
-          properties: extra_params,
-          reason: item.reason,
-          verified: item.is_location_verified,
-        };
-      });
-
-      setSahraKitchenLocations(sahraKitchenData);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-  useSWR(PHARMACY_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const pharmcayData = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-15.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: extra_params,
-          reason: item.reason,
-          verified: item.is_location_verified,
-          id: item.id,
-        };
-      });
-
-      setPharmacyLocations(pharmcayData);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
-  useSWR(SAFE_PLACES_URL, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
-
-      const safePLacesData = data.results.map((item: any) => {
-        let extra_params = {};
-
-        try {
-          extra_params = dJSON.parse(
-            item.extra_parameters?.replaceAll("nan", false)
-          );
-          extra_params = {
-            ...extra_params,
-            icon: "images/icon-16.png",
-          };
-        } catch (error) {
-          console.error(error);
-        }
-
-        return {
-          id: item.id,
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: item.loc?.reverse(),
-          },
-          properties: {
-            ...extra_params,
-            verified: item.is_location_verified,
-            reason: item.reason,
-          },
-        };
-      });
-
-      setSafePlaceLocations(safePLacesData);
-    },
-    onError: () => {
-      setErrors((errors) => [...errors, new PartialDataError()]);
-    },
-  });
 
   return {
     foodLocations,
