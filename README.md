@@ -1,6 +1,6 @@
 ## To support the project
 
-[Story of Project](./md_files/STORY-BEHIND.md)
+[Story of Project](./docs/STORY-BEHIND.md)
 
 Communications:
 
