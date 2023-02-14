@@ -3,6 +3,7 @@ import { useMapActions } from "@/stores/mapStore";
 import { Box, Button, Typography } from "@mui/material";
 import { Trans, useTranslation } from "next-i18next";
 import { AhbapData, SatelliteData, TeleteyitData } from "./types";
+import { useRouter } from "next/router";
 
 type Props = {
   drawerData: MarkerData | AhbapData | TeleteyitData | SatelliteData | null;
@@ -11,6 +12,8 @@ type Props = {
 export const CloseByRecord = ({ drawerData }: Props) => {
   const { setDrawerData } = useMapActions();
   const { t } = useTranslation("home");
+  const router = useRouter();
+
   if (
     !drawerData ||
     !("closeByRecords" in drawerData) ||
@@ -19,14 +22,23 @@ export const CloseByRecord = ({ drawerData }: Props) => {
   )
     return null;
 
-  const stateUpdate = (reference: number) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("id", reference.toString());
-    history.pushState(history.state, "", url.href);
+  const updateStateID = (reference: number) => {
+    router.replace(
+      {
+        pathname: "",
+        query: {
+          ...router.query, // list all the queries here
+          id: reference,
+        },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
   };
   const onClick = (reference: number) => () => {
-    stateUpdate(reference);
-
+    updateStateID(reference);
     const tempDrawerData: MarkerData | AhbapData = {
       ...drawerData,
       isVisited: true,
