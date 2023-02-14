@@ -47,7 +47,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
-    errors: verifiedLocationErrors,
+    // errors: verifiedLocationErrors, // TODO: Implement later
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -66,8 +66,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const isMobile = device === "mobile";
 
-  const error =
-    getAreasError && verifiedLocationErrors.length === CHANNEL_COUNT;
+  // TODO: Check number of channels available
+  const error = getAreasError && false;
   if (error) {
     throw new MaintenanceError(t("common:errors.maintenance").toString());
   }
