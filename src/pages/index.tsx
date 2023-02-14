@@ -23,7 +23,6 @@ import { useURLActions } from "@/stores/urlStore";
 import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
-import { CHANNEL_COUNT } from "@/utils/constants";
 import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
