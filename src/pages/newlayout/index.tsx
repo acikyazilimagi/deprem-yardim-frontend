@@ -6,11 +6,8 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
 import dynamic from "next/dynamic";
-import { Box, FormControlLabel, Switch } from "@mui/material";
-import {
-  useHelpView,
-  HelpViewComponent,
-} from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
+import { Box } from "@mui/material";
+import { HelpViewComponent } from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
@@ -23,57 +20,6 @@ const Map = dynamic(() => import("@/components/map/Map"), {
 const MapControls = dynamic(() => import("@/components/map/MapControls"), {
   ssr: false,
 });
-
-// Development toggle menu for overlays
-const DevelopmentToggleMenu = () => {
-  const helpView = useHelpView();
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        zIndex: 90000,
-      }}
-    >
-      <FormControlLabel
-        control={
-          <Switch
-          // checked={helpView.isOpen}
-          // onChange={(event, checked) => {
-          //   helpView.toggle(checked);
-          // }}
-          />
-        }
-        label="Show MapBaseMapLayer"
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={helpView.isOpen}
-            onChange={(event, checked) => {
-              helpView.toggle(checked);
-            }}
-          />
-        }
-        label="Show HelpView"
-      />
-      <FormControlLabel
-        control={
-          <Switch
-          // checked={helpView.isOpen}
-          // onChange={(event, checked) => {
-          //   helpView.toggle(checked);
-          // }}
-          />
-        }
-        label="Show Filter"
-      />
-    </Box>
-  );
-};
 
 // Development overlay container
 const UIElementsOverlay = () => {
@@ -102,7 +48,6 @@ const NHome = () => {
   return (
     <>
       <UIElementsOverlay />
-      <DevelopmentToggleMenu />
       <Map
         attributionControl={false}
         center={defaultCenter}

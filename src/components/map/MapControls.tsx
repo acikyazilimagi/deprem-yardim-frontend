@@ -3,11 +3,18 @@ import ButtonControl from "./ButtonControl";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { AttributionControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
+import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 
 const MapControls: React.FC = () => {
+  const { toggle, isOpen } = useHelpView();
   return (
     <>
       <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
+      <ButtonControl
+        position="bottomleft"
+        title="?"
+        onClick={() => toggle(!isOpen)}
+      />
       <ButtonControl
         position="bottomleft"
         title="Layers"

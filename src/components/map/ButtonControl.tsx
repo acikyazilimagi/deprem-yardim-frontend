@@ -4,7 +4,7 @@ import cn from "classnames";
 
 type Props = {
   classNames?: string;
-  icon: string;
+  icon?: string;
   title: string;
   onClick?: () => void;
 } & React.ComponentProps<typeof Control>;
@@ -22,7 +22,7 @@ const ButtonControl = ({
       container={{ className: cn("leaflet-bar", classNames) }}
     >
       <a onClick={onClick}>
-        <Image alt={title} src={icon} width="32" height="32" />
+        {icon ? <Image alt={title} src={icon} width="32" height="32" /> : title}
       </a>
     </Control>
   );
