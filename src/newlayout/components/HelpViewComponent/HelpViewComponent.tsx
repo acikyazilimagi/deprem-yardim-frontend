@@ -10,6 +10,7 @@ import {
   IconButton,
   List,
   Stack,
+  SxProps,
   Theme,
   Typography,
 } from "@mui/material";
@@ -25,8 +26,10 @@ import { data } from "./data";
 interface HelpViewStore {
   isOpen: boolean;
   // for void return functions, input values will not be use in interface
-  // eslint-disable-next-line no-unused-vars
-  toggle: (checked: boolean) => void;
+  toggle: (_checked: boolean) => void;
+}
+interface IStyles {
+  [key: string]: SxProps<Theme>;
 }
 //#endregion
 //#region store
@@ -68,6 +71,7 @@ export const HelpViewComponent = () => {
     setselectedLocale(locale === "en" ? data.en : data.tr);
   }, [locale]);
 
+  if (!helpView.isOpen) return null;
   return (
     <Fade in={helpView.isOpen}>
       <Container sx={styles.container}>
@@ -174,7 +178,7 @@ export const HelpViewComponent = () => {
 };
 //#endregion
 //#region styles
-const styles = {
+const styles: IStyles = {
   container: (theme: Theme) => ({
     padding: "0 !important",
     pointerEvents: "all",

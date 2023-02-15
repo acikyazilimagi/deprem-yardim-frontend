@@ -1,8 +1,8 @@
+import { MarkerData } from "@/types";
 import React, { ReactNode } from "react";
 import { Apple, DriveEta, Google } from "@mui/icons-material";
 import styles from "../Drawer.module.css";
 import Button from "@mui/material/Button";
-import { MarkerData } from "@/mocks/types";
 import { useTranslation } from "next-i18next";
 import {
   AhbapData,
@@ -11,7 +11,7 @@ import {
   SahraKitchenData,
   PharmacyData,
   SafePlaceData,
-} from "./types";
+} from "@/types";
 
 interface MapsButton {
   label: string;

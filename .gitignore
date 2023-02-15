@@ -49,6 +49,10 @@ jspm_packages
 # misc
 .DS_Store
 
+# environment files
+.env*
+!.env.sample
+
 public/sw.js.map
 public/sw.js
 public/workbox-*

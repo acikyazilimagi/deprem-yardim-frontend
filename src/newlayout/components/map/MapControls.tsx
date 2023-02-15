@@ -1,64 +1,64 @@
 import React from "react";
 import ButtonControl from "./ButtonControl";
-import ResetViewControl from "@20tab/react-leaflet-resetview";
-import { AttributionControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
+import {
+  MapTypeMapLayerViewComponent,
+  useMTMLView,
+} from "../MTMLViewComponent/MTMLViewComponent";
+import { MapType } from "../MTMLViewComponent/types";
+import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
+import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
+import { Button } from "@mui/material";
+
+const typeImages: Record<MapType, string> = {
+  [MapType.Default]: "default",
+  [MapType.Satellite]: "satellite",
+  [MapType.Terrain]: "terrain",
+};
 
 const MapControls: React.FC = () => {
-  const { toggle, isOpen } = useHelpView();
+  const helpView = useHelpView();
+  const mtmlView = useMTMLView();
   return (
     <>
-      <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
       <ButtonControl
-        position="bottomleft"
+        position="topleft"
         title="?"
-        onClick={() => toggle(!isOpen)}
+        onClick={() => helpView.toggle(!helpView.isOpen)}
       >
         <HelpOutline />
       </ButtonControl>
-      <ButtonControl
-        position="bottomleft"
-        title="Layers"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <ButtonControl
-        position="topright"
-        title="Disaster Survivors"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <ButtonControl
-        position="topright"
-        title="Demands"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <ButtonControl
-        position="topright"
-        title="Services"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <AttributionControl />
-      <Control position="bottomright">
-        <a href="./cerez.pdf" target="_blank">
-          cookie
-        </a>
-        •
-        <a href="./gizlilik.pdf" target="_blank">
-          privacy
-        </a>
-        •<a>data</a>
+      <Control position="bottomleft">
+        <MapTypeMapLayerViewComponent />
       </Control>
-      <ButtonControl
-        position="bottomright"
-        title="Language"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
+      <Control
+        position="bottomleft"
+        container={{
+          className: "leaflet-bar",
+          style: {
+            background: "white",
+          },
+        }}
+      >
+        <LayerButton
+          onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+          image={typeImages[mtmlView.mapType]}
+          checked={false}
+        />
+      </Control>
+      <Control position="topright">
+        <Button variant="contained">Afetzede Bul</Button>
+        <Button variant="contained">Yardim Talepleri</Button>
+        <Button variant="contained">Hizmetler</Button>
+      </Control>
+      <Control position="bottomright">
+        <Button variant="contained">Türkçe</Button>
+      </Control>
+      <Control position="bottomright">
+        <AttributionComponent />
+      </Control>
     </>
   );
 };

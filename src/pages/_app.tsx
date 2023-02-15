@@ -18,10 +18,6 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  require("../mocks");
-}
-
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   usePersistentLanguage();

@@ -1,19 +1,14 @@
 /* eslint-disable no-unused-vars */
 import {
   AhbapData,
+  PharmacyData,
+  SafePlaceData,
   SahraKitchenData,
   SatelliteData,
   TeleteyitData,
-  SafePlaceData,
-  PharmacyData,
-} from "@/components/UI/Drawer/components/types";
+} from "@/types";
+import { ClusterPopupData, DeviceType, EVENT_TYPES, MarkerData } from "@/types";
 import { create } from "zustand";
-import {
-  ClusterPopupData,
-  MarkerData,
-  EVENT_TYPES,
-  DeviceType,
-} from "@/mocks/types";
 
 export enum MapType {
   Terrain = "p",
