@@ -9,11 +9,17 @@ interface FeedChannelSatelliteProps {
 }
 
 export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
+  console.log(props);
   return (
     <DrawerContent>
       <DrawerContent.Header>
         <DrawerContent.Title>
-          {capitalize(props.properties.damage)}
+          {capitalize(
+            //https://github.com/acikkaynak/deprem-yardim-frontend/issues/1019
+            props?.properties?.damage === "Destroyed"
+              ? "Collapsed"
+              : props?.properties?.damage
+          )}
         </DrawerContent.Title>
         <DrawerContent.Badge>{capitalize(props.channel)}</DrawerContent.Badge>
       </DrawerContent.Header>
