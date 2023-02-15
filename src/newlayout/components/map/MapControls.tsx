@@ -9,7 +9,9 @@ import {
   useMTMLView,
 } from "../MTMLViewComponent/MTMLViewComponent";
 import { MapType } from "../MTMLViewComponent/types";
+import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
 import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
+import { Button } from "@mui/material";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -48,7 +50,11 @@ const MapControls: React.FC = () => {
           checked={false}
         />
       </Control>
-      <Control position="topright">Buttons...</Control>
+      <Control position="topright">
+        <Button variant="outlined">Afetzede Bul</Button>
+        <Button variant="outlined">Yardim Talepleri</Button>
+        <Button variant="outlined">Hizmetler</Button>
+      </Control>
       <ButtonControl
         position="bottomright"
         title="Language"
@@ -56,14 +62,7 @@ const MapControls: React.FC = () => {
         icon="/icons/stack-line.svg"
       />
       <Control position="bottomright">
-        <a href="./cerez.pdf" target="_blank">
-          cookie
-        </a>
-        •
-        <a href="./gizlilik.pdf" target="_blank">
-          privacy
-        </a>
-        •<a>data</a>•<a>leaflet</a>
+        <AttributionComponent />
       </Control>
     </>
   );
