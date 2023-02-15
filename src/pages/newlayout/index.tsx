@@ -6,8 +6,9 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
 import dynamic from "next/dynamic";
-import { Box } from "@mui/material";
+import { Box, SxProps, Theme } from "@mui/material";
 import { HelpViewComponent } from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
+import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
 import { useMTMLView } from "@/newlayout/components/MTMLViewComponent/MTMLViewComponent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -25,20 +26,13 @@ const MapControls = dynamic(
     ssr: false,
   }
 );
-
+interface IStyles {
+  [key: string]: SxProps<Theme>;
+}
 // Development overlay container
 const UIElementsOverlay = () => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        position: "fixed",
-        top: 0,
-        left: "20px",
-        zIndex: 90000,
-        pointerEvents: "none",
-      }}
-    >
+    <Box sx={styles.overlay}>
       <HelpViewComponent />
     </Box>
   );
@@ -75,6 +69,9 @@ const NHome = () => {
       >
         <MapControls />
         <TileLayer url={baseMapUrl} />
+        <Box sx={styles.fixedMidBottom}>
+          <CooldownButtonComponent />
+        </Box>
       </Map>
     </>
   );
@@ -96,3 +93,31 @@ export async function getServerSideProps(context: any) {
     },
   };
 }
+
+const styles: IStyles = {
+  overlay: (theme: Theme) => ({
+    display: "flex",
+    position: "fixed",
+    flexDirection: "column",
+    top: "85px",
+    left: "55px",
+    zIndex: 1100,
+    pointerEvents: "none",
+    [theme.breakpoints.down("sm")]: {
+      top: "0px",
+      left: "0px",
+    },
+  }),
+  fixedMidBottom: () => ({
+    position: "fixed",
+    bottom: "0px",
+    left: "0px",
+    width: "100%",
+    height: "110px",
+    zIndex: 900,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    pointerEvents: "none",
+  }),
+};

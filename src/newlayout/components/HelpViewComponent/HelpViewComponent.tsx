@@ -10,6 +10,7 @@ import {
   IconButton,
   List,
   Stack,
+  SxProps,
   Theme,
   Typography,
 } from "@mui/material";
@@ -26,6 +27,9 @@ interface HelpViewStore {
   isOpen: boolean;
   // for void return functions, input values will not be use in interface
   toggle: (_checked: boolean) => void;
+}
+interface IStyles {
+  [key: string]: SxProps<Theme>;
 }
 //#endregion
 //#region store
@@ -174,7 +178,7 @@ export const HelpViewComponent = () => {
 };
 //#endregion
 //#region styles
-const styles = {
+const styles: IStyles = {
   container: (theme: Theme) => ({
     padding: "0 !important",
     pointerEvents: "all",
