@@ -1,6 +1,5 @@
 import React from "react";
 import ButtonControl from "./ButtonControl";
-import ResetViewControl from "@20tab/react-leaflet-resetview";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
@@ -24,7 +23,6 @@ const MapControls: React.FC = () => {
   const mtmlView = useMTMLView();
   return (
     <>
-      <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
       <ButtonControl
         position="topleft"
         title="?"
@@ -55,12 +53,9 @@ const MapControls: React.FC = () => {
         <Button variant="contained">Yardim Talepleri</Button>
         <Button variant="contained">Hizmetler</Button>
       </Control>
-      <ButtonControl
-        position="bottomright"
-        title="Language"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
+      <Control position="bottomright">
+        <Button variant="contained">Türkçe</Button>
+      </Control>
       <Control position="bottomright">
         <AttributionComponent />
       </Control>
