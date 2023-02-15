@@ -57,6 +57,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { setTimeStamp } = useURLActions();
   const router = useRouter();
   const device = useDevice();
+
   const areasError = useAreasStoreError();
 
   const { setShouldFetchNextOption } = useAreasActions();
@@ -85,10 +86,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     setIsFooterBannerOpen(!isFooterBannerOpen);
   }, [isFooterBannerOpen]);
 
+  const handleContextMenu = (e: any) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
-      <main className={styles.main}>
+      <main className={styles.main} onContextMenu={handleContextMenu}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error}>
             <div
