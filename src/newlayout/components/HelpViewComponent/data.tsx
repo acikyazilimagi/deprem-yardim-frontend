@@ -47,6 +47,13 @@ export const data = {
         },
       },
       {
+        type: "header",
+        data: {
+          text: "Renk alanlarının anlamları",
+          level: 6,
+        },
+      },
+      {
         type: "table",
         data: {
           withHeadings: false,
@@ -104,6 +111,13 @@ export const data = {
             "*+* artı düğmesi ile haritayı yakınlaştırıp bakın.",
             "*-* artı düğmesi ile haritayı uzaklaştırıp bakın.",
           ],
+        },
+      },
+      {
+        type: "header",
+        data: {
+          text: "Renk alanlarının anlamları",
+          level: 6,
         },
       },
       {

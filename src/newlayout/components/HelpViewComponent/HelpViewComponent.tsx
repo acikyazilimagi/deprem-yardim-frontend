@@ -5,10 +5,12 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  Container,
   Fade,
   IconButton,
   List,
   Stack,
+  Theme,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -68,89 +70,153 @@ export const HelpViewComponent = () => {
   if (!helpView.isOpen) return null;
   return (
     <Fade in={helpView.isOpen}>
-      <Box>
-        <Card sx={{ maxWidth: 550 }}>
-          <CardHeader
-            action={
-              <IconButton
-                aria-label="close"
-                onClick={() => {
-                  helpView.toggle(false);
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-            }
-            title={selectedLocale.title.data.text}
-          />
-          <CardContent>
-            {selectedLocale.blocks.map((block) => {
-              switch (block.type) {
-                case "header":
-                  return (
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="primary.500"
-                      gutterBottom
-                    >
-                      {block.data.text}
-                    </Typography>
-                  );
-                case "list":
-                  return (
-                    <List>
-                      {block.data.items?.map((item, index) => (
-                        <Box component="ul" key={`help-view-list-${index}`}>
-                          <Typography component="li" variant="body2">
-                            {item}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </List>
-                  );
-                case "table":
-                  return (
-                    <Stack direction="row" spacing={1} sx={{ marginTop: 3 }}>
-                      {block.data.content?.map((item, index) => {
-                        const firstOrLast =
-                          index === 0 ||
-                          index === (block.data.content?.length as number) - 1;
-                        const shouldShowLabel = firstOrLast
-                          ? item[0]
-                          : undefined;
-                        const chipColor = chipColorSelector(item[1]);
-                        return (
-                          <Chip
-                            key={`help-view-chip-${index}`}
-                            label={shouldShowLabel}
-                            icon={
-                              <CircleIcon
-                                sx={{
-                                  fill: chipColor,
-                                }}
-                              />
-                            }
-                          />
-                        );
-                      })}
-                    </Stack>
-                  );
-                default:
-                  return (
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="primary.500"
-                      gutterBottom
-                    >
-                      {block.data.text}
-                    </Typography>
-                  );
+      <Container sx={styles.container}>
+        <Box>
+          <Card sx={styles.card}>
+            <CardHeader
+              action={
+                <IconButton
+                  aria-label="close"
+                  onClick={() => {
+                    helpView.toggle(false);
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
               }
-            })}
-          </CardContent>
-        </Card>
-      </Box>
+              title={selectedLocale.title.data.text}
+            />
+            <CardContent>
+              {selectedLocale.blocks.map((block, index) => {
+                switch (block.type) {
+                  case "header":
+                    return (
+                      <Typography
+                        key={`help-view-item-${index}`}
+                        sx={styles.header}
+                        color="primary.500"
+                        gutterBottom
+                      >
+                        {block.data.text}
+                      </Typography>
+                    );
+                  case "list":
+                    return (
+                      <List key={`help-view-item-${index}`}>
+                        {block.data.items?.map((item, index) => (
+                          <Box component="ul" key={`help-view-list-${index}`}>
+                            <Typography
+                              component="li"
+                              variant="body1"
+                              marginBottom={1}
+                              sx={styles.header}
+                            >
+                              {item}
+                            </Typography>
+                          </Box>
+                        ))}
+                      </List>
+                    );
+                  case "table":
+                    return (
+                      <Stack
+                        key={`help-view-item-${index}`}
+                        display={"flex"}
+                        direction="row"
+                        flexWrap={"wrap"}
+                        gap={1}
+                        sx={styles.table}
+                      >
+                        {block.data.content?.map((item, index) => {
+                          const firstOrLast =
+                            index === 0 ||
+                            index ===
+                              (block.data.content?.length as number) - 1;
+                          const shouldShowLabel = firstOrLast
+                            ? item[0]
+                            : undefined;
+                          const chipColor = chipColorSelector(item[1]);
+                          return (
+                            <Chip
+                              key={`help-view-chip-${index}`}
+                              label={shouldShowLabel}
+                              icon={
+                                <CircleIcon
+                                  sx={{
+                                    fill: chipColor,
+                                  }}
+                                />
+                              }
+                            />
+                          );
+                        })}
+                      </Stack>
+                    );
+                  default:
+                    return (
+                      <Typography
+                        key={`help-view-item-${index}`}
+                        sx={styles.header}
+                        color="primary.500"
+                        gutterBottom
+                      >
+                        {block.data.text}
+                      </Typography>
+                    );
+                }
+              })}
+            </CardContent>
+          </Card>
+        </Box>
+      </Container>
     </Fade>
   );
+};
+//#endregion
+//#region styles
+const styles = {
+  container: (theme: Theme) => ({
+    padding: "0 !important",
+    pointerEvents: "all",
+    [theme.breakpoints.up("xs")]: {
+      backgroundColor: "primary.200",
+    },
+    [theme.breakpoints.up("sm")]: {
+      backgroundColor: "primary.300",
+    },
+    [theme.breakpoints.up("md")]: {
+      backgroundColor: "primary.400",
+    },
+    [theme.breakpoints.up("lg")]: {
+      backgroundColor: "primary.500",
+    },
+    [theme.breakpoints.up("xl")]: {
+      backgroundColor: "primary.600",
+    },
+  }),
+  card: (theme: Theme) => ({
+    [theme.breakpoints.up("xs")]: {
+      maxWidth: "100%",
+      height: "100vh",
+    },
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: 550,
+      height: "auto",
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: 550,
+      height: "auto",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: 550,
+      height: "auto",
+    },
+    [theme.breakpoints.up("xl")]: {
+      maxWidth: 550,
+      height: "auto",
+    },
+  }),
+  header: () => ({ fontSize: 16 }),
+  table: () => ({ marginTop: 3 }),
 };
 //#endregion
