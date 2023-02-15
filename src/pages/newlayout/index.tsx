@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { Box } from "@mui/material";
 import { HelpViewComponent } from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
 import { useMTMLView } from "@/newlayout/components/MTMLViewComponent/MTMLViewComponent";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
@@ -79,3 +80,19 @@ const NHome = () => {
   );
 };
 export default NHome;
+
+export async function getServerSideProps(context: any) {
+  const UA = context.req.headers["user-agent"];
+  const isMobile = Boolean(
+    UA.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
+
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale, ["common", "home"])),
+      deviceType: isMobile ? "mobile" : "desktop",
+    },
+  };
+}
