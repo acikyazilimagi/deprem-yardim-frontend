@@ -52,7 +52,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
-    // errors: verifiedLocationErrors, // TODO: Implement later
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -71,6 +70,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { enqueueWarning } = useSnackbar();
   const error = areasError && false;
 
+  // FIXME: This is a temporary solution to show the warning. We should refactor this.
   useEffect(() => {
     const numErrors = Object.keys(verifiedLocationErrors).reduce(
       (accumulator: number, current: any) => {
