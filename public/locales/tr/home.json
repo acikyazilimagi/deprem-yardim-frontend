@@ -76,15 +76,7 @@
             "ahbap": "Ahbap Konumları",
             "health": "Hastaneler",
             "food": "Sıcak yemek",
-            "teleteyit": "Teleteyit",
-            "satellite": "Uydu",
-            "pharmacy": "Eczane",
-            "depremihtiyaccom":"Deprem İhtiyaç",
-            "guvenli_yerler_oteller": "Güvenli Yerler & Oteller",
-            "teleteyit_yardim": "Teleteyit Yardım",
-            "gecici_barinma_gida_dagitim": "Geçici Barınma ve Gıda Dağıtım",
-            "eczane_excel": "Eczane",
-            "sahra_mutfak": "Sahra Mutfak"
+            "teleteyit": "Teleteyit"
         }
     },
     "content": {
