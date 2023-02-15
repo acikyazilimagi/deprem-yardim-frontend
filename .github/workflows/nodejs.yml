@@ -31,6 +31,8 @@ jobs:
         run: |
           yarn prettier
       - name: Build AfetHarita
+        env:
+          NEXT_PUBLIC_BASE_URL: https://apigo.afetharita.com
         if: ${{ success() }}
         run: |
           yarn build
