@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import { DeviceType } from "@/mocks/types";
-import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
 import dynamic from "next/dynamic";
@@ -30,19 +28,18 @@ import {
   useShouldFetchNextOption,
 } from "@/stores/areasStore";
 import { getLocationById } from "@/services/location";
+import { useDevice } from "@/hooks/useDevice";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
 });
 
 type Props = {
-  deviceType: DeviceType;
   singleItemDetail: any;
   ahbap: any[];
 };
 
-export default function Home({ deviceType, singleItemDetail }: Props) {
-  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
+export default function Home({ singleItemDetail }: Props) {
   const {
     ahbapLocations,
     hospitalLocations,
@@ -102,20 +99,10 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     }
   }, [areasError, verifiedLocationErrors, t]);
 
-  const { setDevice } = useMapActions();
-
-  useEffect(() => {
-    setDevice(deviceType);
-  }, [deviceType, setDevice]);
-
   const onLanguageChange = (newLocale: string) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
-
-  const handleToggleFooterBanner = useCallback(() => {
-    setIsFooterBannerOpen(!isFooterBannerOpen);
-  }, [isFooterBannerOpen]);
 
   const handleContextMenu = (e: any) => {
     e.preventDefault();
@@ -202,30 +189,19 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner
-          open={isFooterBannerOpen}
-          onClick={handleToggleFooterBanner}
-        />
-        <Footer onClick={handleToggleFooterBanner} />
+        <FooterBanner />
+        <Footer />
       </main>
     </>
   );
 }
 
 export async function getServerSideProps(context: any) {
-  const UA = context.req.headers["user-agent"];
-  const isMobile = Boolean(
-    UA.match(
-      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-    )
-  );
-
   const itemDetail = await getLocationById(context.query.id);
 
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
-      deviceType: isMobile ? "mobile" : "desktop",
       ahbap: [],
       singleItemDetail: {
         ...itemDetail,

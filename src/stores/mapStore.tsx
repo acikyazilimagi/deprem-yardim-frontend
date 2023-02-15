@@ -8,12 +8,7 @@ import {
   PharmacyData,
 } from "@/components/UI/Drawer/components/types";
 import { create } from "zustand";
-import {
-  ClusterPopupData,
-  MarkerData,
-  EVENT_TYPES,
-  DeviceType,
-} from "@/mocks/types";
+import { ClusterPopupData, MarkerData, EVENT_TYPES } from "@/mocks/types";
 
 export enum MapType {
   Terrain = "p",
@@ -48,7 +43,6 @@ interface MapState {
     | PharmacyData
     | null;
   isDrawerOpen: boolean;
-  device: DeviceType;
   mapType: MapType;
   mapLayers: MapLayer[];
   actions: {
@@ -66,7 +60,6 @@ interface MapState {
         | null
     ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
-    setDevice: (device: DeviceType) => void;
     setMapType: (mapType: MapType) => void;
     setEventType: (eventType: EVENT_TYPES) => void;
   };
@@ -76,7 +69,6 @@ export const useMapStore = create<MapState>()((set) => ({
   drawerData: null,
   popUpData: null,
   isDrawerOpen: false,
-  device: "desktop",
   markerData: [],
   mapType: MapType.Default,
   mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
@@ -101,7 +93,6 @@ export const useMapStore = create<MapState>()((set) => ({
     ) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
-    setDevice: (device: DeviceType) => set(() => ({ device })),
     setMapType: (mapType) => set(() => ({ mapType })),
     setEventType: (eventType) => set(() => ({ eventType })),
   },
@@ -114,5 +105,4 @@ export const useMapLayers = () => useMapStore((state) => state.mapLayers);
 export const useMapType = () =>
   useMapStore((state) => state.mapType ?? MapType.Default);
 export const usePopUpData = () => useMapStore((state) => state.popUpData);
-export const useDevice = () => useMapStore((state) => state.device);
 export const useEventType = () => useMapStore((state) => state.eventType);

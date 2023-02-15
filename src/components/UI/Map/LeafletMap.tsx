@@ -1,11 +1,6 @@
 import Map from "@/components/UI/Map/Map";
 import { EVENT_TYPES, MarkerData } from "@/mocks/types";
-import {
-  useDevice,
-  useIsDrawerOpen,
-  useMapActions,
-  useMapType,
-} from "@/stores/mapStore";
+import { useIsDrawerOpen, useMapActions, useMapType } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
@@ -34,6 +29,7 @@ import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useAreasMarkerData } from "@/stores/areasStore";
+import { useDevice } from "@/hooks/useDevice";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,

@@ -4,9 +4,9 @@ import {
   localStorageKeys,
   safeGetLocalStorage,
 } from "@/components/UI/Map/utils";
-import { useDevice } from "@/stores/mapStore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useDevice } from "./useDevice";
 
 export default function useDefaultZoom() {
   const [defaultZoom, setDefaultZoom] = useState(DEFAULT_ZOOM);
