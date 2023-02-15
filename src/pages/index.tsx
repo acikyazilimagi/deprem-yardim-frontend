@@ -29,7 +29,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -42,7 +42,6 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
   const {
     ahbapLocations,
     hospitalLocations,
@@ -113,13 +112,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
-  const handleToggleFooterBanner = useCallback(() => {
-    setIsFooterBannerOpen(!isFooterBannerOpen);
-  }, [isFooterBannerOpen]);
-
-  const handleContextMenu = (e: any) => {
-    e.preventDefault();
-  };
+  const handleContextMenu = (e: any) => e.preventDefault();
 
   return (
     <>
@@ -164,6 +157,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               pharmacy={pharmacyLocations}
               safePlaces={safePlaceLocations}
             />
+            {/* FIXME: move it to a component */}
             <Box
               sx={{
                 display: "flex",
@@ -182,6 +176,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               />
             </Box>
             {!isMobile && <SitesIcon></SitesIcon>}
+            {/* FIXME: Move it to a component */}
             <Box
               sx={{
                 position: "fixed",
@@ -202,11 +197,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner
-          open={isFooterBannerOpen}
-          onClick={handleToggleFooterBanner}
-        />
-        <Footer onClick={handleToggleFooterBanner} />
+        <FooterBanner />
+        <Footer />
       </main>
     </>
   );
