@@ -284,9 +284,6 @@ function LeafletMap(props: ILeafletMap) {
           pharmacy={props.pharmacy}
           safePlaces={props.safePlaces}
         />
-        <TileLayer
-          url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
-        />
         <TileLayer url={baseMapUrl} />
       </Map>
     </>
