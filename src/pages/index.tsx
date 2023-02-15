@@ -1,34 +1,34 @@
-import { useCallback, useEffect, useState } from "react";
+import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
+import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
+import Footer from "@/components/UI/Footer/Footer";
 import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
+import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import { DeviceType } from "@/mocks/types";
-import { dataFetcher } from "@/services/dataFetcher";
-import { useMapActions, useDevice } from "@/stores/mapStore";
-import styles from "@/styles/Home.module.css";
-import Container from "@mui/material/Container";
-import dynamic from "next/dynamic";
-import Footer from "@/components/UI/Footer/Footer";
-import { Box } from "@mui/material";
-import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
-import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
-import { useURLActions } from "@/stores/urlStore";
-import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
-import { CHANNEL_COUNT } from "@/utils/constants";
-import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
+import { dataFetcher } from "@/services/dataFetcher";
 import {
   useAreasActions,
   useAreasStoreError,
   useShouldFetchNextOption,
 } from "@/stores/areasStore";
+import { useDevice, useMapActions } from "@/stores/mapStore";
+import { useURLActions } from "@/stores/urlStore";
+import styles from "@/styles/Home.module.css";
+import { DeviceType } from "@/types";
+import { CHANNEL_COUNT } from "@/utils/constants";
+import { locationsURL } from "@/utils/urls";
+import { Box } from "@mui/material";
+import Container from "@mui/material/Container";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,

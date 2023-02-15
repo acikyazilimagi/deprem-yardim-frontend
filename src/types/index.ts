@@ -9,6 +9,7 @@ export type Channel =
   | "turk_eczane"
   | "eczane_excel"
   | "guvenli_yerler_oteller";
+
 export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export interface BaseFeedChannel<T> {
@@ -176,3 +177,53 @@ export type FeedChannelSahraKitchenProps = SahraKitchenData;
 export type FeedChannelPharmacyProps = PharmacyData;
 
 export type FeedChannelSafePlacesProps = SafePlaceData;
+
+export type Data = {
+  id: number;
+  full_text: string;
+  formatted_address: string;
+  extra_parameters?: string;
+  timestamp: string;
+  is_resolved: boolean;
+  channel: Channel;
+  reason: string | null;
+};
+
+export type DataLite = {
+  count: number;
+  results: {
+    id: number;
+    entry_id: number;
+    loc: [number, number];
+  }[];
+};
+
+export type Point = {
+  lat: number;
+  lng: number;
+};
+
+export type Geometry = {
+  location: Point;
+};
+
+export type MarkerData = {
+  geometry: Geometry;
+  reference: number;
+  isVisited: boolean;
+  closeByRecords?: number[];
+};
+
+export type MarkerVisited = {
+  [key: number]: boolean;
+};
+
+export type ClusterPopupData = {
+  count: number;
+  baseMarker: MarkerData;
+  markers: any[];
+};
+
+export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
+
+export type DeviceType = "mobile" | "desktop";

@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import { useCallback, useState } from "react";
-import { FeedChannelTwitterProps } from "../../types";
+import { FeedChannelTwitterProps } from "@/types";
 import EmbedTweet from "./EmbedTweet";
 import styles from "./FeedChannelTwitter.module.css";
 import PlaceholderTweet from "./PlaceholderTweet";

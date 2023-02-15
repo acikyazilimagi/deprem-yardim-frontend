@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { BaseFeedChannel } from "../types";
+import { BaseFeedChannel } from "@/types";
 
 const FeedChannelGeneric = ({ full_text }: BaseFeedChannel<any>) => {
   return (
