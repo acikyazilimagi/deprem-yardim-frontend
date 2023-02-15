@@ -9,7 +9,6 @@ interface FeedChannelSatelliteProps {
 }
 
 export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
-  console.log(props);
   return (
     <DrawerContent>
       <DrawerContent.Header>
