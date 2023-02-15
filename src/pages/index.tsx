@@ -68,8 +68,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const isMobile = device === "mobile";
 
-  // TODO: Check number of channels available
-
   const verifiedLocationErrors = useErrors();
   const { enqueueWarning } = useSnackbar();
   const error = getAreasError && false;
