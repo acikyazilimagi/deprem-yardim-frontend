@@ -33,5 +33,4 @@ jobs:
       - name: Build AfetHarita
         if: ${{ success() }}
         run: |
-          cp .env.sample .env.development
           yarn build
