@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   FOOD_URL,
   AHBAP_LOCATIONS_URL,
