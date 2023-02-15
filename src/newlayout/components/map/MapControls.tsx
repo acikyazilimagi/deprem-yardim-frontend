@@ -51,9 +51,9 @@ const MapControls: React.FC = () => {
         />
       </Control>
       <Control position="topright">
-        <Button variant="outlined">Afetzede Bul</Button>
-        <Button variant="outlined">Yardim Talepleri</Button>
-        <Button variant="outlined">Hizmetler</Button>
+        <Button variant="contained">Afetzede Bul</Button>
+        <Button variant="contained">Yardim Talepleri</Button>
+        <Button variant="contained">Hizmetler</Button>
       </Control>
       <ButtonControl
         position="bottomright"
