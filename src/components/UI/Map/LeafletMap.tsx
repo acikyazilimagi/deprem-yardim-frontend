@@ -135,14 +135,15 @@ const MapEvents = () => {
       const _lng = localCoordinates.getCenter().lng;
       const _zoomLevel = zoomLevel;
 
-      const locationWithZoomLevel = new URLSearchParams();
-      locationWithZoomLevel.append("lat", _lat.toString());
-      locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
+      const locationWithZoomLevel = new URLSearchParams(window.location.search);
+      locationWithZoomLevel.set("lat", _lat.toString());
+      locationWithZoomLevel.set("lng", _lng.toString());
+      locationWithZoomLevel.set("zoom", _zoomLevel.toString());
       if (id) {
-        locationWithZoomLevel.append("id", id.toString());
+        locationWithZoomLevel.set("id", id.toString());
       }
       const query = locationWithZoomLevel.toString();
+      console.log("query", query);
       safeSetLocalStorage(localStorageKeys.coordinatesURL, query);
 
       router.push(
