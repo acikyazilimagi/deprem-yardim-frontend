@@ -143,7 +143,6 @@ const MapEvents = () => {
         locationWithZoomLevel.set("id", id.toString());
       }
       const query = locationWithZoomLevel.toString();
-      console.log("query", query);
       safeSetLocalStorage(localStorageKeys.coordinatesURL, query);
 
       router.push(
