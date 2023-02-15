@@ -35,3 +35,5 @@ export const PHARMACY_URL =
 
 export const SAFE_PLACES_URL =
   BASE_URL + "/feeds/areas?channel=guvenli_yerler_oteller&extraParams=true";
+
+export const NEXT_LOCALE_COOKIE = "NEXT_LOCALE";
