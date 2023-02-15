@@ -20,13 +20,17 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
-import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
 import { useErrors } from "@/stores/errorStore";
 import { useSnackbar } from "@/components/base/Snackbar";
 import { CHANNEL_COUNT } from "@/utils/constants";
+import {
+  useAreasActions,
+  useAreasStoreError,
+  useShouldFetchNextOption,
+} from "@/stores/areasStore";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -55,22 +59,18 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const { setTimeStamp } = useURLActions();
   const router = useRouter();
   const device = useDevice();
-  const {
-    resetThrottling,
-    setSendRequest,
-    shouldFetchNextOption,
-    slowLoading,
-    resetShouldFetchNextOption,
-    error: getAreasError,
-    isLoading,
-    isValidating,
-  } = useGetAreas();
+
+  const areasError = useAreasStoreError();
+
+  const { setShouldFetchNextOption } = useAreasActions();
+  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
+  const shouldFetchNextOption = useShouldFetchNextOption();
 
   const isMobile = device === "mobile";
 
   const verifiedLocationErrors = useErrors();
   const { enqueueWarning } = useSnackbar();
-  const error = getAreasError && false;
+  const error = areasError && false;
 
   useEffect(() => {
     const numErrors = Object.keys(verifiedLocationErrors).reduce(
@@ -98,18 +98,12 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       0
     );
 
-    if (numErrors == CHANNEL_COUNT && getAreasError) {
+    if (numErrors == CHANNEL_COUNT && areasError) {
       throw new MaintenanceError(t("common:errors.maintenance").toString());
     }
-  }, [getAreasError, verifiedLocationErrors, t]);
+  }, [areasError, verifiedLocationErrors, t]);
 
   const { setDevice } = useMapActions();
-
-  const handleScanButtonClick = useCallback(() => {
-    setSendRequest(true);
-
-    resetThrottling();
-  }, [resetThrottling, setSendRequest]);
 
   useEffect(() => {
     setDevice(deviceType);
@@ -124,10 +118,14 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     setIsFooterBannerOpen(!isFooterBannerOpen);
   }, [isFooterBannerOpen]);
 
+  const handleContextMenu = (e: any) => {
+    e.preventDefault();
+  };
+
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
-      <main className={styles.main}>
+      <main className={styles.main} onContextMenu={handleContextMenu}>
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error}>
             <div
@@ -199,12 +197,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 width: "210px",
               }}
             >
-              <ScanAreaButton
-                isLoading={isLoading}
-                isValidating={isValidating}
-                slowLoading={slowLoading}
-                handleScanButtonClick={handleScanButtonClick}
-              />
+              <ScanAreaButton />
             </Box>
           </RenderIf>
         </Container>

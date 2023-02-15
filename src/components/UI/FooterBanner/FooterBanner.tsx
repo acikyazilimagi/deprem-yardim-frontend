@@ -14,23 +14,21 @@ export default function FooterBanner(props: FooterBannerProps) {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.footerWrapper}>
-        <RenderIf condition={!props.open}>
-          <span className={styles.dismissible}>
-            <span>
-              <Trans
-                i18nKey="common:footer.banner"
-                components={{
-                  b: <b />,
-                }}
-              />
-            </span>
-            <span className={styles.closeButton}>
-              <HighlightOffIcon onClick={props.onClick} />
-            </span>
+      <RenderIf condition={!props.open}>
+        <span className={styles.dismissible}>
+          <span>
+            <Trans
+              i18nKey="common:footer.banner"
+              components={{
+                b: <b />,
+              }}
+            />
           </span>
-        </RenderIf>
-      </div>
+          <span className={styles.closeButton}>
+            <HighlightOffIcon onClick={props.onClick} />
+          </span>
+        </span>
+      </RenderIf>
     </footer>
   );
 }
