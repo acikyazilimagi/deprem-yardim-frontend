@@ -23,8 +23,7 @@ import { data } from "./data";
 interface HelpViewStore {
   isOpen: boolean;
   // for void return functions, input values will not be use in interface
-  // eslint-disable-next-line no-unused-vars
-  toggle: (checked: boolean) => void;
+  toggle: (_checked: boolean) => void;
 }
 //#endregion
 //#region store
