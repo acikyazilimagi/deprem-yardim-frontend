@@ -24,6 +24,9 @@ import { useGetAreas } from "@/hooks/useGetAreas";
 import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
+import { useErrors } from "@/stores/errorStore";
+import { useSnackbar } from "@/components/base/Snackbar";
+import { CHANNEL_COUNT } from "@/utils/constants";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -66,10 +69,41 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   const isMobile = device === "mobile";
 
   // TODO: Check number of channels available
+
+  const verifiedLocationErrors = useErrors();
+  const { enqueueWarning } = useSnackbar();
   const error = getAreasError && false;
-  if (error) {
-    throw new MaintenanceError(t("common:errors.maintenance").toString());
-  }
+
+  useEffect(() => {
+    const numErrors = Object.keys(verifiedLocationErrors).reduce(
+      (accumulator: number, current: any) => {
+        if (current) {
+          return accumulator + 1;
+        }
+        return accumulator;
+      },
+      0
+    );
+    if (numErrors) {
+      enqueueWarning(t("common:errors.partialData"));
+    }
+  }, [verifiedLocationErrors, enqueueWarning, t]);
+
+  useEffect(() => {
+    const numErrors = Object.keys(verifiedLocationErrors).reduce(
+      (accumulator: number, current: any) => {
+        if (current) {
+          return accumulator + 1;
+        }
+        return accumulator;
+      },
+      0
+    );
+
+    if (numErrors == CHANNEL_COUNT && getAreasError) {
+      throw new MaintenanceError(t("common:errors.maintenance").toString());
+    }
+  }, [getAreasError, verifiedLocationErrors, t]);
 
   const { setDevice } = useMapActions();
 
