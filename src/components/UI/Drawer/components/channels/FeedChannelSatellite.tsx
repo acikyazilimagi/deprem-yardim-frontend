@@ -13,7 +13,11 @@ export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
     <DrawerContent>
       <DrawerContent.Header>
         <DrawerContent.Title>
-          {capitalize(props.properties.damage)}
+          {capitalize(
+            props?.properties?.damage === "Destroyed"
+              ? "Collapsed"
+              : props?.properties?.damage
+          )}
         </DrawerContent.Title>
         <DrawerContent.Badge>{capitalize(props.channel)}</DrawerContent.Badge>
       </DrawerContent.Header>
