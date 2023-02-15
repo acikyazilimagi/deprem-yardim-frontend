@@ -14,12 +14,15 @@ const TileLayer = dynamic(
   { ssr: false }
 );
 
-const Map = dynamic(() => import("@/components/map/Map"), {
+const Map = dynamic(() => import("@/newlayout/components/map/Map"), {
   ssr: false,
 });
-const MapControls = dynamic(() => import("@/components/map/MapControls"), {
-  ssr: false,
-});
+const MapControls = dynamic(
+  () => import("@/newlayout/components/map/MapControls"),
+  {
+    ssr: false,
+  }
+);
 
 // Development overlay container
 const UIElementsOverlay = () => {
