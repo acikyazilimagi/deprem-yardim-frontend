@@ -19,25 +19,25 @@ interface IStyles {
 //#region component
 export const LocaleSwitchComponent = () => {
   const router = useRouter();
-  const { locales, locale: activeLocale, reload } = router;
-  const [activeState, setactiveState] = useState(activeLocale);
+  const { locales, locale: defaultLocale, reload } = router;
+  const [activeState, setActiveState] = useState(defaultLocale);
 
   const setCookie = (_locale: string) => {
     document.cookie = `NEXT_LOCALE=${_locale}; max-age=31536000; path=/`;
   };
   const handleChange = (event: SelectChangeEvent) => {
-    setactiveState(event.target.value as string);
+    setActiveState(event.target.value as string);
     reload();
   };
 
   useEffect(() => {
-    if (activeLocale) {
-      setactiveState(activeLocale);
-      setCookie(activeLocale);
+    if (defaultLocale) {
+      setActiveState(defaultLocale);
+      setCookie(defaultLocale);
     }
     // do not add `reload` to the dependency array because it will cause an infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeLocale]);
+  }, [defaultLocale]);
 
   return (
     <Box sx={styles.select}>
