@@ -1,3 +1,4 @@
+//TODO: this data should be moved to public/locales
 export const data = {
   tr: {
     title: {
