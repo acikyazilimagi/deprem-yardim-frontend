@@ -1,6 +1,5 @@
 import React from "react";
 import ButtonControl from "./ButtonControl";
-import ResetViewControl from "@20tab/react-leaflet-resetview";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
@@ -9,7 +8,9 @@ import {
   useMTMLView,
 } from "../MTMLViewComponent/MTMLViewComponent";
 import { MapType } from "../MTMLViewComponent/types";
+import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
 import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
+import { Button } from "@mui/material";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -22,7 +23,6 @@ const MapControls: React.FC = () => {
   const mtmlView = useMTMLView();
   return (
     <>
-      <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
       <ButtonControl
         position="topleft"
         title="?"
@@ -48,22 +48,16 @@ const MapControls: React.FC = () => {
           checked={false}
         />
       </Control>
-      <Control position="topright">Buttons...</Control>
-      <ButtonControl
-        position="bottomright"
-        title="Language"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
+      <Control position="topright">
+        <Button variant="contained">Afetzede Bul</Button>
+        <Button variant="contained">Yardim Talepleri</Button>
+        <Button variant="contained">Hizmetler</Button>
+      </Control>
       <Control position="bottomright">
-        <a href="./cerez.pdf" target="_blank">
-          cookie
-        </a>
-        •
-        <a href="./gizlilik.pdf" target="_blank">
-          privacy
-        </a>
-        •<a>data</a>•<a>leaflet</a>
+        <Button variant="contained">Türkçe</Button>
+      </Control>
+      <Control position="bottomright">
+        <AttributionComponent />
       </Control>
     </>
   );
