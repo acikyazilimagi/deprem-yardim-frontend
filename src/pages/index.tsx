@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
@@ -42,7 +42,6 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
   const {
     ahbapLocations,
     hospitalLocations,
@@ -113,13 +112,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
-  const handleToggleFooterBanner = useCallback(() => {
-    setIsFooterBannerOpen(!isFooterBannerOpen);
-  }, [isFooterBannerOpen]);
-
-  const handleContextMenu = (e: any) => {
-    e.preventDefault();
-  };
+  const handleContextMenu = (e: any) => e.preventDefault();
 
   return (
     <>
@@ -204,11 +197,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner
-          open={isFooterBannerOpen}
-          onClick={handleToggleFooterBanner}
-        />
-        <Footer onClick={handleToggleFooterBanner} />
+        <FooterBanner />
+        <Footer />
       </main>
     </>
   );
