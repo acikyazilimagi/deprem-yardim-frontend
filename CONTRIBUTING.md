@@ -1,105 +1,105 @@
-# Katkı Yapma Rehberi
+# Contribution Guideline
 
-## Katkı yapmadan önce dikkat edilmesi gerekenler
+## Things to note before contributing
 
-- İlgilendiğiniz konunun daha önce herhangi bir issue tarafından işlenilmediğine ve başkası tarafından yapılmadığından emin olun.
-- Eğer bir problemle karşılaşırsanız, issue açın.
-- Beklediğiniz, istediğiniz bir değişiklik için issue açın.
-- Yeni bir özellik eklemek için issue açın.
-- Bir hatayı düzeltmek için PR açın.
-- Dökümantasyondaki bir hatayı düzeltmek için PR açın.
+- Make sure that the contribution you seek to make is not the iteration of a former issue or hasn't been done by anyone else.
+- If you face with a problem, open up an issue for it.
+- For a change you await or want, open up an issue.
+- Open up an issue in order to add a new feature.
+- Create a PR to fix an issue.
+- Create a PR to fix an error in the documentation.
 
-### [**PR Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/blob/development/.github/PULL_REQUEST_TEMPLATE.md)
+### [**PR Rules**](https://github.com/acikkaynak/deprem-yardim-frontend/blob/development/.github/PULL_REQUEST_TEMPLATE.md)
 
-### [**Issue Kuralları**](https://github.com/acikkaynak/deprem-yardim-frontend/tree/development/.github/ISSUE_TEMPLATE)
+### [**Issue Rules**](https://github.com/acikkaynak/deprem-yardim-frontend/tree/development/.github/ISSUE_TEMPLATE)
 
-## Başlamadan önce
+## Before you begin
 
-### Projeyi kurmak
+### Setting up the project
 
-Gereksinimler:
+Requirements:
 
 - Node 17.0^
 - Yarn 1.22^
 
 ```bash
-# Projeyi klonlayın
+# Clone the project
 git clone
 
-# Proje dizinine girin
+# Move to project directory
 cd deprem-yardim-frontend
 
-# Gereksinimleri yükleyin
+# Install the dependencies
 yarn
 
-# Geliştirme ortamını başlatın
+# Run the development environment
 yarn dev
 ```
 
-### Kodu formatlama
+### Formatting the code
 
-Bu projede kod formatlama için [`prettier`](https://prettier.io/) kullanıyoruz. Linter konfigürasyonu [burada](https://github.com/acikkaynak/deprem-yardim-frontend/blob/main/.prettierrc) bulunabilir.
+We use [`prettier`](https://prettier.io/) on this project for code formatting. Linter configuration can be found [here](https://github.com/acikkaynak/deprem-yardim-frontend/blob/main/.prettierrc).
 
-### Commit mesajları
+### Commit messages
 
-Her commit mesajı bir **başlık**, bir **gövde** ve bir **altbilgi** içerir. Başlık, **tip**, bir **kapsam** ve bir **açıklama** içeren bir özel biçimde biçimlendirilir:
+Each commit must include a **header**, a **body** and a **footer**. Title is formatted as **type**, **scope** and, **description**.
 
 ```plaintext
 <type>(<scope>): <description>
-<BOŞ SATIR>
+<EMPTY LINE>
 <body>
-<BOŞ SATIR>
+<EMPTY LINE>
 <footer>
 ```
 
-Her commit mesajı 72 karakterden uzun olmamalıdır.
+Commit messages should not exceed 72 characters.
 
-### Mesaj Başlığı
+### Message header
 
-Mesaj başlığı zorunludur ve bir tür, isteğe bağlı bir kapsam ve bir açıklama içeren kısa bir açıklama içermelidir. İdeal olarak, 50 karakterden uzun olmamalıdır.
+Message header is mandatory and it must include a type, an optional scope and a short description. Ideally, it should not exceed 50 characters.
 
-Bu kurallara uymak, her sürüm için açık bir değişiklik günlüğü oluşturur.
+By complying with these rules, you can create an open change log for all versions.
 
-PR başlığını da commit mesajları için izlemek iyi bir fikirdir. Bu şekilde, PR birleştirildiğinde, PR başlığı son commit mesajı olarak kullanılabilir ve geçmişin düzgün biçimlendirilmiş bir şekilde oluşturulmasını sağlar.
+It is advised to watching PR header for commit messages. This way, when a PR is merged, PR header can be used as commit message and allows the change history to be formatted appropriately.
 
-#### Tip
+#### Type
 
-Tip, commit'in ne tür bir değişiklik olduğunu belirtir. İzin verilen türler:
+Type states the type of your change. Allowed types are:
 
-- `feat`: Bir yeni özellik ekler
-- `fix`: Bir hata düzeltir
-- `docs`: Sadece dokümantasyonu etkileyen değişiklikler
-- `style`: Sadece biçimlendirme, noktalama işaretleri, boşluklar, vb. Değişiklikler
-- `refactor`: Kodun içeriğini değiştirmeyen bir değişiklik
-- `perf`: Bir performans değişikliği
-- `test`: Eksik testleri ekler veya mevcut testleri değiştirir
-- `chore`: Geliştirme sürecini etkilemeyen diğer değişiklikler
+- `feat`: Adds a new feature
+- `fix`: Fixing an error/bug
+- `docs`: Changes that affect only the documentation
+- `style`: Just formatting changes such as punctuation, spaces etc.
+- `refactor`: A change that does not affect the contents of the code
+- `perf`: Performance change
+- `test`: Adds missing tests or changes current ones
+- `chore`: Other changes that does not affect the development process
 
-#### Kapsam
+#### Scope
 
-Kapsam, commit'in etkilediği bölümü belirtir. Örneğin, `kafka` veya `login` gibi bir kapsam belirtilebilir.
+Scope, states the part that is affected by the commit. For instance, a scope such as `kafka` or `login` can be stated.
 
-#### Açıklama
+#### Description
 
-Açıklama, commit'in amacını kısa bir şekilde belirtir. İlk harf büyük harfle yazılmalıdır. Açıklama, bir cümle olmalıdır. Bu, commit mesajının başlığı olarak kullanılabilir.
+Description provides a short explanation regarding the purpose of the commit. First letter should be capitalized. Description should be one sentence. This could serve as the commit message header.
 
-### Mesaj Gövdesi
+### Message Body
 
-Mesaj gövdesi, commit'in neden yapıldığını açıklayan bir açıklamadır. Gövde, bir veya daha fazla paragraf içerebilir. Her paragraf, 72 karakterden uzun olmamalıdır.
+Message body is an explanation that states why the commit was made. Body can be one or more paragraphs. Paragraphs should not exceed 72 characters.
 
-#### Daha fazla bilgi git commit mesajları yazmak için
+#### More info for writing git commit messages
 
 - [Writing Git commit messages](http://365git.tumblr.com/post/3308646748/writing-git-commit-messages)
 
 - [A Note About Git Commit Messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 
-### Mesaj Alt Bilgisi
+### Message Footer
 
-Tamamlanan, düzeltilen veya teslim edilen hikayeler, "Finishes", "Fixes" veya "Delivers" anahtar sözcüğüyle başlayan bir ayrı satırda altbilgiye eklenmelidir:
+Completed, fixed or delivered cases should be added to footer as a separate line and start with "Finishes", "Fixes" or "Delivers" keyword:
 
 `[(Finishes|Fixes|Delivers) #ISSUE_ID]`
 
-### Mesaj Örneği
+### Message Sample
 
 ```sh
 feat(34): implement exactly once delivery
