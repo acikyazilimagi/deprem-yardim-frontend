@@ -9,10 +9,7 @@ import {
   PHARMACY_URL,
   SAFE_PLACES_URL,
 } from "@/utils/constants";
-import { useSnackbar } from "@/components/base/Snackbar";
-import { useTranslation } from "next-i18next";
 import useLocation from "./useLocation";
-import { useErrors } from "../stores/errorStore";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
 const getSahraExtraParams = (item: any) => ({
@@ -53,17 +50,6 @@ export function useVerifiedLocations() {
     getExtraParams: () => ({ icon: "images/icon-16.png" }),
   });
 
-  const { enqueueWarning } = useSnackbar();
-  const { t } = useTranslation(["common"]);
-
-  const errors = useErrors();
-
-  useEffect(() => {
-    // TODO: add number of channel >= 0 check instead of true
-    true && enqueueWarning(t("common:errors.partialData"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors]);
-
   return {
     foodLocations,
     ahbapLocations,
@@ -73,6 +59,5 @@ export function useVerifiedLocations() {
     sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
-    errors,
   };
 }
