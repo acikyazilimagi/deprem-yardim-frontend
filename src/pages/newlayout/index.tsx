@@ -38,27 +38,36 @@ const DevelopmentToggleMenu = () => {
     >
       <FormControlLabel
         control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+          <Switch
+          // checked={helpView.isOpen}
+          // onChange={(event, checked) => {
+          //   helpView.toggle(checked);
+          // }}
+          />
+        }
+        label="Show MapBaseMapLayer"
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={helpView.isOpen}
+            onChange={(event, checked) => {
+              helpView.toggle(checked);
+            }}
+          />
         }
         label="Show HelpView"
       />
       <FormControlLabel
         control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+          <Switch
+          // checked={helpView.isOpen}
+          // onChange={(event, checked) => {
+          //   helpView.toggle(checked);
+          // }}
+          />
         }
-        label="Show HelpView"
-      />
-      <FormControlLabel
-        control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
-        }
-        label="Show HelpView"
-      />
-      <FormControlLabel
-        control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
-        }
-        label="Show HelpView"
+        label="Show Filter"
       />
     </Box>
   );
@@ -75,8 +84,6 @@ const UIElementsOverlay = () => {
         left: 0,
         zIndex: 90000,
         padding: "1em",
-        width: "100%",
-        height: "100%",
       }}
     >
       <HelpViewComponent />
@@ -88,6 +95,9 @@ const NHome = () => {
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
   const device = useDevice();
+  //DO NOT TOUCH THIS - SHAME COUNTER
+  console.log("SHAME!!!");
+  //DO NOT TOUCH THIS - SHAME COUNTER
   return (
     <>
       <UIElementsOverlay />
