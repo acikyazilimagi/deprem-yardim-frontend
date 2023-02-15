@@ -49,7 +49,6 @@ interface MapState {
     | null;
   isDrawerOpen: boolean;
   device: DeviceType;
-  markerData: MarkerData[];
   mapType: MapType;
   mapLayers: MapLayer[];
   actions: {
@@ -68,7 +67,6 @@ interface MapState {
     ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setDevice: (device: DeviceType) => void;
-    setMarkerData: (data: MarkerData[]) => void;
     setMapType: (mapType: MapType) => void;
     setEventType: (eventType: EVENT_TYPES) => void;
   };
@@ -104,7 +102,6 @@ export const useMapStore = create<MapState>()((set) => ({
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
     setDevice: (device: DeviceType) => set(() => ({ device })),
-    setMarkerData: (markerData: MarkerData[]) => set(() => ({ markerData })),
     setMapType: (mapType) => set(() => ({ mapType })),
     setEventType: (eventType) => set(() => ({ eventType })),
   },
@@ -118,6 +115,4 @@ export const useMapType = () =>
   useMapStore((state) => state.mapType ?? MapType.Default);
 export const usePopUpData = () => useMapStore((state) => state.popUpData);
 export const useDevice = () => useMapStore((state) => state.device);
-export const useMarkerData = () => useMapStore((state) => state.markerData);
 export const useEventType = () => useMapStore((state) => state.eventType);
-export const setMarkerData = useMapStore.getState().actions.setMarkerData;

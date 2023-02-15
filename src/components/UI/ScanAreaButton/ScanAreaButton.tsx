@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Button from "@mui/material/Button";
 import LoadingSpinner from "@/components/UI/Common/LoadingSpinner";
 import { useTranslation, Trans } from "next-i18next";
@@ -6,21 +6,22 @@ import { useTranslation, Trans } from "next-i18next";
 import styles from "@/styles/Home.module.css";
 import { useGetAreas } from "@/hooks/useGetAreas";
 
-interface Props {
-  handleScanButtonClick: () => void;
-  isLoading: boolean;
-  isValidating: boolean;
-  slowLoading: boolean;
-}
-
-const ScanAreaButton = ({
-  isLoading,
-  isValidating,
-  slowLoading,
-  handleScanButtonClick,
-}: Props) => {
-  const { remainingTime } = useGetAreas();
+const ScanAreaButton = () => {
   const { t } = useTranslation(["home"]);
+  const {
+    remainingTime,
+    resetThrottling,
+    setSendRequest,
+    slowLoading,
+    isLoading,
+    isValidating,
+  } = useGetAreas();
+
+  const handleScanButtonClick = useCallback(() => {
+    setSendRequest(true);
+
+    resetThrottling();
+  }, [resetThrottling, setSendRequest]);
 
   return (
     <>
