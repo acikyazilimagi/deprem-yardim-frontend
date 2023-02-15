@@ -11,6 +11,7 @@ type Props = {
 
 const ButtonControl = ({
   classNames,
+  children,
   title,
   position,
   icon,
@@ -22,7 +23,9 @@ const ButtonControl = ({
       container={{ className: cn("leaflet-bar", classNames) }}
     >
       <a onClick={onClick}>
-        {icon ? <Image alt={title} src={icon} width="32" height="32" /> : title}
+        {!!icon && <Image alt={title} src={icon} width="32" height="32" />}
+        {!icon && !children && title}
+        {children}
       </a>
     </Control>
   );

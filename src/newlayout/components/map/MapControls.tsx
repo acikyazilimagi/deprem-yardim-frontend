@@ -4,6 +4,7 @@ import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { AttributionControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
+import { HelpOutline } from "@mui/icons-material";
 
 const MapControls: React.FC = () => {
   const { toggle, isOpen } = useHelpView();
@@ -14,7 +15,9 @@ const MapControls: React.FC = () => {
         position="bottomleft"
         title="?"
         onClick={() => toggle(!isOpen)}
-      />
+      >
+        <HelpOutline />
+      </ButtonControl>
       <ButtonControl
         position="bottomleft"
         title="Layers"
