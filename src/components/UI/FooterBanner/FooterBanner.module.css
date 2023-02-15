@@ -13,15 +13,6 @@
   margin: 0 auto;
 }
 
-.footerWrapper {
-  width: 100%;
-  position: relative;
-}
-
-.footerWrapper :first-child {
-  bottom: 0;
-}
-
 .footer .dismissible {
   position: relative;
   display: flex;
@@ -75,11 +66,5 @@
   .footer .dismissible span {
     letter-spacing: -0.2px;
     width: 16rem;
-  }
-
-  .footerWrapper {
-    gap: 8px;
-    display: flex;
-    flex-direction: column;
   }
 }
