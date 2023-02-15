@@ -25,8 +25,7 @@ import { data } from "./data";
 interface HelpViewStore {
   isOpen: boolean;
   // for void return functions, input values will not be use in interface
-  // eslint-disable-next-line no-unused-vars
-  toggle: (checked: boolean) => void;
+  toggle: (_checked: boolean) => void;
 }
 //#endregion
 //#region store
@@ -68,6 +67,7 @@ export const HelpViewComponent = () => {
     setselectedLocale(locale === "en" ? data.en : data.tr);
   }, [locale]);
 
+  if (!helpView.isOpen) return null;
   return (
     <Fade in={helpView.isOpen}>
       <Container sx={styles.container}>

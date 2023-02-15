@@ -1,10 +1,11 @@
 import { Typography } from "@mui/material";
+import { DefaultTFuncReturn } from "i18next";
 import styles from "./LayerButton.module.css";
 
 type LayerButtonProps = {
   onClick: () => void;
   image: string;
-  title: string;
+  title?: string | DefaultTFuncReturn;
   checked: boolean;
 };
 
@@ -33,11 +34,13 @@ export const LayerButton = ({
           backgroundImage: `url(/images/${image}.png)`,
         }}
       />
-      <Typography
-        sx={{ color: checked ? "teal" : undefined, fontSize: "12px" }}
-      >
-        {title}
-      </Typography>
+      {!!title && (
+        <Typography
+          sx={{ color: checked ? "teal" : undefined, fontSize: "12px" }}
+        >
+          {title}
+        </Typography>
+      )}
     </button>
   );
 };
