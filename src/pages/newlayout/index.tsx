@@ -34,7 +34,6 @@ const UIElementsOverlay = () => {
         top: 0,
         left: 0,
         zIndex: 90000,
-        padding: "1em",
       }}
     >
       <HelpViewComponent />
