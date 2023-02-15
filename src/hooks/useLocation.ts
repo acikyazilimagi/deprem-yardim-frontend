@@ -7,17 +7,17 @@ import dJSON from "dirty-json";
 
 // @fdemir code begin =======
 type HandleLocationResponseOptions = {
-  getExtraParams?: any;
+  getExtraParams?: (_item: any) => any;
 };
 
-const handleLocationResponse = (
-  data: any,
+const handleLocationResponse = <TResponse extends { results: any[] }>(
+  data: TResponse,
   setLocations: any,
   options: HandleLocationResponseOptions = {}
 ) => {
   if (!data) return;
 
-  const features = data.results.map((item: any) => {
+  const features = data.results.map((item) => {
     let extra_params = {};
     try {
       extra_params = dJSON.parse(
@@ -48,19 +48,19 @@ const handleLocationResponse = (
 };
 // @fdemir code end =======
 
-export default function useLocation(
-  url: any,
+export default function useLocation<TResponse extends { results: any[] }>(
+  url: string,
   channelName: string,
   options: HandleLocationResponseOptions = {}
 ) {
-  const [locations, setLocations] = useState<any[]>([]);
+  const [locations, setLocations] = useState<TResponse[]>([]);
 
   const setError = useSetError();
-  const setChannelError = (error: any) => {
+  const setChannelError = (error: Error) => {
     setError({ [channelName]: error });
   };
 
-  useSWR(url, dataFetcher, {
+  useSWR<TResponse>(url, dataFetcher, {
     onSuccess: (data) => handleLocationResponse(data, setLocations, options),
     onError: () => {
       setChannelError(new PartialDataError());
