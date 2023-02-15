@@ -11,6 +11,7 @@ import { MapType } from "../MTMLViewComponent/types";
 import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
 import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
 import { Button } from "@mui/material";
+import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -39,6 +40,7 @@ const MapControls: React.FC = () => {
           className: "leaflet-bar",
           style: {
             background: "white",
+            borderRadius: "12px",
           },
         }}
       >
@@ -54,7 +56,7 @@ const MapControls: React.FC = () => {
         <Button variant="contained">Hizmetler</Button>
       </Control>
       <Control position="bottomright">
-        <Button variant="contained">Türkçe</Button>
+        <LocaleSwitchComponent />
       </Control>
       <Control position="bottomright">
         <AttributionComponent />
