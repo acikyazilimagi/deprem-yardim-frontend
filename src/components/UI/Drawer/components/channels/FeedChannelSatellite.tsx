@@ -14,7 +14,6 @@ export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
       <DrawerContent.Header>
         <DrawerContent.Title>
           {capitalize(
-            //https://github.com/acikkaynak/deprem-yardim-frontend/issues/1019
             props?.properties?.damage === "Destroyed"
               ? "Collapsed"
               : props?.properties?.damage
