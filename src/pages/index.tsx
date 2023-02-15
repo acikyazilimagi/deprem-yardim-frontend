@@ -20,8 +20,10 @@ import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
-import { CHANNEL_COUNT } from "@/utils/constants";
 import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
+import { useErrors } from "@/stores/errorStore";
+import { useSnackbar } from "@/components/base/Snackbar";
+import { CHANNEL_COUNT } from "@/utils/constants";
 import {
   useAreasActions,
   useAreasStoreError,
@@ -50,7 +52,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
-    errors: verifiedLocationErrors,
+    // errors: verifiedLocationErrors, // TODO: Implement later
   } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
@@ -65,10 +67,40 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
 
   const isMobile = device === "mobile";
 
-  const error = areasError && verifiedLocationErrors.length === CHANNEL_COUNT;
-  if (error) {
-    throw new MaintenanceError(t("common:errors.maintenance").toString());
-  }
+  const verifiedLocationErrors = useErrors();
+  const { enqueueWarning } = useSnackbar();
+  const error = areasError && false;
+
+  useEffect(() => {
+    const numErrors = Object.keys(verifiedLocationErrors).reduce(
+      (accumulator: number, current: any) => {
+        if (current) {
+          return accumulator + 1;
+        }
+        return accumulator;
+      },
+      0
+    );
+    if (numErrors) {
+      enqueueWarning(t("common:errors.partialData"));
+    }
+  }, [verifiedLocationErrors, enqueueWarning, t]);
+
+  useEffect(() => {
+    const numErrors = Object.keys(verifiedLocationErrors).reduce(
+      (accumulator: number, current: any) => {
+        if (current) {
+          return accumulator + 1;
+        }
+        return accumulator;
+      },
+      0
+    );
+
+    if (numErrors == CHANNEL_COUNT && areasError) {
+      throw new MaintenanceError(t("common:errors.maintenance").toString());
+    }
+  }, [areasError, verifiedLocationErrors, t]);
 
   const { setDevice } = useMapActions();
 

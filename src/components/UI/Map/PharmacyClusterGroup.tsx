@@ -43,8 +43,8 @@ export const PharmacyClusterGroup = ({ data }: Props) => {
       {clusters.map((cluster, idx) => {
         const [longitude, latitude] = cluster.geometry.coordinates;
         // the point may be either a cluster or a crime point
-        const { cluster: isCluster, point_count: pointCount } =
-          cluster.properties;
+        const { properties } = cluster;
+        const { cluster: isCluster, point_count: pointCount } = properties;
 
         if (isCluster) {
           return (
@@ -72,7 +72,7 @@ export const PharmacyClusterGroup = ({ data }: Props) => {
             key={`cluster-${idx}`}
             position={[latitude, longitude]}
             icon={L.icon({
-              iconUrl: cluster.properties.icon || emptyIcon,
+              iconUrl: properties.icon || emptyIcon,
               iconSize: [28, 28],
               iconAnchor: [14, 14],
             })}
@@ -81,10 +81,10 @@ export const PharmacyClusterGroup = ({ data }: Props) => {
                 handleMarkerClick(e, {
                   // @ts-ignore
                   channel: "eczane_excel",
-                  id: cluster.id,
-                  reason: cluster.reason,
-                  verified: cluster.verified,
-                  properties: cluster.properties,
+                  id: properties.id,
+                  reason: properties.reason,
+                  verified: properties.verified,
+                  properties,
                   geometry: {
                     location: {
                       lng: longitude,
