@@ -5,43 +5,34 @@ import { AttributionControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
+import {
+  MapTypeMapLayerViewComponent,
+  useMTMLView,
+} from "../MTMLViewComponent/MTMLViewComponent";
 
 const MapControls: React.FC = () => {
-  const { toggle, isOpen } = useHelpView();
+  const helpView = useHelpView();
+  const mtmlView = useMTMLView();
   return (
     <>
       <ResetViewControl title="Sıfırla" icon="url(/icons/circular.png)" />
       <ButtonControl
-        position="bottomleft"
+        position="topleft"
         title="?"
-        onClick={() => toggle(!isOpen)}
+        onClick={() => helpView.toggle(!helpView.isOpen)}
       >
         <HelpOutline />
       </ButtonControl>
+      <Control position="bottomleft">
+        <MapTypeMapLayerViewComponent />
+      </Control>
       <ButtonControl
         position="bottomleft"
         title="Layers"
-        onClick={() => {}}
+        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
         icon="/icons/stack-line.svg"
       />
-      <ButtonControl
-        position="topright"
-        title="Disaster Survivors"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <ButtonControl
-        position="topright"
-        title="Demands"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
-      <ButtonControl
-        position="topright"
-        title="Services"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
+      <Control position="topright">Buttons...</Control>
       <AttributionControl />
       <Control position="bottomright">
         <a href="./cerez.pdf" target="_blank">

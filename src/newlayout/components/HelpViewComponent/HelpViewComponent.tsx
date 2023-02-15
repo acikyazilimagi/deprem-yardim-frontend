@@ -66,6 +66,7 @@ export const HelpViewComponent = () => {
     setselectedLocale(locale === "en" ? data.en : data.tr);
   }, [locale]);
 
+  if (!helpView.isOpen) return null;
   return (
     <Fade in={helpView.isOpen}>
       <Box>
