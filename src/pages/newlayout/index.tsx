@@ -40,27 +40,36 @@ const DevelopmentToggleMenu = () => {
     >
       <FormControlLabel
         control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+          <Switch
+          // checked={helpView.isOpen}
+          // onChange={(event, checked) => {
+          //   helpView.toggle(checked);
+          // }}
+          />
+        }
+        label="Show MapBaseMapLayer"
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={helpView.isOpen}
+            onChange={(event, checked) => {
+              helpView.toggle(checked);
+            }}
+          />
         }
         label="Show HelpView"
       />
       <FormControlLabel
         control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
+          <Switch
+          // checked={helpView.isOpen}
+          // onChange={(event, checked) => {
+          //   helpView.toggle(checked);
+          // }}
+          />
         }
-        label="Show HelpView"
-      />
-      <FormControlLabel
-        control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
-        }
-        label="Show HelpView"
-      />
-      <FormControlLabel
-        control={
-          <Switch checked={helpView.isOpen} onChange={helpView.toggle} />
-        }
-        label="Show HelpView"
+        label="Show Filter"
       />
     </Box>
   );
@@ -77,8 +86,6 @@ const UIElementsOverlay = () => {
         left: 0,
         zIndex: 90000,
         padding: "1em",
-        width: "100%",
-        height: "100%",
       }}
     >
       <HelpViewComponent />
@@ -92,7 +99,6 @@ const NHome = () => {
   const mapType = useMapType();
   const device = useDevice();
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
-
   return (
     <>
       <UIElementsOverlay />
