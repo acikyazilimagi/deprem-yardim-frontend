@@ -1,10 +1,11 @@
-import { useSetIsFooterBannerOpen } from "@/stores/commonStore";
 import styles from "./Footer.module.css";
 import { useTranslation } from "next-i18next";
 
-export default function Footer() {
-  const setIsFooterBannerOpen = useSetIsFooterBannerOpen();
+interface FooterProps {
+  onClick: () => void;
+}
 
+export default function Footer(props: FooterProps) {
   const { t } = useTranslation("common");
   return (
     <ul className={styles.footer}>
@@ -18,7 +19,7 @@ export default function Footer() {
           {t("footer.politic.privacy")}
         </a>
       </li>
-      <li onClick={() => setIsFooterBannerOpen(true)}>
+      <li onClick={props.onClick}>
         <a>{t("footer.politic.data")}</a>
       </li>
     </ul>

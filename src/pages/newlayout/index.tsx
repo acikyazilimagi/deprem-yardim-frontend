@@ -1,6 +1,6 @@
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
-import { useMapType } from "@/stores/mapStore";
+import { useDevice, useMapType } from "@/stores/mapStore";
 import {
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
@@ -8,7 +8,6 @@ import {
 import dynamic from "next/dynamic";
 import { Box } from "@mui/material";
 import { HelpViewComponent } from "../../newlayout/components/HelpViewComponent/HelpViewComponent";
-import { useDevice } from "@/hooks/useDevice";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),

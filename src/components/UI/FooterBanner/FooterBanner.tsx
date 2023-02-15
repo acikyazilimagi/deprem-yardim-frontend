@@ -3,19 +3,18 @@ import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import styles from "./FooterBanner.module.css";
 import { Trans } from "next-i18next";
-import {
-  useIsFooterBannerOpen,
-  useSetIsFooterBannerOpen,
-} from "@/stores/commonStore";
 
-export default function FooterBanner() {
+interface FooterBannerProps {
+  onClick: () => void;
+  open: boolean;
+}
+
+export default function FooterBanner(props: FooterBannerProps) {
   useDisableZoom();
-  const setIsFooterBannerOpen = useSetIsFooterBannerOpen();
-  const isOpen = useIsFooterBannerOpen();
 
   return (
     <footer className={styles.footer}>
-      <RenderIf condition={isOpen}>
+      <RenderIf condition={!props.open}>
         <span className={styles.dismissible}>
           <span>
             <Trans
@@ -26,7 +25,7 @@ export default function FooterBanner() {
             />
           </span>
           <span className={styles.closeButton}>
-            <HighlightOffIcon onClick={() => setIsFooterBannerOpen(!isOpen)} />
+            <HighlightOffIcon onClick={props.onClick} />
           </span>
         </span>
       </RenderIf>
