@@ -6,7 +6,6 @@ import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
 import { DeviceType } from "@/mocks/types";
-import { dataFetcher } from "@/services/dataFetcher";
 import { useMapActions, useDevice } from "@/stores/mapStore";
 import styles from "@/styles/Home.module.css";
 import Container from "@mui/material/Container";
@@ -20,7 +19,6 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import { useURLActions } from "@/stores/urlStore";
-import { locationsURL } from "@/utils/urls";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 import { CHANNEL_COUNT } from "@/utils/constants";
 import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
@@ -29,6 +27,7 @@ import {
   useAreasStoreError,
   useShouldFetchNextOption,
 } from "@/stores/areasStore";
+import { getLocationById } from "@/services/location";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -189,20 +188,17 @@ export async function getServerSideProps(context: any) {
     )
   );
 
-  let itemDetail = {};
-  if (context.query.id) {
-    const url = locationsURL(context.query.id) as string;
-    itemDetail = await dataFetcher(url);
-  }
+  const itemDetail = await getLocationById(context.query.id);
 
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
       ahbap: [],
-      singleItemDetail: context.query.id
-        ? { ...itemDetail, ...context.query }
-        : {},
+      singleItemDetail: {
+        ...itemDetail,
+        ...context.query,
+      },
     },
   };
 }
