@@ -151,6 +151,7 @@ export default function Home({ singleItemDetail }: Props) {
               pharmacy={pharmacyLocations}
               safePlaces={safePlaceLocations}
             />
+            {/* FIXME: move it to a component */}
             <Box
               sx={{
                 display: "flex",
@@ -169,6 +170,7 @@ export default function Home({ singleItemDetail }: Props) {
               />
             </Box>
             {!isMobile && <SitesIcon></SitesIcon>}
+            {/* FIXME: Move it to a component */}
             <Box
               sx={{
                 position: "fixed",
