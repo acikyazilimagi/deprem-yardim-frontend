@@ -51,7 +51,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
     isLoading,
     error,
   } = useSWR<Data | undefined>(
-    locationsURL(drawerData?.reference),
+    drawerData?.reference ? locationsURL(drawerData?.reference) : null,
     dataFetcher
   );
   const data = dataTransformer(rawData);
