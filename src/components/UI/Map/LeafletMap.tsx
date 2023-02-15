@@ -5,7 +5,6 @@ import {
   useIsDrawerOpen,
   useMapActions,
   useMapType,
-  useMarkerData,
 } from "@/stores/mapStore";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
@@ -18,6 +17,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { memo, useEffect, useMemo, useRef } from "react";
 import { TileLayer, useMapEvents } from "react-leaflet";
+
 import { useDebouncedCallback } from "use-debounce";
 import { Tags } from "../Tag/Tag.types";
 import {
@@ -33,6 +33,7 @@ import ViewControl from "./ViewControl";
 import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
+import { useAreasMarkerData } from "@/stores/areasStore";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -198,7 +199,7 @@ interface ILeafletMap {
 function LeafletMap(props: ILeafletMap) {
   const { setCoordinates } = useURLActions();
   const router = useRouter();
-  const data = useMarkerData();
+  const data = useAreasMarkerData();
   const isOpen = useIsDrawerOpen();
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData, setEventType } = useMapActions();

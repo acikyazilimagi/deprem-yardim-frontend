@@ -1,35 +1,40 @@
 import { PartialDataError } from "@/errors";
-import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
-import { DataLite } from "@/mocks/TypesAreasEndpoint";
-import { dataFetcher } from "@/services/dataFetcher";
-import { useEventType, setMarkerData } from "@/stores/mapStore";
+import { useEventType } from "@/stores/mapStore";
 import {
   useChannelFilterMenuOption,
   useCoordinates,
   useReasoningFilterMenuOption,
   useTimeStamp,
 } from "@/stores/urlStore";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
-import { dataTransformerLite } from "@/utils/dataTransformer";
 import { areasURL } from "@/utils/urls";
 import { useState, useEffect, useCallback } from "react";
 import { useSnackbar } from "@/components/base/Snackbar";
 import useSWR from "swr";
 import { useTranslation } from "next-i18next";
+import {
+  useAreasActions,
+  useAreasStoreError,
+  useShouldFetchNextOption,
+} from "@/stores/areasStore";
+import { dataFetcher } from "@/services/dataFetcher";
+import { DataLite } from "@/mocks/TypesAreasEndpoint";
+import { dataTransformerLite } from "@/utils/dataTransformer";
 
 export function useGetAreas() {
   const [sendRequest, setSendRequest] = useState(false);
-  const [shouldFetchNextOption, setShouldFetchNextOption] =
-    useState<boolean>(false);
   const [slowLoading, setSlowLoading] = useState(false);
   const [url, setURL] = useState(new URL(areasURL));
-  const [error, setError] = useState<Error | null>(null);
 
+  const { setError, setMarkerData, setShouldFetchNextOption } =
+    useAreasActions();
+
+  const shouldFetchNextOption = useShouldFetchNextOption();
   const eventType = useEventType();
   const coordinates = useCoordinates();
   const timeStamp = useTimeStamp();
   const reasoning = useReasoningFilterMenuOption();
   const channel = useChannelFilterMenuOption();
+  const error = useAreasStoreError();
 
   const { t } = useTranslation(["common"]);
 
@@ -61,11 +66,6 @@ export function useGetAreas() {
     setSendRequest(true);
   }, [channel, coordinates, reasoning, timeStamp]);
 
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setSendRequest(true),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
-
   const getMarkers = useCallback(
     (_url: string) => {
       if (!sendRequest) return;
@@ -77,13 +77,8 @@ export function useGetAreas() {
   );
 
   useEffect(() => {
-    if (eventType === "moveend" || eventType === "zoomend") {
-      resetThrottling();
-      return;
-    }
-
     setSendRequest(true);
-  }, [eventType, resetThrottling, url.href, sendRequest]);
+  }, [eventType, url.href, sendRequest]);
 
   const { isLoading, isValidating } = useSWR<DataLite | undefined>(
     sendRequest ? url.href : null,
@@ -109,12 +104,9 @@ export function useGetAreas() {
   );
 
   return {
-    resetThrottling,
-    remainingTime,
     setSendRequest,
     shouldFetchNextOption,
     slowLoading,
-    resetShouldFetchNextOption: () => setShouldFetchNextOption(false),
     error,
     isLoading,
     isValidating,

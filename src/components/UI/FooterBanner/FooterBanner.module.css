@@ -9,15 +9,8 @@
   color: white;
   left: 0;
   right: 0;
-}
-
-.footerWrapper {
-  width: 100%;
-  position: relative;
-}
-
-.footerWrapper :first-child {
-  bottom: 0;
+  width: 24rem;
+  margin: 0 auto;
 }
 
 .footer .dismissible {
@@ -26,7 +19,6 @@
   border-radius: 8px;
   background-color: rgba(220, 20, 60, 0.768);
   padding: 1.7rem 0.9rem 0.9rem 0.9rem;
-  width: 24rem;
   z-index: 999;
   bottom: 0.5rem;
   margin: auto;
@@ -74,11 +66,5 @@
   .footer .dismissible span {
     letter-spacing: -0.2px;
     width: 16rem;
-  }
-
-  .footerWrapper {
-    gap: 8px;
-    display: flex;
-    flex-direction: column;
   }
 }

@@ -1,5 +1,5 @@
 import { MarkerData, MarkerVisited } from "@/mocks/types";
-import { useMapActions, setMarkerData } from "@/stores/mapStore";
+import { useMapActions } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
 import {
@@ -10,9 +10,11 @@ import {
 
 import * as localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";
+import { useAreasActions } from "@/stores/areasStore";
 
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
+  const { setMarkerData } = useAreasActions();
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
