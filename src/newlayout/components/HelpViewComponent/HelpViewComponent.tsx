@@ -177,7 +177,7 @@ export const HelpViewComponent = () => {
 const styles = {
   container: (theme: Theme) => ({
     padding: "0 !important",
-
+    pointerEvents: "all",
     [theme.breakpoints.up("xs")]: {
       backgroundColor: "primary.200",
     },
