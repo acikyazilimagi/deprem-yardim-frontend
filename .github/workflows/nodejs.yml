@@ -1,6 +1,4 @@
 name: Node.JS CI - Check Lint - Code Format - Build AfetHarita
-env:
-  NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
 on:
   push:
     branches: [main, development]
@@ -33,6 +31,8 @@ jobs:
         run: |
           yarn prettier
       - name: Build AfetHarita
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
         if: ${{ success() }}
         run: |
           yarn build
