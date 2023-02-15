@@ -1,5 +1,4 @@
 import { PartialDataError } from "@/errors";
-import useIncrementalThrottling from "@/hooks/useIncrementalThrottling";
 import { useEventType } from "@/stores/mapStore";
 import {
   useChannelFilterMenuOption,
@@ -7,7 +6,6 @@ import {
   useReasoningFilterMenuOption,
   useTimeStamp,
 } from "@/stores/urlStore";
-import { REQUEST_THROTTLING_INITIAL_SEC } from "@/utils/constants";
 import { areasURL } from "@/utils/urls";
 import { useState, useEffect, useCallback } from "react";
 import { useSnackbar } from "@/components/base/Snackbar";
@@ -68,11 +66,6 @@ export function useGetAreas() {
     setSendRequest(true);
   }, [channel, coordinates, reasoning, timeStamp]);
 
-  const [remainingTime, resetThrottling] = useIncrementalThrottling(
-    () => setSendRequest(true),
-    REQUEST_THROTTLING_INITIAL_SEC
-  );
-
   const getMarkers = useCallback(
     (_url: string) => {
       if (!sendRequest) return;
@@ -84,13 +77,8 @@ export function useGetAreas() {
   );
 
   useEffect(() => {
-    if (eventType === "moveend" || eventType === "zoomend") {
-      resetThrottling();
-      return;
-    }
-
     setSendRequest(true);
-  }, [eventType, resetThrottling, url.href, sendRequest]);
+  }, [eventType, url.href, sendRequest]);
 
   const { isLoading, isValidating } = useSWR<DataLite | undefined>(
     sendRequest ? url.href : null,
@@ -116,8 +104,6 @@ export function useGetAreas() {
   );
 
   return {
-    resetThrottling,
-    remainingTime,
     setSendRequest,
     shouldFetchNextOption,
     slowLoading,

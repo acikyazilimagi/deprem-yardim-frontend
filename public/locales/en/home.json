@@ -1,7 +1,6 @@
 {
     "scanner": {
         "text": "SCAN FIELD",
-        "remaining": "Will be scanned automatically in <strong>{{time}}</strong> sec"
     },
     "filter": {
         "title": "Filter",

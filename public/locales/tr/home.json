@@ -1,7 +1,6 @@
 {
     "scanner": {
         "text": "ALANI TARA",
-        "remaining": "<strong>{{time}}</strong> sn sonra otamatik taranacak"
     },
     "filter": {
         "title": "Filtre",
