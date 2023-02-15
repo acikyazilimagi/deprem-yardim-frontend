@@ -1,75 +1,156 @@
+//#region imports
 import {
   Box,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
+  Chip,
   Fade,
   IconButton,
+  List,
+  Stack,
   Typography,
 } from "@mui/material";
-import { ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+import CircleIcon from "@mui/icons-material/Circle";
 import CloseIcon from "@mui/icons-material/Close";
+import { useRouter } from "next/router";
+import { data } from "./data";
+//#endregion
+//#region interfaces
 interface HelpViewStore {
   isOpen: boolean;
   // for void return functions, input values will not be use in interface
   // eslint-disable-next-line no-unused-vars
-  toggle: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  toggle: (checked: boolean) => void;
 }
-
+//#endregion
+//#region store
 export const useHelpView = create<HelpViewStore>()(
   devtools(
     (set) => ({
       isOpen: false,
-      toggle: (event: ChangeEvent<HTMLInputElement>, checked: boolean) =>
+      toggle: (checked: boolean) =>
         set(() => ({ isOpen: checked }), undefined, { type: "set" }),
     }),
     { name: "HelpViewStore" }
   )
 );
-
+//#endregion
+//#region component
 export const HelpViewComponent = () => {
+  const { locale } = useRouter();
   const helpView = useHelpView();
+  const [selectedLocale, setselectedLocale] = useState(data.tr);
+  const chipColorSelector = (item: string) => {
+    switch (item) {
+      case "1":
+        return "#FAF7BF";
+      case "2":
+        return "#FCD73F";
+      case "3":
+        return "#FDAE33";
+      case "4":
+        return "#FE8427";
+      case "5":
+        return "#FE591D";
+      default:
+        return "#EB2032";
+    }
+  };
+  useEffect(() => {
+    //TODO: Data interface required
+    //@ts-ignore
+    setselectedLocale(locale === "en" ? data.en : data.tr);
+  }, [locale]);
+
   return (
     <Fade in={helpView.isOpen}>
       <Box>
         <Card sx={{ maxWidth: 550 }}>
           <CardHeader
             action={
-              <IconButton aria-label="close">
+              <IconButton
+                aria-label="close"
+                onClick={() => {
+                  helpView.toggle(false);
+                }}
+              >
                 <CloseIcon />
               </IconButton>
             }
-            title="Kullanım Kılavuzu"
+            title={selectedLocale.title.data.text}
           />
           <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Word of the Day
-            </Typography>
-            <Typography variant="h5" component="div">
-              be*nev*o*lent
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              adjective
-            </Typography>
-            <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-            </Typography>
+            {selectedLocale.blocks.map((block) => {
+              switch (block.type) {
+                case "header":
+                  return (
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="primary.500"
+                      gutterBottom
+                    >
+                      {block.data.text}
+                    </Typography>
+                  );
+                case "list":
+                  return (
+                    <List>
+                      {block.data.items?.map((item, index) => (
+                        <Box component="ul" key={`help-view-list-${index}`}>
+                          <Typography component="li" variant="body2">
+                            {item}
+                          </Typography>
+                        </Box>
+                      ))}
+                    </List>
+                  );
+                case "table":
+                  return (
+                    <Stack direction="row" spacing={1} sx={{ marginTop: 3 }}>
+                      {block.data.content?.map((item, index) => {
+                        const firstOrLast =
+                          index === 0 ||
+                          index === (block.data.content?.length as number) - 1;
+                        const shouldShowLabel = firstOrLast
+                          ? item[0]
+                          : undefined;
+                        const chipColor = chipColorSelector(item[1]);
+                        return (
+                          <Chip
+                            key={`help-view-chip-${index}`}
+                            label={shouldShowLabel}
+                            icon={
+                              <CircleIcon
+                                sx={{
+                                  fill: chipColor,
+                                }}
+                              />
+                            }
+                          />
+                        );
+                      })}
+                    </Stack>
+                  );
+                default:
+                  return (
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="primary.500"
+                      gutterBottom
+                    >
+                      {block.data.text}
+                    </Typography>
+                  );
+              }
+            })}
           </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
         </Card>
       </Box>
     </Fade>
   );
 };
+//#endregion
