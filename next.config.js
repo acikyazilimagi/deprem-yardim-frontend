@@ -1,4 +1,5 @@
 const path = require("path");
+const { i18n } = require("./next-i18next.config");
 const CopyPlugin = require("copy-webpack-plugin");
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -28,9 +29,5 @@ module.exports = {
     loader: "akamai",
     path: ".",
   },
-  i18n: {
-    defaultLocale: "tr",
-    locales: ["en", "tr"],
-    localePath: path.resolve("./public/locales"),
-  },
+  i18n,
 };
