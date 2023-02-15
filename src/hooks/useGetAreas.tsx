@@ -6,6 +6,7 @@ import {
   useReasoningFilterMenuOption,
   useTimeStamp,
 } from "@/stores/urlStore";
+import { DataLite } from "@/types";
 import { areasURL } from "@/utils/urls";
 import { useState, useEffect, useCallback } from "react";
 import { useSnackbar } from "@/components/base/Snackbar";
@@ -17,7 +18,6 @@ import {
   useShouldFetchNextOption,
 } from "@/stores/areasStore";
 import { dataFetcher } from "@/services/dataFetcher";
-import { DataLite } from "@/mocks/TypesAreasEndpoint";
 import { dataTransformerLite } from "@/utils/dataTransformer";
 
 export function useGetAreas() {
