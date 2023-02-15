@@ -1,4 +1,6 @@
 name: Node.JS CI - Check Lint - Code Format - Build AfetHarita
+env:
+  NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
 on:
   push:
     branches: [main, development]
