@@ -2,7 +2,6 @@ import {
   Box,
   Card,
   CardContent,
-  CardHeader,
   Fade,
   IconButton,
   Typography,
@@ -60,14 +59,14 @@ export const MapTypeMapLayerViewComponent = () => {
     <Fade in={isOpen}>
       <Box>
         <Card sx={{ maxWidth: 550 }}>
-          <CardHeader
-            action={
-              <IconButton aria-label="close" onClick={() => toggle(false)}>
-                <CloseIcon />
-              </IconButton>
-            }
-          />
           <CardContent>
+            <IconButton
+              sx={{ float: "right" }}
+              aria-label="close"
+              onClick={() => toggle(false)}
+            >
+              <CloseIcon />
+            </IconButton>
             <Typography fontSize="18px" sx={{ paddingTop: "1rem" }}>
               {t("map.type")}
             </Typography>
@@ -76,7 +75,9 @@ export const MapTypeMapLayerViewComponent = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "flex-start",
-                margin: "0.5rem 0",
+                margin: "0.5rem 0 1rem",
+                borderBottom: "1px solid #ddd",
+                paddingBottom: "1rem",
               }}
             >
               <LayerButton

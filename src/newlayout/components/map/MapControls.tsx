@@ -1,7 +1,6 @@
 import React from "react";
 import ButtonControl from "./ButtonControl";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
-import { AttributionControl } from "react-leaflet";
 import Control from "react-leaflet-custom-control";
 import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
@@ -9,6 +8,14 @@ import {
   MapTypeMapLayerViewComponent,
   useMTMLView,
 } from "../MTMLViewComponent/MTMLViewComponent";
+import { MapType } from "../MTMLViewComponent/types";
+import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
+
+const typeImages: Record<MapType, string> = {
+  [MapType.Default]: "default",
+  [MapType.Satellite]: "satellite",
+  [MapType.Terrain]: "terrain",
+};
 
 const MapControls: React.FC = () => {
   const helpView = useHelpView();
@@ -26,14 +33,28 @@ const MapControls: React.FC = () => {
       <Control position="bottomleft">
         <MapTypeMapLayerViewComponent />
       </Control>
-      <ButtonControl
+      <Control
         position="bottomleft"
-        title="Layers"
-        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+        container={{
+          className: "leaflet-bar",
+          style: {
+            background: "white",
+          },
+        }}
+      >
+        <LayerButton
+          onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+          image={typeImages[mtmlView.mapType]}
+          checked={false}
+        />
+      </Control>
+      <Control position="topright">Buttons...</Control>
+      <ButtonControl
+        position="bottomright"
+        title="Language"
+        onClick={() => {}}
         icon="/icons/stack-line.svg"
       />
-      <Control position="topright">Buttons...</Control>
-      <AttributionControl />
       <Control position="bottomright">
         <a href="./cerez.pdf" target="_blank">
           cookie
@@ -42,14 +63,8 @@ const MapControls: React.FC = () => {
         <a href="./gizlilik.pdf" target="_blank">
           privacy
         </a>
-        •<a>data</a>
+        •<a>data</a>•<a>leaflet</a>
       </Control>
-      <ButtonControl
-        position="bottomright"
-        title="Language"
-        onClick={() => {}}
-        icon="/icons/stack-line.svg"
-      />
     </>
   );
 };
