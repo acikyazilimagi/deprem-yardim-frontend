@@ -95,14 +95,18 @@ export async function getServerSideProps(context: any) {
 }
 
 const styles: IStyles = {
-  overlay: () => ({
+  overlay: (theme: Theme) => ({
     display: "flex",
     position: "fixed",
     flexDirection: "column",
-    top: 0,
-    left: "20px",
-    zIndex: 90000,
+    top: "85px",
+    left: "55px",
+    zIndex: 1100,
     pointerEvents: "none",
+    [theme.breakpoints.down("sm")]: {
+      top: "0px",
+      left: "0px",
+    },
   }),
   fixedMidBottom: () => ({
     position: "fixed",
@@ -110,7 +114,7 @@ const styles: IStyles = {
     left: "0px",
     width: "100%",
     height: "110px",
-    zIndex: 90000,
+    zIndex: 900,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
