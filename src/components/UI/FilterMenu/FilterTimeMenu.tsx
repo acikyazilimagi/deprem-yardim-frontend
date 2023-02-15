@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
-import { addParameterToUrl, getParameterValueFromUrl } from "@/utils/helpers";
+import { addParameterToURL, getParameterValueFromURL } from "@/utils/helpers";
 
 type TimeOption =
   | "last30Minutes"
@@ -92,7 +92,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
   };
 
   useEffect(() => {
-    const value = getParameterValueFromUrl(parameterName);
+    const value = getParameterValueFromURL(parameterName);
     if (!value) return;
     setSelectedValue(value as TimeOption);
   }, []);
@@ -101,7 +101,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
     const value = event.currentTarget.dataset.value as TimeOption;
 
     setSelectedValue(value);
-    addParameterToUrl(parameterName, value);
+    addParameterToURL(parameterName, value);
 
     handleClose();
   };

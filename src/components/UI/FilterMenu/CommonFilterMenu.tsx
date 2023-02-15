@@ -2,7 +2,7 @@ import { useEffect, useState, MouseEvent, ReactElement } from "react";
 import { Menu, MenuItem } from "@mui/material";
 import FilterMenuButton from "./FilterMenuButton";
 import { useTranslation } from "next-i18next";
-import { addParameterToUrl, getParameterValueFromUrl } from "@/utils/helpers";
+import { addParameterToURL, getParameterValueFromURL } from "@/utils/helpers";
 
 export type FilterMenuOption<ValueType> = {
   label: string;
@@ -40,15 +40,15 @@ function CommonFilterMenu<ValueType>({
   const handleMenuItemClick = (event: MouseEvent<HTMLLIElement>) => {
     const value = (event.currentTarget.dataset.value ?? null) as ValueType;
     setSelectedValue(value);
-    addParameterToUrl(
+    addParameterToURL(
       parameterName,
-      (event.currentTarget.dataset.value ?? null) as string
+      (event.currentTarget.dataset.value ?? "") as string
     );
     handleClose();
   };
 
   useEffect(() => {
-    const value = getParameterValueFromUrl(parameterName);
+    const value = getParameterValueFromURL(parameterName);
     setSelectedValue(value as ValueType);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -5,7 +5,7 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import Checkbox from "@mui/material/Checkbox";
 import ListItemText from "@mui/material/ListItemText";
-import { addParameterToUrl, getParameterValueFromUrl } from "@/utils/helpers";
+import { addParameterToURL, getParameterValueFromURL } from "@/utils/helpers";
 
 const reasonFilterMenuOptions: string[] = [
   "barinma",
@@ -40,11 +40,11 @@ export const ReasonFilterMenu: React.FC = () => {
       typeof value === "string" ? value.split(",") : value;
 
     setValues(selectedReasons);
-    addParameterToUrl(parameterName, value);
+    addParameterToURL(parameterName, value);
   };
 
   React.useEffect(() => {
-    const value = getParameterValueFromUrl(parameterName);
+    const value = getParameterValueFromURL(parameterName);
     if (value) {
       setValues(value.split(","));
     }
