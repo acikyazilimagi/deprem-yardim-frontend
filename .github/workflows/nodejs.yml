@@ -31,8 +31,6 @@ jobs:
         run: |
           yarn prettier
       - name: Build AfetHarita
-        env:
-          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
         if: ${{ success() }}
         run: |
           yarn build
