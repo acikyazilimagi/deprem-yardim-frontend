@@ -49,12 +49,12 @@ const ClusterPopup = (props: ComponentProps<typeof Card>) => {
   const { setPopUpData } = useMapActions();
   const { enqueueInfo, closeSnackbar } = useSnackbar();
   const windowSize = useWindowSize();
+  const data = usePopUpData();
 
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false);
 
-  const data = usePopUpData();
-  const lat = data?.baseMarker.geometry.location.lat ?? 0;
-  const lng = data?.baseMarker.geometry.location.lng ?? 0;
+  const lat = data?.baseMarker.lat ?? 0;
+  const lng = data?.baseMarker.lng ?? 0;
   const tag = findTagByClusterCount(data?.count ?? 0);
 
   useEffect(() => {

@@ -72,11 +72,13 @@ export function useMapClickHandlers() {
   );
 
   const handleClusterClick = useCallback(
-    (markers: MarkerData[], count: number = 0) => {
+    (location: any, count: number = 0) => {
       setPopUpData({
         count,
-        baseMarker: markers[0],
-        markers: [],
+        baseMarker: {
+          lat: location.coordinates[1],
+          lng: location.coordinates[0],
+        },
       });
     },
     [setPopUpData]

@@ -220,8 +220,10 @@ export type MarkerVisited = {
 
 export type ClusterPopupData = {
   count: number;
-  baseMarker: MarkerData;
-  markers: any[];
+  baseMarker: {
+    lat: number;
+    lng: number;
+  };
 };
 
 export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
