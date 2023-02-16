@@ -7,7 +7,6 @@ import dJSON from "dirty-json";
 import { APIChannel, APIResponse, Channel, ChannelData } from "@/types";
 import { BASE_URL } from "@/utils/constants";
 
-// @fdemir code begin =======
 type HandleLocationResponseOptions = {
   transformResponse: (_res: APIResponse & { extraParams: any }) => ChannelData;
 };
@@ -29,14 +28,6 @@ export const parseChannelData = (
   }
   return options.transformResponse({ ...item, extraParams });
 };
-
-const transformAPIResponse = (
-  data: APIResponse[],
-  options: HandleLocationResponseOptions
-): ChannelData[] => {
-  return data.map((item) => parseChannelData(item, options));
-};
-// @fdemir code end =======
 
 const generateURL = (apiChannels: APIChannel[]) => {
   return (
@@ -62,7 +53,9 @@ export default function useLocation(
     onSuccess: (data) => {
       if (!data) return;
 
-      const transformedProps = transformAPIResponse(data.results, options);
+      const transformedProps = data.results.map((item) =>
+        parseChannelData(item, options)
+      );
       setLocations(transformedProps);
     },
     onError: () => {

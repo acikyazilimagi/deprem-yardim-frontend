@@ -1,6 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
-import { FeedChannelSafePlacesProps } from "@/types";
 import { capitalize } from "@/utils/helpers";
+import { FeedChannelSafePlacesProps } from "../../types";
 
 export const FeedChannelSafePlaces = (props: FeedChannelSafePlacesProps) => {
   return (

@@ -1,6 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
-import { FeedChannelPharmacyProps } from "@/types";
 import capitalize from "@mui/utils/capitalize";
+import { FeedChannelPharmacyProps } from "../../types";
 
 export const FeedChannelPharmacy = (props: FeedChannelPharmacyProps) => {
   return (

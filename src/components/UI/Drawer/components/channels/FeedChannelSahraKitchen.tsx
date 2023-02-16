@@ -1,5 +1,5 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
-import { FeedChannelSahraProps } from "@/types";
+import { FeedChannelSahraProps } from "../../types";
 
 export const FeedChannelSahra = (props: FeedChannelSahraProps) => {
   return (

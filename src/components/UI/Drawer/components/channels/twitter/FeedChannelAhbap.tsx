@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
-import { FeedChannelAhbapProps } from "@/types";
 import { Divider } from "@mui/material";
 import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
+import { FeedChannelAhbapProps } from "../../../types";
 
 const getTypeLabel = (type: string) => {
   const id = type.split("-")[1];

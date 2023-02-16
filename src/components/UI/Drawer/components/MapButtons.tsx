@@ -1,17 +1,9 @@
-import { MarkerData } from "@/types";
 import React, { ReactNode } from "react";
 import { Apple, DriveEta, Google } from "@mui/icons-material";
 import styles from "../Drawer.module.css";
 import Button from "@mui/material/Button";
 import { useTranslation } from "next-i18next";
-import {
-  AhbapData,
-  TeleteyitData,
-  SatelliteData,
-  SahraKitchenData,
-  PharmacyData,
-  SafePlaceData,
-} from "@/types";
+import { DrawerData } from "@/stores/mapStore";
 
 interface MapsButton {
   label: string;
@@ -74,14 +66,7 @@ export const mapsButtons: MapsButton[] = [
 ];
 
 interface Props {
-  drawerData:
-    | MarkerData
-    | AhbapData
-    | TeleteyitData
-    | SatelliteData
-    | SahraKitchenData
-    | PharmacyData
-    | SafePlaceData;
+  drawerData: NonNullable<DrawerData>;
 }
 
 export default function MapButtons({ drawerData }: Props) {

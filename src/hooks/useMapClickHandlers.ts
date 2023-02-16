@@ -10,6 +10,7 @@ import { useAreasActions } from "@/stores/areasStore";
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
   const { setMarkerData } = useAreasActions();
+
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
@@ -60,6 +61,7 @@ export function useMapClickHandlers() {
       toggleDrawer();
 
       if (selectedMarkerData) {
+        console.log({ selectedMarkerData });
         setDrawerData({ ...selectedMarkerData, closeByRecords });
       }
     },
