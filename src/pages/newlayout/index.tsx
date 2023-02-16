@@ -43,7 +43,11 @@ const NHome = () => {
   const { defaultCenter } = useDefaultCenter();
   const { mapType } = useMTMLView();
   const device = useDevice();
-  const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
+  let dpr = 1;
+  if (typeof window !== "undefined") {
+    dpr = window.devicePixelRatio;
+  }
+  const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
   return (
     <>
       <UIElementsOverlay />
