@@ -1,3 +1,11 @@
+.wrapper {
+  display: flex;
+  padding: 0;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 500;
+}
+
 .formControl {
   display: flex;
   flex-direction: row;

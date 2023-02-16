@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Menu, MenuItem } from "@mui/material";
+import { Box, Menu, MenuItem } from "@mui/material";
 import TranslateIcon from "@mui/icons-material/Translate";
 import FilterMenuButton from "@/components/UI/FilterMenu/FilterMenuButton";
+import styles from "./LocaleSwitch.module.css";
 
 type Language = {
   locale: string;
@@ -48,7 +49,13 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
   };
 
   return (
-    <>
+    <Box
+      className={styles.wrapper}
+      sx={{
+        bottom: mobile ? "30px" : "90px",
+        right: mobile ? "10px" : "26px",
+      }}
+    >
       <FilterMenuButton
         ariaControls="locale-menu"
         open={open}
@@ -83,7 +90,7 @@ const LocaleSwitch: React.FC<LocaleSwitchProps> = ({
           </MenuItem>
         ))}
       </Menu>
-    </>
+    </Box>
   );
 };
 

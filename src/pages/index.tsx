@@ -22,7 +22,6 @@ import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
 import { DeviceType } from "@/types";
 import { CHANNEL_COUNT } from "@/utils/constants";
-import { Box } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -137,42 +136,13 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               </div>
             </div>
             <LeafletMap />
-            {/* FIXME: move it to a component */}
-            <Box
-              sx={{
-                display: "flex",
-                padding: "0",
-                borderRadius: "10px",
-                position: "absolute",
-                bottom: isMobile ? "30px" : "90px",
-                right: isMobile ? "10px" : "26px",
-                zIndex: 500,
-              }}
-            >
-              <LocaleSwitch
-                current={router.locale || "tr"}
-                onChange={onLanguageChange}
-                mobile={isMobile}
-              />
-            </Box>
+            <LocaleSwitch
+              current={router.locale || "tr"}
+              onChange={onLanguageChange}
+              mobile={isMobile}
+            />
             {!isMobile && <SitesIcon></SitesIcon>}
-            {/* FIXME: Move it to a component */}
-            <Box
-              sx={{
-                position: "fixed",
-                top: { md: "15px" },
-                bottom: { xs: "88px", md: "unset" },
-                left: "50%",
-                marginLeft: "-105px",
-                zIndex: "502",
-                display: "flex",
-                flexDirection: "column",
-                rowGap: "8px",
-                width: "210px",
-              }}
-            >
-              <ScanAreaButton />
-            </Box>
+            <ScanAreaButton />
           </RenderIf>
         </Container>
         <Drawer />
