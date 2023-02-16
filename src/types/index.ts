@@ -5,7 +5,7 @@ export type Channel =
   | "generic"
   | "teleteyit"
   | "uydu"
-  | "sahra_kitchen"
+  | "sahra_mutfak"
   | "turk_eczane"
   | "eczane_excel"
   | "guvenli_yerler_oteller";
