@@ -1,17 +1,13 @@
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
-import { FeedChannelBabalaProps } from "@/types";
 import { Divider } from "@mui/material";
 import { capitalize, isNaN } from "@/utils/helpers";
+import { FeedChannelBabalaProps } from "../../../types";
 
-const FeedChannelBabala = ({
-  full_text,
-  reason,
-  extra_parameters,
-}: FeedChannelBabalaProps) => {
+const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
   const extraValues =
-    extra_parameters &&
-    Object.entries(extra_parameters).map(([k, v]) => {
+    properties &&
+    Object.entries(properties).map(([k, v]) => {
       if (!isNaN(v) && v !== "<nil>" && (typeof v !== "string" || !!v.trim())) {
         return (
           <Typography key={k} style={styles.fullText}>
@@ -21,6 +17,8 @@ const FeedChannelBabala = ({
       }
     });
 
+  console.log({ properties });
+
   return (
     <>
       <div style={styles.container}>
@@ -28,12 +26,14 @@ const FeedChannelBabala = ({
           <Typography style={styles.logo}>Babala</Typography>
         </div>
         <Divider />
-        <Typography style={styles.fullText}>{full_text}</Typography>
+        <Typography style={styles.fullText}>
+          {properties.name_surname}
+        </Typography>
         {extraValues}
 
-        {!isNaN(reason) && reason && (
+        {!isNaN(properties.reason) && properties.reason && (
           <div style={styles.chip_container}>
-            <Chip label={capitalize(reason)} color="info" />
+            <Chip label={capitalize(properties.reason)} color="info" />
           </div>
         )}
       </div>

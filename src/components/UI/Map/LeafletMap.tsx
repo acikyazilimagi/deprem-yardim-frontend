@@ -1,9 +1,8 @@
 import Map from "@/components/UI/Map/Map";
-import { EVENT_TYPES, MarkerData } from "@/types";
+import { APIResponse, EVENT_TYPES } from "@/types";
 import {
   MapLayer,
   useDevice,
-  useIsDrawerOpen,
   useMapActions,
   useMapType,
 } from "@/stores/mapStore";
@@ -193,9 +192,7 @@ interface ILeafletMap {
 
 function LeafletMap(props: ILeafletMap) {
   const { setCoordinates } = useURLActions();
-  const router = useRouter();
   const data = useAreasMarkerData();
-  const isOpen = useIsDrawerOpen();
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
   const { defaultZoom } = useDefaultZoom();
@@ -203,34 +200,16 @@ function LeafletMap(props: ILeafletMap) {
 
   const points: Point[] = useMemo(
     () =>
-      data.map((marker: MarkerData) => [
+      data.map((marker: ChannelData) => [
         marker.geometry.location.lat,
         marker.geometry.location.lng,
         DEFAULT_IMPORTANCY,
       ]),
     [data]
   );
-  const { lat, lng, id } = router.query;
-  const device = useDevice();
-  const isIdExists = id;
 
-  useEffect(() => {
-    if (isIdExists && !isOpen) {
-      const tempDrawerData = {
-        reference: Number(id as string),
-        geometry: {
-          location: {
-            lat: parseFloat(lat as string),
-            lng: parseFloat(lng as string),
-          },
-        },
-        isVisited: false,
-      };
-      toggleDrawer();
-      setDrawerData(tempDrawerData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const device = useDevice();
+
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
   return (

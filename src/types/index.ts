@@ -51,6 +51,7 @@ export type BabalaParameters = {
   additional_notes: string;
   status: string;
   manual_confirmation: string;
+  reason: string;
 };
 
 export type TwitterParameters = {
@@ -214,24 +215,6 @@ export type ChannelData = DataProperties & {
 
 // export type MarkerData = [GeoJSON, ChannelData];
 
-export type FeedChannelBabalaProps = BabalaData;
-
-export type FeedChannelTwitterProps = TwitterData;
-
-export type FeedChannelAhbapProps = AhbapData;
-
-export type FeedChannelHospitalProps = HospitalData;
-
-export type FeedChannelTeleteyitProps = TeleteyitData;
-
-export type FeedChannelSatelliteProps = SatelliteData;
-
-export type FeedChannelSahraProps = SahraData;
-
-export type FeedChannelPharmacyProps = PharmacyData;
-
-export type FeedChannelSafePlacesProps = SafePlaceData;
-
 export type Data = {
   id: number;
   full_text: string;
@@ -245,11 +228,7 @@ export type Data = {
 
 export type DataLite = {
   count: number;
-  results: {
-    id: number;
-    entry_id: number;
-    loc: [number, number];
-  }[];
+  results: APIResponse[];
 };
 
 export type MarkerVisited = {

@@ -1,6 +1,5 @@
 import useSWR from "swr";
 import formatcoords from "formatcoords";
-import { dataTransformer } from "@/utils/dataTransformer";
 import { getTimeAgo } from "@/utils/date";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
@@ -17,11 +16,9 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
-import { Data } from "@/types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
 import { parseChannelData } from "@/hooks/useLocation";
-import { APIResponse } from "@/types";
 import { DrawerData } from "@/stores/mapStore";
 
 export interface ContentProps {
@@ -44,12 +41,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
         return parseChannelData(data, {
           transformResponse: (res) => ({
             channel: res.channel as "twitter" | "babala",
-            geometry: {
-              location: {
-                lat: res.loc[1],
-                lng: res.loc[0],
-              },
-            },
+            geometry: { location: { lat: 0, lng: 0 } },
             properties: res as any,
           }),
         });
@@ -61,6 +53,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const { handleMarkerClick: toggler } = useMapClickHandlers();
   const router = useRouter();
   const locale = router.locale;
+
+  console.log({ error });
 
   if (!drawerData) {
     return null;

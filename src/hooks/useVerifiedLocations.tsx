@@ -1,15 +1,4 @@
-import {
-  FOOD_URL,
-  AHBAP_LOCATIONS_URL,
-  HOSPITAL_LOCATIONS_URL,
-  TELETEYIT_URL,
-  SATELLITE_URL,
-  SAHRA_KITCHEN_URL,
-  PHARMACY_URL,
-  SAFE_PLACES_URL,
-} from "@/utils/constants";
 import useLocation from "./useLocation";
-import { ChannelData } from "@/types";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
 // TODO: Remove this hook and use hooks defined above in relevant components
@@ -28,6 +17,7 @@ export function useVerifiedLocations() {
       };
     },
   });
+
   const ahbapLocations = useLocation(["ahbap_location"], "ahbap", {
     transformResponse: (res) => {
       return {
@@ -97,6 +87,7 @@ export function useVerifiedLocations() {
       };
     },
   });
+
   const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
     transformResponse: (res) => {
       return {
@@ -117,6 +108,7 @@ export function useVerifiedLocations() {
       };
     },
   });
+
   const pharmacyLocations = useLocation(
     ["eczane_excel", "turk_eczane"],
     "eczane",

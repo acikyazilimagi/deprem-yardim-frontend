@@ -1,4 +1,4 @@
-import { ChannelData, MarkerData } from "@/types";
+import { ChannelData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
 import ClusterGroup from "./ClusterGroup";
@@ -12,15 +12,8 @@ export type Point = [number, number, number];
 
 type Props = {
   points: Point[];
-  data: MarkerData[];
+  data: ChannelData[];
   locations: Record<MapLayer, ChannelData[]>;
-};
-
-const LocationPropertyMap: any = {
-  [MapLayer.SahraMutfak]: {
-    name: "name",
-    verified: "is_location_verified",
-  },
 };
 
 const LayerControl = ({ points, data, locations }: Props) => {

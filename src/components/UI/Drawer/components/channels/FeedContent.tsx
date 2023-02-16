@@ -5,8 +5,11 @@ import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSatellite } from "./FeedChannelSatellite";
 import { FeedChannelSahra } from "./FeedChannelSahraKitchen";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
+import { Channel, BaseFeedChannel } from "@/types";
+import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
+import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
+import { DrawerData } from "@/stores/mapStore";
 import {
-  Channel,
   FeedChannelAhbapProps,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
@@ -15,11 +18,7 @@ import {
   FeedChannelSafePlacesProps,
   FeedChannelPharmacyProps,
   FeedChannelSahraProps,
-  BaseFeedChannel,
-} from "@/types";
-import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
-import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
-import { DrawerData } from "@/stores/mapStore";
+} from "../../types";
 
 type Props = {
   content: DrawerData;
