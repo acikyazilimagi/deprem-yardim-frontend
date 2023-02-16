@@ -1,6 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
-import { FeedChannelTeleteyitProps } from "@/types";
 import { capitalize } from "@/utils/helpers";
+import { FeedChannelTeleteyitProps } from "../../types";
 
 export const FeedChannelTeleteyit = (props: FeedChannelTeleteyitProps) => {
   return (

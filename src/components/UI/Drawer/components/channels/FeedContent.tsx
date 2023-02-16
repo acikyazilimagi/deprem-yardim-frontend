@@ -1,12 +1,15 @@
 import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
 import FeedChannelBabala from "./babala/FeedChannelBabala";
-import FeedChannelGeneric from "./FeedChannelGeneric";
+import { FeedChannelGeneric } from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSatellite } from "./FeedChannelSatellite";
 import { FeedChannelSahra } from "./FeedChannelSahraKitchen";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
+import { Channel, BaseFeedChannel, ChannelData } from "@/types";
+import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
+import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
+import { DrawerData } from "@/stores/mapStore";
 import {
-  Channel,
   FeedChannelAhbapProps,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
@@ -15,18 +18,15 @@ import {
   FeedChannelSafePlacesProps,
   FeedChannelPharmacyProps,
   FeedChannelSahraProps,
-  BaseFeedChannel,
-} from "@/types";
-import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
-import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
-import { DrawerData } from "@/stores/mapStore";
+  FeedChannelHospitalProps,
+} from "../../types";
 
 type Props = {
   content: DrawerData;
 };
 
 const contentMapper = {
-  generic: (source: BaseFeedChannel<any>) => <FeedChannelGeneric {...source} />,
+  generic: (source: ChannelData) => <FeedChannelGeneric {...source} />,
   twitter: (source: FeedChannelTwitterProps) => (
     <FeedChannelTwitter {...source} />
   ),

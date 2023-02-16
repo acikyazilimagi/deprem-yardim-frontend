@@ -4,17 +4,17 @@ import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
-import { MarkerData } from "@/types";
 import { Marker, MarkerProps, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import styles from "./Map.module.css";
+import { BabalaData, ChannelData, TwitterData } from "@/types";
 
 type Props = {
-  data: MarkerData[];
+  data: ChannelData[];
 };
 
 type ExtendedMarkerProps = MarkerProps & {
-  markerData: MarkerData;
+  markerData: TwitterData | BabalaData;
 };
 
 function ExtendedMarker({ ...props }: ExtendedMarkerProps) {

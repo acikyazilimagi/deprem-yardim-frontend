@@ -7,7 +7,9 @@ export type APIChannel =
   | "sahra_mutfak"
   | "turk_eczane"
   | "eczane_excel"
-  | "guvenli_yerler_oteller";
+  | "guvenli_yerler_oteller"
+  | "twitter"
+  | "babala";
 
 export type APIResponse = {
   id: number;
@@ -45,12 +47,30 @@ export interface BaseFeedChannel<T> {
   reason?: string | null;
 }
 
+export type Point = {
+  lat: number;
+  lng: number;
+};
+
+export type Geometry = {
+  location: Point;
+};
+
 export type BabalaParameters = {
   name_surname: string;
   tel: number;
   additional_notes: string;
   status: string;
   manual_confirmation: string;
+  formatted_address?: string;
+  timestamp?: string;
+  full_text?: string;
+  reason?: string | null;
+  name?: string;
+  icon?: string;
+  description?: string;
+
+  extraParams: any;
 };
 
 export type TwitterParameters = {
@@ -62,15 +82,12 @@ export type TwitterParameters = {
   hashtags: string;
   user_account_created_at: string;
   media: string;
-};
-
-export type Point = {
-  lat: number;
-  lng: number;
-};
-
-export type Geometry = {
-  location: Point;
+  formatted_address?: string;
+  timestamp?: string;
+  full_text?: string;
+  reason?: string | null;
+  icon?: string;
+  description?: string;
 };
 
 export type AhbapDataProperties = {
@@ -101,6 +118,7 @@ export type SatelliteDataProperties = {
   damage: string;
   verified: boolean;
   icon: string;
+  description?: string;
 };
 
 export type SahraDataProperties = {
@@ -109,6 +127,7 @@ export type SahraDataProperties = {
   reason: string;
   verified: boolean;
   icon: string;
+  description?: string;
 };
 
 export type PharmacyDataProperties = {
@@ -125,6 +144,8 @@ export type SafePlaceDataProperties = {
   reason: string;
   verified: boolean;
   name: string;
+  icon?: string;
+  description?: string;
 };
 
 export type FoodDataProperties = {
@@ -214,24 +235,6 @@ export type ChannelData = DataProperties & {
 
 // export type MarkerData = [GeoJSON, ChannelData];
 
-export type FeedChannelBabalaProps = BabalaData;
-
-export type FeedChannelTwitterProps = TwitterData;
-
-export type FeedChannelAhbapProps = AhbapData;
-
-export type FeedChannelHospitalProps = HospitalData;
-
-export type FeedChannelTeleteyitProps = TeleteyitData;
-
-export type FeedChannelSatelliteProps = SatelliteData;
-
-export type FeedChannelSahraProps = SahraData;
-
-export type FeedChannelPharmacyProps = PharmacyData;
-
-export type FeedChannelSafePlacesProps = SafePlaceData;
-
 export type Data = {
   id: number;
   full_text: string;
@@ -245,11 +248,7 @@ export type Data = {
 
 export type DataLite = {
   count: number;
-  results: {
-    id: number;
-    entry_id: number;
-    loc: [number, number];
-  }[];
+  results: APIResponse[];
 };
 
 export type MarkerVisited = {

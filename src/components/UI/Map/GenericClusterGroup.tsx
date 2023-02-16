@@ -48,7 +48,6 @@ Props) => {
 
   const bounds = map.getBounds();
 
-  console.debug(data);
   const geoJSON = data.map((item) => {
     return {
       type: "Feature",
@@ -56,6 +55,7 @@ Props) => {
         type: "Point",
         coordinates: [item.geometry.location.lat, item.geometry.location.lng],
       },
+      item,
       properties: item.properties,
     };
   });
@@ -112,7 +112,7 @@ Props) => {
             })}
             eventHandlers={{
               click: (e) => {
-                onMarkerClick(e, cluster);
+                onMarkerClick(e, cluster.item);
               },
             }}
           />

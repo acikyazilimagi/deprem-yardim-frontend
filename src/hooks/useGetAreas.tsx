@@ -68,11 +68,11 @@ export function useGetAreas() {
   }, [channel, coordinates, reasoning, timeStamp]);
 
   const getMarkers = useCallback(
-    (_url: string) => {
+    (url: string) => {
       if (!sendRequest) return;
       setSendRequest(false);
 
-      return dataFetcher(_url);
+      return dataFetcher(url);
     },
     [sendRequest]
   );

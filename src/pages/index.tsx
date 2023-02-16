@@ -21,7 +21,7 @@ import { useErrors } from "@/stores/errorStore";
 import { MapLayer, useDevice, useMapActions } from "@/stores/mapStore";
 import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
-import { DeviceType } from "@/types";
+import { APIResponse, DeviceType } from "@/types";
 import { CHANNEL_COUNT } from "@/utils/constants";
 import { Box } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -30,6 +30,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { parseChannelData } from "@/hooks/useLocation";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,10 +38,12 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 
 type Props = {
   deviceType: DeviceType;
-  singleItemDetail: any;
+  singleItemDetail: APIResponse;
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  console.log(">>>>", singleItemDetail);
+
   // gather location data from all channels
   const {
     ahbapLocations,
@@ -54,6 +57,58 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   } = useVerifiedLocations();
 
   const router = useRouter();
+  const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
+
+  // useEffect(() => {
+  //   if (singleItemDetail.channel) {
+  //     const channelData = parseChannelData(singleItemDetail, {
+  //       transformResponse: (res) => {
+  //         console.log({ res, singleItemDetail });
+  //         if (
+  //           res.channel.toLowerCase() === "twitter" ||
+  //           res.channel.toLowerCase() === "babala"
+  //         ) {
+  //           return {
+  //             channel: "twitter",
+  //             geometry: {
+  //               location: {
+  //                 lat: 0,
+  //                 lng: 0,
+  //               },
+  //             },
+  //             properties: {
+  //               reference: res.extraParams.entry_id,
+  //             },
+  //           };
+  //         }
+  //
+  //         return res;
+  //       },
+  //     });
+  //
+  //     setDrawerData(channelData);
+  //   }
+  // }, [setDrawerData, singleItemDetail]);
+
+  // useEffect(() => {
+  //   if (id && !isOpen) {
+  //     const tempDrawerData = {
+  //       channel: "generic",
+  //       reference: Number(id as string),
+  //       geometry: {
+  //         location: {
+  //           lat: parseFloat(lat as string),
+  //           lng: parseFloat(lng as string),
+  //         },
+  //       },
+  //       isVisited: false,
+  //       properties: {},
+  //     };
+  //     toggleDrawer();
+  //     setDrawerData(tempDrawerData as any);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   // next-i8next multilanguage support
   const { t } = useTranslation(["common", "home"]);

@@ -25,6 +25,7 @@ export enum MapLayer {
   Pharmacy = "pharmacy",
   SafePlaces = "safeplaces",
 }
+
 export type DrawerData = ChannelData | null;
 
 interface MapState {

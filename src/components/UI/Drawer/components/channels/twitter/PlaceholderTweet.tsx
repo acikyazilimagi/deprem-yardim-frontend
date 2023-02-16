@@ -1,16 +1,15 @@
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
-import { FeedChannelTwitterProps, TwitterParameters } from "@/types";
+import { TwitterParameters } from "@/types";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
 
 type Props = {
   source: TwitterParameters;
   reason: string;
-  full_text?: FeedChannelTwitterProps["full_text"];
 };
 
-const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
+const PlaceholderTweet = ({ source, reason }: Props) => {
   const reasons = reason
     .split(",")
     .filter((s) => s)
@@ -39,7 +38,7 @@ const PlaceholderTweet = ({ source, reason, full_text }: Props) => {
             <TwitterLogo />
           </div>
         </div>
-        <Typography style={styles.fullText}>{full_text}</Typography>
+        <Typography style={styles.fullText}>{source.full_text}</Typography>
         <div style={styles.chipContainer}>
           {!isNaN(reason) &&
             reasons.map((reason, i) => (
