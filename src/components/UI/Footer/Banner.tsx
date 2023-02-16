@@ -1,20 +1,21 @@
 import RenderIf from "@/components/UI/Common/RenderIf";
 import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import styles from "./FooterBanner.module.css";
+import styles from "./Banner.module.css";
 import { Trans } from "next-i18next";
+import {
+  useIsFooterBannerOpen,
+  useSetIsFooterBannerOpen,
+} from "@/stores/commonStore";
 
-interface FooterBannerProps {
-  onClick: () => void;
-  open: boolean;
-}
-
-export default function FooterBanner(props: FooterBannerProps) {
+export default function FooterBanner() {
   useDisableZoom();
+  const setIsFooterBannerOpen = useSetIsFooterBannerOpen();
+  const isOpen = useIsFooterBannerOpen();
 
   return (
     <footer className={styles.footer}>
-      <RenderIf condition={!props.open}>
+      <RenderIf condition={isOpen}>
         <span className={styles.dismissible}>
           <span>
             <Trans
@@ -25,7 +26,7 @@ export default function FooterBanner(props: FooterBannerProps) {
             />
           </span>
           <span className={styles.closeButton}>
-            <HighlightOffIcon onClick={props.onClick} />
+            <HighlightOffIcon onClick={() => setIsFooterBannerOpen(!isOpen)} />
           </span>
         </span>
       </RenderIf>

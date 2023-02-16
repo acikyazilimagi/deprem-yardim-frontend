@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import formatcoords from "formatcoords";
-import { CopyButton } from "../Button/CopyButton";
+import { CopyButton } from "../Button/Copy";
 import { useTranslation } from "next-i18next";
 import {
   generateGoogleMapsUrl,
