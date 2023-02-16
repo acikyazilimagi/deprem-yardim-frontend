@@ -1,12 +1,8 @@
-import { MarkerData, MarkerVisited } from "@/mocks/types";
+import { MarkerData, MarkerVisited } from "@/types";
 import { useMapActions } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
-import {
-  AhbapData,
-  SahraKitchenData,
-  TeleteyitData,
-} from "@/components/UI/Drawer/components/types";
+import { AhbapData, SahraKitchenData, TeleteyitData } from "@/types";
 
 import * as localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";

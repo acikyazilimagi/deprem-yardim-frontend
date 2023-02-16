@@ -29,6 +29,9 @@ git clone
 # Move to project directory
 cd deprem-yardim-frontend
 
+# Copy sample environment file to development environment file
+cp .env.sample .env.development
+
 # Install the dependencies
 yarn
 

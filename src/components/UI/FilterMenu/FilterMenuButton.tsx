@@ -11,19 +11,21 @@ type FilterMenuButtonProps = {
   sx?: SxProps<Theme> | undefined;
 };
 
+const filterMenuButtonStyles = {
+  background: "white",
+  color: "#344054",
+  "&:hover": { background: "white" },
+  border: "1px solid #BABBBE",
+  borderRadius: "8px",
+  height: "48px",
+};
+
 const FilterMenuButton: React.FC<FilterMenuButtonProps> = ({
   children,
   onClick,
   open,
   ariaControls,
-  sx = {
-    background: "white",
-    color: "#344054",
-    "&:hover": { background: "white" },
-    border: "1px solid #BABBBE",
-    borderRadius: "8px",
-    height: "48px",
-  },
+  sx = filterMenuButtonStyles,
 }) => {
   return (
     <Button

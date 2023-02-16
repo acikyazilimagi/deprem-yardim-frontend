@@ -1,4 +1,4 @@
-import { MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/types";
 import { useMapActions } from "@/stores/mapStore";
 import { Box, Button, Typography } from "@mui/material";
 import { Trans, useTranslation } from "next-i18next";
@@ -9,7 +9,7 @@ import {
   SahraKitchenData,
   SatelliteData,
   TeleteyitData,
-} from "./types";
+} from "@/types";
 
 type Props = {
   drawerData:

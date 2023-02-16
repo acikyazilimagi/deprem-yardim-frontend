@@ -1,46 +1,3 @@
-export type Channel =
-  | "twitter"
-  | "babala"
-  | "ahbap"
-  | "generic"
-  | "teleteyit"
-  | "uydu"
-  | "sahra_kitchen"
-  | "turk_eczane"
-  | "eczane_excel"
-  | "guvenli_yerler_oteller";
-export type ExtraParams = BabalaParameters | TwitterParameters;
-
-export interface BaseFeedChannel<T> {
-  id?: number;
-  full_text?: string;
-  is_resolved?: boolean;
-  channel?: Channel;
-  timestamp?: string;
-  extra_parameters: T;
-  formatted_address?: string;
-  reason?: string | null;
-}
-
-export type BabalaParameters = {
-  name_surname: string;
-  tel: number;
-  additional_notes: string;
-  status: string;
-  manual_confirmation: string;
-};
-
-export type TwitterParameters = {
-  user_id: string;
-  screen_name: string;
-  name: string;
-  tweet_id: string;
-  created_at: string;
-  hashtags: string;
-  user_account_created_at: string;
-  media: string;
-};
-
 export type AhbapData = {
   channel: "ahbap";
   properties: {
@@ -158,21 +115,3 @@ export type SafePlaceData = {
   };
   closeByRecords?: number[];
 };
-
-export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
-
-export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
-
-export type FeedChannelAhbapProps = AhbapData;
-
-export type FeedChannelHospitalProps = HospitalData;
-
-export type FeedChannelTeleteyitProps = TeleteyitData;
-
-export type FeedChannelSatelliteProps = SatelliteData;
-
-export type FeedChannelSahraKitchenProps = SahraKitchenData;
-
-export type FeedChannelPharmacyProps = PharmacyData;
-
-export type FeedChannelSafePlacesProps = SafePlaceData;

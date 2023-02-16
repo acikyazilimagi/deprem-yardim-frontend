@@ -1,4 +1,4 @@
-import { MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
 import { AhbapClusterGroup } from "./AhbapClusterGroup";

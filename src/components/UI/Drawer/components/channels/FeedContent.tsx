@@ -15,7 +15,7 @@ import {
   FeedChannelSatelliteProps,
   FeedChannelSahraKitchenProps,
   FeedChannelSafePlacesProps,
-} from "../types";
+} from "@/types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
 

@@ -1,5 +1,5 @@
 import Map from "@/components/UI/Map/Map";
-import { EVENT_TYPES, MarkerData } from "@/mocks/types";
+import { EVENT_TYPES, MarkerData } from "@/types";
 import {
   useDevice,
   useIsDrawerOpen,
@@ -283,9 +283,6 @@ function LeafletMap(props: ILeafletMap) {
           sahra_kitchen={props.sahra_kitchen}
           pharmacy={props.pharmacy}
           safePlaces={props.safePlaces}
-        />
-        <TileLayer
-          url={`https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`}
         />
         <TileLayer url={baseMapUrl} />
       </Map>
