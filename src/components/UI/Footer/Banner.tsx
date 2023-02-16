@@ -1,7 +1,7 @@
 import RenderIf from "@/components/UI/Common/RenderIf";
 import useDisableZoom from "@/hooks/useDisableZoom";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import styles from "./FooterBanner.module.css";
+import styles from "./Banner.module.css";
 import { Trans } from "next-i18next";
 import {
   useIsFooterBannerOpen,
