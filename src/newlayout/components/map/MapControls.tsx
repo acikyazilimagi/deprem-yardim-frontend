@@ -10,8 +10,11 @@ import {
 import { MapType } from "../MTMLViewComponent/types";
 import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
 import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
-import { Button } from "@mui/material";
-
+import { Button, Stack } from "@mui/material";
+import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
+import SearchIcon from "@mui/icons-material/Search";
+import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
+import Diversity1Icon from "@mui/icons-material/Diversity1";
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
   [MapType.Satellite]: "satellite",
@@ -39,6 +42,7 @@ const MapControls: React.FC = () => {
           className: "leaflet-bar",
           style: {
             background: "white",
+            borderRadius: "12px",
           },
         }}
       >
@@ -49,12 +53,35 @@ const MapControls: React.FC = () => {
         />
       </Control>
       <Control position="topright">
-        <Button variant="contained">Afetzede Bul</Button>
-        <Button variant="contained">Yardim Talepleri</Button>
-        <Button variant="contained">Hizmetler</Button>
+        <Stack display={"flex"} direction={"row"} columnGap={2}>
+          <Button
+            sx={{ backgroundColor: "#ffffff" }}
+            color="inherit"
+            variant="outlined"
+            startIcon={<SearchIcon />}
+          >
+            Afetzede Bul
+          </Button>
+          <Button
+            sx={{ backgroundColor: "#ffffff" }}
+            color="inherit"
+            variant="outlined"
+            startIcon={<WifiTetheringErrorIcon />}
+          >
+            Yardim Talepleri
+          </Button>
+          <Button
+            sx={{ backgroundColor: "#ffffff" }}
+            color="inherit"
+            variant="outlined"
+            startIcon={<Diversity1Icon />}
+          >
+            Hizmetler
+          </Button>
+        </Stack>
       </Control>
       <Control position="bottomright">
-        <Button variant="contained">Türkçe</Button>
+        <LocaleSwitchComponent />
       </Control>
       <Control position="bottomright">
         <AttributionComponent />

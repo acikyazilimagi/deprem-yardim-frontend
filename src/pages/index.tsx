@@ -5,9 +5,9 @@ import RenderIf from "@/components/UI/Common/RenderIf";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import Footer from "@/components/UI/Footer/Footer";
-import FooterBanner from "@/components/UI/FooterBanner/FooterBanner";
+import FooterBanner from "@/components/UI/Footer/Banner";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
-import ScanAreaButton from "@/components/UI/ScanAreaButton/ScanAreaButton";
+import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
@@ -29,7 +29,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -42,7 +42,6 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const [isFooterBannerOpen, setIsFooterBannerOpen] = useState<boolean>(false);
   const {
     ahbapLocations,
     hospitalLocations,
@@ -113,13 +112,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
-  const handleToggleFooterBanner = useCallback(() => {
-    setIsFooterBannerOpen(!isFooterBannerOpen);
-  }, [isFooterBannerOpen]);
-
-  const handleContextMenu = (e: any) => {
-    e.preventDefault();
-  };
+  const handleContextMenu = (e: any) => e.preventDefault();
 
   return (
     <>
@@ -166,6 +159,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 [MapLayer.Teleteyit]: teleteyitLocations,
               }}
             />
+            {/* FIXME: move it to a component */}
             <Box
               sx={{
                 display: "flex",
@@ -184,6 +178,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               />
             </Box>
             {!isMobile && <SitesIcon></SitesIcon>}
+            {/* FIXME: Move it to a component */}
             <Box
               sx={{
                 position: "fixed",
@@ -204,11 +199,8 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         </Container>
         <Drawer />
         <ClusterPopup />
-        <FooterBanner
-          open={isFooterBannerOpen}
-          onClick={handleToggleFooterBanner}
-        />
-        <Footer onClick={handleToggleFooterBanner} />
+        <FooterBanner />
+        <Footer />
       </main>
     </>
   );
