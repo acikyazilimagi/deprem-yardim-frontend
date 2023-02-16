@@ -16,6 +16,7 @@ const getSahraExtraParams = (item: any) => ({
   id: item.id,
   properties: item.properties,
   reason: item.reason,
+  verified: item.is_location_verified,
 });
 
 const getPharmacyExtraParams = (item: any) => ({

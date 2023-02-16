@@ -18,7 +18,8 @@ export function useMapClickHandlers() {
         | MarkerData
         | AhbapData
         | TeleteyitData
-        | SahraKitchenData,
+        | SahraKitchenData
+        | any,
       allMarkers?: MarkerData[]
     ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")

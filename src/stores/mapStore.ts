@@ -20,14 +20,14 @@ export enum MapLayer {
   Heatmap = "heatmap",
   Markers = "markers",
   Earthquakes = "earthquakes",
-  Ahbap = "Ahbap",
-  Hospital = "Hospital",
-  Food = "Food",
-  Teleteyit = "Teleteyit",
-  Satellite = "Satellite",
-  SahraMutfak = "SahraMutfak",
-  Pharmacy = "Pharmacy",
-  SafePlaces = "SafePlaces",
+  Ahbap = "ahbap",
+  Hospital = "hospital",
+  Food = "food",
+  Teleteyit = "teleteyit",
+  Satellite = "satellite",
+  SahraMutfak = "sahramutfak",
+  Pharmacy = "pharmacy",
+  SafePlaces = "safeplaces",
 }
 
 interface MapState {
@@ -49,6 +49,8 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
+
+    // after click a point, pass to drawer content
     setDrawerData: (
       data:
         | MarkerData
@@ -59,6 +61,7 @@ interface MapState {
         | PharmacyData
         | SafePlaceData
         | null
+        | any
     ) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setDevice: (device: DeviceType) => void;

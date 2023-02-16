@@ -1,6 +1,7 @@
 import Map from "@/components/UI/Map/Map";
 import { EVENT_TYPES, MarkerData } from "@/types";
 import {
+  MapLayer,
   useDevice,
   useIsDrawerOpen,
   useMapActions,
@@ -186,14 +187,7 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 };
 
 interface ILeafletMap {
-  ahbap: any[];
-  hospital: any[];
-  food: any[];
-  teleteyit: any[];
-  satellite: any[];
-  sahra_kitchen: any[];
-  pharmacy: any[];
-  safePlaces: any[];
+  locations: Partial<Record<MapLayer, any>>;
 }
 
 function LeafletMap(props: ILeafletMap) {
@@ -272,18 +266,7 @@ function LeafletMap(props: ILeafletMap) {
           }}
         />
         <MapEvents />
-        <LayerControl
-          points={points}
-          data={data}
-          food={props.food}
-          ahbap={props.ahbap}
-          hospital={props.hospital}
-          teleteyit={props.teleteyit}
-          satellite={props.satellite}
-          sahra_kitchen={props.sahra_kitchen}
-          pharmacy={props.pharmacy}
-          safePlaces={props.safePlaces}
-        />
+        <LayerControl points={points} data={data} locations={props.locations} />
         <TileLayer url={baseMapUrl} />
       </Map>
     </>

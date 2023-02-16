@@ -1,14 +1,10 @@
 import { MarkerData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
-import { AhbapClusterGroup } from "./AhbapClusterGroup";
 import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
-import { TeleteyitClusterGroup } from "@/components/UI/Map/TeleteyitClusterGroup";
-import { SatelliteClusterGroup } from "@/components/UI/Map/SatelliteClusterGroup";
-import { SahraKitchenClusterGroup } from "@/components/UI/Map/SahraKitchenClusterGroup";
-import { PharmacyClusterGroup } from "@/components/UI/Map/PharmacyClusterGroup";
-import { SafePlacesClusterGroup } from "@/components/UI/Map/SafePlacesClusterGroup";
+import { GenericClusterGroup } from "./GenericClusterGroup";
+import { DataSource } from "@/utils/data-source";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -17,28 +13,17 @@ export type Point = [number, number, number];
 type Props = {
   points: Point[];
   data: MarkerData[];
-  food: any[];
-  ahbap: any[];
-  hospital: any[];
-  teleteyit: any[];
-  satellite: any[];
-  sahra_kitchen: any[];
-  pharmacy: any[];
-  safePlaces: any[];
+  locations: Partial<Record<MapLayer, any>>;
 };
 
-const LayerControl = ({
-  points,
-  data,
-  ahbap,
-  food,
-  hospital,
-  teleteyit,
-  satellite,
-  sahra_kitchen,
-  pharmacy,
-  safePlaces,
-}: Props) => {
+const LocationPropertyMap: any = {
+  [MapLayer.SahraMutfak]: {
+    name: "name",
+    verified: "is_location_verified",
+  },
+};
+
+const LayerControl = ({ points, data, locations }: Props) => {
   const mapLayers = useMapLayers();
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
@@ -58,26 +43,19 @@ const LayerControl = ({
         />
       )}
       {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
-      {mapLayers.includes(MapLayer.Food) && <AhbapClusterGroup data={food} />}
-      {mapLayers.includes(MapLayer.Teleteyit) && (
-        <TeleteyitClusterGroup data={teleteyit} />
-      )}
-      {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
-      {mapLayers.includes(MapLayer.Hospital) && (
-        <AhbapClusterGroup data={hospital} />
-      )}
-      {mapLayers.includes(MapLayer.Satellite) && (
-        <SatelliteClusterGroup data={satellite} />
-      )}
-      {mapLayers.includes(MapLayer.SahraMutfak) && (
-        <SahraKitchenClusterGroup data={sahra_kitchen} />
-      )}
-      {mapLayers.includes(MapLayer.Pharmacy) && (
-        <PharmacyClusterGroup data={pharmacy} />
-      )}
-      {mapLayers.includes(MapLayer.SafePlaces) && (
-        <SafePlacesClusterGroup data={safePlaces} />
-      )}
+
+      {Object.keys(locations).map((key) => {
+        if (mapLayers.includes(key as MapLayer)) {
+          return (
+            <GenericClusterGroup
+              key={key}
+              data={locations[key as MapLayer]}
+              channelName={DataSource[key as MapLayer]}
+              propertyMap={LocationPropertyMap[key as MapLayer]}
+            />
+          );
+        }
+      })}
     </>
   );
 };

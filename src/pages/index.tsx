@@ -18,7 +18,7 @@ import {
   useShouldFetchNextOption,
 } from "@/stores/areasStore";
 import { useErrors } from "@/stores/errorStore";
-import { useDevice, useMapActions } from "@/stores/mapStore";
+import { MapLayer, useDevice, useMapActions } from "@/stores/mapStore";
 import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
 import { DeviceType } from "@/types";
@@ -152,14 +152,16 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
               </div>
             </div>
             <LeafletMap
-              ahbap={ahbapLocations}
-              hospital={hospitalLocations}
-              food={foodLocations}
-              teleteyit={teleteyitLocations}
-              satellite={satelliteLocations}
-              sahra_kitchen={sahraKitchenLocations}
-              pharmacy={pharmacyLocations}
-              safePlaces={safePlaceLocations}
+              locations={{
+                [MapLayer.Ahbap]: ahbapLocations,
+                [MapLayer.Food]: foodLocations,
+                [MapLayer.Hospital]: hospitalLocations,
+                [MapLayer.Satellite]: satelliteLocations,
+                [MapLayer.SahraMutfak]: sahraKitchenLocations,
+                [MapLayer.Pharmacy]: pharmacyLocations,
+                [MapLayer.SafePlaces]: safePlaceLocations,
+                [MapLayer.Teleteyit]: teleteyitLocations,
+              }}
             />
             {/* FIXME: move it to a component */}
             <Box
