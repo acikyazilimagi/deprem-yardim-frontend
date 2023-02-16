@@ -4,7 +4,7 @@ import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
-import { MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/types";
 import { Marker, MarkerProps, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import styles from "./Map.module.css";

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { PartialDataError } from "@/errors";
-import { MarkerData } from "@/mocks/types";
+import { MarkerData } from "@/types";
 
 interface MapState {
   shouldFetchNextOption: boolean;

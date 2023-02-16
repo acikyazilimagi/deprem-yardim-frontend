@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { FeedChannelAhbapProps } from "../../types";
+import { FeedChannelAhbapProps } from "@/types";
 import { Divider } from "@mui/material";
 import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
 

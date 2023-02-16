@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
-import { FeedChannelTwitterProps, TwitterParameters } from "../../types";
+import { FeedChannelTwitterProps, TwitterParameters } from "@/types";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
 

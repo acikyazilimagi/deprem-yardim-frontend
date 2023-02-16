@@ -1,8 +1,6 @@
 import useSWR from "swr";
 import formatcoords from "formatcoords";
 import { dataTransformer } from "@/utils/dataTransformer";
-import { Data } from "@/mocks/TypesAreasEndpoint";
-import { MarkerData } from "@/mocks/types";
 import { getTimeAgo } from "@/utils/date";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
@@ -26,9 +24,10 @@ import {
   SahraKitchenData,
   PharmacyData,
   SafePlaceData,
-} from "./types";
+} from "@/types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
+import { Data, MarkerData } from "@/types";
 
 export interface ContentProps {
   // eslint-disable-next-line no-unused-vars
@@ -51,7 +50,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
     isLoading,
     error,
   } = useSWR<Data | undefined>(
-    locationsURL(drawerData?.reference),
+    drawerData?.reference ? locationsURL(drawerData?.reference) : null,
     dataFetcher
   );
   const data = dataTransformer(rawData);

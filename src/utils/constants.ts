@@ -1,4 +1,4 @@
-export const BASE_URL = "https://apigo.afetharita.com";
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
@@ -35,3 +35,5 @@ export const PHARMACY_URL =
 
 export const SAFE_PLACES_URL =
   BASE_URL + "/feeds/areas?channel=guvenli_yerler_oteller&extraParams=true";
+
+export const NEXT_LOCALE_COOKIE = "NEXT_LOCALE";

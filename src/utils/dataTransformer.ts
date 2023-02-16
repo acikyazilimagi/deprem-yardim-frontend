@@ -1,12 +1,14 @@
+import { localForageKeys } from "@/components/UI/Map/utils";
 import {
+  Data,
+  DataLite,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
-} from "@/components/UI/Drawer/components/types";
-import { MarkerData, MarkerVisited } from "@/mocks/types";
-import { DataLite, Data } from "@/mocks/TypesAreasEndpoint";
-import localForage from "localforage";
-import { localForageKeys } from "@/components/UI/Map/utils";
+  MarkerData,
+  MarkerVisited,
+} from "@/types";
 import dJSON from "dirty-json";
+import localForage from "localforage";
 
 export const dataTransformerLite = async (
   data: DataLite

@@ -16,7 +16,10 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
   const { t } = useTranslation("error");
 
   useEffect(() => {
-    if (navigator.language.indexOf("en") > -1) {
+    // FIXME: This is a temporary solution for the problem of the language of the error page.
+    // We are checking the browsers language and if it is english it redirects to the user under /en/path.
+    // This is a temporary solution. We need to find a better solution.
+    if (navigator.language.indexOf("en") !== -1) {
       const { pathname, asPath, query } = router;
       router.push({ pathname, query }, asPath, { locale: "en" });
     }
@@ -34,12 +37,8 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
           height={300}
           className={styles.errorImage}
         />
-        <h1 className={styles.errorTitle}>
-          {title ?? t("defaults.title").toString()}
-        </h1>
-        <p className={styles.errorText}>
-          {detail ?? t("defaults.detail").toString()}
-        </p>
+        <h1 className={styles.errorTitle}>{title ?? t("defaults.title")}</h1>
+        <p className={styles.errorText}>{detail ?? t("defaults.detail")}</p>
         <Link href="/">
           <span className={styles.errorLink}>{t("returnHome")}</span>
         </Link>
