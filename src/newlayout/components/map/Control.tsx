@@ -15,7 +15,7 @@ const POSITION_CLASSES = {
   topright: "leaflet-top leaflet-right",
 };
 
-export const Portal = ({ children, position, container }: Props) => {
+export const Control = ({ children, position, container }: Props) => {
   const positionClass =
     (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright;
   const [containerEl] = useState(() => {
@@ -32,5 +32,3 @@ export const Portal = ({ children, position, container }: Props) => {
     containerEl
   );
 };
-
-export default Portal;

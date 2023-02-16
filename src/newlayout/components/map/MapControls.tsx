@@ -14,7 +14,7 @@ import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComp
 import SearchIcon from "@mui/icons-material/Search";
 import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
-import Control from "./Control";
+import { Control } from "./Control";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
