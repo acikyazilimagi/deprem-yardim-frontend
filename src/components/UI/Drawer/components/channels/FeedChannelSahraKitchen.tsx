@@ -1,27 +1,16 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
+import { FeedChannelSahraProps } from "@/types";
 
-interface FeedChannelSahraKitchenProps {
-  channel: string;
-  properties: {
-    name: string;
-  };
-  id: number;
-  reason: string;
-  verified: string;
-}
-
-export const FeedChannelSahraKitchen = (
-  props: FeedChannelSahraKitchenProps
-) => {
+export const FeedChannelSahra = (props: FeedChannelSahraProps) => {
   return (
     <DrawerContent>
       <DrawerContent.Header>
-        <DrawerContent.Title>{props?.properties?.name}</DrawerContent.Title>
+        <DrawerContent.Title>{props.properties.name}</DrawerContent.Title>
         <DrawerContent.Badge>
-          {props?.verified ? "Onaylandı" : "Onaylanmadı"}
+          {props.properties.verified ? "Onaylandı" : "Onaylanmadı"}
         </DrawerContent.Badge>
       </DrawerContent.Header>
-      <DrawerContent.Text>{props?.reason}</DrawerContent.Text>
+      <DrawerContent.Text>{props.properties.reason}</DrawerContent.Text>
     </DrawerContent>
   );
 };

@@ -9,46 +9,159 @@ import {
   SAFE_PLACES_URL,
 } from "@/utils/constants";
 import useLocation from "./useLocation";
+import { ChannelData } from "@/types";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
-const getSahraExtraParams = (item: any) => ({
-  icon: "images/icon-14.png",
-  id: item.id,
-  properties: item.properties,
-  reason: item.reason,
-  verified: item.is_location_verified,
-});
-
-const getPharmacyExtraParams = (item: any) => ({
-  icon: "images/icon-15.png",
-  id: item.id,
-  properties: item.properties,
-  reason: item.reason,
-  verified: item.is_location_verified,
-});
-
 // TODO: Remove this hook and use hooks defined above in relevant components
 export function useVerifiedLocations() {
-  const foodLocations = useLocation(FOOD_URL, "food");
-  const ahbapLocations = useLocation(AHBAP_LOCATIONS_URL, "ahbap");
-  const hospitalLocations = useLocation(HOSPITAL_LOCATIONS_URL, "hospital", {
-    getExtraParams: () => ({ icon: "images/icon-10.png" }),
+  const foodLocations = useLocation(["sicak_yemek"], "yemek", {
+    transformResponse: (res) => {
+      return {
+        channel: "yemek",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: res.extraParams,
+      };
+    },
   });
-  const teleteyitLocations = useLocation(TELETEYIT_URL, "teleteyit", {
-    getExtraParams: () => ({ icon: "images/icon-12.png" }),
+  const ahbapLocations = useLocation(["ahbap_location"], "ahbap", {
+    transformResponse: (res) => {
+      return {
+        channel: "ahbap",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: res.extraParams,
+      };
+    },
   });
-  const satelliteLocations = useLocation(SATELLITE_URL, "satellite", {
-    getExtraParams: () => ({ icon: "images/icon-13.png" }),
+
+  const hospitalLocations = useLocation(["hastahane_locations"], "hastane", {
+    transformResponse: (res) => {
+      return {
+        channel: "hastane",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: { ...res.extraParams, icon: "images/icon-10.png" },
+      };
+    },
   });
-  const sahraKitchenLocations = useLocation(SAHRA_KITCHEN_URL, "sahraKitchen", {
-    getExtraParams: getSahraExtraParams,
+
+  const teleteyitLocations = useLocation(["teleteyit"], "teleteyit", {
+    transformResponse: (res) => {
+      return {
+        channel: "teleteyit",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: {
+          name: res.extraParams.name,
+          description: res.extraParams.aciklama,
+          type: res.extraParams.styleUrl,
+          icon: "images/icon-14.png",
+          id: res.id,
+          reason: res.reason,
+          city: res.extraParams.il,
+          district: res.extraParams.ilce,
+          status: res.extraParams.durum,
+        },
+      };
+    },
   });
-  const pharmacyLocations = useLocation(PHARMACY_URL, "pharmacy", {
-    getExtraParams: getPharmacyExtraParams,
+
+  const satelliteLocations = useLocation(["uydu"], "uydu", {
+    transformResponse: (res) => {
+      return {
+        channel: "uydu",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: { ...res.extraParams, icon: "images/icon-13.png" },
+      };
+    },
   });
-  const safePlaceLocations = useLocation(SAFE_PLACES_URL, "safePlace", {
-    getExtraParams: () => ({ icon: "images/icon-16.png" }),
+  const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
+    transformResponse: (res) => {
+      return {
+        channel: "sahra",
+        geometry: {
+          location: {
+            lat: res.loc[1],
+            lng: res.loc[0],
+          },
+        },
+        properties: {
+          id: res.id,
+          name: res.extraParams.name,
+          reason: res.reason,
+          icon: res.extraParams.icon,
+          verified: res.is_location_verified,
+        },
+      };
+    },
   });
+  const pharmacyLocations = useLocation(
+    ["eczane_excel", "turk_eczane"],
+    "eczane",
+    {
+      transformResponse: (res) => {
+        return {
+          channel: "sahra",
+          geometry: {
+            location: {
+              lat: res.loc[1],
+              lng: res.loc[0],
+            },
+          },
+          properties: {
+            ...res.extraParams,
+            icon: "images/icon-15.png",
+            id: res.id,
+            reason: res.reason,
+            verified: res.is_location_verified,
+          },
+        };
+      },
+    }
+  );
+  const safePlaceLocations = useLocation(
+    ["guvenli_yerler_oteller"],
+    "guvenli",
+    {
+      transformResponse: (res) => {
+        return {
+          channel: "guvenli",
+          geometry: {
+            location: {
+              lat: res.loc[1],
+              lng: res.loc[0],
+            },
+          },
+          properties: {
+            ...res.extraParams,
+            icon: "images/icon-16.png",
+          },
+        };
+      },
+    }
+  );
 
   return {
     foodLocations,

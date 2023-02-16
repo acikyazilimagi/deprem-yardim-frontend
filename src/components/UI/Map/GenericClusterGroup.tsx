@@ -1,27 +1,8 @@
-import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import L from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
-import { Channel } from "@/types";
-
-type Props = {
-  data: any[];
-  channelName?: Channel;
-
-  /**
-   *
-   * This map is to match between drawer data and geojson propertes
-   * @example -
-   * {
-   *  name: "name",
-   *  type: "styleUrl",
-   *  ....
-   * }
-   *
-   */
-  propertyMap?: any;
-};
+import { ChannelData } from "@/types";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -53,18 +34,34 @@ const emptyIcon =
 //   return preparedProperties;
 // };
 
+type Props = {
+  data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
+};
+
 export const GenericClusterGroup = ({
   data,
-  channelName,
+  onMarkerClick,
 }: // propertyMap = DEFAULT_PROPERTY_MAP,
 Props) => {
-  const { handleMarkerClick } = useMapClickHandlers();
   const map = useMap();
 
   const bounds = map.getBounds();
 
+  console.debug(data);
+  const geoJSON = data.map((item) => {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [item.geometry.location.lat, item.geometry.location.lng],
+      },
+      properties: item.properties,
+    };
+  });
+
   const { clusters, supercluster } = useSupercluster({
-    points: data,
+    points: geoJSON,
     bounds: [
       bounds.getSouthWest().lng,
       bounds.getSouthWest().lat,
@@ -115,17 +112,7 @@ Props) => {
             })}
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(e, {
-                  channel: channelName,
-                  ...cluster.properties,
-                  properties: cluster.properties,
-                  geometry: {
-                    location: {
-                      lng: longitude,
-                      lat: latitude,
-                    },
-                  },
-                });
+                onMarkerClick(e, cluster);
               },
             }}
           />
