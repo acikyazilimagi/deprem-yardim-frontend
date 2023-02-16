@@ -34,6 +34,7 @@ import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useAreasMarkerData } from "@/stores/areasStore";
+import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -185,19 +186,18 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
   return L.latLngBounds(northEast, southWest);
 };
 
-interface ILeafletMap {
-  ahbap: any[];
-  hospital: any[];
-  food: any[];
-  teleteyit: any[];
-  satellite: any[];
-  sahra_kitchen: any[];
-  pharmacy: any[];
-  safePlaces: any[];
-}
-
-function LeafletMap(props: ILeafletMap) {
+function LeafletMap() {
   const { setCoordinates } = useURLActions();
+  const {
+    ahbapLocations,
+    hospitalLocations,
+    foodLocations,
+    teleteyitLocations,
+    satelliteLocations,
+    sahraKitchenLocations,
+    pharmacyLocations,
+    safePlaceLocations,
+  } = useVerifiedLocations();
   const router = useRouter();
   const data = useAreasMarkerData();
   const isOpen = useIsDrawerOpen();
@@ -275,14 +275,14 @@ function LeafletMap(props: ILeafletMap) {
         <LayerControl
           points={points}
           data={data}
-          food={props.food}
-          ahbap={props.ahbap}
-          hospital={props.hospital}
-          teleteyit={props.teleteyit}
-          satellite={props.satellite}
-          sahra_kitchen={props.sahra_kitchen}
-          pharmacy={props.pharmacy}
-          safePlaces={props.safePlaces}
+          food={foodLocations}
+          ahbap={ahbapLocations}
+          hospital={hospitalLocations}
+          teleteyit={teleteyitLocations}
+          satellite={satelliteLocations}
+          sahra_kitchen={sahraKitchenLocations}
+          pharmacy={pharmacyLocations}
+          safePlaces={safePlaceLocations}
         />
         <TileLayer url={baseMapUrl} />
       </Map>

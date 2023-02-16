@@ -10,7 +10,6 @@ import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 import { getLocationById } from "@/services/location";
 import {
   useAreasActions,
@@ -42,16 +41,6 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
-  const {
-    ahbapLocations,
-    hospitalLocations,
-    foodLocations,
-    teleteyitLocations,
-    satelliteLocations,
-    sahraKitchenLocations,
-    pharmacyLocations,
-    safePlaceLocations,
-  } = useVerifiedLocations();
   const { t } = useTranslation(["common", "home"]);
   const { setTimeStamp } = useURLActions();
   const router = useRouter();
@@ -147,16 +136,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 </FilterMenu>
               </div>
             </div>
-            <LeafletMap
-              ahbap={ahbapLocations}
-              hospital={hospitalLocations}
-              food={foodLocations}
-              teleteyit={teleteyitLocations}
-              satellite={satelliteLocations}
-              sahra_kitchen={sahraKitchenLocations}
-              pharmacy={pharmacyLocations}
-              safePlaces={safePlaceLocations}
-            />
+            <LeafletMap />
             {/* FIXME: move it to a component */}
             <Box
               sx={{
