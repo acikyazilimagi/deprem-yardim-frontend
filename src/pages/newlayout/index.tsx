@@ -65,11 +65,6 @@ const NHome = () => {
         preferCanvas
         maxBoundsViscosity={1}
         maxZoom={18}
-        whenReady={(map: any) => {
-          setTimeout(() => {
-            map.target.invalidateSize();
-          }, 100);
-        }}
       >
         <MapControls />
         <TileLayer url={baseMapUrl} />
