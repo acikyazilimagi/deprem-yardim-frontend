@@ -29,7 +29,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -42,6 +42,7 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
+  // gather location data from all channels
   const {
     ahbapLocations,
     hospitalLocations,
@@ -52,22 +53,42 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     pharmacyLocations,
     safePlaceLocations,
   } = useVerifiedLocations();
-  const { t } = useTranslation(["common", "home"]);
-  const { setTimeStamp } = useURLActions();
-  const router = useRouter();
-  const device = useDevice();
 
+  const router = useRouter();
+
+  // next-i8next multilanguage support
+  const { t } = useTranslation(["common", "home"]);
+
+  const onLanguageChange = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
+  // adds timestamp param to the URL query if data is from babala
+  const { setTimeStamp } = useURLActions();
+
+  // device handling, kinda weird how this is handled right now...
+  const device = useDevice();
+  const isMobile = device === "mobile";
+  const { setDevice } = useMapActions();
+  useEffect(() => {
+    setDevice(deviceType);
+  }, [deviceType, setDevice]);
+
+  // error from fetching marker information
   const areasError = useAreasStoreError();
 
+  // supposed to handle re-fetching after filter selection (FIXME: FilterTimeMenu.tsx)
   const { setShouldFetchNextOption } = useAreasActions();
   const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
   const shouldFetchNextOption = useShouldFetchNextOption();
 
-  const isMobile = device === "mobile";
-
+  // global error handling from location data fetching
   const verifiedLocationErrors = useErrors();
+  const [isInMaintenance, setIsMaintenance] = useState<boolean>(false);
+
+  // to warn the user that there is partial data
   const { enqueueWarning } = useSnackbar();
-  const error = areasError && false;
 
   // FIXME: This is a temporary solution to show the warning. We should refactor this.
   useEffect(() => {
@@ -85,6 +106,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     }
   }, [verifiedLocationErrors, enqueueWarning, t]);
 
+  // FIXME: This is a temporary solution to show the warning. We should refactor this.
   useEffect(() => {
     const numErrors = Object.keys(verifiedLocationErrors).reduce(
       (accumulator: number, current: any) => {
@@ -97,20 +119,10 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     );
 
     if (numErrors == CHANNEL_COUNT && areasError) {
+      setIsMaintenance(true);
       throw new MaintenanceError(t("common:errors.maintenance").toString());
     }
-  }, [areasError, verifiedLocationErrors, t]);
-
-  const { setDevice } = useMapActions();
-
-  useEffect(() => {
-    setDevice(deviceType);
-  }, [deviceType, setDevice]);
-
-  const onLanguageChange = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
+  }, [areasError, verifiedLocationErrors, t, setIsMaintenance]);
 
   const handleContextMenu = (e: any) => e.preventDefault();
 
@@ -123,7 +135,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
         id="prod-layout"
       >
         <Container maxWidth={false} disableGutters>
-          <RenderIf condition={!error}>
+          <RenderIf condition={!isInMaintenance}>
             <div
               style={{
                 position: "fixed",

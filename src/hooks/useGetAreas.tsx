@@ -41,6 +41,7 @@ export function useGetAreas() {
   const { enqueueWarning } = useSnackbar();
 
   useEffect(() => {
+    // FIXME: handle errors appropriately with the global error store
     error && enqueueWarning(t("common:errors.partialData"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
