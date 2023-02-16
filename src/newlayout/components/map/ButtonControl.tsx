@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Control from "react-leaflet-custom-control";
+import Control from "./Control";
 import cn from "classnames";
 
 type Props = {
