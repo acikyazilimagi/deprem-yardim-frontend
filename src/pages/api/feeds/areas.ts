@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import areasResponse from "@/mocks/areasResponse.json";
+import areasResponse from "@/samples/areasResponse.json";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const method = req.method;
