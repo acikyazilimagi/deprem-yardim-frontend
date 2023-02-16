@@ -52,6 +52,7 @@ const NHome = () => {
     <>
       <UIElementsOverlay />
       <Map
+        zoomControl={false}
         attributionControl={false}
         center={defaultCenter}
         zoom={defaultZoom}

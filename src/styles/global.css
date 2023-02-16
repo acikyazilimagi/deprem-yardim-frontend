@@ -5,3 +5,22 @@
     width: 1px;
   }
 }
+.leaflet-right > .leaflet-control {
+  margin-bottom: 6px !important;
+}
+.leaflet-bottom.leaflet-left {
+  z-index: 1010 !important;
+}
+.leaflet-bottom.leaflet-left > .leaflet-control {
+  margin-bottom: 20px !important;
+  z-index: unset;
+}
+@media only screen and (max-width: 600px) {
+  .leaflet-bottom.leaflet-left > .leaflet-control {
+    margin-bottom: 0px !important;
+    margin: 0px !important;
+  }
+}
+.leaflet-top.leaflet-left > .leaflet-control {
+  margin: 0px !important;
+}
