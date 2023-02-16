@@ -17,7 +17,7 @@ const ScanAreaButton = () => {
   return (
     <>
       <Button
-        color="secondary"
+        color="primary"
         variant="contained"
         onClick={handleScanButtonClick}
       >
