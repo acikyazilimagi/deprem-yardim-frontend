@@ -1,10 +1,10 @@
-import { MarkerData } from "@/types";
+import { ChannelData, MarkerData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo, useCallback } from "react";
 import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
 import { GenericClusterGroup } from "./GenericClusterGroup";
-import { DataSource } from "@/utils/data-source";
+import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -13,7 +13,7 @@ export type Point = [number, number, number];
 type Props = {
   points: Point[];
   data: MarkerData[];
-  locations: Partial<Record<MapLayer, any>>;
+  locations: Record<MapLayer, ChannelData[]>;
 };
 
 const LocationPropertyMap: any = {
@@ -28,6 +28,7 @@ const LayerControl = ({ points, data, locations }: Props) => {
   const longitudeExtractor = useCallback((p: Point) => p[1], []);
   const latitudeExtractor = useCallback((p: Point) => p[0], []);
   const intensityExtractor = useCallback((p: Point) => p[2], []);
+  const { handleMarkerClick } = useMapClickHandlers();
 
   return (
     <>
@@ -50,8 +51,9 @@ const LayerControl = ({ points, data, locations }: Props) => {
             <GenericClusterGroup
               key={key}
               data={locations[key as MapLayer]}
-              channelName={DataSource[key as MapLayer]}
-              propertyMap={LocationPropertyMap[key as MapLayer]}
+              onMarkerClick={(e, markerData: ChannelData) => {
+                handleMarkerClick(e, markerData);
+              }}
             />
           );
         }

@@ -38,7 +38,6 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 type Props = {
   deviceType: DeviceType;
   singleItemDetail: any;
-  ahbap: any[];
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
@@ -67,7 +66,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   // adds timestamp param to the URL query if data is from babala
   const { setTimeStamp } = useURLActions();
 
-  // device handling, kinda weird how this is handled right now...
+  // FIXME: device handling, kinda weird how this is handled right now...
   const device = useDevice();
   const isMobile = device === "mobile";
   const { setDevice } = useMapActions();
@@ -236,7 +235,6 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      ahbap: [],
       singleItemDetail: {
         ...itemDetail,
         ...context.query,

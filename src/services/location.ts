@@ -1,5 +1,6 @@
 import { locationsURL } from "@/utils/urls";
 import { dataFetcher } from "./dataFetcher";
+import { Data } from "@/types";
 
 async function getLocationById(locationId: number) {
   if (!locationId) {
@@ -8,7 +9,7 @@ async function getLocationById(locationId: number) {
 
   const url = locationsURL(locationId);
   const data = await dataFetcher(url);
-  return data;
+  return data as Data;
 }
 
 export { getLocationById };

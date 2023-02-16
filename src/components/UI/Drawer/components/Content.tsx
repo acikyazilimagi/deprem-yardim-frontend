@@ -17,43 +17,46 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
-import {
-  AhbapData,
-  TeleteyitData,
-  SatelliteData,
-  SahraKitchenData,
-  PharmacyData,
-  SafePlaceData,
-} from "@/types";
+import { Data } from "@/types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
-import { Data, MarkerData } from "@/types";
+import { parseChannelData } from "@/hooks/useLocation";
+import { APIResponse } from "@/types";
+import { DrawerData } from "@/stores/mapStore";
 
 export interface ContentProps {
-  // eslint-disable-next-line no-unused-vars
-  onCopyBillboard: (clipped: string) => void;
-  drawerData:
-    | MarkerData
-    | AhbapData
-    | TeleteyitData
-    | SatelliteData
-    | SahraKitchenData
-    | PharmacyData
-    | SafePlaceData
-    | null;
+  onCopyBillboard: (_clipped: string) => void;
+  drawerData: DrawerData;
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const { t } = useTranslation("home");
   const {
-    data: rawData,
+    data: rawData = { properties: {} },
     isLoading,
     error,
-  } = useSWR<Data | undefined>(
-    drawerData?.reference ? locationsURL(drawerData?.reference) : null,
-    dataFetcher
+  } = useSWR(
+    drawerData?.reference ? locationsURL(drawerData.reference) : null,
+    dataFetcher,
+    {
+      onSuccess: (data) => {
+        // if (!data) return;
+        return parseChannelData(data, {
+          transformResponse: (res) => ({
+            channel: res.channel as "twitter" | "babala",
+            geometry: {
+              location: {
+                lat: res.loc[1],
+                lng: res.loc[0],
+              },
+            },
+            properties: res as any,
+          }),
+        });
+      },
+    }
   );
-  const data = dataTransformer(rawData);
+  const data = rawData.properties;
   const size = useWindowSize();
   const { handleMarkerClick: toggler } = useMapClickHandlers();
   const router = useRouter();
@@ -68,18 +71,16 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
     drawerData.geometry.location.lng,
   ]).format();
 
-  const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp, locale);
+  const formattedTimeAgo = data && getTimeAgo(data.timestamp, locale);
 
   const hasSource =
     data &&
     data.channel === "twitter" &&
-    // @ts-ignore gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
     data.extra_parameters?.tweet_id &&
-    // @ts-ignore
     data.extra_parameters?.tweet_id !== "";
 
   const title = data?.formatted_address ?? (drawerData as any).properties?.name;
-
+  const content = drawerData ?? data;
   // @ts-ignore
   return (
     <Box
@@ -181,8 +182,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
               )}
             </div>
           </div>
-
-          {(data ||
+          {<FeedContent content={content} />}
+          {/* {(data ||
             (drawerData as AhbapData).channel === "ahbap" ||
             (drawerData as SafePlaceData).channel ===
               "guvenli_yerler_oteller" ||
@@ -191,7 +192,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             (drawerData as SahraKitchenData).channel === "sahra_mutfak" ||
             (drawerData as PharmacyData).channel === "eczane_excel") && (
             <FeedContent content={data ?? (drawerData as AhbapData)} />
-          )}
+          )} */}
         </div>
       )}
 

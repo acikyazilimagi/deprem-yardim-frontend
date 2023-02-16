@@ -35,6 +35,7 @@ import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useAreasMarkerData } from "@/stores/areasStore";
+import { ChannelData } from "@/types";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -187,7 +188,7 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 };
 
 interface ILeafletMap {
-  locations: Partial<Record<MapLayer, any>>;
+  locations: Record<MapLayer, ChannelData[]>;
 }
 
 function LeafletMap(props: ILeafletMap) {

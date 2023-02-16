@@ -4,64 +4,67 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
+import { APIChannel, APIResponse, Channel, ChannelData } from "@/types";
+import { BASE_URL } from "@/utils/constants";
 
 // @fdemir code begin =======
 type HandleLocationResponseOptions = {
-  getExtraParams?: (_item: any) => any;
+  transformResponse: (_res: APIResponse & { extraParams: any }) => ChannelData;
 };
 
-const handleLocationResponse = <TResponse extends { results: any[] }>(
-  data: TResponse,
-  setLocations: any,
-  options: HandleLocationResponseOptions = {}
-) => {
-  if (!data) return;
+const parseExtraParams = (extraParamsStr?: string) => {
+  if (!extraParamsStr) return {};
+  return dJSON.parse<string, any>(extraParamsStr?.replaceAll("nan", ""));
+};
 
-  const features = data.results.map((item) => {
-    let extra_params = {};
-    try {
-      extra_params = dJSON.parse(
-        item.extra_parameters?.replaceAll("nan", false)
-      );
+export const parseChannelData = (
+  item: APIResponse,
+  options: HandleLocationResponseOptions
+): ChannelData => {
+  let extraParams = {};
+  try {
+    extraParams = parseExtraParams(item.extra_parameters);
+  } catch (error) {
+    console.error(error);
+  }
+  return options.transformResponse({ ...item, extraParams });
+};
 
-      if (options?.getExtraParams) {
-        extra_params = {
-          ...extra_params,
-          ...options.getExtraParams(item),
-        };
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    return {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: item.loc?.reverse(),
-      },
-      properties: extra_params,
-    };
-  });
-
-  setLocations(features);
+const transformAPIResponse = (
+  data: APIResponse[],
+  options: HandleLocationResponseOptions
+): ChannelData[] => {
+  return data.map((item) => parseChannelData(item, options));
 };
 // @fdemir code end =======
 
-export default function useLocation<TResponse extends { results: any[] }>(
-  url: string,
-  channelName: string,
-  options: HandleLocationResponseOptions = {}
+const generateURL = (apiChannels: APIChannel[]) => {
+  return (
+    BASE_URL + `/feeds/areas?channel=${apiChannels.join(",")}&extraParams=true`
+  );
+};
+
+export default function useLocation(
+  apiChannels: APIChannel[],
+  channelName: Channel,
+  options: HandleLocationResponseOptions
 ) {
-  const [locations, setLocations] = useState<TResponse[]>([]);
+  const [locations, setLocations] = useState<ChannelData[]>([]);
+
+  const url = generateURL(apiChannels);
 
   const setError = useSetError();
   const setChannelError = (error: Error) => {
     setError({ [channelName]: error });
   };
 
-  useSWR<TResponse>(url, dataFetcher, {
-    onSuccess: (data) => handleLocationResponse(data, setLocations, options),
+  useSWR<{ results: APIResponse[] }>(url, dataFetcher, {
+    onSuccess: (data) => {
+      if (!data) return;
+
+      const transformedProps = transformAPIResponse(data.results, options);
+      setLocations(transformedProps);
+    },
     onError: () => {
       setChannelError(new PartialDataError());
     },
