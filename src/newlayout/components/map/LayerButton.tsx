@@ -23,7 +23,6 @@ export const LayerButton = ({
   title,
   checked,
 }: LayerButtonProps) => {
-  console.log("LayerButton", { onClick, image, title, checked });
   return (
     <Stack>
       <Box sx={checked ? styles.containerChecked : styles.container}>
