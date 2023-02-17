@@ -72,6 +72,10 @@ const theme = createTheme({
       "800": "#05603A",
       "900": "#054F31",
     },
+    common: {
+      white: "#FFFFFF",
+      black: "#000000",
+    },
   },
   typography: {
     fontFamily: inter.style.fontFamily,

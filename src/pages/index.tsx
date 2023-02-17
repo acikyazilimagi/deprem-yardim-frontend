@@ -117,7 +117,11 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
-      <main className={styles.main} onContextMenu={handleContextMenu}>
+      <main
+        className={styles.main}
+        onContextMenu={handleContextMenu}
+        id="prod-layout"
+      >
         <Container maxWidth={false} disableGutters>
           <RenderIf condition={!error}>
             <div

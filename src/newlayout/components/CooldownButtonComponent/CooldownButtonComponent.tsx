@@ -61,9 +61,10 @@ const styles: IStyles = {
   button: () => ({
     pointerEvents: "all",
     height: "48px",
-    width: "245px",
+    width: "225px",
     display: "flex",
     flexDirection: "column",
+    borderRadius: "8px !important",
   }),
   progress: () => ({
     height: "4px",
