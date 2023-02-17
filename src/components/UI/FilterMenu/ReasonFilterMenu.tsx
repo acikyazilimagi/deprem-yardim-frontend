@@ -57,7 +57,7 @@ export const ReasonFilterMenu: React.FC = () => {
       multiple
       renderValue={(selected) =>
         selected
-          .map((val: any) => t(`filter.reasons.${val}`).toLocaleUpperCase())
+          .map((val: any) => t(`filter.reasons.${val}`).toUpperCase())
           .join(", ")
       }
       value={filterValues}
@@ -91,7 +91,7 @@ export const ReasonFilterMenu: React.FC = () => {
               fontSize: "14px",
               whiteSpace: "nowrap",
             }}
-            primary={t(`filter.reasons.${item}`).toLocaleUpperCase()}
+            primary={t(`filter.reasons.${item}`).toUpperCase()}
           />
         </MenuItem>
       ))}

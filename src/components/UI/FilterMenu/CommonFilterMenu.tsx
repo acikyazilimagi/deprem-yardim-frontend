@@ -54,7 +54,7 @@ function CommonFilterMenu<ValueType>({
         onClick={handleClick}
         ariaControls={`${translationPath}-filtrele`}
       >
-        {t(`${translationPath}.${selectedLabel}`).toLocaleUpperCase()}
+        {t(`${translationPath}.${selectedLabel}`).toUpperCase()}
       </FilterMenuButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {menuOptions.map((option) => (
