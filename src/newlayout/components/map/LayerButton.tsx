@@ -54,6 +54,9 @@ export const LayerButton = ({
 };
 
 const styles: IStyles = {
+  stack: () => ({
+    maxWidth: "66px",
+  }),
   label: (theme: Theme) => ({
     marginTop: 0.75,
     color: theme.palette.common.black,
@@ -83,6 +86,7 @@ const styles: IStyles = {
     backgroundColor: "white",
     borderRadius: "14px",
     borderColor: "transparent",
+    maxWidth: "66px",
   }),
   containerChecked: (theme: Theme) => ({
     border: "1.5px solid",
@@ -90,6 +94,7 @@ const styles: IStyles = {
     backgroundColor: "white",
     borderRadius: "14px",
     borderColor: theme.palette.primary.main,
+    maxWidth: "66px",
   }),
   buttonImageChecked: () => ({
     display: "inline-flex",
