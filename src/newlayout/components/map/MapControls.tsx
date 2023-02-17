@@ -27,6 +27,10 @@ import LayersIcon from "@mui/icons-material/Layers";
 import { useMap } from "react-leaflet";
 import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
+import {
+  FilterComponent as SearchFilterComponent,
+  useFilter as useSearchFilter,
+} from "../FilterComponent/FilterComponent";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -41,6 +45,9 @@ const MapControls: React.FC = () => {
   const helpView = useHelpView();
   const mtmlView = useMTMLView();
   const theme = useTheme();
+
+  const searchFilter = useSearchFilter();
+
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <>
@@ -110,28 +117,42 @@ const MapControls: React.FC = () => {
         ) : null}
       </Control>
       <Control position="topright">
-        <Stack display={"flex"} direction={"row"} columnGap={2}>
-          <FilterButtonComponent
-            buttonLabel="Afetzede Bul"
-            icon={<SearchIcon />}
-            onClick={() => {
-              console.log("falan");
-            }}
-          />
-          <FilterButtonComponent
-            buttonLabel="Yardim Talepleri"
-            icon={<WifiTetheringErrorIcon />}
-            onClick={() => {
-              console.log("falan");
-            }}
-          />
-          <FilterButtonComponent
-            buttonLabel="Hizmetler"
-            icon={<Diversity1Icon />}
-            onClick={() => {
-              console.log("falan");
-            }}
-          />
+        <Stack
+          display={"flex"}
+          direction={"column"}
+          rowGap={2}
+          alignItems={"flex-end"}
+        >
+          <Stack display={"flex"} direction={"row"} columnGap={2}>
+            <FilterButtonComponent
+              buttonLabel="Afetzede Bul"
+              icon={<SearchIcon />}
+              onClick={() => {
+                searchFilter.toggle(!searchFilter.isOpen);
+              }}
+            />
+            <FilterButtonComponent
+              buttonLabel="Yardim Talepleri"
+              icon={<WifiTetheringErrorIcon />}
+              onClick={() => {
+                searchFilter.toggle(!searchFilter.isOpen);
+              }}
+            />
+            <FilterButtonComponent
+              buttonLabel="Hizmetler"
+              icon={<Diversity1Icon />}
+              onClick={() => {
+                searchFilter.toggle(!searchFilter.isOpen);
+              }}
+            />
+          </Stack>
+          <Stack display={"flex"} direction={"row"} columnGap={2}>
+            <SearchFilterComponent
+              onChange={() => {
+                console.log("falan change");
+              }}
+            />
+          </Stack>
         </Stack>
       </Control>
       <Control position="bottomright">
