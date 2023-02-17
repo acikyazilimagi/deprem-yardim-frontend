@@ -4,7 +4,7 @@ import { DrawerData } from "../../../stores/mapStore";
 import { ChannelData, TwitterParameters } from "@/types";
 import Button from "@mui/material/Button";
 import { CopyAll, OpenInNew } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import formatcoords from "formatcoords";
 import MapButtons, { generateGoogleMapsUrl } from "./components/MapButtons";
 import TextField from "@mui/material/TextField";
@@ -16,7 +16,7 @@ const DrawerIDLabel = ({ id }: { id: number }) => {
   return <span className={styles.contentIdSection}>ID: {id}</span>;
 };
 
-const TwitterButton = () => {
+const TwitterButton = ({ data }: { data: ChannelData }) => {
   const { t } = useTranslation("home");
 
   return (
@@ -28,7 +28,7 @@ const TwitterButton = () => {
       onClick={() =>
         window.open(
           // @ts-ignore: tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
-          `https://twitter.com/anyuser/status/${data.extra_parameters?.tweet_id}`
+          `https://twitter.com/anyuser/status/${data.properties.tweet_id}`
         )
       }
       startIcon={<OpenInNew className={styles.btnIcon} />}
@@ -144,7 +144,7 @@ export const Drawer = ({
         <Coordinates coordinates={formattedCoordinates} />
         <MapButtons drawerData={data} />
         <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
-          {hasSource && <TwitterButton />}
+          {hasSource && <TwitterButton data={data} />}
         </GoogleMapsStuff>
         <FeedContent content={data} />
       </div>

@@ -1,4 +1,5 @@
-export type APIChannel =
+export type APISingleDataChannel = "twitter" | "babala";
+export type APILocationChannel =
   | "ahbap_location"
   | "sicak_yemek"
   | "hastahane_locations"
@@ -7,13 +8,14 @@ export type APIChannel =
   | "sahra_mutfak"
   | "turk_eczane"
   | "eczane_excel"
-  | "guvenli_yerler_oteller"
-  | "twitter"
-  | "babala";
+  | "guvenli_yerler_oteller";
 
-export type APIResponse<TChannel extends APIChannel = APIChannel> = {
+export type APIChannel = APISingleDataChannel | APILocationChannel;
+
+export type APIResponse<
+  TChannel extends APILocationChannel = APILocationChannel
+> = {
   channel: TChannel;
-
   id: number;
   entry_id: number;
   reason: string;
@@ -24,9 +26,31 @@ export type APIResponse<TChannel extends APIChannel = APIChannel> = {
 };
 
 export type APIResponseObject<
-  TChannel extends APIChannel = APIChannel,
+  TChannel extends APILocationChannel = APILocationChannel,
   T = any
 > = Omit<APIResponse<TChannel>, "extra_parameters"> & {
+  extraParams: T;
+};
+
+// TOFIX: Remove when backend responds with APIResponse type even in twitter and babala cases
+
+export type APISingleDataResponse<
+  TChannel extends APISingleDataChannel = APISingleDataChannel
+> = {
+  id: number;
+  full_text: string;
+  formatted_address: string;
+  extra_parameters?: string;
+  timestamp: string;
+  is_resolved: boolean;
+  channel: TChannel;
+  reason: string | null;
+};
+
+export type APIDataResponseObject<
+  TChannel extends APISingleDataChannel = APISingleDataChannel,
+  T = any
+> = Omit<APISingleDataResponse<TChannel>, "extra_parameters"> & {
   extraParams: T;
 };
 
@@ -46,6 +70,11 @@ export type ExtraParams = BabalaParameters | TwitterParameters;
 
 export type RT<
   TResponse extends APIResponseObject = APIResponseObject,
+  TChannelData extends ChannelData = ChannelData
+> = (_response: TResponse) => TChannelData;
+
+export type RTSingleData<
+  TResponse extends APIDataResponseObject = APIDataResponseObject,
   TChannelData extends ChannelData = ChannelData
 > = (_response: TResponse) => TChannelData;
 
@@ -69,7 +98,7 @@ export type Geometry = {
   location: Point;
 };
 
-export type BabalaResponse = APIResponseObject<
+export type BabalaResponse = APIDataResponseObject<
   "babala",
   {
     additional_notes: string;
@@ -79,7 +108,7 @@ export type BabalaResponse = APIResponseObject<
     name_surname: string;
     numara: string;
     status: string;
-    tel: string;
+    tel: number;
     telefon: string;
   }
 >;
@@ -97,11 +126,9 @@ export type BabalaParameters = {
   name?: string;
   icon?: string;
   description?: string;
-
-  extraParams: any;
 };
 
-export type TwitterResponse = APIResponseObject<"twitter", never>;
+export type TwitterResponse = APIDataResponseObject<"twitter", null>;
 
 export type TwitterParameters = {
   user_id: string;
@@ -344,19 +371,6 @@ export type ChannelData = DataProperties & {
   reference?: number;
   closeByRecords?: number[];
   isVisited?: boolean;
-};
-
-// export type MarkerData = [GeoJSON, ChannelData];
-
-export type Data = {
-  id: number;
-  full_text: string;
-  formatted_address: string;
-  extra_parameters?: string;
-  timestamp: string;
-  is_resolved: boolean;
-  channel: Channel;
-  reason: string | null;
 };
 
 export type DataLite = {

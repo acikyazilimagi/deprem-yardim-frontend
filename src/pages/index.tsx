@@ -10,7 +10,10 @@ import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { MaintenanceError } from "@/errors";
-import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
+import {
+  transformSingleDataResponses,
+  useVerifiedLocations,
+} from "@/hooks/useVerifiedLocations";
 import { getLocationById } from "@/services/location";
 import {
   useAreasActions,
@@ -21,7 +24,7 @@ import { useErrors } from "@/stores/errorStore";
 import { MapLayer, useDevice, useMapActions } from "@/stores/mapStore";
 import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
-import { APIResponse, DeviceType } from "@/types";
+import { APIResponse, APISingleDataResponse, DeviceType } from "@/types";
 import { CHANNEL_COUNT } from "@/utils/constants";
 import { Box } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -30,6 +33,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { parseSingleData } from "@/hooks/useLocation";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -37,7 +41,7 @@ const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
 
 type Props = {
   deviceType: DeviceType;
-  singleItemDetail: APIResponse;
+  singleItemDetail: APISingleDataResponse;
 };
 
 export default function Home({ deviceType, singleItemDetail }: Props) {
@@ -279,19 +283,18 @@ export async function getServerSideProps(context: any) {
     )
   );
 
-  const itemDetail = await getLocationById(context.query.id);
+  const itemDetail: APISingleDataResponse | null = await getLocationById(
+    context.query.id
+  );
 
-  // const parsed = parseChannelData(data, {
-  //   transformResponse: (res) => ({
-  //     channel: res.channel.toLowerCase() as "twitter" | "babala",
-  //     geometry: { location: { lat: 0, lng: 0 } },
-  //     properties: {
-  //       ...res,
-  //       ...res.extraParams,
-  //     },
-  //     reference: res.entry_id,
-  //   }),
-  // }) as TwitterData | BabalaData;
+  let data = null;
+  if (itemDetail) {
+    data = parseSingleData(
+      itemDetail,
+      transformSingleDataResponses[itemDetail.channel]
+    );
+  }
+
   console.log({ itemDetail });
 
   return {
@@ -302,6 +305,7 @@ export async function getServerSideProps(context: any) {
         ...itemDetail,
         ...context.query,
       },
+      data,
     },
   };
 }

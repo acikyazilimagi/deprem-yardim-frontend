@@ -1,6 +1,10 @@
 import {
+  APIChannel,
+  APILocationChannel,
+  APISingleDataChannel,
   AhbapData,
   AhbapResponse,
+  BabalaData,
   FoodData,
   FoodResponse,
   HospitalData,
@@ -8,6 +12,7 @@ import {
   PharmacyData,
   PharmacyResponse,
   RT,
+  RTSingleData,
   SafePlaceData,
   SafePlaceResponse,
   SahraData,
@@ -16,8 +21,11 @@ import {
   SatelliteResponse,
   TeleteyitData,
   TeleteyitResponse,
+  TwitterData,
+  TwitterResponse,
 } from "@/types";
 import useLocation from "./useLocation";
+import { BabalaResponse } from "../types/index";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
 // TODO: Remove this hook and use hooks defined above in relevant components
@@ -79,7 +87,7 @@ const transformTeleteyitResponse: RT<TeleteyitResponse, TeleteyitData> = (
   res
 ) => {
   return {
-    channel: "hastane",
+    channel: "teleteyit",
     geometry: {
       location: {
         lat: res.loc[1],
@@ -176,6 +184,67 @@ const transformSafePlaceResponse: RT<SafePlaceResponse, SafePlaceData> = (
       name: res.extraParams.name,
     },
   };
+};
+
+export const trasformLocationResponses: Record<APILocationChannel, RT> = {
+  ahbap_location: transformAhbapResponse as RT,
+  eczane_excel: transformPharmacyResponse as RT,
+  guvenli_yerler_oteller: transformSafePlaceResponse as RT,
+  hastahane_locations: transformHospitalResponse as RT,
+  sahra_mutfak: transformSahraResponse as RT,
+  sicak_yemek: transformFoodResponse as RT,
+  teleteyit: transformTeleteyitResponse as RT,
+  turk_eczane: transformPharmacyResponse as RT,
+  uydu: transformSatelliteResponse as RT,
+};
+
+const transformTwitterResponse: RTSingleData<TwitterResponse, TwitterData> = (
+  res
+) => {
+  return {
+    channel: "twitter",
+    properties: {
+      full_text: res.full_text,
+      reason: res.reason,
+    },
+    geometry: {
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+    },
+  };
+};
+
+const transformBabalaResponse: RTSingleData<BabalaResponse, BabalaData> = (
+  res
+) => {
+  return {
+    channel: "babala",
+    properties: {
+      name_surname: res.extraParams.name_surname,
+      tel: res.extraParams.tel,
+      additional_notes: res.extraParams.additional_notes,
+      status: res.extraParams.status,
+      manual_confirmation: res.extraParams.manual_confirmation,
+      reason: res.reason,
+      full_text: res.full_text,
+    },
+    geometry: {
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+    },
+  };
+};
+
+export const transformSingleDataResponses: Record<
+  APISingleDataChannel,
+  RTSingleData
+> = {
+  twitter: transformTwitterResponse as RTSingleData,
+  babala: transformBabalaResponse as RTSingleData,
 };
 
 export function useVerifiedLocations() {
