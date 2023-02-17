@@ -286,6 +286,17 @@ export async function getServerSideProps(context: any) {
 
   const itemDetail = await getLocationById(context.query.id);
 
+  // const parsed = parseChannelData(data, {
+  //   transformResponse: (res) => ({
+  //     channel: res.channel.toLowerCase() as "twitter" | "babala",
+  //     geometry: { location: { lat: 0, lng: 0 } },
+  //     properties: {
+  //       ...res,
+  //       ...res.extraParams,
+  //     },
+  //     reference: res.entry_id,
+  //   }),
+  // }) as TwitterData | BabalaData;
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
