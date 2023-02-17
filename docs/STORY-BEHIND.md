@@ -12,14 +12,14 @@ Our bright-minded and volunteer engineers have established the necessary communi
 
 Thousands of people have organized themselves on a single discord server.
 
-![an example picture](./discord.png)
+![an example picture](./images/discord.png)
 
 Working together with people they have never met in their field, they have developed a very fast product that can handle **500 thousand unique users and millions of traffic on the first day of its released**.
 
-![afetharita](./afetharita.png)
-![afetharita](./afetharita2.png)
-![afetharita](./afetharita3.png)
-![afetharita](./afetharita4.png)
+![afetharita](./images/afetharita.png)
+![afetharita](./images/afetharita2.png)
+![afetharita](./images/afetharita3.png)
+![afetharita](./images/afetharita4.png)
 
 **In just 2 days.**
 It is impossible to express how much stress, busyness they have experienced.
