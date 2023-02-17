@@ -13,12 +13,12 @@ import {
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
-import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
 import { useTranslation } from "next-i18next";
 import {
   MapLayer,
   MapType,
 } from "@/newlayout/components/MTMLViewComponent/types";
+import { LayerButton } from "../map/LayerButton";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;

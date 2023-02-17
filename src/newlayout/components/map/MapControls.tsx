@@ -6,7 +6,6 @@ import {
 } from "../MTMLViewComponent/MTMLViewComponent";
 import { MapType } from "../MTMLViewComponent/types";
 import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
-import { LayerButton } from "@/components/UI/Drawer/components/LayerButton";
 import {
   ButtonGroup,
   IconButton,
@@ -27,6 +26,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import LayersIcon from "@mui/icons-material/Layers";
 import { useMap } from "react-leaflet";
 import { Control } from "./Control";
+import { LayerButton } from "./LayerButton";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
