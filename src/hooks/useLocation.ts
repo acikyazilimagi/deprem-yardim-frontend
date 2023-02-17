@@ -4,23 +4,24 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
-import { APIChannel, APIResponse, Channel, ChannelData } from "@/types";
+import { APIChannel, APIResponse, Channel, ChannelData, RT } from "@/types";
 import { BASE_URL } from "@/utils/constants";
 
 type HandleLocationResponseOptions = {
-  transformResponse: (_res: APIResponse & { extraParams: any }) => ChannelData;
+  transformResponse: RT;
 };
 
-const parseExtraParams = (extraParamsStr?: string) => {
-  if (!extraParamsStr) return {};
-  return dJSON.parse<string, any>(extraParamsStr?.replaceAll("nan", ""));
+const parseExtraParams = (extraParamsStr: string) => {
+  return dJSON.parse<string, ChannelData["properties"]>(
+    extraParamsStr?.replaceAll("nan", "")
+  );
 };
 
 export const parseChannelData = (
   item: APIResponse,
   options: HandleLocationResponseOptions
-): ChannelData => {
-  let extraParams = {};
+): ChannelData | undefined => {
+  let extraParams: ChannelData["properties"] | undefined;
   try {
     extraParams = parseExtraParams(item.extra_parameters);
   } catch (error) {
@@ -53,9 +54,10 @@ export default function useLocation(
     onSuccess: (data) => {
       if (!data) return;
 
-      const transformedProps = data.results.map((item) =>
-        parseChannelData(item, options)
-      );
+      const transformedProps = data.results
+        .map((item) => parseChannelData(item, options))
+        .filter(Boolean) as ChannelData[];
+
       setLocations(transformedProps);
     },
     onError: () => {

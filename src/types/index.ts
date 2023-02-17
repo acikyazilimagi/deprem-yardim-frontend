@@ -11,15 +11,23 @@ export type APIChannel =
   | "twitter"
   | "babala";
 
-export type APIResponse = {
+export type APIResponse<TChannel extends APIChannel = APIChannel> = {
+  channel: TChannel;
+
   id: number;
   entry_id: number;
-  channel: APIChannel;
   reason: string;
   extra_parameters: string;
   is_location_verified: boolean;
   is_need_verified: boolean;
   loc: [number, number];
+};
+
+export type APIResponseObject<
+  TChannel extends APIChannel = APIChannel,
+  T = any
+> = Omit<APIResponse<TChannel>, "extra_parameters"> & {
+  extraParams: T;
 };
 
 export type Channel =
@@ -35,6 +43,11 @@ export type Channel =
   | "hastane";
 
 export type ExtraParams = BabalaParameters | TwitterParameters;
+
+export type RT<
+  TResponse extends APIResponseObject = APIResponseObject,
+  TChannelData extends ChannelData = ChannelData
+> = (_response: TResponse) => TChannelData;
 
 export interface BaseFeedChannel<T> {
   id?: number;
@@ -56,6 +69,21 @@ export type Geometry = {
   location: Point;
 };
 
+export type BabalaResponse = APIResponseObject<
+  "babala",
+  {
+    additional_notes: string;
+    "isim-soyisim": string;
+    manual_confirmation: string;
+    name: string;
+    name_surname: string;
+    numara: string;
+    status: string;
+    tel: string;
+    telefon: string;
+  }
+>;
+
 export type BabalaParameters = {
   name_surname: string;
   tel: number;
@@ -72,6 +100,8 @@ export type BabalaParameters = {
 
   extraParams: any;
 };
+
+export type TwitterResponse = APIResponseObject<"twitter", never>;
 
 export type TwitterParameters = {
   user_id: string;
@@ -90,29 +120,73 @@ export type TwitterParameters = {
   description?: string;
 };
 
+export type AhbapResponse = APIResponseObject<
+  "ahbap_location",
+  {
+    name: string;
+    styleUrl: string;
+    icon: string;
+    description?: string;
+  }
+>;
+
 export type AhbapDataProperties = {
   name: string;
-  description: string;
+  description?: string;
   type: string;
   icon: string;
 };
 
+export type HospitalResponse = APIResponseObject<
+  "hastahane_locations",
+  {
+    name: string;
+    il: string;
+    ilce: string;
+    kurum: string;
+  }
+>;
+
 export type HospitalDataProperties = {
   name: string;
-  description: string;
-  type: string;
+  description?: string;
   icon: string;
+  city: string;
 };
+
+export type TeleteyitResponse = APIResponseObject<
+  "teleteyit",
+  {
+    "isim-soyisim": string;
+    numara: string;
+    aciklama: string;
+    il: string;
+    ilce: string;
+    excel_id: number;
+    durum: string;
+  }
+>;
 
 export type TeleteyitDataProperties = {
   name: string;
   description: string;
-  type: string;
   icon: string;
   city: string;
   district: string;
   status: string;
 };
+
+export type SatelliteResponse = APIResponseObject<
+  "uydu",
+  {
+    damage: string;
+    formatted_address: string;
+    longitude: number;
+    latitude: number;
+    shape_long: string;
+    shape_area: string;
+  }
+>;
 
 export type SatelliteDataProperties = {
   damage: string;
@@ -120,6 +194,15 @@ export type SatelliteDataProperties = {
   icon: string;
   description?: string;
 };
+
+export type SahraResponse = APIResponseObject<
+  "sahra_mutfak",
+  {
+    name: string;
+    styleUrl: string;
+    icon: string;
+  }
+>;
 
 export type SahraDataProperties = {
   id: number;
@@ -130,14 +213,34 @@ export type SahraDataProperties = {
   description?: string;
 };
 
+export type PharmacyResponse = APIResponseObject<
+  "eczane_excel" | "turk_eczane",
+  {
+    name: string;
+    description?: string;
+    styleUrl: string;
+    icon: string;
+  }
+>;
+
 export type PharmacyDataProperties = {
   id: number;
   name: string;
   reason: string;
   verified: boolean;
   icon: string;
-  description: string;
+  description?: string;
 };
+
+export type SafePlaceResponse = APIResponseObject<
+  "guvenli_yerler_oteller",
+  {
+    name: string;
+    description?: string;
+    styleUrl: string;
+    icon: string;
+  }
+>;
 
 export type SafePlaceDataProperties = {
   id: number;
@@ -148,9 +251,19 @@ export type SafePlaceDataProperties = {
   description?: string;
 };
 
+export type FoodResponse = APIResponseObject<
+  "sicak_yemek",
+  {
+    name: string;
+    styleUrl: string;
+    icon: string;
+    description?: string;
+  }
+>;
+
 export type FoodDataProperties = {
   name: string;
-  description: string;
+  description?: string;
   type: string;
   icon: string;
 };

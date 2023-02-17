@@ -16,24 +16,6 @@ const fetchIcon = (count: number) => {
 const emptyIcon =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
 
-// const DEFAULT_PROPERTY_MAP = {
-//   name: "name",
-//   description: "description",
-//   type: "styleUrl",
-//   icon: "icon",
-// };
-
-// const prepareProperties = (properties: any, propertyMap: any) => {
-//   const preparedProperties = {};
-
-//   Object.keys(propertyMap).forEach((key) => {
-//     // @ts-ignore
-//     preparedProperties[key] = properties[propertyMap[key]];
-//   });
-
-//   return preparedProperties;
-// };
-
 type Props = {
   data: ChannelData[];
   onMarkerClick: (_event: any, _markerData: ChannelData) => void;

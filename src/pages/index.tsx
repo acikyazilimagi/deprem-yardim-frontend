@@ -30,7 +30,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { parseChannelData } from "@/hooks/useLocation";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -57,7 +56,6 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   } = useVerifiedLocations();
 
   const router = useRouter();
-  const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
 
   // useEffect(() => {
   //   if (singleItemDetail.channel) {
@@ -148,6 +146,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   useEffect(() => {
     const numErrors = Object.keys(verifiedLocationErrors).reduce(
       (accumulator: number, current: any) => {
+        console.log({ current });
         if (current) {
           return accumulator + 1;
         }
@@ -293,6 +292,8 @@ export async function getServerSideProps(context: any) {
   //     reference: res.entry_id,
   //   }),
   // }) as TwitterData | BabalaData;
+  console.log({ itemDetail });
+
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
