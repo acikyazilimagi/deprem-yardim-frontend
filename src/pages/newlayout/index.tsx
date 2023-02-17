@@ -49,9 +49,10 @@ const NHome = () => {
   }
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
   return (
-    <>
+    <main id="new-layout">
       <UIElementsOverlay />
       <Map
+        zoomControl={false}
         attributionControl={false}
         center={defaultCenter}
         zoom={defaultZoom}
@@ -72,7 +73,7 @@ const NHome = () => {
           <CooldownButtonComponent />
         </Box>
       </Map>
-    </>
+    </main>
   );
 };
 export default NHome;

@@ -62,12 +62,18 @@ export const LocaleSwitchComponent = () => {
 //#endregion
 //#region styles
 const styles: IStyles = {
-  select: {
+  select: (theme: Theme) => ({
     width: "100px",
-    height: "42px",
-    backgroundColor: "white",
+    height: "49px",
     fontSize: "14px",
     fontWeight: "400",
-  },
+    borderImageWidth: "0px",
+    backgroundColor: theme.palette.common.white,
+    color: `${theme.palette.grey[700]} !important`,
+    borderRadius: "8px !important",
+    [theme.breakpoints.down("sm")]: {
+      width: "50px",
+    },
+  }),
 };
 //#endregion
