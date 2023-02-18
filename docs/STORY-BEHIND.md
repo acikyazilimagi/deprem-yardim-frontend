@@ -29,7 +29,8 @@ Working together with people they have never met in their field, they have devel
 ![afetharita](./images/afetharita3.png)
 ![afetharita](./images/afetharita4.png)
 
-## In just 2 days
+**Race against time**
+ 
 In an extraordinary effort, the Afet Harita team worked around the clock to turn the verified data into a working application. Despite the overwhelming amount of data, the complexities of integrating multiple services, and the shortage of time, the team managed to go live on the second day after the disaster. This is an incredible achievement and a testament to the skills and dedication of the team.
 
 None of this would have been possible without the hard work and dedication of these amazing volunteers in [AYA](https://github.com/acikkaynak. Their collaboration, communication, and lightning-fast actions helped turn a dream into a reality. We owe them a debt of gratitude for their selfless work, and we hope that their efforts will inspire others to make a difference in their own communities.
