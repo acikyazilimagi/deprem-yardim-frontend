@@ -1,4 +1,3 @@
-import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
 import {
   MapTypeMapLayerViewComponent,
@@ -28,11 +27,67 @@ import { useMap } from "react-leaflet";
 import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
 import {
-  FilterComponent as SearchFilterComponent,
+  FilterComponent,
   IFilterElement,
-  useFilter as useSearchFilter,
+  createUseFilter,
 } from "../FilterComponent/FilterComponent";
+import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
 import { useEffect } from "react";
+
+const tempFilterData1: IFilterElement[] = [
+  {
+    queryParam: "category-1",
+    label: "foo-label-1",
+    values: ["foo-1", "bar-1"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-2",
+    label: "foo-label-2",
+    values: ["foo-2", "bar-2"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-3",
+    label: "foo-label-3",
+    values: ["foo-3", "bar-3"],
+    defaultValues: [1],
+    type: "multi-select",
+  },
+];
+
+const tempFilterData2: IFilterElement[] = [
+  {
+    queryParam: "category-1",
+    label: "foo-label-1",
+    values: ["foo-1", "bar-1"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+];
+
+const tempFilterData3: IFilterElement[] = [
+  {
+    queryParam: "category-2",
+    label: "foo-label-2",
+    values: ["foo-2", "bar-2"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-3",
+    label: "foo-label-3",
+    values: ["foo-3", "bar-3"],
+    defaultValues: [1],
+    type: "multi-select",
+  },
+];
+
+const usePoiFilter = createUseFilter(tempFilterData1);
+const useHelpFilter = createUseFilter(tempFilterData2);
+const useSearchFilter = createUseFilter(tempFilterData3);
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -121,39 +176,40 @@ const HelpViewControl = () => {
   );
 };
 
-const tempFilterData: IFilterElement[] = [
-  {
-    queryParam: "category-1",
-    label: "foo-label-1",
-    values: ["foo-1", "bar-1"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-2",
-    label: "foo-label-2",
-    values: ["foo-2", "bar-2"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-3",
-    label: "foo-label-3",
-    values: ["foo-3", "bar-3"],
-    defaultValues: [1],
-    type: "multi-select",
-  },
-];
-
 const MapControls: React.FC = () => {
+  const poiFilter = usePoiFilter();
+  const helpFilter = useHelpFilter();
   const searchFilter = useSearchFilter();
 
-  //#region TODO: redundant must be removed after service implementation
+  // //#region TODO: redundant must be removed after service implementation
+  // useEffect(() => {
+  //   searchFilter.setFilter(tempFilterData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+  // //#endregion
+
   useEffect(() => {
-    searchFilter.setFilter(tempFilterData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  //#endregion
+    const queryParams = new URLSearchParams(
+      // @ts-ignore
+      poiFilter.selectedValues
+    ).toString();
+    console.log("falan change 1", poiFilter.selectedValues, queryParams);
+  }, [poiFilter.selectedValues]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(
+      // @ts-ignore
+      helpFilter.selectedValues
+    ).toString();
+    console.log("falan change 2", helpFilter.selectedValues, queryParams);
+  }, [helpFilter.selectedValues]);
+  useEffect(() => {
+    const queryParams = new URLSearchParams(
+      // @ts-ignore
+      searchFilter.selectedValues
+    ).toString();
+    console.log("falan change 3", searchFilter.selectedValues, queryParams);
+  }, [searchFilter.selectedValues]);
 
   return (
     <>
@@ -189,24 +245,29 @@ const MapControls: React.FC = () => {
               buttonLabel="Yardim Talepleri"
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                helpFilter.toggle(!helpFilter.isOpen);
               }}
             />
             <FilterButtonComponent
               buttonLabel="Hizmetler"
               icon={<Diversity1Icon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                poiFilter.toggle(!poiFilter.isOpen);
               }}
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            <SearchFilterComponent
-              onChange={(event) => {
-                // @ts-ignore TODO: URLSearchParams type is not working
-                const queryParams = new URLSearchParams(event).toString();
-                console.log("falan change", event, queryParams);
-              }}
+            <FilterComponent
+              filterStore={useSearchFilter}
+              filters={tempFilterData1}
+            />
+            <FilterComponent
+              filterStore={useHelpFilter}
+              filters={tempFilterData2}
+            />
+            <FilterComponent
+              filterStore={usePoiFilter}
+              filters={tempFilterData3}
             />
           </Stack>
         </Stack>

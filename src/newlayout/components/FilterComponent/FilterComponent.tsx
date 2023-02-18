@@ -18,7 +18,6 @@ import {
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect } from "react";
 
 export interface IFilterElement {
   queryParam: string;
@@ -36,7 +35,6 @@ interface IFilterState {
   filters: IFilterElement[];
   selectedValues: IFilterSelectState;
   isOpen: boolean;
-  setFilter: (_filters: IFilterElement[]) => void;
   toggle: (_isOpen: boolean) => void;
   setSelectedValues: (_selectedValues: IFilterSelectState) => void;
 }
@@ -45,52 +43,47 @@ interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
+export const createUseFilter = (filters: IFilterElement[]) => {
+  const _selectedValues = filters.map((filter) => {
+    return {
+      [filter.queryParam]:
+        filter.defaultValues === "all"
+          ? filter.values
+          : filter.defaultValues.map((index) => filter.values[index]),
+    };
+  });
+  const _object = Object.assign({}, ..._selectedValues);
+  return create<IFilterState>()(
+    devtools(
+      (set) => ({
+        filters,
+        selectedValues: _object,
+        isOpen: false,
+        toggle: (isOpen: boolean) =>
+          set(() => ({ isOpen }), undefined, { type: "toggle" }),
+        setSelectedValues: (selectedValues: IFilterSelectState) =>
+          set(
+            (state) => ({
+              selectedValues: { ...state.selectedValues, ...selectedValues },
+            }),
+            undefined,
+            {
+              type: "setSelectedValues",
+            }
+          ),
+      }),
+      { name: "FilterComponent" }
+    )
+  );
+};
+
 interface IFilterComponent {
-  onChange: (_filters: IFilterSelectState) => void;
+  filterStore: ReturnType<typeof createUseFilter>;
+  filters: IFilterElement[];
 }
 
-export const useFilter = create<IFilterState>()(
-  devtools(
-    (set) => ({
-      filters: [],
-      selectedValues: {},
-      isOpen: false,
-      setFilter: (filters) =>
-        set(
-          () => {
-            const _selectedValues = filters.map((filter) => {
-              return {
-                [filter.queryParam]:
-                  filter.defaultValues === "all"
-                    ? filter.values
-                    : filter.defaultValues.map((index) => filter.values[index]),
-              };
-            });
-            const _object = Object.assign({}, ..._selectedValues);
-            return { filters, selectedValues: _object };
-          },
-          undefined,
-          { type: "setFilter" }
-        ),
-      toggle: (isOpen: boolean) =>
-        set(() => ({ isOpen }), undefined, { type: "toggle" }),
-      setSelectedValues: (selectedValues: IFilterSelectState) =>
-        set(
-          (state) => ({
-            selectedValues: { ...state.selectedValues, ...selectedValues },
-          }),
-          undefined,
-          {
-            type: "setSelectedValues",
-          }
-        ),
-    }),
-    { name: "FilterComponent" }
-  )
-);
-
 export const FilterComponent = (props: IFilterComponent) => {
-  const filterView = useFilter();
+  const filterView = props.filterStore();
 
   const handleChange = (event: SelectChangeEvent) => {
     const {
@@ -109,10 +102,6 @@ export const FilterComponent = (props: IFilterComponent) => {
       return value;
     }
   };
-
-  useEffect(() => {
-    props.onChange(filterView.selectedValues);
-  }, [filterView.selectedValues, props]);
 
   if (!filterView.isOpen) return null;
   return (
