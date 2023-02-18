@@ -1,7 +1,5 @@
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
-import { useSnackbar } from "@/components/base/Snackbar";
 import ClusterPopup from "@/components/UI/ClusterPopup";
-import RenderIf from "@/components/UI/Common/RenderIf";
 import { Drawer as NewDrawer } from "@/components/UI/Drawer/NewDrawer";
 import Drawer from "@/components/UI/Drawer/Drawer";
 import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
@@ -10,30 +8,22 @@ import FooterBanner from "@/components/UI/Footer/Banner";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
-import { MaintenanceError } from "@/errors";
 import {
   transformers,
   useVerifiedLocations,
 } from "@/hooks/useVerifiedLocations";
 import { getLocationById } from "@/services/location";
-import {
-  useAreasActions,
-  useAreasStoreError,
-  useShouldFetchNextOption,
-} from "@/stores/areasStore";
-import { useErrors } from "@/stores/errorStore";
+import { useAreasActions, useShouldFetchNextOption } from "@/stores/areasStore";
 import { MapLayer, useDevice, useMapActions } from "@/stores/mapStore";
 import { useChannelFilterMenuOption, useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
 import { APIChannel, APIResponse, ChannelData, DeviceType } from "@/types";
-import { CHANNEL_COUNT } from "@/utils/constants";
 import { Box } from "@mui/material";
 import Container from "@mui/material/Container";
-import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { parseChannelData } from "@/hooks/useLocation";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
@@ -49,6 +39,7 @@ type Props = {
 export default function Home({ deviceType, singleItemDetail, channel }: Props) {
   // gather location data from all channels
   const channelFilter = useChannelFilterMenuOption();
+
   const {
     ahbapLocations,
     hospitalLocations,
@@ -60,7 +51,7 @@ export default function Home({ deviceType, singleItemDetail, channel }: Props) {
     safePlaceLocations,
     twitterLocations,
     babalaLocations,
-  } = useVerifiedLocations(channelFilter ?? "all");
+  } = useVerifiedLocations();
 
   const router = useRouter();
 

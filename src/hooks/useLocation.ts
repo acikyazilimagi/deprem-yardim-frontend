@@ -5,12 +5,8 @@ import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
 import { APIChannel, APIResponse, Channel, ChannelData, RT } from "@/types";
-import { BASE_URL } from "@/utils/constants";
-
-type HandleLocationResponseOptions = {
-  disable?: boolean;
-  transformResponse: RT;
-};
+import { areasURL } from "@/utils/urls";
+import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
 
 const parseExtraParams = (extraParamsStr: string) => {
   return dJSON.parse<string, ChannelData["properties"]>(
@@ -18,27 +14,9 @@ const parseExtraParams = (extraParamsStr: string) => {
   );
 };
 
-export const parseChannelData = (
-  item: APIResponse,
-  options: HandleLocationResponseOptions
-): ChannelData | undefined => {
-  let extraParams: ChannelData["properties"] | undefined;
-  try {
-    if (typeof item.extra_parameters === "string") {
-      extraParams = parseExtraParams(
-        item.extra_parameters.replaceAll(/\\"/g, '"')
-      );
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  return options.transformResponse({ ...item, extraParams });
-};
-
-const generateURL = (apiChannels: APIChannel[]) => {
-  return (
-    BASE_URL + `/feeds/areas?channel=${apiChannels.join(",")}&extraParams=true`
-  );
+type HandleLocationResponseOptions = {
+  disable?: boolean;
+  transformResponse: RT;
 };
 
 export default function useLocation(
@@ -48,7 +26,10 @@ export default function useLocation(
 ) {
   const [locations, setLocations] = useState<ChannelData[]>([]);
 
-  const url = generateURL(apiChannels);
+  const reasoningFilter = useReasoningFilterMenuOption();
+  const timeFilter = useTimeStamp();
+
+  const url = generateURL(apiChannels, reasoningFilter, timeFilter);
 
   const setError = useSetError();
   const setChannelError = (error: Error) => {
@@ -76,3 +57,38 @@ export default function useLocation(
 
   return locations;
 }
+
+export const parseChannelData = (
+  item: APIResponse,
+  options: HandleLocationResponseOptions
+): ChannelData | undefined => {
+  let extraParams: ChannelData["properties"] | undefined;
+  try {
+    if (typeof item.extra_parameters === "string") {
+      extraParams = parseExtraParams(
+        item.extra_parameters.replaceAll(/\\"/g, '"')
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return options.transformResponse({ ...item, extraParams });
+};
+
+const generateURL = (
+  apiChannels: APIChannel[],
+  reason: string | null,
+  timestamp: number | undefined
+) => {
+  const url = new URL(areasURL);
+  const searchParams = new URLSearchParams();
+
+  searchParams.append("channel", apiChannels.join(","));
+
+  if (reason) searchParams.append("reason", reason);
+  if (timestamp) searchParams.append("time_stamp", timestamp.toString());
+
+  url.search = searchParams.toString();
+
+  return decodeURIComponent(url.toString());
+};

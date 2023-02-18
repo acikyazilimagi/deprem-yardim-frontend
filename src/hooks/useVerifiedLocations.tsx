@@ -1,3 +1,4 @@
+import { useChannelFilterMenuOption } from "@/stores/urlStore";
 import {
   AhbapData,
   AhbapResponse,
@@ -213,9 +214,9 @@ export const transformers: Record<APIChannel, RT> = {
   babala: transformBabalaResponse as RT,
 };
 
-export function useVerifiedLocations(
-  filterValue: "twitter" | "babala" | "all"
-) {
+export function useVerifiedLocations() {
+  const channelFilter = useChannelFilterMenuOption();
+
   const foodLocations = useLocation(["sicak_yemek"], "yemek", {
     transformResponse: transformFoodResponse as RT,
   });
@@ -253,12 +254,12 @@ export function useVerifiedLocations(
   );
 
   const babalaLocations = useLocation(["babala"], "babala", {
-    disable: !["babala", "all"].includes(filterValue),
+    disable: !["babala", null].includes(channelFilter),
     transformResponse: transformBabalaResponse as RT,
   });
 
   const twitterLocations = useLocation(["twitter"], "twitter", {
-    disable: !["twitter", "all"].includes(filterValue),
+    disable: !["twitter", null].includes(channelFilter),
     transformResponse: transformTwitterResponse as RT,
   });
 
