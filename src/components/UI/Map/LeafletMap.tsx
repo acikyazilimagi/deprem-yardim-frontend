@@ -30,10 +30,11 @@ import {
 } from "./utils";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
-import { useURLActions } from "@/stores/urlStore";
+import { useChannelFilterMenuOption, useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { ChannelData } from "@/types";
+import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -185,31 +186,25 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
   return L.latLngBounds(northEast, southWest);
 };
 
-interface ILeafletMap {
-  locations: Omit<Record<MapLayer, ChannelData[]>, "heatmap" | "earthquakes">;
-}
-
-function LeafletMap(props: ILeafletMap) {
+function LeafletMap() {
   const { setCoordinates } = useURLActions();
-  // const data = useAreasMarkerData();
-
-  const data = props.locations[MapLayer.Markers];
+  const { markers, ...locations } = useVerifiedLocations();
 
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
 
-  console.log(props.locations);
+  console.log(locations, markers);
 
   const points: Point[] = useMemo(
     () =>
-      data.map((marker: ChannelData) => [
+      markers.map((marker: ChannelData) => [
         marker.geometry.location.lat,
         marker.geometry.location.lng,
         DEFAULT_IMPORTANCY,
       ]),
-    [data]
+    [markers]
   );
 
   const device = useDevice();
@@ -250,7 +245,7 @@ function LeafletMap(props: ILeafletMap) {
           }}
         />
         <MapEvents />
-        <LayerControl points={points} data={data} locations={props.locations} />
+        <LayerControl points={points} data={markers} locations={locations} />
         <TileLayer url={baseMapUrl} />
       </Map>
     </>

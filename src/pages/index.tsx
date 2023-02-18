@@ -8,14 +8,11 @@ import FooterBanner from "@/components/UI/Footer/Banner";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
 import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
-import {
-  transformers,
-  useVerifiedLocations,
-} from "@/hooks/useVerifiedLocations";
+import { transformers } from "@/hooks/useVerifiedLocations";
 import { getLocationById } from "@/services/location";
 import { useAreasActions, useShouldFetchNextOption } from "@/stores/areasStore";
-import { MapLayer, useDevice, useMapActions } from "@/stores/mapStore";
-import { useChannelFilterMenuOption, useURLActions } from "@/stores/urlStore";
+import { useDevice, useMapActions } from "@/stores/mapStore";
+import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
 import { APIChannel, APIResponse, ChannelData, DeviceType } from "@/types";
 import { Box } from "@mui/material";
@@ -37,22 +34,6 @@ type Props = {
 };
 
 export default function Home({ deviceType, singleItemDetail, channel }: Props) {
-  // gather location data from all channels
-  const channelFilter = useChannelFilterMenuOption();
-
-  const {
-    ahbapLocations,
-    hospitalLocations,
-    foodLocations,
-    teleteyitLocations,
-    satelliteLocations,
-    sahraKitchenLocations,
-    pharmacyLocations,
-    safePlaceLocations,
-    twitterLocations,
-    babalaLocations,
-  } = useVerifiedLocations();
-
   const router = useRouter();
 
   const onLanguageChange = (newLocale: string) => {
@@ -109,24 +90,7 @@ export default function Home({ deviceType, singleItemDetail, channel }: Props) {
               </FilterMenu>
             </div>
           </div>
-          <LeafletMap
-            locations={{
-              [MapLayer.Ahbap]: ahbapLocations,
-              [MapLayer.Food]: foodLocations,
-              [MapLayer.Hospital]: hospitalLocations,
-              [MapLayer.Satellite]: satelliteLocations,
-              [MapLayer.SahraMutfak]: sahraKitchenLocations,
-              [MapLayer.Pharmacy]: pharmacyLocations,
-              [MapLayer.SafePlaces]: safePlaceLocations,
-              [MapLayer.Teleteyit]: teleteyitLocations,
-              [MapLayer.Markers]:
-                channelFilter === "twitter"
-                  ? twitterLocations
-                  : channelFilter === "babala"
-                  ? babalaLocations
-                  : twitterLocations.concat(babalaLocations),
-            }}
-          />
+          <LeafletMap />
           {/* FIXME: move it to a component */}
           <Box
             sx={{

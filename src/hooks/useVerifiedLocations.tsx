@@ -1,3 +1,4 @@
+import { MapLayer } from "@/stores/mapStore";
 import { useChannelFilterMenuOption } from "@/stores/urlStore";
 import {
   AhbapData,
@@ -25,6 +26,7 @@ import {
   TwitterData,
   TwitterResponse,
 } from "@/types";
+import { useMemo } from "react";
 import useLocation from "./useLocation";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
@@ -263,16 +265,35 @@ export function useVerifiedLocations() {
     transformResponse: transformTwitterResponse as RT,
   });
 
-  return {
-    babalaLocations,
-    twitterLocations,
-    foodLocations,
-    ahbapLocations,
-    hospitalLocations,
-    teleteyitLocations,
-    satelliteLocations,
-    sahraKitchenLocations,
-    pharmacyLocations,
-    safePlaceLocations,
-  };
+  return useMemo(
+    () => ({
+      [MapLayer.Ahbap]: ahbapLocations,
+      [MapLayer.Food]: foodLocations,
+      [MapLayer.Hospital]: hospitalLocations,
+      [MapLayer.Satellite]: satelliteLocations,
+      [MapLayer.SahraMutfak]: sahraKitchenLocations,
+      [MapLayer.Pharmacy]: pharmacyLocations,
+      [MapLayer.SafePlaces]: safePlaceLocations,
+      [MapLayer.Teleteyit]: teleteyitLocations,
+      [MapLayer.Markers]:
+        channelFilter === "twitter"
+          ? twitterLocations
+          : channelFilter === "babala"
+          ? babalaLocations
+          : twitterLocations.concat(babalaLocations),
+    }),
+    [
+      ahbapLocations,
+      babalaLocations,
+      channelFilter,
+      foodLocations,
+      hospitalLocations,
+      pharmacyLocations,
+      safePlaceLocations,
+      sahraKitchenLocations,
+      satelliteLocations,
+      teleteyitLocations,
+      twitterLocations,
+    ]
+  );
 }
