@@ -20,14 +20,11 @@ import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
 import { parseChannelData } from "@/hooks/useLocation";
 import { DrawerData, useMapActions } from "@/stores/mapStore";
-import { useState } from "react";
 import {
   BabalaData,
   APIResponse,
-  BabalaParameters,
   TwitterData,
   TwitterParameters,
-  ChannelData,
 } from "@/types";
 
 export interface ContentProps {
@@ -38,7 +35,7 @@ export interface ContentProps {
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const { t } = useTranslation("home");
   // const [rawData, setRawData] = useState<TwitterData | BabalaData | null>(null);
-  const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
+  const { setDrawerData } = useMapActions();
 
   const { isLoading, error } = useSWR<APIResponse>(
     drawerData?.reference ? locationsURL(drawerData.reference) : null,

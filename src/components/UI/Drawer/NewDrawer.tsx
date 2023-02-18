@@ -8,7 +8,7 @@ import { useTranslation } from "next-i18next";
 import formatcoords from "formatcoords";
 import MapButtons, { generateGoogleMapsUrl } from "./components/MapButtons";
 import TextField from "@mui/material/TextField";
-import { PropsWithChildren, useMemo } from "react";
+import { PropsWithChildren } from "react";
 import FeedContent from "./components/channels/FeedContent";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/material";

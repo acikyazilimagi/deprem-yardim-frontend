@@ -25,6 +25,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { parseChannelData } from "@/hooks/useLocation";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
   ssr: false,
@@ -39,6 +40,7 @@ type Props = {
 export default function Home({ deviceType, singleItemDetail, channel }: Props) {
   // gather location data from all channels
   const channelFilter = useChannelFilterMenuOption();
+  const { copyToClipBoard } = useCopyToClipboard();
 
   const {
     ahbapLocations,
@@ -165,7 +167,10 @@ export default function Home({ deviceType, singleItemDetail, channel }: Props) {
           </Box>
         </Container>
         {channel && (
-          <NewDrawer data={channel} onCopyBillboard={(_clipped) => {}} />
+          <NewDrawer
+            data={channel}
+            onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
+          />
         )}
 
         <Drawer />
@@ -197,8 +202,6 @@ export async function getServerSideProps(context: any) {
         transformers[itemDetail.channel.toLowerCase() as APIChannel],
     });
   }
-
-  console.log({ itemDetail }, { channel });
 
   return {
     props: {
