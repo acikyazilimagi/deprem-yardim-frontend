@@ -40,81 +40,102 @@ const typeImages: Record<MapType, string> = {
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
-const MapControls: React.FC = () => {
-  const parentMap = useMap();
-  const helpView = useHelpView();
-  const mtmlView = useMTMLView();
-  const theme = useTheme();
 
+const MapZoomControl = () => {
+  const parentMap = useMap();
+  return (
+    <Box>
+      <ButtonGroup
+        sx={styles.button}
+        size="small"
+        orientation="vertical"
+        aria-label="small button group"
+      >
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            parentMap.zoomIn();
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            parentMap.zoomOut();
+          }}
+        >
+          <RemoveIcon />
+        </IconButton>
+      </ButtonGroup>
+    </Box>
+  );
+};
+
+interface IMapLayerControlProps {
+  showOnly: "mobile" | "desktop";
+}
+
+const MapLayerControl = (props: IMapLayerControlProps) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const mtmlView = useMTMLView();
+
+  return matches ? (
+    props.showOnly === "desktop" ? (
+      <LayerButton
+        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+        image={typeImages[mtmlView.mapType]}
+        checked={false}
+      />
+    ) : null
+  ) : props.showOnly === "mobile" ? (
+    <Box>
+      <IconButton
+        sx={styles.button}
+        color="inherit"
+        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+      >
+        <LayersIcon />
+      </IconButton>
+    </Box>
+  ) : null;
+};
+
+const HelpViewControl = () => {
+  const helpView = useHelpView();
+  return (
+    <Box>
+      <IconButton
+        sx={styles.button}
+        color="inherit"
+        onClick={() => {
+          helpView.toggle(!helpView.isOpen);
+        }}
+      >
+        <HelpOutline />
+      </IconButton>
+    </Box>
+  );
+};
+
+const MapControls: React.FC = () => {
   const searchFilter = useSearchFilter();
 
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
   return (
     <>
       <Control position="topleft">
-        <Box sx={styles.marginTopLeft}>
-          <ButtonGroup
-            sx={styles.button}
-            size="small"
-            orientation="vertical"
-            aria-label="small button group"
-          >
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                parentMap.zoomIn();
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                parentMap.zoomOut();
-              }}
-            >
-              <RemoveIcon />
-            </IconButton>
-          </ButtonGroup>
-        </Box>
-      </Control>
-      <Control position="topleft">
-        {!matches ? (
-          <Box sx={styles.marginLeft}>
-            <IconButton
-              sx={styles.button}
-              color="inherit"
-              onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
-            >
-              <LayersIcon />
-            </IconButton>
-          </Box>
-        ) : null}
-      </Control>
-      <Control position="topleft">
-        <Box sx={styles.marginLeft}>
-          <IconButton
-            sx={styles.button}
-            color="inherit"
-            onClick={() => {
-              helpView.toggle(!helpView.isOpen);
-            }}
-          >
-            <HelpOutline />
-          </IconButton>
-        </Box>
+        <Stack display={"flex"} direction={"column"} rowGap={1}>
+          <MapZoomControl />
+          <MapLayerControl showOnly={"mobile"} />
+          <HelpViewControl />
+        </Stack>
       </Control>
       <Control position="bottomleft">
-        <MapTypeMapLayerViewComponent />
-      </Control>
-      <Control position="bottomleft">
-        {matches ? (
-          <LayerButton
-            onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
-            image={typeImages[mtmlView.mapType]}
-            checked={false}
-          />
-        ) : null}
+        <Stack>
+          <MapTypeMapLayerViewComponent />
+          <MapLayerControl showOnly={"desktop"} />
+        </Stack>
       </Control>
       <Control position="topright">
         <Stack
@@ -155,13 +176,21 @@ const MapControls: React.FC = () => {
           </Stack>
         </Stack>
       </Control>
+
       <Control position="bottomright">
-        <Stack display={"flex"} direction={"row"}>
-          <LocaleSwitchComponent />
+        <Stack
+          display={"flex"}
+          direction={"column"}
+          rowGap={1}
+          alignItems={"flex-end"}
+        >
+          <Stack display={"flex"} direction={"row"}>
+            <LocaleSwitchComponent />
+          </Stack>
+          <Stack display={"flex"} direction={"row"}>
+            <AttributionComponent />
+          </Stack>
         </Stack>
-      </Control>
-      <Control position="bottomright">
-        <AttributionComponent />
       </Control>
     </>
   );
@@ -184,5 +213,11 @@ const styles: IStyles = {
   },
   marginLeft: {
     margin: "0px 0px 10px 10px",
+  },
+  pointerNone: {
+    pointerEvents: "none",
+  },
+  pointerAll: {
+    pointerEvents: "all",
   },
 };

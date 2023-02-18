@@ -114,7 +114,7 @@ const styles: IStyles = {
     left: "0px",
     width: "100%",
     height: "110px",
-    zIndex: 900,
+    zIndex: 1030,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
