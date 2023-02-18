@@ -132,7 +132,7 @@ const MapControls: React.FC = () => {
         </Stack>
       </Control>
       <Control position="bottomleft">
-        <Stack>
+        <Stack display={"flex"} direction={"column"} rowGap={1}>
           <MapTypeMapLayerViewComponent />
           <MapLayerControl showOnly={"desktop"} />
         </Stack>

@@ -10,7 +10,7 @@
   margin-bottom: 6px !important;
 }
 #new-layout .leaflet-bottom.leaflet-left {
-  z-index: 1010 !important;
+  z-index: 1050 !important;
 }
 #new-layout .leaflet-bottom.leaflet-left > .leaflet-control {
   margin-bottom: 20px !important;
