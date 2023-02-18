@@ -1,7 +1,6 @@
 import { ChannelData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { memo } from "react";
-import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
 import { GenericClusterGroup } from "./GenericClusterGroup";
 import { useRouter } from "next/router";
@@ -20,7 +19,7 @@ const longitudeExtractor = (p: Point) => p[1];
 const latitudeExtractor = (p: Point) => p[0];
 const intensityExtractor = (p: Point) => p[2];
 
-const LayerControl = ({ points, data, locations }: Props) => {
+const LayerControl = ({ points, locations }: Props) => {
   const mapLayers = useMapLayers();
   // const { handleMarkerClick } = useMapClickHandlers();
   //

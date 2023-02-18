@@ -200,16 +200,19 @@ function LeafletMap(props: ILeafletMap) {
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
 
-  console.log(props.locations);
-
   const points: Point[] = useMemo(
     () =>
-      data.map((marker: ChannelData) => [
-        marker.geometry.location.lat,
-        marker.geometry.location.lng,
-        DEFAULT_IMPORTANCY,
-      ]),
-    [data]
+      Object.values(props.locations).flatMap((item) =>
+        item.map(
+          (marker) =>
+            [
+              marker.geometry.location.lng,
+              marker.geometry.location.lat,
+              DEFAULT_IMPORTANCY,
+            ] as Point
+        )
+      ),
+    [props.locations]
   );
 
   const device = useDevice();

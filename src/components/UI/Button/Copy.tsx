@@ -3,14 +3,11 @@ import React from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import { Button, Typography } from "@mui/material";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 type IconButtonProps = React.ComponentProps<typeof Button> & {
   iconProps?: React.ComponentProps<typeof FileCopyIcon>;
 };
-
-function copyBillboard(url: string) {
-  navigator.clipboard.writeText(url);
-}
 
 export interface CopyButtonProps extends IconButtonProps {
   data: string;
@@ -25,12 +22,13 @@ export function CopyButton({
   ...props
 }: CopyButtonProps) {
   const windowSize = useWindowSize();
+  const { copyToClipBoard } = useCopyToClipboard();
 
   const handleCopyButtonClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
-    copyBillboard(data);
+    copyToClipBoard(data as string);
     onClick?.(event);
   };
   return (

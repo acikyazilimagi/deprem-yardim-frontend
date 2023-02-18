@@ -1,4 +1,5 @@
 import useSnackbarHook from "@/components/base/Snackbar/useSnackbar";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { CopyAll } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import Switch from "@mui/material/Switch";
@@ -14,9 +15,10 @@ const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
   const { t } = useTranslation("home");
   const [showSavedData, setShowSavedData] = useState(true);
   const { enqueueInfo } = useSnackbarHook();
+  const { copyToClipBoard } = useCopyToClipboard();
 
   const handleClickCopyFullText = () => {
-    navigator.clipboard.writeText(properties.full_text as string);
+    copyToClipBoard(properties.full_text as string);
     enqueueInfo(t("cluster.copiedContentSuccessfully"));
   };
 
