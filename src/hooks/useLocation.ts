@@ -8,6 +8,7 @@ import { APIChannel, APIResponse, Channel, ChannelData, RT } from "@/types";
 import { BASE_URL } from "@/utils/constants";
 
 type HandleLocationResponseOptions = {
+  disable?: boolean;
   transformResponse: RT;
 };
 
@@ -23,7 +24,11 @@ export const parseChannelData = (
 ): ChannelData | undefined => {
   let extraParams: ChannelData["properties"] | undefined;
   try {
-    extraParams = parseExtraParams(item.extra_parameters);
+    if (typeof item.extra_parameters === "string") {
+      extraParams = parseExtraParams(
+        item.extra_parameters.replaceAll(/\\"/g, '"')
+      );
+    }
   } catch (error) {
     console.error(error);
   }
@@ -50,20 +55,24 @@ export default function useLocation(
     setError({ [channelName]: error });
   };
 
-  useSWR<{ results: APIResponse[] }>(url, dataFetcher, {
-    onSuccess: (data) => {
-      if (!data) return;
+  useSWR<{ results: APIResponse[] }>(
+    options.disable ? null : url,
+    dataFetcher,
+    {
+      onSuccess: (data) => {
+        if (!data) return;
 
-      const transformedProps = data.results
-        .map((item) => parseChannelData(item, options))
-        .filter(Boolean) as ChannelData[];
+        const transformedProps = data.results
+          .map((item) => parseChannelData(item, options))
+          .filter(Boolean) as ChannelData[];
 
-      setLocations(transformedProps);
-    },
-    onError: () => {
-      setChannelError(new PartialDataError());
-    },
-  });
+        setLocations(transformedProps);
+      },
+      onError: () => {
+        setChannelError(new PartialDataError());
+      },
+    }
+  );
 
   return locations;
 }

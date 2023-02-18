@@ -1,5 +1,5 @@
 import Map from "@/components/UI/Map/Map";
-import { APIResponse, EVENT_TYPES } from "@/types";
+import { EVENT_TYPES } from "@/types";
 import {
   MapLayer,
   useDevice,
@@ -33,7 +33,6 @@ import ViewControl from "./ViewControl";
 import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
-import { useAreasMarkerData } from "@/stores/areasStore";
 import { ChannelData } from "@/types";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
@@ -187,16 +186,21 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 };
 
 interface ILeafletMap {
-  locations: Partial<Record<MapLayer, ChannelData[]>>;
+  locations: Omit<Record<MapLayer, ChannelData[]>, "heatmap" | "earthquakes">;
 }
 
 function LeafletMap(props: ILeafletMap) {
   const { setCoordinates } = useURLActions();
-  const data = useAreasMarkerData();
+  // const data = useAreasMarkerData();
+
+  const data = props.locations[MapLayer.Markers];
+
   const mapType = useMapType();
   const { toggleDrawer, setDrawerData, setEventType } = useMapActions();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
+
+  console.log(props.locations);
 
   const points: Point[] = useMemo(
     () =>

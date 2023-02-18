@@ -2,7 +2,6 @@ import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
 import FeedChannelBabala from "./babala/FeedChannelBabala";
 import { FeedChannelGeneric } from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
-import { FeedChannelSatellite } from "./FeedChannelSatellite";
 import { FeedChannelSahra } from "./FeedChannelSahraKitchen";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
 import { Channel, ChannelData } from "@/types";
@@ -14,7 +13,6 @@ import {
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
   FeedChannelTeleteyitProps,
-  FeedChannelSatelliteProps,
   FeedChannelSafePlacesProps,
   FeedChannelPharmacyProps,
   FeedChannelSahraProps,
@@ -34,9 +32,6 @@ const contentMapper = {
   teleteyit: (source: FeedChannelTeleteyitProps) => (
     <FeedChannelTeleteyit {...source} />
   ),
-  uydu: (source: FeedChannelSatelliteProps) => (
-    <FeedChannelSatellite {...source} />
-  ),
   sahra: (source: FeedChannelSahraProps) => <FeedChannelSahra {...source} />,
   eczane: (source: FeedChannelPharmacyProps) => (
     <FeedChannelPharmacy {...source} />
@@ -55,8 +50,6 @@ const isChannelExist = (channel?: string) => {
 };
 
 const FeedContent = ({ content }: Props) => {
-  // Mevcutta bulunan channeldan farklı bir channel gelmesi durumunda "generic" channel'ı basılıyor
-
   if (!content) {
     return null;
   }

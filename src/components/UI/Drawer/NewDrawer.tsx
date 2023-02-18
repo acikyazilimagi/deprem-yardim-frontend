@@ -1,22 +1,26 @@
 import styles from "./Drawer.module.css";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import { DrawerData } from "../../../stores/mapStore";
-import { ChannelData, TwitterParameters } from "@/types";
+import { BabalaParameters, ChannelData, TwitterParameters } from "@/types";
 import Button from "@mui/material/Button";
 import { CopyAll, OpenInNew } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import formatcoords from "formatcoords";
 import MapButtons, { generateGoogleMapsUrl } from "./components/MapButtons";
 import TextField from "@mui/material/TextField";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useMemo } from "react";
 import FeedContent from "./components/channels/FeedContent";
 import CloseIcon from "@mui/icons-material/Close";
+import { Box } from "@mui/material";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import { useRouter } from "next/router";
+import { getTimeAgo } from "@/utils/date";
 
 const DrawerIDLabel = ({ id }: { id: number }) => {
   return <span className={styles.contentIdSection}>ID: {id}</span>;
 };
 
-const TwitterButton = () => {
+const TwitterButton = ({ data }: { data: ChannelData }) => {
   const { t } = useTranslation("home");
 
   return (
@@ -28,7 +32,7 @@ const TwitterButton = () => {
       onClick={() =>
         window.open(
           // @ts-ignore: tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
-          `https://twitter.com/anyuser/status/${data.extra_parameters?.tweet_id}`
+          `https://twitter.com/anyuser/status/${data.properties.tweet_id}`
         )
       }
       startIcon={<OpenInNew className={styles.btnIcon} />}
@@ -112,19 +116,22 @@ const GoogleMapsStuff = ({
 
 type DrawerProps = {
   data: NonNullable<DrawerData>;
-  title?: string;
-  timeLabel?: string;
-  handleDataDrawerClose: () => void;
   onCopyBillboard: (_clipped: string) => void;
 };
 
-export const Drawer = ({
-  data,
-  title,
-  timeLabel,
-  handleDataDrawerClose,
-  onCopyBillboard,
-}: DrawerProps) => {
+export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
+  const size = useWindowSize();
+  const router = useRouter();
+  const anchor = size.width > 768 ? "left" : "bottom";
+
+  const twitterBabala = data.properties as TwitterParameters | BabalaParameters;
+
+  const timeLabel =
+    twitterBabala?.timestamp &&
+    getTimeAgo(twitterBabala.timestamp, router.locale);
+
+  const title = twitterBabala?.formatted_address ?? data.properties.name;
+
   const hasSource =
     data &&
     data?.channel === "twitter" &&
@@ -135,25 +142,48 @@ export const Drawer = ({
     data.geometry.location?.lat,
   ]).format();
 
-  return (
-    <MuiDrawer className={styles.drawer} open={!!data}>
-      <div className={styles.content}>
-        {data?.reference && <DrawerIDLabel id={data.reference} />}
-        {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
-        {timeLabel && <TimeLabel timeLabel={timeLabel} />}
-        <Coordinates coordinates={formattedCoordinates} />
-        <MapButtons drawerData={data} />
-        <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
-          {hasSource && <TwitterButton />}
-        </GoogleMapsStuff>
-        <FeedContent content={data} />
-      </div>
-      {/* <CloseByRecord drawerData={drawerData} /> */}
+  const handleDataDrawerClose = () => {
+    const query = { ...router.query };
+    delete query["id"];
+    router.push({ query }, { query });
+  };
 
-      <CloseIcon
-        onClick={handleDataDrawerClose}
-        className={styles.closeButton}
-      />
+  return (
+    <MuiDrawer
+      className={styles.drawer}
+      open={!!data}
+      onClose={handleDataDrawerClose}
+      anchor={anchor}
+    >
+      <Box
+        sx={{
+          width: size.width > 768 ? 400 : "full",
+          display: "flex",
+          height: "100%",
+          padding: "1rem 2rem 1rem 1rem",
+          flexDirection: "column",
+          overflow: "auto",
+        }}
+        role="presentation"
+      >
+        <div className={styles.content}>
+          {data?.reference && <DrawerIDLabel id={data.reference} />}
+          {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
+          {timeLabel && <TimeLabel timeLabel={timeLabel} />}
+          <Coordinates coordinates={formattedCoordinates} />
+          <MapButtons drawerData={data} />
+          <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
+            {hasSource && <TwitterButton data={data} />}
+          </GoogleMapsStuff>
+          <FeedContent content={data} />
+        </div>
+        {/* <CloseByRecord drawerData={drawerData} /> */}
+
+        <CloseIcon
+          onClick={handleDataDrawerClose}
+          className={styles.closeButton}
+        />
+      </Box>
     </MuiDrawer>
   );
 };

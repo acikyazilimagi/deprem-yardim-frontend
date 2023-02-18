@@ -4,15 +4,13 @@ import { ChannelData } from "@/types";
 import { capitalize } from "@/utils/helpers";
 
 export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
+  const { icon } = properties as { icon: string | null };
+
   return (
     <div style={styles.container}>
       <div style={styles.logo_container}>
         <Typography style={styles.logo}>{capitalize(channel)}</Typography>
-        <img
-          style={styles.icon}
-          src={properties.icon}
-          alt={`${channel} icon`}
-        />
+        {icon && <img style={styles.icon} src={icon} alt={`${channel} icon`} />}
       </div>
       <Divider />
       {properties.description && (

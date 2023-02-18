@@ -1,8 +1,13 @@
 import {
   AhbapData,
   AhbapResponse,
+  APIChannel,
+  APIResponseObject,
+  BabalaData,
+  BabalaResponse,
   FoodData,
   FoodResponse,
+  Geometry,
   HospitalData,
   HospitalResponse,
   PharmacyData,
@@ -16,62 +21,60 @@ import {
   SatelliteResponse,
   TeleteyitData,
   TeleteyitResponse,
+  TwitterData,
+  TwitterResponse,
 } from "@/types";
 import useLocation from "./useLocation";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
 // TODO: Remove this hook and use hooks defined above in relevant components
 
+const createGeometry = (res: APIResponseObject): Geometry => ({
+  location: {
+    lat: res.loc?.[1] ?? 0,
+    lng: res.loc?.[0] ?? 0,
+  },
+});
+
 const transformFoodResponse: RT<FoodResponse, FoodData> = (res) => {
   return {
     channel: "yemek",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      name: res.extraParams.name,
-      description: res.extraParams.description,
-      type: res.extraParams.styleUrl,
-      icon: res.extraParams.icon,
+      name: res.extraParams?.name ?? null,
+      description: res.extraParams?.description ?? null,
+      type: res.extraParams?.styleUrl ?? null,
+      icon: res.extraParams?.icon ?? null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
 const transformAhbapResponse: RT<AhbapResponse, AhbapData> = (res) => {
   return {
     channel: "ahbap",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      name: res.extraParams.name,
-      description: res.extraParams.description,
-      type: res.extraParams.styleUrl,
-      icon: res.extraParams.icon,
+      name: res.extraParams?.name ?? null,
+      description: res.extraParams?.description ?? null,
+      type: res.extraParams?.styleUrl ?? null,
+      icon: res.extraParams?.icon ?? null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
 const transformHospitalResponse: RT<HospitalResponse, HospitalData> = (res) => {
   return {
     channel: "hastane",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      name: res.extraParams.name,
+      name: res.extraParams?.name ?? null,
       icon: "images/icon-10.png",
-      city: res.extraParams.il,
+      city: res.extraParams?.il ?? null,
+      description: null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
@@ -79,23 +82,18 @@ const transformTeleteyitResponse: RT<TeleteyitResponse, TeleteyitData> = (
   res
 ) => {
   return {
-    channel: "hastane",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    channel: "teleteyit",
+    geometry: createGeometry(res),
     properties: {
-      name: res.extraParams["isim-soyisim"],
-      description: res.extraParams.aciklama,
+      name: res.extraParams?.["isim-soyisim"] ?? null,
+      description: res.extraParams?.aciklama ?? null,
       icon: "images/icon-14.png",
-      id: res.id,
-      reason: res.reason,
-      city: res.extraParams.il,
-      district: res.extraParams.ilce,
-      status: res.extraParams.durum,
+      reason: res.reason ?? null,
+      city: res.extraParams?.il ?? null,
+      district: res.extraParams?.ilce ?? null,
+      status: res.extraParams?.durum ?? null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
@@ -104,55 +102,45 @@ const transformSatelliteResponse: RT<SatelliteResponse, SatelliteData> = (
 ) => {
   return {
     channel: "uydu",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      damage: res.extraParams.damage,
-      verified: res.is_location_verified,
+      damage: res.extraParams?.damage ?? null,
+      verified: res.is_location_verified ?? false,
       icon: "images/icon-13.png",
+      name: null,
+      description: null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
 const transformSahraResponse: RT<SahraResponse, SahraData> = (res) => {
   return {
     channel: "sahra",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      id: res.id,
-      name: res.extraParams.name,
-      reason: res.reason,
-      icon: res.extraParams.icon,
-      verified: res.is_location_verified,
+      name: res.extraParams?.name ?? null,
+      reason: res.reason ?? null,
+      icon: res.extraParams?.icon ?? null,
+      verified: res.is_location_verified ?? false,
+      description: null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
 const transformPharmacyResponse: RT<PharmacyResponse, PharmacyData> = (res) => {
   return {
     channel: "eczane",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      id: res.id,
-      name: res.extraParams.name,
-      reason: res.reason,
-      icon: res.extraParams.icon,
-      verified: res.is_location_verified,
+      name: res.extraParams?.name ?? null,
+      reason: res.reason ?? null,
+      icon: "images/icon-15.png",
+      verified: res.is_location_verified ?? false,
+      description: null,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
@@ -161,24 +149,73 @@ const transformSafePlaceResponse: RT<SafePlaceResponse, SafePlaceData> = (
 ) => {
   return {
     channel: "guvenli",
-    geometry: {
-      location: {
-        lat: res.loc[1],
-        lng: res.loc[0],
-      },
-    },
+    geometry: createGeometry(res),
     properties: {
-      verified: res.is_location_verified,
-      description: res.extraParams.description,
-      id: res.entry_id,
+      description: res.extraParams?.description ?? null,
       icon: "images/icon-16.png",
-      reason: res.reason,
-      name: res.extraParams.name,
+      reason: res.reason ?? null,
+      name: res.extraParams?.name ?? null,
+      verified: res.is_location_verified ?? false,
     },
+    reference: res.entry_id ?? null,
   };
 };
 
-export function useVerifiedLocations() {
+export const transformTwitterResponse: RT<TwitterResponse, TwitterData> = (
+  res
+) => {
+  return {
+    channel: "twitter",
+    properties: {
+      full_text: res.full_text ?? "",
+      reason: res.reason ?? null,
+      screen_name: res.extraParams?.screen_name ?? null,
+      name: res.extraParams?.name ?? null,
+      tweet_id: res.extraParams?.tweet_id ?? null,
+      formatted_address: res.formatted_address,
+      timestamp: res.timestamp ?? null,
+      description: null,
+    },
+    geometry: createGeometry(res),
+    reference: res.entry_id ?? null,
+  };
+};
+
+export const transformBabalaResponse: RT<BabalaResponse, BabalaData> = (
+  res
+) => {
+  return {
+    channel: "babala",
+    properties: {
+      reason: res.reason ?? null,
+      full_text: res.full_text ?? "",
+      timestamp: res.timestamp ?? null,
+      formatted_address: res.formatted_address,
+      name: res.extraParams?.name ?? null,
+      description: null,
+    },
+    geometry: createGeometry(res),
+    reference: res.entry_id ?? null,
+  };
+};
+
+export const transformers: Record<APIChannel, RT> = {
+  ahbap_location: transformAhbapResponse as RT,
+  eczane_excel: transformPharmacyResponse as RT,
+  guvenli_yerler_oteller: transformSafePlaceResponse as RT,
+  hastahane_locations: transformHospitalResponse as RT,
+  sahra_mutfak: transformSahraResponse as RT,
+  sicak_yemek: transformFoodResponse as RT,
+  teleteyit: transformTeleteyitResponse as RT,
+  turk_eczane: transformPharmacyResponse as RT,
+  uydu: transformSatelliteResponse as RT,
+  twitter: transformTwitterResponse as RT,
+  babala: transformBabalaResponse as RT,
+};
+
+export function useVerifiedLocations(
+  filterValue: "twitter" | "babala" | "all"
+) {
   const foodLocations = useLocation(["sicak_yemek"], "yemek", {
     transformResponse: transformFoodResponse as RT,
   });
@@ -215,7 +252,19 @@ export function useVerifiedLocations() {
     { transformResponse: transformSafePlaceResponse as RT }
   );
 
+  const babalaLocations = useLocation(["babala"], "babala", {
+    disable: !["babala", "all"].includes(filterValue),
+    transformResponse: transformBabalaResponse as RT,
+  });
+
+  const twitterLocations = useLocation(["twitter"], "twitter", {
+    disable: !["twitter", "all"].includes(filterValue),
+    transformResponse: transformTwitterResponse as RT,
+  });
+
   return {
+    babalaLocations,
+    twitterLocations,
     foodLocations,
     ahbapLocations,
     hospitalLocations,

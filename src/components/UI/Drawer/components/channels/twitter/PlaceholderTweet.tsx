@@ -25,9 +25,9 @@ const PlaceholderTweet = ({ source, reason }: Props) => {
             <div style={styles.avatarAndName}>
               <div style={styles.avatar}></div>
               <div style={styles.name}>
-                <div style={styles.username}>{source?.screen_name}</div>
+                <div style={styles.username}>{source.screen_name}</div>
                 <div style={styles.userIdArea}>
-                  <div style={styles.userText}>@{source?.name}</div>
+                  <div style={styles.userText}>@{source.name}</div>
                   <div style={styles.dot}>·</div>
                   <div style={styles.followText}>Follow</div>
                 </div>

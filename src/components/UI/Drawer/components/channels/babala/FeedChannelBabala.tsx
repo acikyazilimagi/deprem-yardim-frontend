@@ -5,19 +5,6 @@ import { capitalize, isNaN } from "@/utils/helpers";
 import { FeedChannelBabalaProps } from "../../../types";
 
 const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
-  const extraValues =
-    properties.extraParams &&
-    Object.entries(properties.extraParams).map(([k, v]) => {
-      if (!isNaN(v) && v !== "<nil>" && (typeof v !== "string" || !!v.trim())) {
-        return (
-          <Typography key={k} style={styles.fullText}>
-            {v as string}
-          </Typography>
-        );
-      }
-    });
-
-  console.log({ properties });
 
   return (
     <>
@@ -27,7 +14,6 @@ const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
         </div>
         <Divider />
         <Typography style={styles.fullText}>{properties.full_text}</Typography>
-        {extraValues}
 
         {!isNaN(properties.reason) && properties.reason && (
           <div style={styles.chip_container}>

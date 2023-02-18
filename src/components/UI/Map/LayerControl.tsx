@@ -1,10 +1,10 @@
 import { ChannelData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import ClusterGroup from "./ClusterGroup";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
 import { GenericClusterGroup } from "./GenericClusterGroup";
-import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
+import { useRouter } from "next/router";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -16,12 +16,22 @@ type Props = {
   locations: Partial<Record<MapLayer, ChannelData[]>>;
 };
 
+const longitudeExtractor = (p: Point) => p[1];
+const latitudeExtractor = (p: Point) => p[0];
+const intensityExtractor = (p: Point) => p[2];
+
 const LayerControl = ({ points, data, locations }: Props) => {
   const mapLayers = useMapLayers();
-  const longitudeExtractor = useCallback((p: Point) => p[1], []);
-  const latitudeExtractor = useCallback((p: Point) => p[0], []);
-  const intensityExtractor = useCallback((p: Point) => p[2], []);
-  const { handleMarkerClick } = useMapClickHandlers();
+  // const { handleMarkerClick } = useMapClickHandlers();
+  //
+
+  const router = useRouter();
+
+  const onMarkerClick = (_e: any, markerData: ChannelData) => {
+    console.log({ markerData });
+    const query = { ...router.query, id: markerData.reference };
+    router.push({ query }, { query });
+  };
 
   return (
     <>
@@ -36,7 +46,6 @@ const LayerControl = ({ points, data, locations }: Props) => {
           useLocalExtrema={false}
         />
       )}
-      {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
 
       {Object.keys(locations).map((key) => {
         if (mapLayers.includes(key as MapLayer)) {
@@ -50,9 +59,7 @@ const LayerControl = ({ points, data, locations }: Props) => {
             <GenericClusterGroup
               key={key}
               data={data}
-              onMarkerClick={(e, markerData: ChannelData) => {
-                handleMarkerClick(e, markerData);
-              }}
+              onMarkerClick={onMarkerClick}
             />
           );
         }

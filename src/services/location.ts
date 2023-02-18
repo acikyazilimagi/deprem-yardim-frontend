@@ -1,15 +1,15 @@
 import { locationsURL } from "@/utils/urls";
 import { dataFetcher } from "./dataFetcher";
-import { Data } from "@/types";
+import { APIResponse } from "@/types";
 
 async function getLocationById(locationId: number) {
   if (!locationId) {
-    return {};
+    return null;
   }
 
   const url = locationsURL(locationId);
   const data = await dataFetcher(url);
-  return data as Data;
+  return data as APIResponse;
 }
 
 export { getLocationById };

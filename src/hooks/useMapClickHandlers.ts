@@ -61,7 +61,6 @@ export function useMapClickHandlers() {
       toggleDrawer();
 
       if (selectedMarkerData) {
-        console.log({ selectedMarkerData });
         setDrawerData({ ...selectedMarkerData, closeByRecords });
       }
     },

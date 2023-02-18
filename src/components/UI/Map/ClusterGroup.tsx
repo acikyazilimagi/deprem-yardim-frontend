@@ -11,6 +11,7 @@ import { BabalaData, ChannelData, TwitterData } from "@/types";
 
 type Props = {
   data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
 
 type ExtendedMarkerProps = MarkerProps & {
@@ -40,8 +41,8 @@ const markerGrayIcon = L.Icon.Default.extend({
   },
 });
 
-const ClusterGroup = ({ data }: Props) => {
-  const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
+const ClusterGroup = ({ data, onMarkerClick }: Props) => {
+  const { handleClusterClick } = useMapClickHandlers();
   const map = useMap();
 
   const geoJSONPlaces = data.map((marker) => ({
@@ -111,11 +112,7 @@ const ClusterGroup = ({ data }: Props) => {
             }
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(
-                  e as any as MouseEvent,
-                  cluster.properties.marker,
-                  data
-                );
+                onMarkerClick(e, cluster.item);
               },
             }}
             markerData={cluster.properties.marker}

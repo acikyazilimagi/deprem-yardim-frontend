@@ -24,10 +24,10 @@ const EmbedTweet = ({ source, reason }: Props) => {
   return (
     <>
       {isLoading && <PlaceholderTweet reason={reason} source={source} />}
-      {isReadyForRender && (
+      {isReadyForRender && source?.tweet_id && (
         <TweetEmbed
           options={{ conversation: "none" }}
-          tweetId={source?.tweet_id}
+          tweetId={source.tweet_id}
           placeholder={"Loading"}
           onTweetLoadSuccess={(element) => {
             setIsLoading(element === undefined);

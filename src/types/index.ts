@@ -16,18 +16,23 @@ export type APIResponse<TChannel extends APIChannel = APIChannel> = {
 
   id: number;
   entry_id: number;
-  reason: string;
+  reason?: string;
   extra_parameters: string;
-  is_location_verified: boolean;
-  is_need_verified: boolean;
+  full_text?: string;
+  formatted_address: string;
+  timestamp?: string;
+
   loc: [number, number];
+
+  is_location_verified?: boolean;
+  is_need_verified: boolean;
 };
 
 export type APIResponseObject<
   TChannel extends APIChannel = APIChannel,
   T = any
 > = Omit<APIResponse<TChannel>, "extra_parameters"> & {
-  extraParams: T;
+  extraParams: T | undefined;
 };
 
 export type Channel =
@@ -49,17 +54,6 @@ export type RT<
   TChannelData extends ChannelData = ChannelData
 > = (_response: TResponse) => TChannelData;
 
-export interface BaseFeedChannel<T> {
-  id?: number;
-  full_text?: string;
-  is_resolved?: boolean;
-  channel?: Channel;
-  timestamp?: string;
-  extra_parameters: T;
-  formatted_address?: string;
-  reason?: string | null;
-}
-
 export type Point = {
   lat: number;
   lng: number;
@@ -79,45 +73,38 @@ export type BabalaResponse = APIResponseObject<
     name_surname: string;
     numara: string;
     status: string;
-    tel: string;
+    tel: number;
     telefon: string;
   }
 >;
 
 export type BabalaParameters = {
-  name_surname: string;
-  tel: number;
-  additional_notes: string;
-  status: string;
-  manual_confirmation: string;
-  formatted_address?: string;
-  timestamp?: string;
-  full_text?: string;
-  reason?: string | null;
-  name?: string;
-  icon?: string;
-  description?: string;
-
-  extraParams: any;
+  full_text: string;
+  reason: string | null;
+  timestamp: string | null;
+  formatted_address: string;
+  name: string | null;
+  description: string | null;
 };
 
-export type TwitterResponse = APIResponseObject<"twitter", never>;
+export type TwitterResponse = APIResponseObject<
+  "twitter",
+  {
+    tweet_id: string;
+    screen_name: string;
+    name?: string;
+  }
+>;
 
 export type TwitterParameters = {
-  user_id: string;
-  screen_name: string;
-  name: string;
-  tweet_id: string;
-  created_at: string;
-  hashtags: string;
-  user_account_created_at: string;
-  media: string;
-  formatted_address?: string;
-  timestamp?: string;
-  full_text?: string;
-  reason?: string | null;
-  icon?: string;
-  description?: string;
+  tweet_id: string | null;
+  screen_name: string | null;
+  name: string | null;
+  reason: string | null;
+  full_text: string;
+  timestamp: string | null;
+  formatted_address: string;
+  description: string | null;
 };
 
 export type AhbapResponse = APIResponseObject<
@@ -131,10 +118,10 @@ export type AhbapResponse = APIResponseObject<
 >;
 
 export type AhbapDataProperties = {
-  name: string;
-  description?: string;
-  type: string;
-  icon: string;
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
 };
 
 export type HospitalResponse = APIResponseObject<
@@ -148,10 +135,10 @@ export type HospitalResponse = APIResponseObject<
 >;
 
 export type HospitalDataProperties = {
-  name: string;
-  description?: string;
-  icon: string;
-  city: string;
+  name: string | null;
+  description: string | null;
+  icon: string | null;
+  city: string | null;
 };
 
 export type TeleteyitResponse = APIResponseObject<
@@ -168,12 +155,12 @@ export type TeleteyitResponse = APIResponseObject<
 >;
 
 export type TeleteyitDataProperties = {
-  name: string;
-  description: string;
+  name: string | null;
+  description: string | null;
   icon: string;
-  city: string;
-  district: string;
-  status: string;
+  city: string | null;
+  district: string | null;
+  status: string | null;
 };
 
 export type SatelliteResponse = APIResponseObject<
@@ -189,10 +176,11 @@ export type SatelliteResponse = APIResponseObject<
 >;
 
 export type SatelliteDataProperties = {
-  damage: string;
-  verified: boolean;
+  damage: string | null;
+  verified: boolean | null;
   icon: string;
-  description?: string;
+  name: string | null;
+  description: string | null;
 };
 
 export type SahraResponse = APIResponseObject<
@@ -205,12 +193,11 @@ export type SahraResponse = APIResponseObject<
 >;
 
 export type SahraDataProperties = {
-  id: number;
-  name: string;
-  reason: string;
-  verified: boolean;
-  icon: string;
-  description?: string;
+  name: string | null;
+  reason: string | null;
+  verified: boolean | null;
+  icon: string | null;
+  description: string | null;
 };
 
 export type PharmacyResponse = APIResponseObject<
@@ -224,12 +211,11 @@ export type PharmacyResponse = APIResponseObject<
 >;
 
 export type PharmacyDataProperties = {
-  id: number;
-  name: string;
-  reason: string;
-  verified: boolean;
-  icon: string;
-  description?: string;
+  name: string | null;
+  reason: string | null;
+  verified: boolean | null;
+  icon: string | null;
+  description: string | null;
 };
 
 export type SafePlaceResponse = APIResponseObject<
@@ -243,12 +229,11 @@ export type SafePlaceResponse = APIResponseObject<
 >;
 
 export type SafePlaceDataProperties = {
-  id: number;
-  reason: string;
+  reason: string | null;
   verified: boolean;
-  name: string;
-  icon?: string;
-  description?: string;
+  name: string | null;
+  icon: string;
+  description: string | null;
 };
 
 export type FoodResponse = APIResponseObject<
@@ -262,10 +247,10 @@ export type FoodResponse = APIResponseObject<
 >;
 
 export type FoodDataProperties = {
-  name: string;
-  description?: string;
-  type: string;
-  icon: string;
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
 };
 
 export type TwitterData = {
@@ -341,22 +326,9 @@ export type DataProperties =
   | HospitalData;
 
 export type ChannelData = DataProperties & {
-  reference?: number;
+  reference?: number | null;
   closeByRecords?: number[];
   isVisited?: boolean;
-};
-
-// export type MarkerData = [GeoJSON, ChannelData];
-
-export type Data = {
-  id: number;
-  full_text: string;
-  formatted_address: string;
-  extra_parameters?: string;
-  timestamp: string;
-  is_resolved: boolean;
-  channel: Channel;
-  reason: string | null;
 };
 
 export type DataLite = {

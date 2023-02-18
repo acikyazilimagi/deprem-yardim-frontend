@@ -3,6 +3,7 @@ import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import { ChannelData } from "@/types";
+import styles from "./Map.module.css";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -13,13 +14,20 @@ const fetchIcon = (count: number) => {
   });
 };
 
-const emptyIcon =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
-
 type Props = {
   data: ChannelData[];
   onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
+
+const markerBlueIcon = L.Icon.Default.extend({
+  options: {},
+});
+
+const markerGrayIcon = L.Icon.Default.extend({
+  options: {
+    className: styles.marker_icon__visited,
+  },
+});
 
 export const GenericClusterGroup = ({
   data,
@@ -27,7 +35,6 @@ export const GenericClusterGroup = ({
 }: // propertyMap = DEFAULT_PROPERTY_MAP,
 Props) => {
   const map = useMap();
-
   const bounds = map.getBounds();
 
   const geoJSON = data.map((item) => {
@@ -51,7 +58,7 @@ Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 10, maxZoom: 17 },
+    options: { radius: 150, maxZoom: 17 },
   });
 
   return (
@@ -87,11 +94,15 @@ Props) => {
           <Marker
             key={`cluster-${idx}`}
             position={[latitude, longitude]}
-            icon={L.icon({
-              iconUrl: cluster.properties.icon || emptyIcon,
-              iconSize: [28, 28],
-              iconAnchor: [14, 14],
-            })}
+            icon={
+              cluster.properties.icon
+                ? L.icon({
+                    iconUrl: cluster.properties.icon,
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14],
+                  })
+                : new markerBlueIcon()
+            }
             eventHandlers={{
               click: (e) => {
                 onMarkerClick(e, cluster.item);
