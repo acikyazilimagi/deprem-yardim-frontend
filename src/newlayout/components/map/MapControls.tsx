@@ -29,8 +29,10 @@ import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
 import {
   FilterComponent as SearchFilterComponent,
+  IFilterElement,
   useFilter as useSearchFilter,
 } from "../FilterComponent/FilterComponent";
+import { useEffect } from "react";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -119,8 +121,39 @@ const HelpViewControl = () => {
   );
 };
 
+const tempFilterData: IFilterElement[] = [
+  {
+    queryParam: "category-1",
+    label: "foo-label-1",
+    values: ["foo-1", "bar-1"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-2",
+    label: "foo-label-2",
+    values: ["foo-2", "bar-2"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-3",
+    label: "foo-label-3",
+    values: ["foo-3", "bar-3"],
+    defaultValues: [1],
+    type: "multi-select",
+  },
+];
+
 const MapControls: React.FC = () => {
   const searchFilter = useSearchFilter();
+
+  //#region TODO: redundant must be removed after service implementation
+  useEffect(() => {
+    searchFilter.setFilter(tempFilterData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  //#endregion
 
   return (
     <>
@@ -169,8 +202,10 @@ const MapControls: React.FC = () => {
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
             <SearchFilterComponent
-              onChange={() => {
-                console.log("falan change");
+              onChange={(event) => {
+                // @ts-ignore TODO: URLSearchParams type is not working
+                const queryParams = new URLSearchParams(event).toString();
+                console.log("falan change", event, queryParams);
               }}
             />
           </Stack>
