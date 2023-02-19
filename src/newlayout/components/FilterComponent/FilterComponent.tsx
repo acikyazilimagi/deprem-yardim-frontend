@@ -18,6 +18,7 @@ import {
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
+import { useEffect } from "react";
 
 export interface IFilterElement {
   queryParam: string;
@@ -35,6 +36,7 @@ interface IFilterState {
   filters: IFilterElement[];
   selectedValues: IFilterSelectState;
   isOpen: boolean;
+  setFilters: (_filters: IFilterElement[]) => void;
   toggle: (_isOpen: boolean) => void;
   setSelectedValues: (_selectedValues: IFilterSelectState) => void;
 }
@@ -43,22 +45,32 @@ interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
-export const createUseFilter = (filters: IFilterElement[]) => {
-  const _selectedValues = filters.map((filter) => {
-    return {
-      [filter.queryParam]:
-        filter.defaultValues === "all"
-          ? filter.values
-          : filter.defaultValues.map((index) => filter.values[index]),
-    };
-  });
-  const _object = Object.assign({}, ..._selectedValues);
+export const createUseFilter = () => {
   return create<IFilterState>()(
     devtools(
       (set) => ({
-        filters,
-        selectedValues: _object,
+        filters: [],
+        selectedValues: {},
         isOpen: false,
+        setFilters: (filters: IFilterElement[]) =>
+          set(
+            () => {
+              const _selectedValues = filters.map((filter) => {
+                return {
+                  [filter.queryParam]:
+                    filter.defaultValues === "all"
+                      ? filter.values
+                      : filter.defaultValues.map(
+                          (index) => filter.values[index]
+                        ),
+                };
+              });
+              const _object = Object.assign({}, ..._selectedValues);
+              return { filters, selectedValues: _object };
+            },
+            undefined,
+            { type: "setFilters" }
+          ),
         toggle: (isOpen: boolean) =>
           set(() => ({ isOpen }), undefined, { type: "toggle" }),
         setSelectedValues: (selectedValues: IFilterSelectState) =>
@@ -84,6 +96,11 @@ interface IFilterComponent {
 
 export const FilterComponent = (props: IFilterComponent) => {
   const filterView = props.filterStore();
+
+  useEffect(() => {
+    filterView.setFilters(props.filters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.filters]);
 
   const handleChange = (event: SelectChangeEvent) => {
     const {

@@ -11,6 +11,7 @@ import { HelpViewComponent } from "../../newlayout/components/HelpViewComponent/
 import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
 import { useMTMLView } from "@/newlayout/components/MTMLViewComponent/MTMLViewComponent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { dataFetcher } from "@/services/dataFetcher";
 
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
@@ -38,7 +39,11 @@ const UIElementsOverlay = () => {
   );
 };
 
-const NHome = () => {
+interface INHome {
+  reasons: string[];
+}
+
+const NHome = (props: INHome) => {
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
   const { mapType } = useMTMLView();
@@ -47,6 +52,7 @@ const NHome = () => {
   if (typeof window !== "undefined") {
     dpr = window.devicePixelRatio;
   }
+
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
   return (
     <main id="new-layout">
@@ -67,7 +73,11 @@ const NHome = () => {
         maxBoundsViscosity={1}
         maxZoom={18}
       >
-        <MapControls />
+        <MapControls
+          filters={{
+            reasons: props.reasons,
+          }}
+        />
         <TileLayer url={baseMapUrl} />
         <Box sx={styles.fixedMidBottom}>
           <CooldownButtonComponent />
@@ -79,6 +89,22 @@ const NHome = () => {
 export default NHome;
 
 export async function getServerSideProps(context: any) {
+  const checkQueryParams = JSON.stringify(context.query) === "{}";
+  const res = await dataFetcher(`https://apigo.afetharita.com/reasons`);
+
+  if (!checkQueryParams) {
+    console.log(
+      "context",
+      JSON.stringify(context.query) === "{}",
+      context.query
+    );
+    const query = new URLSearchParams(context.query);
+    const URL = `https://apigo.afetharita.com/feeds/areas?extraParams=true&${query}`;
+    const feedWithReasons = await dataFetcher(URL);
+    console.log("feedWithReasons", feedWithReasons);
+  }
+
+  // Pass data to the page via props
   const UA = context.req.headers["user-agent"];
   const isMobile = Boolean(
     UA.match(
@@ -90,6 +116,7 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
+      reasons: res.reasons,
     },
   };
 }
