@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { Box, SxProps, Theme } from "@mui/material";
+import { Drawer } from "@/components/UI/Drawer/NewDrawer";
 import { HelpViewComponent } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
@@ -7,6 +8,7 @@ import { ChannelData } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 const MapContent = dynamic(
   () =>
@@ -26,6 +28,7 @@ const UIElementsOverlay = () => {
 
 interface INHome {
   reasons: string[];
+  channel: ChannelData;
 }
 
 const useApiClient = () =>
@@ -33,6 +36,7 @@ const useApiClient = () =>
 
 const NHome = (props: INHome) => {
   const router = useRouter();
+  const { copyToClipBoard } = useCopyToClipboard();
 
   const apiClient = useApiClient();
   const [reasons] = useState(() => props.reasons);
@@ -52,6 +56,12 @@ const NHome = (props: INHome) => {
     <main id="new-layout">
       <UIElementsOverlay />
       <MapContent reasons={reasons} locations={locations} />
+      {props.channel && (
+        <Drawer
+          data={props.channel}
+          onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
+        />
+      )}
     </main>
   );
 };

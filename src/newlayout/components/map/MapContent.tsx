@@ -13,6 +13,7 @@ import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
 import { ChannelData } from "@/types";
+import { useRouter } from "next/router";
 
 type Props = {
   reasons: string[];
@@ -24,6 +25,12 @@ export const MapContent = ({ reasons, locations }: Props) => {
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
   const device = useDevice();
+  const router = useRouter();
+
+  const onMarkerClick = (_e: any, markerData: ChannelData) => {
+    const query = { ...router.query, id: markerData.reference };
+    router.push({ query }, { query });
+  };
 
   const dpr = window.devicePixelRatio;
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
@@ -48,12 +55,7 @@ export const MapContent = ({ reasons, locations }: Props) => {
       <MapControls filters={{ reasons }} />
       <TileLayer url={baseMapUrl} />
 
-      <GenericClusterGroup
-        data={locations}
-        onMarkerClick={(...args) => {
-          console.log(...args);
-        }}
-      />
+      <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
 
       <Box sx={styles.fixedMidBottom}>
         <CooldownButtonComponent />
