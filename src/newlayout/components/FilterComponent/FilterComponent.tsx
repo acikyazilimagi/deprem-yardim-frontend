@@ -106,9 +106,13 @@ export const FilterComponent = (props: IFilterComponent) => {
     const {
       target: { value },
     } = event;
-    filterView.setSelectedValues({
-      [event.target.name]: typeof value === "string" ? value.split(",") : value,
-    });
+
+    const selectedValue = typeof value === "string" ? value.split(",") : value;
+    if (selectedValue.length > 0) {
+      filterView.setSelectedValues({
+        [event.target.name]: selectedValue,
+      });
+    }
   };
 
   const valueSelector = (filter: IFilterElement) => {
