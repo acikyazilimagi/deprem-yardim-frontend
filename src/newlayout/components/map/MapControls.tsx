@@ -32,8 +32,9 @@ import {
   createUseFilter,
 } from "../FilterComponent/FilterComponent";
 import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { usePrevious } from "@/hooks/usePrevious";
 
 /**
  * const tempFilterData1: IFilterElement[] = [
@@ -88,7 +89,7 @@ const tempFilterData3: IFilterElement[] = [
 ];
  */
 
-const usePoiFilter = createUseFilter();
+export const usePoiFilter = createUseFilter();
 // const useHelpFilter = createUseFilter(tempFilterData2);
 // const useSearchFilter = createUseFilter(tempFilterData3);
 
@@ -191,23 +192,39 @@ const MapControls = (props: IMapControlsProps) => {
 
   const [poiFilters, setpoiFilters] = useState<IFilterElement[]>([]);
 
-  const constructFilterElements = (data: string[]) => {
-    const _data: IFilterElement[] = [
-      {
-        queryParam: "reason",
-        label: "Reasons",
-        values: data,
-        defaultValues: "all",
-        type: "multi-select",
-      },
-    ];
-    return _data;
-  };
+  const constructFilterElements = useCallback(
+    (data: string[]) => {
+      const queryReasons = (router.query.reasons as string | undefined) ?? "";
+
+      const _data: IFilterElement[] = [
+        {
+          queryParam: "reasons",
+          label: "Reasons",
+          values: data,
+          defaultValues: queryReasons
+            .split(",")
+            .map((reason) => data.indexOf(reason))
+            .filter((index) => index > -1),
+          type: "multi-select",
+        },
+      ];
+      return _data;
+    },
+    [router.query.reasons]
+  );
 
   useEffect(() => {
     setpoiFilters(constructFilterElements(props.filters.reasons));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [constructFilterElements, props.filters.reasons]);
+
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
+
+  useEffect(() => {
+    if (queryReasons && queryReasons !== prevReasons) {
+      poiFilter.setSelectedValues({ reasons: queryReasons.split(",") });
+    }
+  }, [poiFilter, prevReasons, queryReasons, router.query.reasons]);
 
   useEffect(() => {
     const query = new URLSearchParams(
@@ -216,7 +233,7 @@ const MapControls = (props: IMapControlsProps) => {
     ).toString();
     console.log("selected values", poiFilter.selectedValues);
     // FIXME: this will caouse an infinite loop if setpoiFilters depedency is added
-    router.push({ query }, { query });
+    router.push({ query }, { query }, { shallow: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poiFilter.selectedValues]);
 

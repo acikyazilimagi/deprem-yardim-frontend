@@ -51,7 +51,7 @@ export const createUseFilter = () => {
       (set) => ({
         filters: [],
         selectedValues: {},
-        isOpen: false,
+        isOpen: true,
         setFilters: (filters: IFilterElement[]) =>
           set(
             () => {
@@ -121,6 +121,7 @@ export const FilterComponent = (props: IFilterComponent) => {
   };
 
   if (!filterView.isOpen) return null;
+
   return (
     <Fade in={filterView.isOpen}>
       <Container sx={styles.container}>

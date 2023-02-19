@@ -97,7 +97,7 @@ Props) => {
             icon={
               cluster.properties.icon
                 ? L.icon({
-                    iconUrl: cluster.properties.icon,
+                    iconUrl: "/" + cluster.properties.icon,
                     iconSize: [28, 28],
                     iconAnchor: [14, 14],
                   })
