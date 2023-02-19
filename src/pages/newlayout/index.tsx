@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { Box, SxProps, Theme } from "@mui/material";
-import { Drawer } from "@/components/UI/Drawer/NewDrawer";
 import { HelpViewComponent } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
@@ -15,6 +14,11 @@ const MapContent = dynamic(
     import("@/newlayout/components/map/MapContent").then(
       (mod) => mod.MapContent
     ),
+  { ssr: false }
+);
+
+const Drawer = dynamic(
+  () => import("@/components/UI/Drawer/NewDrawer").then((mod) => mod.Drawer),
   { ssr: false }
 );
 // Development overlay container
