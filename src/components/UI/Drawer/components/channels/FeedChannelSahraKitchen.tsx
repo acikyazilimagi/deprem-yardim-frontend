@@ -6,9 +6,10 @@ export const FeedChannelSahra = (props: FeedChannelSahraProps) => {
     <DrawerContent>
       <DrawerContent.Header>
         <DrawerContent.Title>{props.properties.name}</DrawerContent.Title>
-        <DrawerContent.Badge>
+        {/* No longer received from API */}
+        {/* <DrawerContent.Badge>
           {props.properties.verified ? "Onaylandı" : "Onaylanmadı"}
-        </DrawerContent.Badge>
+        </DrawerContent.Badge> */}
       </DrawerContent.Header>
       <DrawerContent.Text>{props.properties.reason}</DrawerContent.Text>
     </DrawerContent>

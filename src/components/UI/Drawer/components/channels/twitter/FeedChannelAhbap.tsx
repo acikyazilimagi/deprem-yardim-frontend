@@ -23,8 +23,14 @@ export const FeedChannelAhbap = ({
           />
         </div>
         <Divider />
-        <Typography style={styles.name}>{getTypeLabel(type ?? "")}</Typography>
-        <Typography style={styles.description}>{`${description}`}</Typography>
+        {type && (
+          <Typography style={styles.name}>
+            {getTypeLabel(type ?? "")}
+          </Typography>
+        )}
+        {description && (
+          <Typography style={styles.description}>{`${description}`}</Typography>
+        )}
       </div>
     </>
   );
