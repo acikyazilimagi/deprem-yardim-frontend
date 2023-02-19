@@ -68,7 +68,6 @@ export type Geometry = {
 //                                that includes data relevant to that type of data/channel
 //
 // - [channel]Response:         Response received from API
-//                                that includes data relevant to that type of data/channel
 //
 // - [channel]DataProperties:   Properties of data received from api that will be used in UI
 //
