@@ -1,7 +1,11 @@
 import styles from "./Drawer.module.css";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import { DrawerData } from "../../../stores/mapStore";
-import { BabalaParameters, ChannelData, TwitterParameters } from "@/types";
+import {
+  BabalaDataProperties,
+  ChannelData,
+  TwitterDataProperties,
+} from "@/types";
 import Button from "@mui/material/Button";
 import { CopyAll, OpenInNew } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
@@ -124,7 +128,9 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
   const router = useRouter();
   const anchor = size.width > 768 ? "left" : "bottom";
 
-  const twitterBabala = data.properties as TwitterParameters | BabalaParameters;
+  const twitterBabala = data.properties as
+    | TwitterDataProperties
+    | BabalaDataProperties;
 
   const timeLabel =
     twitterBabala?.timestamp &&
@@ -135,7 +141,7 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
   const hasSource =
     data &&
     data?.channel === "twitter" &&
-    (data.properties as TwitterParameters).tweet_id !== "";
+    (data.properties as TwitterDataProperties).tweet_id !== "";
 
   const formattedCoordinates = formatcoords([
     data.geometry.location?.lng,

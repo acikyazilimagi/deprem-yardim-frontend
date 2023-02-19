@@ -24,7 +24,7 @@ import {
   BabalaData,
   APIResponse,
   TwitterData,
-  TwitterParameters,
+  TwitterDataProperties,
 } from "@/types";
 
 export interface ContentProps {
@@ -96,7 +96,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const hasSource =
     data &&
     drawerData?.channel === "twitter" &&
-    (data as TwitterParameters).tweet_id !== "";
+    (data as TwitterDataProperties).tweet_id !== "";
 
   const title =
     twitterBabala?.formatted_address ??
