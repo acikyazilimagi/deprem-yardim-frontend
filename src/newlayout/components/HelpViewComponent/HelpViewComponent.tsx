@@ -187,22 +187,27 @@ const styles: IStyles = {
     [theme.breakpoints.up("xs")]: {
       maxWidth: "100%",
       height: "100vh",
+      borderRadius: "0px !important",
     },
     [theme.breakpoints.up("sm")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("lg")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("xl")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
   }),
   header: () => ({ fontSize: 16 }),

@@ -1,4 +1,3 @@
-import { useHelpView } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
 import { HelpOutline } from "@mui/icons-material";
 import {
   MapTypeMapLayerViewComponent,
@@ -17,8 +16,8 @@ import {
   Box,
 } from "@mui/material";
 import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
-import SearchIcon from "@mui/icons-material/Search";
-import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
+// import SearchIcon from "@mui/icons-material/Search";
+// import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { FilterButtonComponent } from "../FilterButtonComponent/FilterButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
@@ -28,9 +27,70 @@ import { useMap } from "react-leaflet";
 import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
 import {
-  FilterComponent as SearchFilterComponent,
-  useFilter as useSearchFilter,
+  FilterComponent,
+  IFilterElement,
+  createUseFilter,
 } from "../FilterComponent/FilterComponent";
+import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+/**
+ * const tempFilterData1: IFilterElement[] = [
+  {
+    queryParam: "category-1",
+    label: "foo-label-1",
+    values: ["foo-1", "bar-1"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-2",
+    label: "foo-label-2",
+    values: ["foo-2", "bar-2"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-3",
+    label: "foo-label-3",
+    values: ["foo-3", "bar-3"],
+    defaultValues: [1],
+    type: "multi-select",
+  },
+];
+
+const tempFilterData2: IFilterElement[] = [
+  {
+    queryParam: "category-1",
+    label: "foo-label-1",
+    values: ["foo-1", "bar-1"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+];
+
+const tempFilterData3: IFilterElement[] = [
+  {
+    queryParam: "category-2",
+    label: "foo-label-2",
+    values: ["foo-2", "bar-2"],
+    defaultValues: [0],
+    type: "single-select",
+  },
+  {
+    queryParam: "category-3",
+    label: "foo-label-3",
+    values: ["foo-3", "bar-3"],
+    defaultValues: [1],
+    type: "multi-select",
+  },
+];
+ */
+
+const usePoiFilter = createUseFilter();
+// const useHelpFilter = createUseFilter(tempFilterData2);
+// const useSearchFilter = createUseFilter(tempFilterData3);
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -40,81 +100,140 @@ const typeImages: Record<MapType, string> = {
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
-const MapControls: React.FC = () => {
+
+const MapZoomControl = () => {
   const parentMap = useMap();
-  const helpView = useHelpView();
-  const mtmlView = useMTMLView();
+  return (
+    <Box>
+      <ButtonGroup
+        sx={styles.button}
+        size="small"
+        orientation="vertical"
+        aria-label="small button group"
+      >
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            parentMap.zoomIn();
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            parentMap.zoomOut();
+          }}
+        >
+          <RemoveIcon />
+        </IconButton>
+      </ButtonGroup>
+    </Box>
+  );
+};
+
+interface IMapLayerControlProps {
+  showOnly: "mobile" | "desktop";
+}
+
+const MapLayerControl = (props: IMapLayerControlProps) => {
   const theme = useTheme();
-
-  const searchFilter = useSearchFilter();
-
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const mtmlView = useMTMLView();
+
+  return matches ? (
+    props.showOnly === "desktop" ? (
+      <LayerButton
+        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+        image={typeImages[mtmlView.mapType]}
+        checked={false}
+      />
+    ) : null
+  ) : props.showOnly === "mobile" ? (
+    <Box>
+      <IconButton
+        sx={styles.button}
+        color="inherit"
+        onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
+      >
+        <LayersIcon />
+      </IconButton>
+    </Box>
+  ) : null;
+};
+
+const HelpViewControl = () => {
+  const helpView = useHelpView();
+  return (
+    <Box>
+      <IconButton
+        sx={styles.button}
+        color="inherit"
+        onClick={() => {
+          helpView.toggle(!helpView.isOpen);
+        }}
+      >
+        <HelpOutline />
+      </IconButton>
+    </Box>
+  );
+};
+
+interface IMapControlsProps {
+  filters: {
+    reasons: string[];
+  };
+}
+
+const MapControls = (props: IMapControlsProps) => {
+  const poiFilter = usePoiFilter();
+  const router = useRouter();
+
+  const [poiFilters, setpoiFilters] = useState<IFilterElement[]>([]);
+
+  const constructFilterElements = (data: string[]) => {
+    const _data: IFilterElement[] = [
+      {
+        queryParam: "reason",
+        label: "Reasons",
+        values: data,
+        defaultValues: "all",
+        type: "multi-select",
+      },
+    ];
+    return _data;
+  };
+
+  useEffect(() => {
+    setpoiFilters(constructFilterElements(props.filters.reasons));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const query = new URLSearchParams(
+      // @ts-ignore
+      { ...router.query, ...poiFilter.selectedValues }
+    ).toString();
+    console.log("selected values", poiFilter.selectedValues);
+    // FIXME: this will caouse an infinite loop if setpoiFilters depedency is added
+    router.push({ query }, { query });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [poiFilter.selectedValues]);
+
   return (
     <>
       <Control position="topleft">
-        <Box sx={styles.marginTopLeft}>
-          <ButtonGroup
-            sx={styles.button}
-            size="small"
-            orientation="vertical"
-            aria-label="small button group"
-          >
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                parentMap.zoomIn();
-              }}
-            >
-              <AddIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              onClick={() => {
-                parentMap.zoomOut();
-              }}
-            >
-              <RemoveIcon />
-            </IconButton>
-          </ButtonGroup>
-        </Box>
-      </Control>
-      <Control position="topleft">
-        {!matches ? (
-          <Box sx={styles.marginLeft}>
-            <IconButton
-              sx={styles.button}
-              color="inherit"
-              onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
-            >
-              <LayersIcon />
-            </IconButton>
-          </Box>
-        ) : null}
-      </Control>
-      <Control position="topleft">
-        <Box sx={styles.marginLeft}>
-          <IconButton
-            sx={styles.button}
-            color="inherit"
-            onClick={() => {
-              helpView.toggle(!helpView.isOpen);
-            }}
-          >
-            <HelpOutline />
-          </IconButton>
-        </Box>
+        <Stack display={"flex"} direction={"column"} rowGap={1}>
+          <MapZoomControl />
+          <MapLayerControl showOnly={"mobile"} />
+          <HelpViewControl />
+        </Stack>
       </Control>
       <Control position="bottomleft">
-        <MapTypeMapLayerViewComponent />
-      </Control>
-      <Control position="bottomleft">
-        {matches ? (
-          <LayerButton
-            onClick={() => mtmlView.toggle(!mtmlView.isOpen)}
-            image={typeImages[mtmlView.mapType]}
-            checked={false}
-          />
-        ) : null}
+        <Stack display={"flex"} direction={"column"} rowGap={1}>
+          <MapTypeMapLayerViewComponent />
+          <MapLayerControl showOnly={"desktop"} />
+        </Stack>
       </Control>
       <Control position="topright">
         <Stack
@@ -124,44 +243,56 @@ const MapControls: React.FC = () => {
           alignItems={"flex-end"}
         >
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            <FilterButtonComponent
+            {/* <FilterButtonComponent
               buttonLabel="Afetzede Bul"
               icon={<SearchIcon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                // searchFilter.toggle(!searchFilter.isOpen);
               }}
             />
             <FilterButtonComponent
               buttonLabel="Yardim Talepleri"
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                // helpFilter.toggle(!helpFilter.isOpen);
               }}
-            />
+            /> */}
             <FilterButtonComponent
               buttonLabel="Hizmetler"
               icon={<Diversity1Icon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                poiFilter.toggle(!poiFilter.isOpen);
               }}
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            <SearchFilterComponent
-              onChange={() => {
-                console.log("falan change");
-              }}
+            {/* <FilterComponent
+              filterStore={useSearchFilter}
+              filters={tempFilterData1}
             />
+            <FilterComponent
+              filterStore={useHelpFilter}
+              filters={tempFilterData2}
+            /> */}
+            <FilterComponent filterStore={usePoiFilter} filters={poiFilters} />
           </Stack>
         </Stack>
       </Control>
+
       <Control position="bottomright">
-        <Stack display={"flex"} direction={"row"}>
-          <LocaleSwitchComponent />
+        <Stack
+          display={"flex"}
+          direction={"column"}
+          rowGap={1}
+          alignItems={"flex-end"}
+        >
+          <Stack display={"flex"} direction={"row"}>
+            <LocaleSwitchComponent />
+          </Stack>
+          <Stack display={"flex"} direction={"row"}>
+            <AttributionComponent />
+          </Stack>
         </Stack>
-      </Control>
-      <Control position="bottomright">
-        <AttributionComponent />
       </Control>
     </>
   );
@@ -184,5 +315,11 @@ const styles: IStyles = {
   },
   marginLeft: {
     margin: "0px 0px 10px 10px",
+  },
+  pointerNone: {
+    pointerEvents: "none",
+  },
+  pointerAll: {
+    pointerEvents: "all",
   },
 };
