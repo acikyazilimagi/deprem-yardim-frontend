@@ -12,7 +12,7 @@ import { create } from "zustand";
 
 export enum MapType {
   Terrain = "p",
-  Satellite = "s",
+  Satellite = "y",
   Default = "m",
 }
 

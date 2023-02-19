@@ -38,7 +38,7 @@ export const useHelpView = create<HelpViewStore>()(
     (set) => ({
       isOpen: false,
       toggle: (checked: boolean) =>
-        set(() => ({ isOpen: checked }), undefined, { type: "set" }),
+        set(() => ({ isOpen: checked }), undefined, { type: "toggle" }),
     }),
     { name: "HelpViewStore" }
   )
@@ -179,45 +179,35 @@ export const HelpViewComponent = () => {
 //#endregion
 //#region styles
 const styles: IStyles = {
-  container: (theme: Theme) => ({
+  container: () => ({
     padding: "0 !important",
     pointerEvents: "all",
-    [theme.breakpoints.up("xs")]: {
-      backgroundColor: "primary.200",
-    },
-    [theme.breakpoints.up("sm")]: {
-      backgroundColor: "primary.300",
-    },
-    [theme.breakpoints.up("md")]: {
-      backgroundColor: "primary.400",
-    },
-    [theme.breakpoints.up("lg")]: {
-      backgroundColor: "primary.500",
-    },
-    [theme.breakpoints.up("xl")]: {
-      backgroundColor: "primary.600",
-    },
   }),
   card: (theme: Theme) => ({
     [theme.breakpoints.up("xs")]: {
       maxWidth: "100%",
       height: "100vh",
+      borderRadius: "0px !important",
     },
     [theme.breakpoints.up("sm")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("md")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("lg")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
     [theme.breakpoints.up("xl")]: {
       maxWidth: 550,
       height: "auto",
+      borderRadius: "8px !important",
     },
   }),
   header: () => ({ fontSize: 16 }),

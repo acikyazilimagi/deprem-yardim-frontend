@@ -66,7 +66,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
   return (
     <>
       <HeadWithMeta singleItemDetail={singleItemDetail} />
-      <main className={styles.main}>
+      <main className={styles.main} id="prod-layout">
         <Container maxWidth={false} disableGutters>
           <div
             style={{

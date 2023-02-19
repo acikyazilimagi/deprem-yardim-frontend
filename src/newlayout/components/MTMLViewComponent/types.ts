@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 export enum MapType {
   Terrain = "p",
-  Satellite = "s",
+  Satellite = "y",
   Default = "m",
 }
 
