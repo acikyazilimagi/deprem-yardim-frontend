@@ -1,3 +1,5 @@
+export type DeviceType = "mobile" | "desktop";
+
 export type APIChannel =
   | "ahbap_location"
   | "sicak_yemek"
@@ -47,8 +49,6 @@ export type Channel =
   | "guvenli"
   | "hastane";
 
-export type ExtraParams = BabalaParameters | TwitterParameters;
-
 export type RT<
   TResponse extends APIResponseObject = APIResponseObject,
   TChannelData extends ChannelData = ChannelData
@@ -63,22 +63,33 @@ export type Geometry = {
   location: Point;
 };
 
-export type BabalaResponse = APIResponseObject<
-  "babala",
-  {
-    additional_notes: string;
-    "isim-soyisim": string;
-    manual_confirmation: string;
-    name: string;
-    name_surname: string;
-    numara: string;
-    status: string;
-    tel: number;
-    telefon: string;
-  }
->;
+// Naming Conventions:
+// - [channel]APIExtraParams:   extra_parameters is a string that contains a JSON object
+//                                that includes data relevant to that type of data/channel
+//
+// - [channel]Response:         Response received from API
+//                                that includes data relevant to that type of data/channel
+//
+// - [channel]DataProperties:   Properties of data received from api that will be used in UI
+//
+// - [channel]Data:             Represents all information related to a single channel data
 
-export type BabalaParameters = {
+// Type definitions for Babala
+export type BabalaAPIExtraParams = {
+  additional_notes: string;
+  "isim-soyisim": string;
+  manual_confirmation: string;
+  name: string;
+  name_surname: string;
+  numara: string;
+  status: string;
+  tel: number;
+  telefon: string;
+};
+
+export type BabalaResponse = APIResponseObject<"babala", BabalaAPIExtraParams>;
+
+export type BabalaDataProperties = {
   full_text: string;
   reason: string | null;
   timestamp: string | null;
@@ -87,16 +98,25 @@ export type BabalaParameters = {
   description: string | null;
 };
 
+export type BabalaData = {
+  channel: "babala";
+  properties: BabalaDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Twitter
+export type TwitterAPIExtraParams = {
+  tweet_id: string;
+  screen_name: string;
+  name?: string;
+};
+
 export type TwitterResponse = APIResponseObject<
   "twitter",
-  {
-    tweet_id: string;
-    screen_name: string;
-    name?: string;
-  }
+  TwitterAPIExtraParams
 >;
 
-export type TwitterParameters = {
+export type TwitterDataProperties = {
   tweet_id: string | null;
   screen_name: string | null;
   name: string | null;
@@ -107,14 +127,22 @@ export type TwitterParameters = {
   description: string | null;
 };
 
+export type TwitterData = {
+  channel: "twitter";
+  properties: TwitterDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Ahbap
+export type AhbapAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+  description?: string;
+};
 export type AhbapResponse = APIResponseObject<
   "ahbap_location",
-  {
-    name: string;
-    styleUrl: string;
-    icon: string;
-    description?: string;
-  }
+  AhbapAPIExtraParams
 >;
 
 export type AhbapDataProperties = {
@@ -124,14 +152,23 @@ export type AhbapDataProperties = {
   icon: string | null;
 };
 
+export type AhbapData = {
+  channel: "ahbap";
+  properties: AhbapDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Hospital
+export type HospitalAPIExtraParams = {
+  name: string;
+  il: string;
+  ilce: string;
+  kurum: string;
+};
+
 export type HospitalResponse = APIResponseObject<
   "hastahane_locations",
-  {
-    name: string;
-    il: string;
-    ilce: string;
-    kurum: string;
-  }
+  HospitalAPIExtraParams
 >;
 
 export type HospitalDataProperties = {
@@ -141,17 +178,26 @@ export type HospitalDataProperties = {
   city: string | null;
 };
 
+export type HospitalData = {
+  channel: "hastane";
+  properties: HospitalDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Teleteyit
+export type TeleteyitAPIExtraParams = {
+  "isim-soyisim": string;
+  numara: string;
+  aciklama: string;
+  il: string;
+  ilce: string;
+  excel_id: number;
+  durum: string;
+};
+
 export type TeleteyitResponse = APIResponseObject<
   "teleteyit",
-  {
-    "isim-soyisim": string;
-    numara: string;
-    aciklama: string;
-    il: string;
-    ilce: string;
-    excel_id: number;
-    durum: string;
-  }
+  TeleteyitAPIExtraParams
 >;
 
 export type TeleteyitDataProperties = {
@@ -163,16 +209,25 @@ export type TeleteyitDataProperties = {
   status: string | null;
 };
 
+export type TeleteyitData = {
+  channel: "teleteyit";
+  properties: TeleteyitDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Satellite
+export type SatelliteAPIExtraParams = {
+  damage: string;
+  formatted_address: string;
+  longitude: number;
+  latitude: number;
+  shape_long: string;
+  shape_area: string;
+};
+
 export type SatelliteResponse = APIResponseObject<
   "uydu",
-  {
-    damage: string;
-    formatted_address: string;
-    longitude: number;
-    latitude: number;
-    shape_long: string;
-    shape_area: string;
-  }
+  SatelliteAPIExtraParams
 >;
 
 export type SatelliteDataProperties = {
@@ -183,13 +238,22 @@ export type SatelliteDataProperties = {
   description: string | null;
 };
 
+export type SatelliteData = {
+  channel: "uydu";
+  properties: SatelliteDataProperties;
+  geometry: Geometry;
+};
+
+// Type definition for Sahra Kitchen
+export type SahraAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+};
+
 export type SahraResponse = APIResponseObject<
   "sahra_mutfak",
-  {
-    name: string;
-    styleUrl: string;
-    icon: string;
-  }
+  SahraAPIExtraParams
 >;
 
 export type SahraDataProperties = {
@@ -200,14 +264,23 @@ export type SahraDataProperties = {
   description: string | null;
 };
 
+export type SahraData = {
+  channel: "sahra";
+  properties: SahraDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Pharmacy
+export type PharmacyAPIExtraParams = {
+  name: string;
+  description?: string;
+  styleUrl: string;
+  icon: string;
+};
+
 export type PharmacyResponse = APIResponseObject<
   "eczane_excel" | "turk_eczane",
-  {
-    name: string;
-    description?: string;
-    styleUrl: string;
-    icon: string;
-  }
+  PharmacyAPIExtraParams
 >;
 
 export type PharmacyDataProperties = {
@@ -218,14 +291,23 @@ export type PharmacyDataProperties = {
   description: string | null;
 };
 
+export type PharmacyData = {
+  channel: "eczane";
+  properties: PharmacyDataProperties;
+  geometry: Geometry;
+};
+
+// Type definitions for Safe Places
+export type SafePlaceAPIExtraParams = {
+  name: string;
+  description?: string;
+  styleUrl: string;
+  icon: string;
+};
+
 export type SafePlaceResponse = APIResponseObject<
   "guvenli_yerler_oteller",
-  {
-    name: string;
-    description?: string;
-    styleUrl: string;
-    icon: string;
-  }
+  SafePlaceAPIExtraParams
 >;
 
 export type SafePlaceDataProperties = {
@@ -236,75 +318,27 @@ export type SafePlaceDataProperties = {
   description: string | null;
 };
 
-export type FoodResponse = APIResponseObject<
-  "sicak_yemek",
-  {
-    name: string;
-    styleUrl: string;
-    icon: string;
-    description?: string;
-  }
->;
-
-export type FoodDataProperties = {
-  name: string | null;
-  description: string | null;
-  type: string | null;
-  icon: string | null;
-};
-
-export type TwitterData = {
-  channel: "twitter";
-  properties: TwitterParameters;
-  geometry: Geometry;
-};
-
-export type BabalaData = {
-  channel: "babala";
-  properties: BabalaParameters;
-  geometry: Geometry;
-};
-
-export type AhbapData = {
-  channel: "ahbap";
-  properties: AhbapDataProperties;
-  geometry: Geometry;
-};
-
-export type TeleteyitData = {
-  channel: "teleteyit";
-  properties: TeleteyitDataProperties;
-  geometry: Geometry;
-};
-
-export type SatelliteData = {
-  channel: "uydu";
-  properties: SatelliteDataProperties;
-  geometry: Geometry;
-};
-
-export type SahraData = {
-  channel: "sahra";
-  properties: SahraDataProperties;
-  geometry: Geometry;
-};
-
-export type PharmacyData = {
-  channel: "eczane";
-  properties: PharmacyDataProperties;
-  geometry: Geometry;
-};
-
 export type SafePlaceData = {
   channel: "guvenli";
   properties: SafePlaceDataProperties;
   geometry: Geometry;
 };
 
-export type HospitalData = {
-  channel: "hastane";
-  properties: HospitalDataProperties;
-  geometry: Geometry;
+// Type definitions for Food
+export type FoodAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+  description?: string;
+};
+
+export type FoodResponse = APIResponseObject<"sicak_yemek", FoodAPIExtraParams>;
+
+export type FoodDataProperties = {
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
 };
 
 export type FoodData = {
@@ -331,6 +365,7 @@ export type ChannelData = DataProperties & {
   isVisited?: boolean;
 };
 
+// UNUSED?
 export type DataLite = {
   count: number;
   results: APIResponse[];
@@ -347,5 +382,3 @@ export type ClusterPopupData = {
 };
 
 export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
-
-export type DeviceType = "mobile" | "desktop";
