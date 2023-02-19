@@ -160,6 +160,7 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
       open={!!data}
       onClose={handleDataDrawerClose}
       anchor={anchor}
+      hideBackdrop
     >
       <Box
         sx={{
