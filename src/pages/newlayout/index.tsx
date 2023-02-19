@@ -38,6 +38,10 @@ interface INHome {
 const useApiClient = () =>
   useMemo(() => new ApiClient({ url: "https://apigo.afetharita.com" }), []);
 
+const isValidReasons = (reasons: string | undefined): reasons is string => {
+  return reasons === "" || !!reasons;
+};
+
 const NHome = (props: INHome) => {
   const router = useRouter();
   const { copyToClipBoard } = useCopyToClipboard();
@@ -46,15 +50,14 @@ const NHome = (props: INHome) => {
   const [reasons] = useState(() => props.reasons);
   const [locations, setLocations] = useState<ChannelData[]>(() => []);
 
-  const prevReasons = usePrevious(router.query.reasons);
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
 
   useEffect(() => {
-    if (router.query.reasons && prevReasons !== router.query.reasons) {
-      apiClient
-        .fetchAreas({ reasons: router.query.reasons as string })
-        .then(setLocations);
+    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
+      apiClient.fetchAreas({ reasons: queryReasons }).then(setLocations);
     }
-  }, [apiClient, prevReasons, router.query.reasons]);
+  }, [apiClient, prevReasons, queryReasons]);
 
   return (
     <main id="new-layout">
