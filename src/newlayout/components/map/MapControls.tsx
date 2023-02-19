@@ -16,8 +16,8 @@ import {
   Box,
 } from "@mui/material";
 import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
-import SearchIcon from "@mui/icons-material/Search";
-import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
+// import SearchIcon from "@mui/icons-material/Search";
+// import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { FilterButtonComponent } from "../FilterButtonComponent/FilterButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
@@ -32,9 +32,11 @@ import {
   createUseFilter,
 } from "../FilterComponent/FilterComponent";
 import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-const tempFilterData1: IFilterElement[] = [
+/**
+ * const tempFilterData1: IFilterElement[] = [
   {
     queryParam: "category-1",
     label: "foo-label-1",
@@ -84,10 +86,11 @@ const tempFilterData3: IFilterElement[] = [
     type: "multi-select",
   },
 ];
+ */
 
-const usePoiFilter = createUseFilter(tempFilterData1);
-const useHelpFilter = createUseFilter(tempFilterData2);
-const useSearchFilter = createUseFilter(tempFilterData3);
+const usePoiFilter = createUseFilter();
+// const useHelpFilter = createUseFilter(tempFilterData2);
+// const useSearchFilter = createUseFilter(tempFilterData3);
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -176,40 +179,46 @@ const HelpViewControl = () => {
   );
 };
 
-const MapControls: React.FC = () => {
+interface IMapControlsProps {
+  filters: {
+    reasons: string[];
+  };
+}
+
+const MapControls = (props: IMapControlsProps) => {
   const poiFilter = usePoiFilter();
-  const helpFilter = useHelpFilter();
-  const searchFilter = useSearchFilter();
+  const router = useRouter();
 
-  // //#region TODO: redundant must be removed after service implementation
-  // useEffect(() => {
-  //   searchFilter.setFilter(tempFilterData);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  // //#endregion
+  const [poiFilters, setpoiFilters] = useState<IFilterElement[]>([]);
+
+  const constructFilterElements = (data: string[]) => {
+    const _data: IFilterElement[] = [
+      {
+        queryParam: "reason",
+        label: "Reasons",
+        values: data,
+        defaultValues: "all",
+        type: "multi-select",
+      },
+    ];
+    return _data;
+  };
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(
+    setpoiFilters(constructFilterElements(props.filters.reasons));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const query = new URLSearchParams(
       // @ts-ignore
-      poiFilter.selectedValues
+      { ...router.query, ...poiFilter.selectedValues }
     ).toString();
-    console.log("falan change 1", poiFilter.selectedValues, queryParams);
+    console.log("selected values", poiFilter.selectedValues);
+    // FIXME: this will caouse an infinite loop if setpoiFilters depedency is added
+    router.push({ query }, { query });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poiFilter.selectedValues]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(
-      // @ts-ignore
-      helpFilter.selectedValues
-    ).toString();
-    console.log("falan change 2", helpFilter.selectedValues, queryParams);
-  }, [helpFilter.selectedValues]);
-  useEffect(() => {
-    const queryParams = new URLSearchParams(
-      // @ts-ignore
-      searchFilter.selectedValues
-    ).toString();
-    console.log("falan change 3", searchFilter.selectedValues, queryParams);
-  }, [searchFilter.selectedValues]);
 
   return (
     <>
@@ -234,20 +243,20 @@ const MapControls: React.FC = () => {
           alignItems={"flex-end"}
         >
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            <FilterButtonComponent
+            {/* <FilterButtonComponent
               buttonLabel="Afetzede Bul"
               icon={<SearchIcon />}
               onClick={() => {
-                searchFilter.toggle(!searchFilter.isOpen);
+                // searchFilter.toggle(!searchFilter.isOpen);
               }}
             />
             <FilterButtonComponent
               buttonLabel="Yardim Talepleri"
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
-                helpFilter.toggle(!helpFilter.isOpen);
+                // helpFilter.toggle(!helpFilter.isOpen);
               }}
-            />
+            /> */}
             <FilterButtonComponent
               buttonLabel="Hizmetler"
               icon={<Diversity1Icon />}
@@ -257,18 +266,15 @@ const MapControls: React.FC = () => {
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            <FilterComponent
+            {/* <FilterComponent
               filterStore={useSearchFilter}
               filters={tempFilterData1}
             />
             <FilterComponent
               filterStore={useHelpFilter}
               filters={tempFilterData2}
-            />
-            <FilterComponent
-              filterStore={usePoiFilter}
-              filters={tempFilterData3}
-            />
+            /> */}
+            <FilterComponent filterStore={usePoiFilter} filters={poiFilters} />
           </Stack>
         </Stack>
       </Control>
