@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";
-import { TwitterParameters } from "@/types";
+import { TwitterDataProperties } from "@/types";
 
 type Props = {
   reason: string;
-  source: TwitterParameters;
+  source: TwitterDataProperties;
 };
 
 const EmbedTweet = ({ source, reason }: Props) => {

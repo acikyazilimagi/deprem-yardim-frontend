@@ -1,11 +1,11 @@
 import Typography from "@mui/material/Typography";
 import TwitterLogo from "./TwitterLogo";
-import { TwitterParameters } from "@/types";
+import { TwitterDataProperties } from "@/types";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
 
 type Props = {
-  source: TwitterParameters;
+  source: TwitterDataProperties;
   reason: string;
 };
 
