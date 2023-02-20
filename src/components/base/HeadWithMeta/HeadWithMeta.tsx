@@ -8,30 +8,31 @@ import {
 } from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
 import { useMemo } from "react";
+import { APIResponse } from "@/types";
 
 interface IHeadWithMeta {
-  singleItemDetail: any;
+  singleItemDetail: APIResponse | null;
 }
 
 // TODO: OG_EDGE_URL should be replace with main API
 const HeadWithMeta = (props: IHeadWithMeta) => {
   const validateAddress =
-    props.singleItemDetail.formatted_address !== undefined;
-  const validateEntry = props.singleItemDetail.full_text !== undefined;
+    props.singleItemDetail?.formatted_address !== undefined;
+  const validateEntry = props.singleItemDetail?.full_text !== undefined;
   const validateLoc =
-    props.singleItemDetail.lat !== undefined &&
-    props.singleItemDetail.lng !== undefined;
+    props.singleItemDetail?.lat !== undefined &&
+    props.singleItemDetail?.lng !== undefined;
 
   const isPropsValid = validateAddress && validateEntry && validateLoc;
 
   const ADDRESS = isPropsValid
-    ? (props.singleItemDetail.formatted_address as string)
+    ? (props.singleItemDetail?.formatted_address as string)
     : TITLE;
   const ENTRY = isPropsValid
-    ? (props.singleItemDetail.full_text as string)
+    ? (props.singleItemDetail?.full_text as string)
     : DESCRIPTION;
   const LOC = isPropsValid
-    ? (`${props.singleItemDetail.lat},${props.singleItemDetail.lng}` as string)
+    ? (`${props.singleItemDetail?.lat},${props.singleItemDetail?.lng}` as string)
     : "";
 
   const url = useMemo(() => {

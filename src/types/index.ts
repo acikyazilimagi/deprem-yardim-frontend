@@ -24,7 +24,9 @@ export type APIResponse<TChannel extends APIChannel = APIChannel> = {
   formatted_address: string;
   timestamp?: string;
 
-  loc: [number, number];
+  loc?: [number, number];
+  lat?: number;
+  lng?: number;
 
   is_location_verified?: boolean;
   is_need_verified: boolean;
