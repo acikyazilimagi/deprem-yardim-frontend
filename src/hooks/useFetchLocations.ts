@@ -1,9 +1,9 @@
-import { useMap } from "react-leaflet";
+// import { useMap } from "react-leaflet";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { isValidReasons } from "@/utils/isValidReasons";
-import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
+// import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
 import { useSingletonsStore } from "@/stores/singletonsStore";
 import useSWR from "swr";
 import { useDebounce } from "use-debounce";
@@ -14,10 +14,10 @@ const REQUEST_DEBOUNCE_TIME = 500; //ms
 const useFetchLocations = (
   updaterFunction: Dispatch<SetStateAction<ChannelData[]>>
 ) => {
-  const map = useMap();
+  // const map = useMap();
   const router = useRouter();
   const queryReasons = router.query.reasons as string | undefined;
-  const bounds = map.getBounds();
+  // const bounds = map.getBounds();
   const { apiClient } = useSingletonsStore();
   const { showLoading } = useLoading();
 
@@ -31,7 +31,8 @@ const useFetchLocations = (
       if (isValidReasons(queryReasons)) {
         return apiClient.fetchAreas({
           reasons: queryReasons as string,
-          bound: getFetchAreaBounds(bounds),
+          // TOFIX: add back later after backend changes
+          // bound: getFetchAreaBounds(bounds),
         });
       }
     },
