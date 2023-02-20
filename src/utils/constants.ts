@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
