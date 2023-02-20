@@ -38,7 +38,7 @@ export const useMTMLView = create<MTMLViewStore>()(
     (set) => ({
       isOpen: false,
       mapType: MapType.Default,
-      mapLayers: [MapLayer.Markers],
+      mapLayers: [MapLayer.Markers, MapLayer.Heatmap],
       toggle: (checked: boolean) =>
         set(() => ({ isOpen: checked }), undefined, { type: "set" }),
       setMapType: (type: MapType) =>
