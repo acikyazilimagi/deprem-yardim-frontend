@@ -5,7 +5,6 @@ import { capitalize, isNaN } from "@/utils/helpers";
 import { FeedChannelBabalaProps } from "../../../types";
 
 const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
-
   return (
     <>
       <div style={styles.container}>
