@@ -119,34 +119,14 @@ const GoogleMapsStuff = ({
 };
 
 type DrawerProps = {
-  data: NonNullable<DrawerData>;
+  data: DrawerData;
   onCopyBillboard: (_clipped: string) => void;
 };
 
 export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
   const size = useWindowSize();
-  const router = useRouter();
   const anchor = size.width > 768 ? "left" : "bottom";
-
-  const twitterBabala = data.properties as
-    | TwitterDataProperties
-    | BabalaDataProperties;
-
-  const timeLabel =
-    twitterBabala?.timestamp &&
-    getTimeAgo(twitterBabala.timestamp, router.locale);
-
-  const title = twitterBabala?.formatted_address ?? data.properties.name;
-
-  const hasSource =
-    data &&
-    data?.channel === "twitter" &&
-    (data.properties as TwitterDataProperties).tweet_id !== "";
-
-  const formattedCoordinates = formatcoords([
-    data.geometry.location?.lng,
-    data.geometry.location?.lat,
-  ]).format();
+  const router = useRouter();
 
   const handleDataDrawerClose = () => {
     const query = { ...router.query };
@@ -173,24 +153,59 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
         }}
         role="presentation"
       >
-        <div className={styles.content}>
-          {data?.reference && <DrawerIDLabel id={data.reference} />}
-          {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
-          {timeLabel && <TimeLabel timeLabel={timeLabel} />}
-          <Coordinates coordinates={formattedCoordinates} />
-          <MapButtons drawerData={data} />
-          <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
-            {hasSource && <TwitterButton data={data} />}
-          </GoogleMapsStuff>
-          <FeedContent content={data} />
-        </div>
+        {data && (
+          <DrawerContent data={data} onCopyBillboard={onCopyBillboard} />
+        )}
         {/* <CloseByRecord drawerData={drawerData} /> */}
-
         <CloseIcon
           onClick={handleDataDrawerClose}
           className={styles.closeButton}
         />
       </Box>
     </MuiDrawer>
+  );
+};
+
+const DrawerContent = ({
+  data,
+  onCopyBillboard,
+}: {
+  data: NonNullable<DrawerProps["data"]>;
+  onCopyBillboard: DrawerProps["onCopyBillboard"];
+}) => {
+  const router = useRouter();
+
+  const twitterBabala = data.properties as
+    | TwitterDataProperties
+    | BabalaDataProperties;
+
+  const timeLabel =
+    twitterBabala?.timestamp &&
+    getTimeAgo(twitterBabala.timestamp, router.locale);
+
+  const title = twitterBabala?.formatted_address ?? data.properties.name;
+
+  const hasSource =
+    data &&
+    data?.channel === "twitter" &&
+    (data.properties as TwitterDataProperties).tweet_id !== "";
+
+  const formattedCoordinates = formatcoords([
+    data.geometry.location?.lng,
+    data.geometry.location?.lat,
+  ]).format();
+
+  return (
+    <div className={styles.content}>
+      {data?.reference && <DrawerIDLabel id={data.reference} />}
+      {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
+      {timeLabel && <TimeLabel timeLabel={timeLabel} />}
+      <Coordinates coordinates={formattedCoordinates} />
+      <MapButtons drawerData={data} />
+      <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
+        {hasSource && <TwitterButton data={data} />}
+      </GoogleMapsStuff>
+      <FeedContent content={data} />
+    </div>
   );
 };

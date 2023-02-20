@@ -47,12 +47,10 @@ const NHome = (props: INHome) => {
         locations={locations}
         setLocations={setLocations}
       />
-      {props.channel && (
-        <Drawer
-          data={props.channel}
-          onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
-        />
-      )}
+      <Drawer
+        data={props.channel}
+        onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
+      />
     </main>
   );
 };
