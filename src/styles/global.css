@@ -21,4 +21,10 @@
     margin-bottom: 0px !important;
     margin: 0px !important;
   }
+  #new-layout .leaflet-bottom.leaflet-right {
+    z-index: 1050 !important;
+  }
+  #new-layout .leaflet-top.leaflet-right {
+    z-index: 1060 !important;
+  }
 }

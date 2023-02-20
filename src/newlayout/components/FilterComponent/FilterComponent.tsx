@@ -92,11 +92,11 @@ export const createUseFilter = () => {
 interface IFilterComponent {
   filterStore: ReturnType<typeof createUseFilter>;
   filters: IFilterElement[];
+  title: string;
 }
 
 export const FilterComponent = (props: IFilterComponent) => {
   const filterView = props.filterStore();
-
   useEffect(() => {
     filterView.setFilters(props.filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,13 +142,13 @@ export const FilterComponent = (props: IFilterComponent) => {
                   <CloseIcon />
                 </IconButton>
               }
-              title={"Filter"}
+              title={props.title}
             />
             <CardContent>
               <Stack display={"flex"} direction={"column"} rowGap={2}>
                 {filterView.filters.map((filter, index) => {
                   return (
-                    <FormControl fullWidth key={`filter-form-control-${index}`}>
+                    <FormControl key={`filter-form-control-${index}`}>
                       <InputLabel id="select-label">{filter.label}</InputLabel>
                       <Select
                         multiple={filter.type === "multi-select"}
@@ -186,27 +186,9 @@ const styles: IStyles = {
     padding: "0 !important",
     pointerEvents: "all",
   }),
-  card: (theme: Theme) => ({
-    [theme.breakpoints.up("xs")]: {
-      width: "100%",
-      height: "100vh",
-    },
-    [theme.breakpoints.up("sm")]: {
-      width: 250,
-      height: "auto",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: 250,
-      height: "auto",
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: 250,
-      height: "auto",
-    },
-    [theme.breakpoints.up("xl")]: {
-      width: 250,
-      height: "auto",
-    },
+  card: () => ({
+    width: 250,
+    height: "auto",
   }),
   header: () => ({ fontSize: 14 }),
   table: () => ({ marginTop: 3 }),

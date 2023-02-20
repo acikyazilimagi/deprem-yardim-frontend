@@ -4,7 +4,7 @@ import { HelpViewComponent } from "@/newlayout/components/HelpViewComponent/Help
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
 import { ChannelData } from "@/types";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 const MapContent = dynamic(

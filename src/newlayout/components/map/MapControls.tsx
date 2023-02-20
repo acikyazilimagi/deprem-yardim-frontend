@@ -35,6 +35,7 @@ import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";
+import { useTranslation } from "next-i18next";
 
 export const usePoiFilter = createUseFilter();
 // const useHelpFilter = createUseFilter(tempFilterData2);
@@ -136,6 +137,7 @@ interface IMapControlsProps {
 const MapControls = (props: IMapControlsProps) => {
   const poiFilter = usePoiFilter();
   const router = useRouter();
+  const { t } = useTranslation("home");
 
   const [poiFilters, setpoiFilters] = useState<IFilterElement[]>([]);
 
@@ -146,7 +148,7 @@ const MapControls = (props: IMapControlsProps) => {
       const _data: IFilterElement[] = [
         {
           queryParam: "reasons",
-          label: "Reasons",
+          label: t("filter.reasonsTitle"),
           values: data,
           defaultValues: queryReasons
             .split(",")
@@ -157,7 +159,7 @@ const MapControls = (props: IMapControlsProps) => {
       ];
       return _data;
     },
-    [router.query.reasons]
+    [router.query.reasons, t]
   );
 
   useEffect(() => {
@@ -213,16 +215,17 @@ const MapControls = (props: IMapControlsProps) => {
               onClick={() => {
                 // searchFilter.toggle(!searchFilter.isOpen);
               }}
-            />
-            <FilterButtonComponent
-              buttonLabel="Yardim Talepleri"
+            /> */}
+            {/* <FilterButtonComponent
+              buttonLabel={t("filter.helpRequestTitle")}
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
-                // helpFilter.toggle(!helpFilter.isOpen);
+                // poiFilter.toggle(!poiFilter.isOpen);
               }}
             /> */}
+
             <FilterButtonComponent
-              buttonLabel="Hizmetler"
+              buttonLabel={t("filter.servicesTitle")}
               icon={<Diversity1Icon />}
               onClick={() => {
                 poiFilter.toggle(!poiFilter.isOpen);
@@ -230,15 +233,27 @@ const MapControls = (props: IMapControlsProps) => {
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            {/* <FilterComponent
+            {/* 
+            <FilterComponent
               filterStore={useSearchFilter}
               filters={tempFilterData1}
             />
-            <FilterComponent
+            */}
+
+            {/* <FilterComponent
               filterStore={useHelpFilter}
               filters={tempFilterData2}
+            />  */}
+            {/* <FilterComponent
+              title={t("filter.helpRequestTitle")}
+              filterStore={usePoiFilter}
+              filters={poiFilters}
             /> */}
-            <FilterComponent filterStore={usePoiFilter} filters={poiFilters} />
+            <FilterComponent
+              title={t("filter.servicesTitle")}
+              filterStore={usePoiFilter}
+              filters={poiFilters}
+            />
           </Stack>
         </Stack>
       </Control>

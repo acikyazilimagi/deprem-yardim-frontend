@@ -4,6 +4,9 @@
     },
     "filter": {
         "title": "Filtre",
+        "servicesTitle": "Hizmetler",
+        "helpRequestTitle": "Yardım Talepleri",
+        "reasonsTitle": "İhtiyaçlar",
         "channels": {
             "all": "Tüm kanallar",
             "twitter": "Sosyal medya",

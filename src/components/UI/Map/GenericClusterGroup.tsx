@@ -3,7 +3,6 @@ import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import { ChannelData } from "@/types";
-import styles from "./Map.module.css";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -18,11 +17,11 @@ const markerBlueIcon = L.Icon.Default.extend({
   options: {},
 });
 
-const markerGrayIcon = L.Icon.Default.extend({
-  options: {
-    className: styles.marker_icon__visited,
-  },
-});
+// const markerGrayIcon = L.Icon.Default.extend({
+//   options: {
+//     className: styles.marker_icon__visited,
+//   },
+// });
 
 type Props = {
   data: ChannelData[];
