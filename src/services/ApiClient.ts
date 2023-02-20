@@ -19,9 +19,6 @@ type ApiClientProps = {
   url: string;
 };
 
-// in-memory cache for areas responses
-const areasCache = new Map<number, ChannelData>();
-
 export class ApiClient {
   url: string;
 
@@ -39,12 +36,9 @@ export class ApiClient {
 
     url.search = decodeURIComponent(searchParams.toString());
 
-    // TOFIX: cleanup logs
-    console.log("sent request");
     const response = (await dataFetcher(url)) as {
       results: APIResponse[];
     };
-    console.log("received response");
 
     const data = (response.results ?? [])
       .map((item) => {
@@ -56,13 +50,7 @@ export class ApiClient {
       })
       .filter(Boolean) as ChannelData[];
 
-    data.forEach((item) => {
-      if (item.reference) {
-        areasCache.set(item.reference, item);
-      }
-    });
-
-    return Array.from(areasCache.values());
+    return data;
   }
 
   async fetchReasons() {

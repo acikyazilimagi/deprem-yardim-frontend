@@ -27,7 +27,6 @@ const LayerControl = ({ points, locations }: Props) => {
   const router = useRouter();
 
   const onMarkerClick = (_e: any, markerData: ChannelData) => {
-    console.log({ markerData });
     const query = { ...router.query, id: markerData.reference };
     router.push({ query }, { query });
   };
