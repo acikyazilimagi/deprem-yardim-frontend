@@ -6,15 +6,10 @@ import {
   useMapType,
 } from "@/stores/mapStore";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
-import { css, Global } from "@emotion/react";
 import { latLng, latLngBounds } from "leaflet";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
 import { memo, useMemo } from "react";
 import { TileLayer } from "react-leaflet";
-import { Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
@@ -27,6 +22,7 @@ import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { ChannelData } from "@/types";
 import { useMapEvents } from "@/hooks/useMapEvents";
+import { MapClusterStyle } from "./MapClusterStyle";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -38,28 +34,6 @@ const mapBoundaries = {
 };
 
 const bounds = latLngBounds(mapBoundaries.southWest, mapBoundaries.northEast);
-
-const GlobalClusterStyle = css`
-  ${Object.values(Tags).map(
-    (tag) => `
-    .leaflet-custom-cluster-${tag.id} {
-      .cluster-inner {
-        background-color: ${tag.color}DE;
-        border: ${tag.color} 2px solid;
-        color: #212121;
-        width: 36px;
-        height: 36px;
-        opacity: 0.9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: bold;
-      }
-    }
-  `
-  )}
-`;
 
 interface ILeafletMap {
   locations: Omit<Record<MapLayer, ChannelData[]>, "heatmap" | "earthquakes">;
@@ -99,7 +73,7 @@ function LeafletMap(props: ILeafletMap) {
 
   return (
     <>
-      <Global styles={GlobalClusterStyle} />
+      <MapClusterStyle />
       <MapLegend />
       <Map
         center={defaultCenter}
