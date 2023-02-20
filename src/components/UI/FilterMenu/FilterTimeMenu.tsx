@@ -78,8 +78,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
 }) => {
   const { t } = useTranslation("home");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [selectedValue, setSelectedValue] =
-    useState<TimeOption>("last30Minutes");
+  const [selectedValue, setSelectedValue] = useState<TimeOption>("last24Hours");
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

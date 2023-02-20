@@ -9,8 +9,8 @@ const channelFilterMenuOptions: FilterMenuOption<ChannelValueType>[] = [
   { label: "babala", value: "babala" },
 ];
 
-const lastFilterIdx = channelFilterMenuOptions.length - 1;
-const initialChannelFilter = channelFilterMenuOptions[lastFilterIdx];
+// const lastFilterIdx = channelFilterMenuOptions.length - 1;
+const initialChannelFilter = channelFilterMenuOptions[0];
 
 export const ChannelFilterMenu: React.FC = () => {
   const { setChannelFilterMenuOption } = useURLActions();
