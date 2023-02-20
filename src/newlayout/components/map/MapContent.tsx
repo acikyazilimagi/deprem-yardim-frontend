@@ -22,6 +22,7 @@ import { isValidReasons } from "@/utils/isValidReasons";
 import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
 import { useSingletonsStore } from "@/stores/singletonsStore";
 import { MapClusterStyle } from "@/components/UI/Map/MapClusterStyle";
+import { latLng, latLngBounds } from "leaflet";
 
 type EventProps = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
@@ -72,6 +73,13 @@ export const MapContent = ({
     router.push({ query }, { query });
   };
 
+  const mapBoundaries = {
+    southWest: latLng(34.025514, 25.584519),
+    northEast: latLng(42.211024, 44.823563),
+  };
+
+  const bounds = latLngBounds(mapBoundaries.southWest, mapBoundaries.northEast);
+
   const dpr = window.devicePixelRatio;
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
@@ -98,6 +106,7 @@ export const MapContent = ({
         }}
         preferCanvas
         maxBoundsViscosity={1}
+        maxBounds={bounds}
         maxZoom={18}
       >
         <MapEvents setLocations={setLocations} />
