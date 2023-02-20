@@ -38,7 +38,7 @@ const useFetchLocations = (
     {
       revalidateOnFocus: false,
       onSuccess: (data: ChannelData[] | undefined) => {
-        if (data) updaterFunction(data);
+        updaterFunction(data ?? []);
       },
     }
   );
