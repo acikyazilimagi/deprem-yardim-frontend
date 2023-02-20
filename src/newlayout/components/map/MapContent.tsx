@@ -20,11 +20,13 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { usePrevious } from "@/hooks/usePrevious";
 import { isValidReasons } from "@/utils/isValidReasons";
 import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
-import { useSingletonsStore } from "../../../stores/singletonsStore";
+import { useSingletonsStore } from "@/stores/singletonsStore";
+import { MapClusterStyle } from "@/components/UI/Map/MapClusterStyle";
 
 type EventProps = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
+
 const MapEvents = ({ setLocations }: EventProps) => {
   const map = useMap();
   const router = useRouter();
@@ -42,7 +44,7 @@ const MapEvents = ({ setLocations }: EventProps) => {
         })
         .then(setLocations);
     }
-  }, [apiClient, prevReasons, queryReasons, bounds]);
+  }, [apiClient, prevReasons, queryReasons, bounds, setLocations]);
   useMapEvents();
   return null;
 };
@@ -74,38 +76,41 @@ export const MapContent = ({
   const baseMapUrl = `https://mt0.google.com/vt/lyrs=${mapType}&scale=${dpr}&hl=en&x={x}&y={y}&z={z}&apistyle=s.e%3Al.i%7Cp.v%3Aoff%2Cs.t%3A3%7Cs.e%3Ag%7C`;
 
   return (
-    <Map
-      zoomControl={false}
-      attributionControl={false}
-      center={defaultCenter}
-      zoom={defaultZoom}
-      minZoom={
-        device === "desktop"
-          ? DEFAULT_MIN_ZOOM_DESKTOP
-          : DEFAULT_MIN_ZOOM_MOBILE
-      }
-      zoomSnap={1}
-      zoomDelta={1}
-      whenReady={(map: any) => {
-        setTimeout(() => {
-          setCoordinates(map.target.getBounds());
-          map.target.invalidateSize();
-        }, 100);
-      }}
-      preferCanvas
-      maxBoundsViscosity={1}
-      maxZoom={18}
-    >
-      <MapEvents setLocations={setLocations} />
-      <MapControls filters={{ reasons }} />
-      <TileLayer url={baseMapUrl} />
+    <>
+      <MapClusterStyle />
+      <Map
+        zoomControl={false}
+        attributionControl={false}
+        center={defaultCenter}
+        zoom={defaultZoom}
+        minZoom={
+          device === "desktop"
+            ? DEFAULT_MIN_ZOOM_DESKTOP
+            : DEFAULT_MIN_ZOOM_MOBILE
+        }
+        zoomSnap={1}
+        zoomDelta={1}
+        whenReady={(map: any) => {
+          setTimeout(() => {
+            setCoordinates(map.target.getBounds());
+            map.target.invalidateSize();
+          }, 100);
+        }}
+        preferCanvas
+        maxBoundsViscosity={1}
+        maxZoom={18}
+      >
+        <MapEvents setLocations={setLocations} />
+        <MapControls filters={{ reasons }} />
+        <TileLayer url={baseMapUrl} />
 
-      <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
+        <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
 
-      <Box sx={styles.fixedMidBottom}>
-        <CooldownButtonComponent setLocations={setLocations} />
-      </Box>
-    </Map>
+        <Box sx={styles.fixedMidBottom}>
+          <CooldownButtonComponent setLocations={setLocations} />
+        </Box>
+      </Map>
+    </>
   );
 };
 
