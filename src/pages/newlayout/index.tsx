@@ -33,13 +33,9 @@ interface INHome {
   channel: ChannelData;
 }
 
-const useApiClient = () =>
-  useMemo(() => new ApiClient({ url: "https://apigo.afetharita.com" }), []);
-
 const NHome = (props: INHome) => {
   const { copyToClipBoard } = useCopyToClipboard();
 
-  const apiClient = useApiClient();
   const [reasons] = useState(() => props.reasons);
   const [locations, setLocations] = useState<ChannelData[]>(() => []);
 
@@ -49,7 +45,6 @@ const NHome = (props: INHome) => {
       <MapContent
         reasons={reasons}
         locations={locations}
-        apiClient={apiClient}
         setLocations={setLocations}
       />
       {props.channel && (

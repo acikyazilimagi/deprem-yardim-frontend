@@ -9,34 +9,55 @@ import {
 import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
 import Map from "@/components/UI/Map/Map";
 import MapControls from "./MapControls";
-import { TileLayer } from "react-leaflet";
+import { TileLayer, useMap } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { useURLActions } from "@/stores/urlStore";
-import { ApiClient } from "@/services/ApiClient";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { usePrevious } from "@/hooks/usePrevious";
+import { isValidReasons } from "@/utils/isValidReasons";
+import { getFetchAreaBound } from "@/utils/getFetchAreaBound";
+import { useSingletonsStore } from "../../../stores/singletonsStore";
 
-type Props = {
-  reasons: string[];
-  locations: ChannelData[];
-  apiClient: ApiClient;
+type EventProps = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
+const MapEvents = ({ setLocations }: EventProps) => {
+  const map = useMap();
+  const router = useRouter();
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
+  const bounds = map.getBounds();
+  const { apiClient } = useSingletonsStore();
 
-const MapEvents = () => {
+  useEffect(() => {
+    if (!apiClient) {
+      return; // TOFIX: remove this when we migrate into new UI, will not be needed
+    }
+    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
+      apiClient
+        .fetchAreas({ reasons: queryReasons, bound: getFetchAreaBound(bounds) })
+        .then(setLocations);
+    }
+  }, [apiClient, prevReasons, queryReasons, bounds]);
   useMapEvents();
   return null;
+};
+
+type ContentProps = {
+  reasons: string[];
+  locations: ChannelData[];
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
 
 export const MapContent = ({
   reasons,
   locations,
-  apiClient,
   setLocations,
-}: Props) => {
+}: ContentProps) => {
   const { mapType } = useMTMLView();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
@@ -75,22 +96,14 @@ export const MapContent = ({
       maxBoundsViscosity={1}
       maxZoom={18}
     >
-      <MapEvents />
+      <MapEvents setLocations={setLocations} />
       <MapControls filters={{ reasons }} />
       <TileLayer url={baseMapUrl} />
 
-      <GenericClusterGroup
-        data={locations}
-        onMarkerClick={onMarkerClick}
-        apiClient={apiClient}
-        setLocations={setLocations}
-      />
+      <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
 
       <Box sx={styles.fixedMidBottom}>
-        <CooldownButtonComponent
-          apiClient={apiClient}
-          setLocations={setLocations}
-        />
+        <CooldownButtonComponent setLocations={setLocations} />
       </Box>
     </Map>
   );
