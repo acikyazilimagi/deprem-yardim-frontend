@@ -155,24 +155,18 @@ const styles: IStyles = {
       height: "auto",
     },
   }),
-  mapType: (theme: Theme) => ({
+  mapType: () => ({
     display: "flex",
     alignItems: "flex-start",
     margin: "0.5rem 0 1rem",
     borderBottom: "1px solid #ddd",
     paddingBottom: "1rem",
-    [theme.breakpoints.down("sm")]: {
-      justifyContent: "space-between",
-    },
   }),
-  mapDetails: (theme: Theme) => ({
+  mapDetails: () => ({
     display: "flex",
     alignItems: "flex-start",
     margin: "0.5rem 0 0",
     flexWrap: "wrap",
-    [theme.breakpoints.down("sm")]: {
-      justifyContent: "space-between",
-    },
   }),
 };
 //#endregion
