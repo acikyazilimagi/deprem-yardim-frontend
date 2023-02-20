@@ -7,7 +7,12 @@ interface AttributionComponentProps {
 export function AttributionComponent(props: AttributionComponentProps) {
   const { t } = useTranslation("common");
   return (
-    <>
+    <div
+      style={{
+        whiteSpace: "nowrap",
+        fontSize: "0.6rem",
+      }}
+    >
       <a href="./cerez.pdf" target="_blank">
         {t("footer.politic.cookie")}
       </a>
@@ -19,8 +24,8 @@ export function AttributionComponent(props: AttributionComponentProps) {
       <a href="#" onClick={props.onClick}>
         {t("footer.politic.data")}
       </a>
-      •<a href="https://maps.google.com/">Google Maps</a>•
+      •<a href="https://maps.google.com/">GMaps</a>•
       <a href="https://leafletjs.com/">Leaflet</a>
-    </>
+    </div>
   );
 }

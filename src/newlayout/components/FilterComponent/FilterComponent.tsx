@@ -51,7 +51,7 @@ export const createUseFilter = () => {
       (set) => ({
         filters: [],
         selectedValues: {},
-        isOpen: true,
+        isOpen: false,
         setFilters: (filters: IFilterElement[]) =>
           set(
             () => {

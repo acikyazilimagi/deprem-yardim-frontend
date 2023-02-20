@@ -58,7 +58,7 @@ const styles: IStyles = {
   button: () => ({
     pointerEvents: "all",
     height: "48px",
-    width: "225px",
+    width: "200px",
     display: "flex",
     flexDirection: "column",
     borderRadius: "8px !important",
