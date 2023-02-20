@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";
-import { TwitterParameters } from "@/types";
+import { TwitterDataProperties } from "@/types";
 
 type Props = {
   reason: string;
-  source: TwitterParameters;
+  source: TwitterDataProperties;
 };
 
 const EmbedTweet = ({ source, reason }: Props) => {
@@ -24,10 +24,10 @@ const EmbedTweet = ({ source, reason }: Props) => {
   return (
     <>
       {isLoading && <PlaceholderTweet reason={reason} source={source} />}
-      {isReadyForRender && (
+      {isReadyForRender && source?.tweet_id && (
         <TweetEmbed
           options={{ conversation: "none" }}
-          tweetId={source?.tweet_id}
+          tweetId={source.tweet_id}
           placeholder={"Loading"}
           onTweetLoadSuccess={(element) => {
             setIsLoading(element === undefined);

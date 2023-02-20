@@ -1,12 +1,8 @@
-import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
 import L from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
-
-type Props = {
-  data: any[];
-};
+import { ChannelData } from "@/types";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -17,17 +13,43 @@ const fetchIcon = (count: number) => {
   });
 };
 
-const emptyIcon =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
+const markerBlueIcon = L.Icon.Default.extend({
+  options: {},
+});
 
-export const TeleteyitClusterGroup = ({ data }: Props) => {
-  const { handleMarkerClick } = useMapClickHandlers();
+// const markerGrayIcon = L.Icon.Default.extend({
+//   options: {
+//     className: styles.marker_icon__visited,
+//   },
+// });
+
+type Props = {
+  data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
+};
+
+export const GenericClusterGroup = ({
+  data,
+  onMarkerClick,
+}: // propertyMap = DEFAULT_PROPERTY_MAP,
+Props) => {
   const map = useMap();
-
   const bounds = map.getBounds();
 
+  const geoJSON = data.map((item) => {
+    return {
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [item.geometry.location.lat, item.geometry.location.lng],
+      },
+      item,
+      properties: item.properties,
+    };
+  });
+
   const { clusters, supercluster } = useSupercluster({
-    points: data,
+    points: geoJSON,
     bounds: [
       bounds.getSouthWest().lng,
       bounds.getSouthWest().lat,
@@ -35,7 +57,7 @@ export const TeleteyitClusterGroup = ({ data }: Props) => {
       bounds.getNorthEast().lat,
     ],
     zoom: map.getZoom(),
-    options: { radius: 10, maxZoom: 17 },
+    options: { radius: 150, maxZoom: 17 },
   });
 
   return (
@@ -71,31 +93,18 @@ export const TeleteyitClusterGroup = ({ data }: Props) => {
           <Marker
             key={`cluster-${idx}`}
             position={[latitude, longitude]}
-            icon={L.icon({
-              iconUrl: cluster.properties.icon || emptyIcon,
-              iconSize: [28, 28],
-              iconAnchor: [14, 14],
-            })}
+            icon={
+              cluster.properties.icon
+                ? L.icon({
+                    iconUrl: "/" + cluster.properties.icon,
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14],
+                  })
+                : new markerBlueIcon()
+            }
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(e, {
-                  // @ts-ignore
-                  channel: "teleteyit",
-                  properties: {
-                    description: cluster.properties.aciklama ?? "",
-                    type: cluster.properties.styleUrl ?? "",
-                    icon: cluster.properties.icon,
-                    verified: cluster.properties.durum ?? "",
-                    city: cluster.properties.il ?? "",
-                    district: cluster.properties.ilce ?? "",
-                  },
-                  geometry: {
-                    location: {
-                      lng: longitude,
-                      lat: latitude,
-                    },
-                  },
-                });
+                onMarkerClick(e, cluster.item);
               },
             }}
           />

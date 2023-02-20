@@ -4,68 +4,91 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
+import { APIChannel, APIResponse, Channel, ChannelData, RT } from "@/types";
+import { areasURL } from "@/utils/urls";
+import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
 
-// @fdemir code begin =======
+const parseExtraParams = (extraParamsStr: string) => {
+  return dJSON.parse<string, ChannelData["properties"]>(
+    extraParamsStr?.replaceAll("nan", "")
+  );
+};
+
 type HandleLocationResponseOptions = {
-  getExtraParams?: (_item: any) => any;
+  disable?: boolean;
+  transformResponse: RT;
 };
 
-const handleLocationResponse = <TResponse extends { results: any[] }>(
-  data: TResponse,
-  setLocations: any,
-  options: HandleLocationResponseOptions = {}
-) => {
-  if (!data) return;
-
-  const features = data.results.map((item) => {
-    let extra_params = {};
-    try {
-      extra_params = dJSON.parse(
-        item.extra_parameters?.replaceAll("nan", false)
-      );
-
-      if (options?.getExtraParams) {
-        extra_params = {
-          ...extra_params,
-          ...options.getExtraParams(item),
-        };
-      }
-    } catch (error) {
-      console.error(error);
-    }
-
-    return {
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: item.loc?.reverse(),
-      },
-      properties: extra_params,
-    };
-  });
-
-  setLocations(features);
-};
-// @fdemir code end =======
-
-export default function useLocation<TResponse extends { results: any[] }>(
-  url: string,
-  channelName: string,
-  options: HandleLocationResponseOptions = {}
+export default function useLocation(
+  apiChannels: APIChannel[],
+  channelName: Channel,
+  options: HandleLocationResponseOptions
 ) {
-  const [locations, setLocations] = useState<TResponse[]>([]);
+  const [locations, setLocations] = useState<ChannelData[]>([]);
+
+  const reasoningFilter = useReasoningFilterMenuOption();
+  const timeFilter = useTimeStamp();
+
+  const url = generateURL(apiChannels, reasoningFilter, timeFilter);
 
   const setError = useSetError();
   const setChannelError = (error: Error) => {
     setError({ [channelName]: error });
   };
 
-  useSWR<TResponse>(url, dataFetcher, {
-    onSuccess: (data) => handleLocationResponse(data, setLocations, options),
-    onError: () => {
-      setChannelError(new PartialDataError());
-    },
-  });
+  useSWR<{ results: APIResponse[] }>(
+    options.disable ? null : url,
+    dataFetcher,
+    {
+      onSuccess: (data) => {
+        if (!data) return;
+
+        const transformedProps = data.results
+          .map((item) => parseChannelData(item, options))
+          .filter(Boolean) as ChannelData[];
+
+        setLocations(transformedProps);
+      },
+      onError: () => {
+        setChannelError(new PartialDataError());
+      },
+    }
+  );
 
   return locations;
 }
+
+export const parseChannelData = (
+  item: APIResponse,
+  options: HandleLocationResponseOptions
+): ChannelData | undefined => {
+  let extraParams: ChannelData["properties"] | undefined;
+  try {
+    if (typeof item.extra_parameters === "string") {
+      extraParams = parseExtraParams(
+        item.extra_parameters.replaceAll(/\\"/g, '"')
+      );
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return options.transformResponse({ ...item, extraParams });
+};
+
+const generateURL = (
+  apiChannels: APIChannel[],
+  reason: string | null,
+  timestamp: number | undefined
+) => {
+  const url = new URL(areasURL);
+  const searchParams = new URLSearchParams();
+
+  searchParams.append("channel", apiChannels.join(","));
+
+  if (reason) searchParams.append("reason", reason);
+  if (timestamp) searchParams.append("time_stamp", timestamp.toString());
+
+  url.search = searchParams.toString();
+
+  return decodeURIComponent(url.toString());
+};

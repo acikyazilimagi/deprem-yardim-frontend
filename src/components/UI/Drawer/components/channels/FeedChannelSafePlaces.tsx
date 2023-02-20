@@ -1,15 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
 import { capitalize } from "@/utils/helpers";
-
-interface FeedChannelSafePlacesProps {
-  channel: string;
-  properties: {
-    reason: string;
-    verified: string;
-    name: string;
-  };
-  id: number;
-}
+import { FeedChannelSafePlacesProps } from "../../types";
 
 export const FeedChannelSafePlaces = (props: FeedChannelSafePlacesProps) => {
   return (

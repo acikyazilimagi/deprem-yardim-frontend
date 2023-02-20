@@ -24,7 +24,7 @@ export const LayerButton = ({
   checked,
 }: LayerButtonProps) => {
   return (
-    <Stack>
+    <Stack sx={styles.layerButton}>
       <Box sx={checked ? styles.containerChecked : styles.container}>
         <IconButton
           onClick={onClick}
@@ -53,6 +53,12 @@ export const LayerButton = ({
 };
 
 const styles: IStyles = {
+  layerButton: () => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    maxWidth: "70px",
+  }),
   stack: () => ({
     maxWidth: "66px",
   }),

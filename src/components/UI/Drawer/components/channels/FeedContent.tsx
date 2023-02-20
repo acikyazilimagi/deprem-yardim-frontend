@@ -1,59 +1,42 @@
 import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
 import FeedChannelBabala from "./babala/FeedChannelBabala";
-import FeedChannelGeneric from "./FeedChannelGeneric";
+import { FeedChannelGeneric } from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
-import { FeedChannelSatellite } from "./FeedChannelSatellite";
-import { FeedChannelSahraKitchen } from "./FeedChannelSahraKitchen";
+import { FeedChannelSahra } from "./FeedChannelSahraKitchen";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
+import { Channel, ChannelData } from "@/types";
+import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
+import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
+import { DrawerData } from "@/stores/mapStore";
 import {
-  BaseFeedChannel,
-  Channel,
   FeedChannelAhbapProps,
   FeedChannelBabalaProps,
   FeedChannelTwitterProps,
   FeedChannelTeleteyitProps,
-  FeedChannelSatelliteProps,
-  FeedChannelSahraKitchenProps,
   FeedChannelSafePlacesProps,
-} from "@/types";
-import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
-import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
+  FeedChannelPharmacyProps,
+  FeedChannelSahraProps,
+} from "../../types";
 
 type Props = {
-  content:
-    | FeedChannelTwitterProps
-    | FeedChannelBabalaProps
-    | FeedChannelAhbapProps
-    | FeedChannelTeleteyitProps
-    | FeedChannelSatelliteProps
-    | FeedChannelSahraKitchenProps;
+  content: DrawerData;
 };
 
 const contentMapper = {
-  generic: (source: BaseFeedChannel<any>) => <FeedChannelGeneric {...source} />,
+  generic: (source: ChannelData) => <FeedChannelGeneric {...source} />,
   twitter: (source: FeedChannelTwitterProps) => (
     <FeedChannelTwitter {...source} />
   ),
   babala: (source: FeedChannelBabalaProps) => <FeedChannelBabala {...source} />,
   ahbap: (source: FeedChannelAhbapProps) => <FeedChannelAhbap {...source} />,
   teleteyit: (source: FeedChannelTeleteyitProps) => (
-    // @ts-ignore
     <FeedChannelTeleteyit {...source} />
   ),
-  uydu: (source: FeedChannelSatelliteProps) => (
-    // @ts-ignore
-    <FeedChannelSatellite {...source} />
-  ),
-  sahra_mutfak: (source: FeedChannelSatelliteProps) => (
-    // @ts-ignore
-    <FeedChannelSahraKitchen {...source} />
-  ),
-  eczane_excel: (source: FeedChannelSatelliteProps) => (
-    // @ts-ignore
+  sahra: (source: FeedChannelSahraProps) => <FeedChannelSahra {...source} />,
+  eczane: (source: FeedChannelPharmacyProps) => (
     <FeedChannelPharmacy {...source} />
   ),
-  guvenli_yerler_oteller: (source: FeedChannelSafePlacesProps) => (
-    // @ts-ignore
+  guvenli: (source: FeedChannelSafePlacesProps) => (
     <FeedChannelSafePlaces {...source} />
   ),
 };
@@ -67,11 +50,12 @@ const isChannelExist = (channel?: string) => {
 };
 
 const FeedContent = ({ content }: Props) => {
-  // Mevcutta bulunan channeldan farklı bir channel gelmesi durumunda "generic" channel'ı basılıyor
-  const channel: Channel = isChannelExist(content.channel)
+  if (!content) {
+    return null;
+  }
+  const channel = isChannelExist(content.channel)
     ? (content.channel!.toLowerCase() as Channel)
     : "generic";
-
   // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
   return <>{contentMapper[channel](content)}</>;
 };

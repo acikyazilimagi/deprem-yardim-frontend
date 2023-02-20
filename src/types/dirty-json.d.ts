@@ -1,3 +1,3 @@
 declare module "dirty-json" {
-  export const parse: (_input: any) => any;
+  export const parse: <TInput = any, TOutput = any>(_input: TInput) => TOutput;
 }

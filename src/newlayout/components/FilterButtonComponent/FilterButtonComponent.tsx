@@ -23,7 +23,7 @@ export const FilterButtonComponent = (props: IFilterButtonProps) => {
     <Button
       sx={styles.button}
       color="inherit"
-      variant="outlined"
+      variant="contained"
       startIcon={props.icon}
       onClick={props.onClick}
     >
