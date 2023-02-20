@@ -6,6 +6,7 @@
         "title": "Filter",
         "servicesTitle": "Services",
         "helpRequestTitle": "Help Requests",
+        "reasonsTitle": "Reasons",
         "channels": {
             "all": "All channels",
             "twitter": "Social media",

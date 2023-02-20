@@ -97,7 +97,6 @@ interface IFilterComponent {
 
 export const FilterComponent = (props: IFilterComponent) => {
   const filterView = props.filterStore();
-
   useEffect(() => {
     filterView.setFilters(props.filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
 // import SearchIcon from "@mui/icons-material/Search";
-import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
+// import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { FilterButtonComponent } from "../FilterButtonComponent/FilterButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
@@ -148,7 +148,7 @@ const MapControls = (props: IMapControlsProps) => {
       const _data: IFilterElement[] = [
         {
           queryParam: "reasons",
-          label: "Reasons",
+          label: t("filter.reasonsTitle"),
           values: data,
           defaultValues: queryReasons
             .split(",")
@@ -159,7 +159,7 @@ const MapControls = (props: IMapControlsProps) => {
       ];
       return _data;
     },
-    [router.query.reasons]
+    [router.query.reasons, t]
   );
 
   useEffect(() => {
@@ -216,13 +216,13 @@ const MapControls = (props: IMapControlsProps) => {
                 // searchFilter.toggle(!searchFilter.isOpen);
               }}
             /> */}
-            <FilterButtonComponent
+            {/* <FilterButtonComponent
               buttonLabel={t("filter.helpRequestTitle")}
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
                 // poiFilter.toggle(!poiFilter.isOpen);
               }}
-            />
+            /> */}
 
             <FilterButtonComponent
               buttonLabel={t("filter.servicesTitle")}
@@ -244,11 +244,11 @@ const MapControls = (props: IMapControlsProps) => {
               filterStore={useHelpFilter}
               filters={tempFilterData2}
             />  */}
-            <FilterComponent
+            {/* <FilterComponent
               title={t("filter.helpRequestTitle")}
               filterStore={usePoiFilter}
               filters={poiFilters}
-            />
+            /> */}
             <FilterComponent
               title={t("filter.servicesTitle")}
               filterStore={usePoiFilter}
