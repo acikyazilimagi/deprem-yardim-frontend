@@ -7,23 +7,31 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
 import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
-import Map from "./Map";
+import Map from "@/components/UI/Map/Map";
 import MapControls from "./MapControls";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
+import { useMapEvents } from "@/hooks/useMapEvents";
+import { useURLActions } from "@/stores/urlStore";
 
 type Props = {
   reasons: string[];
   locations: ChannelData[];
 };
 
+const MapEvents = () => {
+  useMapEvents();
+  return null;
+};
+
 export const MapContent = ({ reasons, locations }: Props) => {
   const { mapType } = useMTMLView();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
+  const { setCoordinates } = useURLActions();
   const device = useDevice();
   const router = useRouter();
 
@@ -48,10 +56,17 @@ export const MapContent = ({ reasons, locations }: Props) => {
       }
       zoomSnap={1}
       zoomDelta={1}
+      whenReady={(map: any) => {
+        setTimeout(() => {
+          setCoordinates(map.target.getBounds());
+          map.target.invalidateSize();
+        }, 100);
+      }}
       preferCanvas
       maxBoundsViscosity={1}
       maxZoom={18}
     >
+      <MapEvents />
       <MapControls filters={{ reasons }} />
       <TileLayer url={baseMapUrl} />
 
