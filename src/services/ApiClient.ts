@@ -3,7 +3,7 @@ import { transformers } from "@/hooks/useVerifiedLocations";
 import { APIChannel, APIResponse, ChannelData } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 
-type Bound = {
+export type Bounds = {
   ne_lat: string;
   ne_lng: string;
   sw_lat: string;
@@ -12,7 +12,7 @@ type Bound = {
 
 type FetchAreasOptions = {
   reasons: string;
-  bound?: Bound;
+  bound?: Bounds;
 };
 
 type ApiClientProps = {
@@ -36,9 +36,12 @@ export class ApiClient {
 
     url.search = searchParams.toString();
 
+    // TOFIX: cleanup logs
+    console.log("sent request");
     const response = (await dataFetcher(url)) as {
       results: APIResponse[];
     };
+    console.log("received response");
 
     const data = (response.results ?? [])
       .map((item) => {

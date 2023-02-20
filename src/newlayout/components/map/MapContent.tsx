@@ -9,25 +9,55 @@ import {
 import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
 import Map from "@/components/UI/Map/Map";
 import MapControls from "./MapControls";
-import { TileLayer } from "react-leaflet";
+import { TileLayer, useMap } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { useURLActions } from "@/stores/urlStore";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { usePrevious } from "@/hooks/usePrevious";
+import { isValidReasons } from "@/utils/isValidReasons";
+import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
+import { useSingletonsStore } from "../../../stores/singletonsStore";
 
-type Props = {
-  reasons: string[];
-  locations: ChannelData[];
+type EventProps = {
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
+const MapEvents = ({ setLocations }: EventProps) => {
+  const map = useMap();
+  const router = useRouter();
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
+  const bounds = map.getBounds();
+  const { apiClient } = useSingletonsStore();
 
-const MapEvents = () => {
+  useEffect(() => {
+    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
+      apiClient
+        .fetchAreas({
+          reasons: queryReasons,
+          bound: getFetchAreaBounds(bounds),
+        })
+        .then(setLocations);
+    }
+  }, [apiClient, prevReasons, queryReasons, bounds]);
   useMapEvents();
   return null;
 };
 
-export const MapContent = ({ reasons, locations }: Props) => {
+type ContentProps = {
+  reasons: string[];
+  locations: ChannelData[];
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
+};
+
+export const MapContent = ({
+  reasons,
+  locations,
+  setLocations,
+}: ContentProps) => {
   const { mapType } = useMTMLView();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
@@ -66,14 +96,14 @@ export const MapContent = ({ reasons, locations }: Props) => {
       maxBoundsViscosity={1}
       maxZoom={18}
     >
-      <MapEvents />
+      <MapEvents setLocations={setLocations} />
       <MapControls filters={{ reasons }} />
       <TileLayer url={baseMapUrl} />
 
       <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
 
       <Box sx={styles.fixedMidBottom}>
-        <CooldownButtonComponent />
+        <CooldownButtonComponent setLocations={setLocations} />
       </Box>
     </Map>
   );

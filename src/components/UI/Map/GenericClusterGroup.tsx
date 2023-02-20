@@ -14,11 +14,6 @@ const fetchIcon = (count: number) => {
   });
 };
 
-type Props = {
-  data: ChannelData[];
-  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
-};
-
 const markerBlueIcon = L.Icon.Default.extend({
   options: {},
 });
@@ -28,6 +23,11 @@ const markerGrayIcon = L.Icon.Default.extend({
     className: styles.marker_icon__visited,
   },
 });
+
+type Props = {
+  data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
+};
 
 export const GenericClusterGroup = ({
   data,

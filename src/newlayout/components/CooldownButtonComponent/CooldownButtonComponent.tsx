@@ -1,62 +1,39 @@
-//#region imports
-import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
-import { useState } from "react";
+import { Button, SxProps, Theme } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "next-i18next";
+import { ChannelData } from "@/types";
+import { useMap } from "react-leaflet";
+import { useRouter } from "next/router";
+import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
+import { useSingletonsStore } from "@/stores/singletonsStore";
 
-//#endregion
-//#region interfaces
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
-//#endregion
-//#region store
 
-//#endregion
-//#region component
-export const CooldownButtonComponent = () => {
+type Props = {
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
+};
+
+export const CooldownButtonComponent = ({ setLocations }: Props) => {
   const { t } = useTranslation("home");
-  const TICKER = 1000;
-  const COOLDOWN = 30000;
-  const [cooldown, setCooldown] = useState(false);
-  const [progress, setProgress] = useState(100);
-  const handleClick = () => {
-    setCooldown(true);
-    setProgress(0);
-    let _tick = 0;
-    const timer = setInterval(() => {
-      _tick = _tick + TICKER;
-      const _progress = (_tick / COOLDOWN) * 100;
-      setProgress(_progress);
-    }, TICKER);
-    setTimeout(() => {
-      setCooldown(false);
-      clearInterval(timer);
-      setProgress(100);
-    }, COOLDOWN);
+
+  const map = useMap();
+  const router = useRouter();
+  const { apiClient } = useSingletonsStore();
+  const onScanClick = () => {
+    const reasons = router.query.reasons as string;
+    const bound = getFetchAreaBounds(map.getBounds());
+    apiClient.fetchAreas({ reasons, bound }).then(setLocations);
   };
+
   return (
-    <>
-      <Button
-        sx={styles.button}
-        variant="contained"
-        onClick={handleClick}
-        disabled={cooldown}
-      >
-        {t("scanner.text")}
-        {cooldown ? (
-          <LinearProgress
-            variant="determinate"
-            color={cooldown ? "inherit" : "primary"}
-            value={progress}
-            sx={styles.progress}
-          />
-        ) : null}
-      </Button>
-    </>
+    <Button sx={styles.button} variant="contained" onClick={onScanClick}>
+      {t("scanner.text")}
+    </Button>
   );
 };
-//#endregion
-//#region styles
+
 const styles: IStyles = {
   button: () => ({
     pointerEvents: "all",
@@ -73,4 +50,3 @@ const styles: IStyles = {
     marginBottom: 0,
   }),
 };
-//#endregion
