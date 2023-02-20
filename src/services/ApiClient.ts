@@ -19,6 +19,9 @@ type ApiClientProps = {
   url: string;
 };
 
+// in-memory cache for areas responses
+const areasCache = new Map<number, ChannelData>();
+
 export class ApiClient {
   url: string;
 
@@ -53,7 +56,13 @@ export class ApiClient {
       })
       .filter(Boolean) as ChannelData[];
 
-    return data;
+    data.forEach((item) => {
+      if (item.reference) {
+        areasCache.set(item.reference, item);
+      }
+    });
+
+    return Array.from(areasCache.values());
   }
 
   async fetchReasons() {
