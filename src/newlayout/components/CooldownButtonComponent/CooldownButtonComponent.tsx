@@ -6,7 +6,7 @@ import { ApiClient } from "../../../services/ApiClient";
 import { ChannelData } from "@/types";
 import { useMap } from "react-leaflet";
 import { useRouter } from "next/router";
-import { getFetchAreaBound } from "@/utils/fetchArea";
+import { getFetchAreaBound } from "@/utils/getFetchAreaBound";
 
 //#endregion
 //#region interfaces

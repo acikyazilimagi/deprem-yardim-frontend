@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { ApiClient } from "@/services/ApiClient";
-import { getFetchAreaBound } from "@/utils/fetchArea";
+import { getFetchAreaBound } from "@/utils/getFetchAreaBound";
+import { isValidReasons } from "@/utils/isValidReasons";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -28,10 +29,6 @@ const markerGrayIcon = L.Icon.Default.extend({
     className: styles.marker_icon__visited,
   },
 });
-
-const isValidReasons = (reasons: string | undefined): reasons is string => {
-  return reasons === "" || !!reasons;
-};
 
 type Props = {
   data: ChannelData[];
