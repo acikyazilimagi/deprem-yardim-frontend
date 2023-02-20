@@ -1,7 +1,7 @@
 import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
 import ClusterPopup from "@/components/UI/ClusterPopup";
 import Drawer from "@/components/UI/Drawer/Drawer";
-// import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
+import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
 import Footer from "@/components/UI/Footer/Footer";
 import FooterBanner from "@/components/UI/Footer/Banner";
 import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
@@ -9,9 +9,9 @@ import ScanAreaButton from "@/components/UI/Button/ScanArea";
 import SitesIcon from "@/components/UI/SitesIcon/Icons";
 import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
 import { getLocationById } from "@/services/location";
-// import { useAreasActions, useShouldFetchNextOption } from "@/stores/areasStore";
+import { useAreasActions, useShouldFetchNextOption } from "@/stores/areasStore";
 import { useDevice, useMapActions } from "@/stores/mapStore";
-// import { useURLActions } from "@/stores/urlStore";
+import { useURLActions } from "@/stores/urlStore";
 import styles from "@/styles/Home.module.css";
 import { DeviceType } from "@/types";
 import { Box } from "@mui/material";
@@ -42,13 +42,13 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
     pharmacyLocations,
     safePlaceLocations,
   } = useVerifiedLocations();
-  // const { setTimeStamp } = useURLActions();
+  const { setTimeStamp } = useURLActions();
   const router = useRouter();
   const device = useDevice();
 
-  // const { setShouldFetchNextOption } = useAreasActions();
-  // const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
-  // const shouldFetchNextOption = useShouldFetchNextOption();
+  const { setShouldFetchNextOption } = useAreasActions();
+  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
+  const shouldFetchNextOption = useShouldFetchNextOption();
 
   const isMobile = device === "mobile";
 
@@ -68,7 +68,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
       <HeadWithMeta singleItemDetail={singleItemDetail} />
       <main className={styles.main}>
         <Container maxWidth={false} disableGutters>
-          {/* <div
+          <div
             style={{
               position: "fixed",
               right: "10px",
@@ -94,7 +94,7 @@ export default function Home({ deviceType, singleItemDetail }: Props) {
                 <FilterMenu.Reason />
               </FilterMenu>
             </div>
-          </div> */}
+          </div>
           <LeafletMap
             ahbap={ahbapLocations}
             hospital={hospitalLocations}
