@@ -129,6 +129,9 @@ const styles: IStyles = {
     [theme.breakpoints.up("xs")]: {
       width: "100vw",
     },
+    [theme.breakpoints.up("sm")]: {
+      width: "unset",
+    },
   }),
   card: (theme: Theme) => ({
     [theme.breakpoints.up("xs")]: {
