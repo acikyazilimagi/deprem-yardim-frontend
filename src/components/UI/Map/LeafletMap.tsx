@@ -1,32 +1,24 @@
 import Map from "@/components/UI/Map/Map";
-import { EVENT_TYPES } from "@/types";
 import {
   MapLayer,
   useDevice,
   useMapActions,
   useMapType,
 } from "@/stores/mapStore";
-import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
 import ResetViewControl from "@20tab/react-leaflet-resetview";
 import { css, Global } from "@emotion/react";
-import L, { latLng, latLngBounds } from "leaflet";
+import { latLng, latLngBounds } from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { memo, useEffect, useMemo, useRef } from "react";
-import { TileLayer, useMapEvents } from "react-leaflet";
-
-import { useDebouncedCallback } from "use-debounce";
+import { memo, useMemo } from "react";
+import { TileLayer } from "react-leaflet";
 import { Tags } from "../Tag/Tag.types";
 import {
   DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
-  localStorageKeys,
-  safeGetLocalStorage,
-  safeSetLocalStorage,
 } from "./utils";
 import LayerControl, { Point } from "./LayerControl";
 import ViewControl from "./ViewControl";
@@ -34,6 +26,7 @@ import { useURLActions } from "@/stores/urlStore";
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { ChannelData } from "@/types";
+import { useMapEvents } from "@/hooks/useMapEvents";
 
 const MapLegend = dynamic(() => import("./MapLegend"), {
   ssr: false,
@@ -68,128 +61,13 @@ const GlobalClusterStyle = css`
   )}
 `;
 
-const MapEvents = () => {
-  const mapZoomLevelRef = useRef(0);
-  const router = useRouter();
-  const { setPopUpData, setEventType } = useMapActions();
-  const { setCoordinates } = useURLActions();
-  const id = router.query["id"];
-  const locale = router.locale;
-
-  useEffect(() => {
-    const localCoordinatesURL = safeGetLocalStorage(
-      localStorageKeys.coordinatesURL
-    );
-
-    if (localCoordinatesURL) {
-      if (id) {
-        window.history.replaceState(
-          {
-            ...window.history.state,
-            as: `/${locale}?${localCoordinatesURL}`,
-            url: `/?${localCoordinatesURL}`,
-          },
-          "",
-          `?${localCoordinatesURL}&id=${id}`
-        );
-      } else {
-        window.history.replaceState(
-          {
-            ...window.history.state,
-            as: `/${locale}?${localCoordinatesURL}`,
-            url: `/?${localCoordinatesURL}`,
-          },
-          "",
-          "?" + localCoordinatesURL
-        );
-      }
-    }
-
-    return () => {
-      const coordinatesURL = window.location.hash;
-      safeSetLocalStorage(localStorageKeys.coordinatesURL, coordinatesURL);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const debounced = useDebouncedCallback(
-    (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
-      const zoomLevel = map.getZoom();
-      let localCoordinates = value;
-
-      // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
-      const shouldExpandCoordinates =
-        zoomLevel === 18 ||
-        zoomLevel === 17 ||
-        zoomLevel === 16 ||
-        zoomLevel === 15;
-
-      if (shouldExpandCoordinates) {
-        localCoordinates = expandCoordinatesBy(
-          localCoordinates,
-          EXPAND_COORDINATE_BY_VALUE
-        );
-      }
-      setCoordinates(localCoordinates);
-      setEventType(eventType);
-      const _lat = localCoordinates.getCenter().lat;
-      const _lng = localCoordinates.getCenter().lng;
-      const _zoomLevel = zoomLevel;
-
-      const locationWithZoomLevel = new URLSearchParams();
-      locationWithZoomLevel.append("lat", _lat.toString());
-      locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
-      if (id) {
-        locationWithZoomLevel.append("id", id.toString());
-      }
-      const query = locationWithZoomLevel.toString();
-      safeSetLocalStorage(localStorageKeys.coordinatesURL, query);
-
-      router.push(
-        { query },
-        { query },
-        {
-          shallow: true,
-        }
-      );
-    },
-    100
-  );
-
-  const map = useMapEvents({
-    moveend: () => debounced(map.getBounds(), "moveend"),
-    zoomend: () => {
-      debounced(map.getBounds(), "zoomend");
-
-      const isZoomOut = mapZoomLevelRef.current > map.getZoom();
-      if (isZoomOut) {
-        setPopUpData(null);
-      }
-    },
-    zoomstart: () => {
-      mapZoomLevelRef.current = map.getZoom();
-    },
-  });
-
-  return null;
-};
-
-const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
-  const { lat: neLat, lng: neLng } = coordinates.getNorthEast();
-  const { lat: swLat, lng: swLng } = coordinates.getSouthWest();
-
-  const northEast = L.latLng(neLat + value, neLng + value);
-  const southWest = L.latLng(swLat - value, swLng - value);
-
-  return L.latLngBounds(northEast, southWest);
-};
-
 interface ILeafletMap {
   locations: Omit<Record<MapLayer, ChannelData[]>, "heatmap" | "earthquakes">;
 }
 
 function LeafletMap(props: ILeafletMap) {
+  useMapEvents();
+
   const { setCoordinates } = useURLActions();
   // const data = useAreasMarkerData();
 
@@ -252,7 +130,6 @@ function LeafletMap(props: ILeafletMap) {
             toggleDrawer();
           }}
         />
-        <MapEvents />
         <LayerControl points={points} data={data} locations={props.locations} />
         <TileLayer url={baseMapUrl} />
       </Map>
