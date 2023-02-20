@@ -34,9 +34,6 @@ const MapEvents = ({ setLocations }: EventProps) => {
   const { apiClient } = useSingletonsStore();
 
   useEffect(() => {
-    if (!apiClient) {
-      return; // TOFIX: remove this when we migrate into new UI, will not be needed
-    }
     if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
       apiClient
         .fetchAreas({ reasons: queryReasons, bound: getFetchAreaBound(bounds) })
