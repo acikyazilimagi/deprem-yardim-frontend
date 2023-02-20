@@ -9,43 +9,24 @@ import {
 import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
 import Map from "@/components/UI/Map/Map";
 import MapControls from "./MapControls";
-import { TileLayer, useMap } from "react-leaflet";
+import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { useURLActions } from "@/stores/urlStore";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { usePrevious } from "@/hooks/usePrevious";
-import { isValidReasons } from "@/utils/isValidReasons";
-import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
-import { useSingletonsStore } from "@/stores/singletonsStore";
+import { Dispatch, SetStateAction } from "react";
 import { MapClusterStyle } from "@/components/UI/Map/MapClusterStyle";
 import { latLng, latLngBounds } from "leaflet";
+import { useFetchLocations } from "@/hooks/useFetchLocations";
 
 type EventProps = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
 
 const MapEvents = ({ setLocations }: EventProps) => {
-  const map = useMap();
-  const router = useRouter();
-  const queryReasons = router.query.reasons as string | undefined;
-  const prevReasons = usePrevious(queryReasons);
-  const bounds = map.getBounds();
-  const { apiClient } = useSingletonsStore();
-
-  useEffect(() => {
-    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
-      apiClient
-        .fetchAreas({
-          reasons: queryReasons,
-          bound: getFetchAreaBounds(bounds),
-        })
-        .then(setLocations);
-    }
-  }, [apiClient, prevReasons, queryReasons, bounds, setLocations]);
+  useFetchLocations(setLocations);
   useMapEvents();
   return null;
 };
