@@ -74,7 +74,7 @@ export const useMapStore = create<MapState>()((set) => ({
   device: "desktop",
   markerData: [],
   mapType: MapType.Default,
-  mapLayers: Object.values(MapLayer),
+  mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     toggleMapLayer: (mapLayer: MapLayer) =>
