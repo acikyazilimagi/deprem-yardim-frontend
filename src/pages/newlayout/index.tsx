@@ -76,11 +76,19 @@ export default NHome;
 
 export async function getServerSideProps(context: any) {
   const client = new ApiClient({ url: "https://apigo.afetharita.com" });
+  const searchParams = new URLSearchParams(context.query);
+  let redirect = false;
+
   const reasons = await client.fetchReasons();
 
   let channel: ChannelData | null = null;
   if (context.query.id) {
     channel = await client.fetchLocationByID(context.query.id);
+    console.log(channel);
+    if (!channel) {
+      searchParams.delete("id");
+      redirect = true;
+    }
   }
 
   // Pass data to the page via props
@@ -90,7 +98,20 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
+  if (context.query.reasons === "" || !context.query.reasons) {
+    searchParams.delete("reasons");
+    searchParams.append("reasons", reasons.join(","));
+    redirect = true;
+  }
 
+  if (redirect) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/newlayout?" + searchParams.toString(),
+      },
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),

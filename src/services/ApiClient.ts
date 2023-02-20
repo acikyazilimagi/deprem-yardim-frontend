@@ -67,7 +67,7 @@ export class ApiClient {
     )) as APIResponse;
 
     let channel: ChannelData | undefined = undefined;
-    if (response) {
+    if (response.channel) {
       channel = parseChannelData(response, {
         transformResponse:
           transformers[response.channel.toLowerCase() as APIChannel],
