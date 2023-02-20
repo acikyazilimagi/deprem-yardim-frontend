@@ -2,8 +2,7 @@ import { useState } from "react";
 
 type CopiedValue = string;
 
-// eslint-disable-next-line no-unused-vars
-type CopyFn = (text: string) => Promise<boolean>; // Return success
+type CopyFn = (_text: string) => Promise<boolean>; // Return success
 
 export const useCopyToClipboard = () => {
   const [copiedText, setCopiedText] = useState<CopiedValue>("");
