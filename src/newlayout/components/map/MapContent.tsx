@@ -97,7 +97,7 @@ export const MapContent = ({
         <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
 
         <Box sx={styles.fixedMidBottom}>
-          <CooldownButtonComponent setLocations={setLocations} />
+          <CooldownButtonComponent />
         </Box>
       </Map>
     </>
