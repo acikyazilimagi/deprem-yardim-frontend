@@ -36,59 +36,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";
 
-/**
- * const tempFilterData1: IFilterElement[] = [
-  {
-    queryParam: "category-1",
-    label: "foo-label-1",
-    values: ["foo-1", "bar-1"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-2",
-    label: "foo-label-2",
-    values: ["foo-2", "bar-2"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-3",
-    label: "foo-label-3",
-    values: ["foo-3", "bar-3"],
-    defaultValues: [1],
-    type: "multi-select",
-  },
-];
-
-const tempFilterData2: IFilterElement[] = [
-  {
-    queryParam: "category-1",
-    label: "foo-label-1",
-    values: ["foo-1", "bar-1"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-];
-
-const tempFilterData3: IFilterElement[] = [
-  {
-    queryParam: "category-2",
-    label: "foo-label-2",
-    values: ["foo-2", "bar-2"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-3",
-    label: "foo-label-3",
-    values: ["foo-3", "bar-3"],
-    defaultValues: [1],
-    type: "multi-select",
-  },
-];
- */
-
 export const usePoiFilter = createUseFilter();
 // const useHelpFilter = createUseFilter(tempFilterData2);
 // const useSearchFilter = createUseFilter(tempFilterData3);
