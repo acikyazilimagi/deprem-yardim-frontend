@@ -3,6 +3,7 @@ import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/newlayout/components/MTMLViewComponent/MTMLViewComponent";
 import { useDevice } from "@/stores/mapStore";
 import {
+  DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
@@ -16,10 +17,13 @@ import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { useURLActions } from "@/stores/urlStore";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, memo, useMemo } from "react";
 import { MapClusterStyle } from "@/components/UI/Map/MapClusterStyle";
 import { latLng, latLngBounds } from "leaflet";
 import { useFetchLocations } from "@/hooks/useFetchLocations";
+import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
+import { MapLayer } from "../MTMLViewComponent/types";
+const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
 type EventProps = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
@@ -29,6 +33,61 @@ const MapEvents = ({ setLocations }: EventProps) => {
   useFetchLocations(setLocations);
   useMapEvents();
   return null;
+};
+
+type LayerControlProps = {
+  locations: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
+};
+
+export type Point = [number, number, number];
+
+const longitudeExtractor = (p: Point) => p[1];
+const latitudeExtractor = (p: Point) => p[0];
+const intensityExtractor = (p: Point) => p[2];
+
+const LayerControl = ({ locations, onMarkerClick }: LayerControlProps) => {
+  const { mapLayers } = useMTMLView();
+  const points = useMemo(
+    () =>
+      locations.map(
+        (item) =>
+          [
+            item.geometry.location.lng,
+            item.geometry.location.lat,
+            DEFAULT_IMPORTANCY,
+          ] as Point
+      ),
+    [locations]
+  );
+
+  return (
+    <>
+      {mapLayers.map((layer, idx) => {
+        if (layer === MapLayer.Heatmap) {
+          return (
+            <HeatmapLayer
+              key={idx}
+              fitBoundsOnUpdate
+              radius={15}
+              points={points}
+              longitudeExtractor={longitudeExtractor}
+              latitudeExtractor={latitudeExtractor}
+              intensityExtractor={intensityExtractor}
+              useLocalExtrema={false}
+            />
+          );
+        }
+        return (
+          <GenericClusterGroup
+            key={idx}
+            data={locations}
+            onMarkerClick={onMarkerClick}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 type ContentProps = {
@@ -93,11 +152,10 @@ export const MapContent = ({
         <MapEvents setLocations={setLocations} />
         <MapControls filters={{ reasons }} />
         <TileLayer url={baseMapUrl} />
-
-        <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
+        <LayerControl locations={locations} onMarkerClick={onMarkerClick} />
 
         <Box sx={styles.fixedMidBottom}>
-          <CooldownButtonComponent setLocations={setLocations} />
+          <CooldownButtonComponent />
         </Box>
       </Map>
     </>
