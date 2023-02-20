@@ -273,6 +273,9 @@ const styles: IStyles = {
     [theme.breakpoints.down("sm")]: {
       boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
     },
+    "&:hover": {
+      backgroundColor: theme.palette.common.white,
+    },
   }),
   marginTopLeft: {
     margin: "10px 10px",
