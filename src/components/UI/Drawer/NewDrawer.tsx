@@ -19,6 +19,8 @@ import { Box } from "@mui/material";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useRouter } from "next/router";
 import { getTimeAgo } from "@/utils/date";
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+import RoomIcon from "@mui/icons-material/Room";
 
 const DrawerIDLabel = ({ id }: { id: number }) => {
   return <span className={styles.contentIdSection}>ID: {id}</span>;
@@ -52,9 +54,7 @@ const TimeLabel = ({ timeLabel }: { timeLabel: string }) => {
 
   return (
     <div className={styles.contentInfo}>
-      <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
-        <path d="M8.2 1.3c-3.7 0-6.7 3-6.7 6.7s3 6.7 6.7 6.7 6.7-3 6.6-6.7-3-6.7-6.6-6.7zM12 8.7h-4.5V4h1.3v3.3H12v1.4z" />
-      </svg>
+      <AccessTimeFilledIcon fontSize="small" />
       <span>
         {t("content.notifyTime")}: {timeLabel}
       </span>
@@ -65,10 +65,7 @@ const TimeLabel = ({ timeLabel }: { timeLabel: string }) => {
 const Coordinates = ({ coordinates }: { coordinates: string }) => {
   return (
     <div className={styles.contentInfo}>
-      <svg viewBox="0 0 16 16" width="16" height="16" fill="#111111">
-        <path d="M8 1A5.5 5.5 0 0 0 2.5 6.5a5.4 5.4 0 0 0 1.1 3.3s0.1 0.2 0.2 0.2L8 15l4.2-5c0 0 0.2-0.2 0.2-0.2l0 0A5.4 5.4 0 0 0 13.5 6.5 5.5 5.5 0 0 0 8 1Zm0 7.5a2 2 0 1 1 2-2 2 2 0 0 1-2 2Z" />
-        <path d="M8 6.5m-2 0a2 2 0 1 0 4 0 2 2 0 1 0-4 0" fill="none" />
-      </svg>
+      <RoomIcon fontSize="small" />
       <span>{coordinates}</span>
     </div>
   );
