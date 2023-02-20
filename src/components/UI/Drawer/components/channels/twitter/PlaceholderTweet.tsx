@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import TwitterLogo from "./TwitterLogo";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import { TwitterDataProperties } from "@/types";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
@@ -35,7 +35,7 @@ const PlaceholderTweet = ({ source, reason }: Props) => {
             </div>
           )}
           <div style={styles.logo}>
-            <TwitterLogo />
+            <TwitterIcon color="primary" />
           </div>
         </div>
         <Typography style={styles.fullText}>{source.full_text}</Typography>

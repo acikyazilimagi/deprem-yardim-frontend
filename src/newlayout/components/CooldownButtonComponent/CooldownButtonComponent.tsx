@@ -1,21 +1,12 @@
 import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "next-i18next";
-import { ChannelData } from "@/types";
-import { useMap } from "react-leaflet";
-import { useRouter } from "next/router";
-import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
-import { useSingletonsStore } from "@/stores/singletonsStore";
-import { devtools } from "zustand/middleware";
+import { mutate } from "swr";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
-
-type Props = {
-  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
-};
 
 interface IUseLoading {
   loading: boolean;
@@ -32,22 +23,15 @@ export const useLoading = create<IUseLoading>()(
     { name: "LoadingStore" }
   )
 );
-
-export const CooldownButtonComponent = ({ setLocations }: Props) => {
+export const CooldownButtonComponent = () => {
   const { t } = useTranslation("home");
   const { loading } = useLoading();
 
-  const map = useMap();
-  const router = useRouter();
-  const { apiClient } = useSingletonsStore();
-  const onScanClick = () => {
-    const reasons = router.query.reasons as string;
-    const bound = getFetchAreaBounds(map.getBounds());
-    apiClient.fetchAreas({ reasons, bound }).then(setLocations);
-  };
+  const refetch = () =>
+    mutate((key) => Array.isArray(key) && key[0] == "areas");
 
   return (
-    <Button sx={styles.button} variant="contained" onClick={onScanClick}>
+    <Button sx={styles.button} variant="contained" onClick={refetch}>
       {t("scanner.text")}
       {loading ? <LinearProgress sx={styles.progress} /> : null}
     </Button>
