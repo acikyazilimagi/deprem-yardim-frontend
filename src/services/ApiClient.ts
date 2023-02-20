@@ -34,7 +34,7 @@ export class ApiClient {
       extraParams: "true",
     });
 
-    url.search = searchParams.toString();
+    url.search = decodeURIComponent(searchParams.toString());
 
     // TOFIX: cleanup logs
     console.log("sent request");
