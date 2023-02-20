@@ -1,4 +1,4 @@
-import { Button, SxProps, Theme } from "@mui/material";
+import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "next-i18next";
 import { ChannelData } from "@/types";
@@ -6,6 +6,8 @@ import { useMap } from "react-leaflet";
 import { useRouter } from "next/router";
 import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
 import { useSingletonsStore } from "@/stores/singletonsStore";
+import { devtools } from "zustand/middleware";
+import { create } from "zustand";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;
@@ -15,8 +17,25 @@ type Props = {
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
 
+interface IUseLoading {
+  loading: boolean;
+  showLoading: (_state: boolean) => void;
+}
+
+export const useLoading = create<IUseLoading>()(
+  devtools(
+    (set) => ({
+      loading: false,
+      showLoading: (state: boolean) =>
+        set(() => ({ loading: state }), undefined, { type: "showLoading" }),
+    }),
+    { name: "LoadingStore" }
+  )
+);
+
 export const CooldownButtonComponent = ({ setLocations }: Props) => {
   const { t } = useTranslation("home");
+  const { loading } = useLoading();
 
   const map = useMap();
   const router = useRouter();
@@ -30,6 +49,7 @@ export const CooldownButtonComponent = ({ setLocations }: Props) => {
   return (
     <Button sx={styles.button} variant="contained" onClick={onScanClick}>
       {t("scanner.text")}
+      {loading ? <LinearProgress sx={styles.progress} /> : null}
     </Button>
   );
 };

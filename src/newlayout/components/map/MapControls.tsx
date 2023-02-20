@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
 // import SearchIcon from "@mui/icons-material/Search";
-// import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
+import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { FilterButtonComponent } from "../FilterButtonComponent/FilterButtonComponent";
 import AddIcon from "@mui/icons-material/Add";
@@ -213,14 +213,15 @@ const MapControls = (props: IMapControlsProps) => {
               onClick={() => {
                 // searchFilter.toggle(!searchFilter.isOpen);
               }}
-            />
+            /> */}
             <FilterButtonComponent
               buttonLabel="Yardim Talepleri"
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
                 // helpFilter.toggle(!helpFilter.isOpen);
               }}
-            /> */}
+            />
+
             <FilterButtonComponent
               buttonLabel="Hizmetler"
               icon={<Diversity1Icon />}
@@ -230,14 +231,18 @@ const MapControls = (props: IMapControlsProps) => {
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            {/* <FilterComponent
+            {/* 
+            <FilterComponent
               filterStore={useSearchFilter}
               filters={tempFilterData1}
             />
-            <FilterComponent
+            */}
+
+            {/* <FilterComponent
               filterStore={useHelpFilter}
               filters={tempFilterData2}
-            /> */}
+            />  */}
+
             <FilterComponent filterStore={usePoiFilter} filters={poiFilters} />
           </Stack>
         </Stack>
