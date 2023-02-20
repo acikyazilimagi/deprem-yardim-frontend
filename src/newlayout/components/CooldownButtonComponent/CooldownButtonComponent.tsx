@@ -1,7 +1,12 @@
 //#region imports
 import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { ApiClient } from "../../../services/ApiClient";
+import { ChannelData } from "@/types";
+import { useMap } from "react-leaflet";
+import { useRouter } from "next/router";
+import { getFetchAreaBound } from "@/utils/fetchArea";
 
 //#endregion
 //#region interfaces
@@ -13,12 +18,26 @@ interface IStyles {
 
 //#endregion
 //#region component
-export const CooldownButtonComponent = () => {
+type Props = {
+  apiClient: ApiClient;
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
+};
+
+export const CooldownButtonComponent = ({ apiClient, setLocations }: Props) => {
   const { t } = useTranslation("home");
   const TICKER = 1000;
   const COOLDOWN = 30000;
   const [cooldown, setCooldown] = useState(false);
   const [progress, setProgress] = useState(100);
+
+  const map = useMap();
+  const router = useRouter();
+  const onScanClick = () => {
+    const reasons = router.query.reasons as string;
+    const bound = getFetchAreaBound(map.getBounds());
+    apiClient.fetchAreas({ reasons, bound }).then(setLocations);
+  };
+
   const handleClick = () => {
     setCooldown(true);
     setProgress(0);
@@ -33,6 +52,7 @@ export const CooldownButtonComponent = () => {
       clearInterval(timer);
       setProgress(100);
     }, COOLDOWN);
+    onScanClick();
   };
   return (
     <>

@@ -59,6 +59,8 @@ const LayerControl = ({ points, locations }: Props) => {
               key={key}
               data={data}
               onMarkerClick={onMarkerClick}
+              apiClient={null}
+              setLocations={() => {}}
             />
           );
         }

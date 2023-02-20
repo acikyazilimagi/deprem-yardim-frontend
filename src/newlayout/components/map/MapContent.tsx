@@ -16,10 +16,14 @@ import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { useURLActions } from "@/stores/urlStore";
+import { ApiClient } from "@/services/ApiClient";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   reasons: string[];
   locations: ChannelData[];
+  apiClient: ApiClient;
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
 
 const MapEvents = () => {
@@ -27,7 +31,12 @@ const MapEvents = () => {
   return null;
 };
 
-export const MapContent = ({ reasons, locations }: Props) => {
+export const MapContent = ({
+  reasons,
+  locations,
+  apiClient,
+  setLocations,
+}: Props) => {
   const { mapType } = useMTMLView();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
@@ -70,10 +79,18 @@ export const MapContent = ({ reasons, locations }: Props) => {
       <MapControls filters={{ reasons }} />
       <TileLayer url={baseMapUrl} />
 
-      <GenericClusterGroup data={locations} onMarkerClick={onMarkerClick} />
+      <GenericClusterGroup
+        data={locations}
+        onMarkerClick={onMarkerClick}
+        apiClient={apiClient}
+        setLocations={setLocations}
+      />
 
       <Box sx={styles.fixedMidBottom}>
-        <CooldownButtonComponent />
+        <CooldownButtonComponent
+          apiClient={apiClient}
+          setLocations={setLocations}
+        />
       </Box>
     </Map>
   );

@@ -4,6 +4,11 @@ import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import { ChannelData } from "@/types";
 import styles from "./Map.module.css";
+import { useRouter } from "next/router";
+import { usePrevious } from "@/hooks/usePrevious";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { ApiClient } from "@/services/ApiClient";
+import { getFetchAreaBound } from "@/utils/fetchArea";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -12,11 +17,6 @@ const fetchIcon = (count: number) => {
     html: `<div class="cluster-inner"><span>${count}</span></div>`,
     className: `leaflet-marker-icon marker-cluster leaflet-interactive leaflet-custom-cluster-${tag.id}`,
   });
-};
-
-type Props = {
-  data: ChannelData[];
-  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
 
 const markerBlueIcon = L.Icon.Default.extend({
@@ -29,13 +29,41 @@ const markerGrayIcon = L.Icon.Default.extend({
   },
 });
 
+const isValidReasons = (reasons: string | undefined): reasons is string => {
+  return reasons === "" || !!reasons;
+};
+
+type Props = {
+  data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
+  apiClient: ApiClient | null; // TOFIX: remove null when we migrate into new UI
+  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
+};
+
 export const GenericClusterGroup = ({
   data,
   onMarkerClick,
+  apiClient,
+  setLocations,
 }: // propertyMap = DEFAULT_PROPERTY_MAP,
 Props) => {
   const map = useMap();
   const bounds = map.getBounds();
+
+  const router = useRouter();
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
+
+  useEffect(() => {
+    if (!apiClient) {
+      return; // TOFIX: remove this when we migrate into new UI, will not be needed
+    }
+    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
+      apiClient
+        .fetchAreas({ reasons: queryReasons, bound: getFetchAreaBound(bounds) })
+        .then(setLocations);
+    }
+  }, [apiClient, prevReasons, queryReasons, bounds]);
 
   const geoJSON = data.map((item) => {
     return {

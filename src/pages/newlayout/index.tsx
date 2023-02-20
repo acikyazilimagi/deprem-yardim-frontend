@@ -4,9 +4,7 @@ import { HelpViewComponent } from "@/newlayout/components/HelpViewComponent/Help
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
 import { ChannelData } from "@/types";
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
-import { usePrevious } from "@/hooks/usePrevious";
+import { useMemo, useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 
 const MapContent = dynamic(
@@ -38,31 +36,22 @@ interface INHome {
 const useApiClient = () =>
   useMemo(() => new ApiClient({ url: "https://apigo.afetharita.com" }), []);
 
-const isValidReasons = (reasons: string | undefined): reasons is string => {
-  return reasons === "" || !!reasons;
-};
-
 const NHome = (props: INHome) => {
-  const router = useRouter();
   const { copyToClipBoard } = useCopyToClipboard();
 
   const apiClient = useApiClient();
   const [reasons] = useState(() => props.reasons);
   const [locations, setLocations] = useState<ChannelData[]>(() => []);
 
-  const queryReasons = router.query.reasons as string | undefined;
-  const prevReasons = usePrevious(queryReasons);
-
-  useEffect(() => {
-    if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
-      apiClient.fetchAreas({ reasons: queryReasons }).then(setLocations);
-    }
-  }, [apiClient, prevReasons, queryReasons]);
-
   return (
     <main id="new-layout">
       <UIElementsOverlay />
-      <MapContent reasons={reasons} locations={locations} />
+      <MapContent
+        reasons={reasons}
+        locations={locations}
+        apiClient={apiClient}
+        setLocations={setLocations}
+      />
       {props.channel && (
         <Drawer
           data={props.channel}
@@ -84,7 +73,6 @@ export async function getServerSideProps(context: any) {
   let channel: ChannelData | null = null;
   if (context.query.id) {
     channel = await client.fetchLocationByID(context.query.id);
-    console.log(channel);
     if (!channel) {
       searchParams.delete("id");
       redirect = true;
