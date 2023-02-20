@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { ChannelData } from "@/types";
 import { useMap } from "react-leaflet";
 import { useRouter } from "next/router";
-import { getFetchAreaBound } from "@/utils/getFetchAreaBound";
+import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
 import { useSingletonsStore } from "@/stores/singletonsStore";
 
 interface IStyles {
@@ -23,7 +23,7 @@ export const CooldownButtonComponent = ({ setLocations }: Props) => {
   const { apiClient } = useSingletonsStore();
   const onScanClick = () => {
     const reasons = router.query.reasons as string;
-    const bound = getFetchAreaBound(map.getBounds());
+    const bound = getFetchAreaBounds(map.getBounds());
     apiClient.fetchAreas({ reasons, bound }).then(setLocations);
   };
 

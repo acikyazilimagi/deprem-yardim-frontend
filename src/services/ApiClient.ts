@@ -3,7 +3,7 @@ import { transformers } from "@/hooks/useVerifiedLocations";
 import { APIChannel, APIResponse, ChannelData } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 
-export type Bound = {
+export type Bounds = {
   ne_lat: string;
   ne_lng: string;
   sw_lat: string;
@@ -12,7 +12,7 @@ export type Bound = {
 
 type FetchAreasOptions = {
   reasons: string;
-  bound?: Bound;
+  bound?: Bounds;
 };
 
 type ApiClientProps = {

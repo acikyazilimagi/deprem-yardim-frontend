@@ -1,7 +1,7 @@
-import { Bound } from "@/services/ApiClient";
+import { Bounds } from "@/services/ApiClient";
 import L from "leaflet";
 
-export const getFetchAreaBound = (bounds: L.LatLngBounds): Bound => {
+export const getFetchAreaBounds = (bounds: L.LatLngBounds): Bounds => {
   return {
     ne_lat: bounds.getNorthEast().lat.toString(),
     ne_lng: bounds.getNorthEast().lng.toString(),

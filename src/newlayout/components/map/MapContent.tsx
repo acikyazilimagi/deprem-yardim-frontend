@@ -19,7 +19,7 @@ import { useURLActions } from "@/stores/urlStore";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { usePrevious } from "@/hooks/usePrevious";
 import { isValidReasons } from "@/utils/isValidReasons";
-import { getFetchAreaBound } from "@/utils/getFetchAreaBound";
+import { getFetchAreaBounds } from "@/utils/getFetchAreaBounds";
 import { useSingletonsStore } from "../../../stores/singletonsStore";
 
 type EventProps = {
@@ -36,7 +36,10 @@ const MapEvents = ({ setLocations }: EventProps) => {
   useEffect(() => {
     if (isValidReasons(queryReasons) && prevReasons !== queryReasons) {
       apiClient
-        .fetchAreas({ reasons: queryReasons, bound: getFetchAreaBound(bounds) })
+        .fetchAreas({
+          reasons: queryReasons,
+          bound: getFetchAreaBounds(bounds),
+        })
         .then(setLocations);
     }
   }, [apiClient, prevReasons, queryReasons, bounds]);
