@@ -4,6 +4,8 @@
     },
     "filter": {
         "title": "Filter",
+        "servicesTitle": "Services",
+        "helpRequestTitle": "Help Requests",
         "channels": {
             "all": "All channels",
             "twitter": "Social media",
