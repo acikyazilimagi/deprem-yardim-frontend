@@ -1,6 +1,5 @@
 import useSWR from "swr";
 import formatcoords from "formatcoords";
-import { dataTransformer } from "@/utils/dataTransformer";
 import { getTimeAgo } from "@/utils/date";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
@@ -17,70 +16,92 @@ import FeedContent from "./channels/FeedContent";
 import GenericError from "../../GenericError/GenericError";
 import MapButtons, { generateGoogleMapsUrl } from "./MapButtons";
 import { useTranslation } from "next-i18next";
-import {
-  AhbapData,
-  TeleteyitData,
-  SatelliteData,
-  SahraKitchenData,
-  PharmacyData,
-  SafePlaceData,
-} from "@/types";
 import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
-import { Data, MarkerData } from "@/types";
+import { parseChannelData } from "@/hooks/useLocation";
+import { DrawerData, useMapActions } from "@/stores/mapStore";
+import {
+  BabalaData,
+  APIResponse,
+  TwitterData,
+  TwitterDataProperties,
+} from "@/types";
 
 export interface ContentProps {
-  // eslint-disable-next-line no-unused-vars
-  onCopyBillboard: (clipped: string) => void;
-  drawerData:
-    | MarkerData
-    | AhbapData
-    | TeleteyitData
-    | SatelliteData
-    | SahraKitchenData
-    | PharmacyData
-    | SafePlaceData
-    | null;
+  onCopyBillboard: (_clipped: string) => void;
+  drawerData: DrawerData;
 }
 
 export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
   const { t } = useTranslation("home");
-  const {
-    data: rawData,
-    isLoading,
-    error,
-  } = useSWR<Data | undefined>(
-    drawerData?.reference ? locationsURL(drawerData?.reference) : null,
-    dataFetcher
+  // const [rawData, setRawData] = useState<TwitterData | BabalaData | null>(null);
+  const { setDrawerData } = useMapActions();
+
+  const { isLoading, error } = useSWR<APIResponse>(
+    drawerData?.reference ? locationsURL(drawerData.reference) : null,
+    dataFetcher,
+    {
+      onSuccess: (data) => {
+        if (
+          data.channel.toLowerCase() === "twitter" ||
+          data.channel.toLowerCase() === "babala"
+        ) {
+          setDrawerData(
+            parseChannelData(data, {
+              transformResponse: (res) => ({
+                channel: res.channel.toLowerCase() as "twitter" | "babala",
+                geometry: { location: { lat: 0, lng: 0 } },
+                properties: {
+                  ...res,
+                  ...res.extraParams,
+                },
+                reference: res.entry_id,
+              }),
+            }) as TwitterData | BabalaData
+          );
+        }
+
+        // if (!data) return;
+      },
+    }
   );
-  const data = dataTransformer(rawData);
+
   const size = useWindowSize();
   const { handleMarkerClick: toggler } = useMapClickHandlers();
   const router = useRouter();
-  const locale = router.locale;
 
   if (!drawerData) {
     return null;
   }
 
+  const data = drawerData.properties;
+
+  const locale = router.locale;
+
+  console.log({ error });
+
   const formattedCoordinates = formatcoords([
-    drawerData.geometry.location.lat,
-    drawerData.geometry.location.lng,
+    drawerData.geometry.location?.lng,
+    drawerData.geometry.location?.lat,
   ]).format();
 
-  const formattedTimeAgo = rawData && getTimeAgo(rawData.timestamp, locale);
+  const twitterBabala = data as
+    | TwitterData["properties"]
+    | BabalaData["properties"]
+    | undefined;
+
+  const formattedTimeAgo =
+    twitterBabala?.timestamp && getTimeAgo(twitterBabala.timestamp, locale);
 
   const hasSource =
     data &&
-    data.channel === "twitter" &&
-    // @ts-ignore gelecek veri twitter verisi ise tweet_id her türlü geliyor, TS tanıyamadığı için kızıyor buralarda
-    data.extra_parameters?.tweet_id &&
-    // @ts-ignore
-    data.extra_parameters?.tweet_id !== "";
+    drawerData?.channel === "twitter" &&
+    (data as TwitterDataProperties).tweet_id !== "";
 
-  const title = data?.formatted_address ?? (drawerData as any).properties?.name;
+  const title =
+    twitterBabala?.formatted_address ??
+    (drawerData.properties as { name: string } | undefined)?.name;
 
-  // @ts-ignore
   return (
     <Box
       sx={{
@@ -181,8 +202,8 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
               )}
             </div>
           </div>
-
-          {(data ||
+          <FeedContent content={drawerData} />
+          {/* {(data ||
             (drawerData as AhbapData).channel === "ahbap" ||
             (drawerData as SafePlaceData).channel ===
               "guvenli_yerler_oteller" ||
@@ -191,7 +212,7 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             (drawerData as SahraKitchenData).channel === "sahra_mutfak" ||
             (drawerData as PharmacyData).channel === "eczane_excel") && (
             <FeedContent content={data ?? (drawerData as AhbapData)} />
-          )}
+          )} */}
         </div>
       )}
 

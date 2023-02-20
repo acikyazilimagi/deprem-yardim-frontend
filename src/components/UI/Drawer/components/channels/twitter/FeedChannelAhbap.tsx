@@ -1,34 +1,36 @@
 import Typography from "@mui/material/Typography";
-import { FeedChannelAhbapProps } from "@/types";
 import { Divider } from "@mui/material";
 import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
+import { FeedChannelAhbapProps } from "../../../types";
 
 const getTypeLabel = (type: string) => {
   const id = type.split("-")[1];
   return CHANNEL_AHBAP_TYPES[id] ?? "";
 };
 
-function isDescriptionObject(
-  input: string | { value: string } | undefined
-): input is { value: string } {
-  return !!(input as { value: string })?.value;
-}
-
 export const FeedChannelAhbap = ({
   properties: { type = "", description = "", icon = "" },
 }: FeedChannelAhbapProps) => {
-  if (isDescriptionObject(description)) description = description.value;
-
   return (
     <>
       <div style={styles.container}>
         <div style={styles.logo_container}>
           <Typography style={styles.logo}>Ahbap</Typography>
-          <img style={styles.icon} src={icon} alt={getTypeLabel(type)} />
+          <img
+            style={styles.icon}
+            src={icon ?? ""}
+            alt={getTypeLabel(type ?? "")}
+          />
         </div>
         <Divider />
-        <Typography style={styles.name}>{getTypeLabel(type)}</Typography>
-        <Typography style={styles.description}>{`${description}`}</Typography>
+        {type && (
+          <Typography style={styles.name}>
+            {getTypeLabel(type ?? "")}
+          </Typography>
+        )}
+        {description && (
+          <Typography style={styles.description}>{`${description}`}</Typography>
+        )}
       </div>
     </>
   );

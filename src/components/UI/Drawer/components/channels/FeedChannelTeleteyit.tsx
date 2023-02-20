@@ -1,16 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
 import { capitalize } from "@/utils/helpers";
-
-interface FeedChannelTeleteyitProps {
-  channel: string;
-  properties: {
-    description: string;
-    durum: string;
-    verified: string;
-    city: string;
-    district: string;
-  };
-}
+import { FeedChannelTeleteyitProps } from "../../types";
 
 export const FeedChannelTeleteyit = (props: FeedChannelTeleteyitProps) => {
   return (
@@ -18,7 +8,7 @@ export const FeedChannelTeleteyit = (props: FeedChannelTeleteyitProps) => {
       <DrawerContent.Header>
         <DrawerContent.Title>{capitalize(props.channel)}</DrawerContent.Title>
         <DrawerContent.Badge>
-          {capitalize(props.properties?.verified || "")}
+          {capitalize(props.properties?.status || "")}
         </DrawerContent.Badge>
       </DrawerContent.Header>
       <DrawerContent.Body>

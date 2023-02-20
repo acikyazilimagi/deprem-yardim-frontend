@@ -1,28 +1,26 @@
 import useSnackbarHook from "@/components/base/Snackbar/useSnackbar";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { CopyAll } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
-import { useCallback, useState } from "react";
-import { FeedChannelTwitterProps } from "@/types";
+import { useState } from "react";
+import { FeedChannelTwitterProps } from "../../../types";
 import EmbedTweet from "./EmbedTweet";
 import styles from "./FeedChannelTwitter.module.css";
 import PlaceholderTweet from "./PlaceholderTweet";
 
-const FeedChannelTwitter = ({
-  reason,
-  full_text,
-  extra_parameters,
-}: FeedChannelTwitterProps) => {
+const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
   const { t } = useTranslation("home");
   const [showSavedData, setShowSavedData] = useState(true);
   const { enqueueInfo } = useSnackbarHook();
+  const { copyToClipBoard } = useCopyToClipboard();
 
-  const handleClickCopyFullText = useCallback(() => {
-    navigator.clipboard.writeText(full_text as string);
+  const handleClickCopyFullText = () => {
+    copyToClipBoard(properties.full_text as string);
     enqueueInfo(t("cluster.copiedContentSuccessfully"));
-  }, [full_text, t, enqueueInfo]);
+  };
 
   return (
     <div className={styles.sourceContent}>
@@ -31,7 +29,7 @@ const FeedChannelTwitter = ({
           {t("content.helpContent")}
         </Typography>
 
-        {extra_parameters && extra_parameters.name && (
+        {properties?.name && (
           <div className={styles.sourceContentSwitch}>
             <p> {t("content.showData")}</p>
             <Switch
@@ -43,14 +41,13 @@ const FeedChannelTwitter = ({
       </div>
       {showSavedData ? (
         <PlaceholderTweet
-          reason={reason || ""}
-          source={extra_parameters!}
-          full_text={full_text}
+          reason={properties.reason || ""}
+          source={properties}
         />
       ) : (
-        <EmbedTweet reason={reason || ""} source={extra_parameters!} />
+        <EmbedTweet reason={properties.reason || ""} source={properties} />
       )}
-      {!!full_text && (
+      {!!properties.full_text && (
         <Button
           variant="outlined"
           size="small"

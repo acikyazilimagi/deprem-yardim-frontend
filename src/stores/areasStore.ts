@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { PartialDataError } from "@/errors";
-import { MarkerData } from "@/types";
+import { ChannelData } from "@/types";
 
 interface MapState {
   shouldFetchNextOption: boolean;
   sendRequest: boolean;
-  markers: MarkerData[];
+  markers: ChannelData[];
   error?: PartialDataError;
   actions: {
     setError: (_error: PartialDataError) => void;

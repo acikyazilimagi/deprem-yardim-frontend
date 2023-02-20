@@ -1,20 +1,20 @@
 // FIXME: REMOVE BELOW LINE LATER
 // @ts-nocheck
 import { useMapClickHandlers } from "@/hooks/useMapClickHandlers";
-import { MouseEvent } from "react";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import L from "leaflet";
-import { MarkerData } from "@/types";
 import { Marker, MarkerProps, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import styles from "./Map.module.css";
+import { BabalaData, ChannelData, TwitterData } from "@/types";
 
 type Props = {
-  data: MarkerData[];
+  data: ChannelData[];
+  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
 
 type ExtendedMarkerProps = MarkerProps & {
-  markerData: MarkerData;
+  markerData: TwitterData | BabalaData;
 };
 
 function ExtendedMarker({ ...props }: ExtendedMarkerProps) {
@@ -40,8 +40,8 @@ const markerGrayIcon = L.Icon.Default.extend({
   },
 });
 
-const ClusterGroup = ({ data }: Props) => {
-  const { handleClusterClick, handleMarkerClick } = useMapClickHandlers();
+const ClusterGroup = ({ data, onMarkerClick }: Props) => {
+  const { handleClusterClick } = useMapClickHandlers();
   const map = useMap();
 
   const geoJSONPlaces = data.map((marker) => ({
@@ -111,11 +111,7 @@ const ClusterGroup = ({ data }: Props) => {
             }
             eventHandlers={{
               click: (e) => {
-                handleMarkerClick(
-                  e as any as MouseEvent,
-                  cluster.properties.marker,
-                  data
-                );
+                onMarkerClick(e, cluster.item);
               },
             }}
             markerData={cluster.properties.marker}

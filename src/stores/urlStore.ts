@@ -3,8 +3,10 @@ import { areasURL } from "@/utils/urls";
 import { LatLngBounds } from "leaflet";
 import { create } from "zustand";
 
+export type ChannelFilterOption = "twitter" | "babala" | null;
+
 interface MapState {
-  channelFilterMenuOption: null | string;
+  channelFilterMenuOption: ChannelFilterOption;
   coordinates?: any;
   url: URL;
   timeStamp?: number;
@@ -17,13 +19,13 @@ interface MapState {
       reasoningFilterMenuOption: string | null
     ) => void;
     setChannelFilterMenuOption: (
-      reasoningFilterMenuOption: string | null
+      reasoningFilterMenuOption: ChannelFilterOption
     ) => void;
   };
 }
 
 export const useURLStore = create<MapState>()((set) => ({
-  channelFilterMenuOption: null,
+  channelFilterMenuOption: "babala",
   reasoningFilterMenuOption: null,
   timeStamp: undefined,
   coordinates: undefined,

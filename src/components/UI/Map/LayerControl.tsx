@@ -1,14 +1,9 @@
-import { MarkerData } from "@/types";
+import { ChannelData } from "@/types";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { memo, useCallback } from "react";
-import { AhbapClusterGroup } from "./AhbapClusterGroup";
-import ClusterGroup from "./ClusterGroup";
+import { memo } from "react";
 import { MapLayer, useMapLayers } from "@/stores/mapStore";
-import { TeleteyitClusterGroup } from "@/components/UI/Map/TeleteyitClusterGroup";
-import { SatelliteClusterGroup } from "@/components/UI/Map/SatelliteClusterGroup";
-import { SahraKitchenClusterGroup } from "@/components/UI/Map/SahraKitchenClusterGroup";
-import { PharmacyClusterGroup } from "@/components/UI/Map/PharmacyClusterGroup";
-import { SafePlacesClusterGroup } from "@/components/UI/Map/SafePlacesClusterGroup";
+import { GenericClusterGroup } from "./GenericClusterGroup";
+import { useRouter } from "next/router";
 
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
@@ -16,33 +11,26 @@ export type Point = [number, number, number];
 
 type Props = {
   points: Point[];
-  data: MarkerData[];
-  food: any[];
-  ahbap: any[];
-  hospital: any[];
-  teleteyit: any[];
-  satellite: any[];
-  sahra_kitchen: any[];
-  pharmacy: any[];
-  safePlaces: any[];
+  data: ChannelData[];
+  locations: Partial<Record<MapLayer, ChannelData[]>>;
 };
 
-const LayerControl = ({
-  points,
-  data,
-  ahbap,
-  food,
-  hospital,
-  teleteyit,
-  satellite,
-  sahra_kitchen,
-  pharmacy,
-  safePlaces,
-}: Props) => {
+const longitudeExtractor = (p: Point) => p[1];
+const latitudeExtractor = (p: Point) => p[0];
+const intensityExtractor = (p: Point) => p[2];
+
+const LayerControl = ({ points, locations }: Props) => {
   const mapLayers = useMapLayers();
-  const longitudeExtractor = useCallback((p: Point) => p[1], []);
-  const latitudeExtractor = useCallback((p: Point) => p[0], []);
-  const intensityExtractor = useCallback((p: Point) => p[2], []);
+  // const { handleMarkerClick } = useMapClickHandlers();
+  //
+
+  const router = useRouter();
+
+  const onMarkerClick = (_e: any, markerData: ChannelData) => {
+    console.log({ markerData });
+    const query = { ...router.query, id: markerData.reference };
+    router.push({ query }, { query });
+  };
 
   return (
     <>
@@ -57,27 +45,24 @@ const LayerControl = ({
           useLocalExtrema={false}
         />
       )}
-      {mapLayers.includes(MapLayer.Markers) && <ClusterGroup data={data} />}
-      {mapLayers.includes(MapLayer.Food) && <AhbapClusterGroup data={food} />}
-      {mapLayers.includes(MapLayer.Teleteyit) && (
-        <TeleteyitClusterGroup data={teleteyit} />
-      )}
-      {mapLayers.includes(MapLayer.Ahbap) && <AhbapClusterGroup data={ahbap} />}
-      {mapLayers.includes(MapLayer.Hospital) && (
-        <AhbapClusterGroup data={hospital} />
-      )}
-      {mapLayers.includes(MapLayer.Satellite) && (
-        <SatelliteClusterGroup data={satellite} />
-      )}
-      {mapLayers.includes(MapLayer.SahraMutfak) && (
-        <SahraKitchenClusterGroup data={sahra_kitchen} />
-      )}
-      {mapLayers.includes(MapLayer.Pharmacy) && (
-        <PharmacyClusterGroup data={pharmacy} />
-      )}
-      {mapLayers.includes(MapLayer.SafePlaces) && (
-        <SafePlacesClusterGroup data={safePlaces} />
-      )}
+
+      {Object.keys(locations).map((key) => {
+        if (mapLayers.includes(key as MapLayer)) {
+          const data = locations[key as MapLayer];
+
+          if (!data) {
+            return null;
+          }
+
+          return (
+            <GenericClusterGroup
+              key={key}
+              data={data}
+              onMarkerClick={onMarkerClick}
+            />
+          );
+        }
+      })}
     </>
   );
 };

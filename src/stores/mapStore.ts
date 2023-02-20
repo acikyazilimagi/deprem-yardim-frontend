@@ -1,13 +1,11 @@
 /* eslint-disable no-unused-vars */
+
 import {
-  AhbapData,
-  PharmacyData,
-  SafePlaceData,
-  SahraKitchenData,
-  SatelliteData,
-  TeleteyitData,
+  ClusterPopupData,
+  DeviceType,
+  EVENT_TYPES,
+  ChannelData,
 } from "@/types";
-import { ClusterPopupData, DeviceType, EVENT_TYPES, MarkerData } from "@/types";
 import { create } from "zustand";
 
 export enum MapType {
@@ -20,28 +18,22 @@ export enum MapLayer {
   Heatmap = "heatmap",
   Markers = "markers",
   Earthquakes = "earthquakes",
-  Ahbap = "Ahbap",
-  Hospital = "Hospital",
-  Food = "Food",
-  Teleteyit = "Teleteyit",
-  Satellite = "Satellite",
-  SahraMutfak = "SahraMutfak",
-  Pharmacy = "Pharmacy",
-  SafePlaces = "SafePlaces",
+  Ahbap = "ahbap",
+  Hospital = "hospital",
+  Food = "food",
+  Teleteyit = "teleteyit",
+  Satellite = "satellite",
+  SahraMutfak = "sahramutfak",
+  Pharmacy = "pharmacy",
+  SafePlaces = "safeplaces",
 }
+
+export type DrawerData = ChannelData | null;
 
 interface MapState {
   eventType?: EVENT_TYPES;
   popUpData: ClusterPopupData | null;
-  drawerData:
-    | MarkerData
-    | AhbapData
-    | TeleteyitData
-    | SatelliteData
-    | SahraKitchenData
-    | SafePlaceData
-    | PharmacyData
-    | null;
+  drawerData: DrawerData;
   isDrawerOpen: boolean;
   device: DeviceType;
   mapType: MapType;
@@ -49,17 +41,9 @@ interface MapState {
   actions: {
     toggleDrawer: () => void;
     toggleMapLayer: (mapLayer: MapLayer) => void;
-    setDrawerData: (
-      data:
-        | MarkerData
-        | AhbapData
-        | TeleteyitData
-        | SatelliteData
-        | SahraKitchenData
-        | PharmacyData
-        | SafePlaceData
-        | null
-    ) => void;
+
+    // after click a point, pass to drawer content
+    setDrawerData: (data: DrawerData) => void;
     setPopUpData: (data: ClusterPopupData | null) => void;
     setDevice: (device: DeviceType) => void;
     setMapType: (mapType: MapType) => void;
@@ -83,17 +67,7 @@ export const useMapStore = create<MapState>()((set) => ({
           ? mapLayers.filter((layer) => layer !== mapLayer)
           : mapLayers.concat(mapLayer),
       })),
-    setDrawerData: (
-      data:
-        | MarkerData
-        | SafePlaceData
-        | AhbapData
-        | TeleteyitData
-        | SatelliteData
-        | SahraKitchenData
-        | PharmacyData
-        | null
-    ) => set(() => ({ drawerData: data })),
+    setDrawerData: (data: DrawerData) => set(() => ({ drawerData: data })),
     setPopUpData: (data: ClusterPopupData | null) =>
       set(() => ({ popUpData: data })),
     setDevice: (device: DeviceType) => set(() => ({ device })),

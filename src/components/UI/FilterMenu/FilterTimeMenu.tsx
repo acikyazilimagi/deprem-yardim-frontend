@@ -105,6 +105,7 @@ const FilterTimeMenu: React.FC<FilterTimeMenuProps> = ({
 
     if (shouldFetchNextOption && selectedValue !== "all") {
       setSelectedValue(FilterOptions[currentOptionIndex + 1].value);
+      // FIXME: setting shouldFetchNextOption when it is a dependency of this hook, this may be causing issues
       resetShouldFetchNextOption();
     }
 

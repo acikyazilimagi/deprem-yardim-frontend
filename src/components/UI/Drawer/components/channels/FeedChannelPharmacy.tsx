@@ -1,29 +1,17 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
 import capitalize from "@mui/utils/capitalize";
-
-interface FeedChannelPharmacyProps {
-  channel: string;
-  properties: {
-    name: string;
-    description: string;
-    icon: string;
-  };
-  id: number;
-  reason: string;
-  verified: string;
-}
+import { FeedChannelPharmacyProps } from "../../types";
 
 export const FeedChannelPharmacy = (props: FeedChannelPharmacyProps) => {
+  const { reason, name, description } = props.properties;
   return (
     <DrawerContent>
       <DrawerContent.Header>
         <DrawerContent.Title>Eczane</DrawerContent.Title>
-        <DrawerContent.Badge>
-          {capitalize(props?.reason || "")}
-        </DrawerContent.Badge>
+        <DrawerContent.Badge>{capitalize(reason || "")}</DrawerContent.Badge>
       </DrawerContent.Header>
-      <DrawerContent.Text>{props.properties.name}</DrawerContent.Text>
-      <DrawerContent.Text>{props.properties.description}</DrawerContent.Text>
+      {name && <DrawerContent.Text>{name}</DrawerContent.Text>}
+      {description && <DrawerContent.Text>{description}</DrawerContent.Text>}
     </DrawerContent>
   );
 };

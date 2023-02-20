@@ -1,8 +1,7 @@
-import { MarkerData, MarkerVisited } from "@/types";
+import { ChannelData, MarkerVisited } from "@/types";
 import { useMapActions } from "@/stores/mapStore";
 import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
-import { AhbapData, SahraKitchenData, TeleteyitData } from "@/types";
 
 import * as localForage from "localforage";
 import { localForageKeys } from "@/components/UI/Map/utils";
@@ -11,15 +10,12 @@ import { useAreasActions } from "@/stores/areasStore";
 export function useMapClickHandlers() {
   const { toggleDrawer, setDrawerData, setPopUpData } = useMapActions();
   const { setMarkerData } = useAreasActions();
+
   const handleMarkerClick = useCallback(
     async (
       event: KeyboardEvent | MouseEvent | LeafletMouseEvent,
-      selectedMarkerData?:
-        | MarkerData
-        | AhbapData
-        | TeleteyitData
-        | SahraKitchenData,
-      allMarkers?: MarkerData[]
+      selectedMarkerData?: ChannelData,
+      allMarkers?: ChannelData[]
     ) => {
       if (event.type === "keydown" && (event as KeyboardEvent).key !== "Escape")
         return;
@@ -44,7 +40,8 @@ export function useMapClickHandlers() {
             allMarkers.forEach(({ geometry: { location }, reference: ref }) => {
               if (
                 location.lat !== geometry.location.lat ||
-                location.lng !== geometry.location.lng
+                location.lng !== geometry.location.lng ||
+                !ref
               )
                 return;
               closeByRecords.push(ref);
@@ -55,7 +52,7 @@ export function useMapClickHandlers() {
             reference,
             geometry,
             isVisited: true,
-          } as MarkerData;
+          } as ChannelData;
 
           setMarkerData(finalArr);
         }
@@ -72,7 +69,7 @@ export function useMapClickHandlers() {
   );
 
   const handleClusterClick = useCallback(
-    (markers: MarkerData[], count: number = 0) => {
+    (markers: ChannelData[], count: number = 0) => {
       setPopUpData({
         count,
         baseMarker: markers[0],

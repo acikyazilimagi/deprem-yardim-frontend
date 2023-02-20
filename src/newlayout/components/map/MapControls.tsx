@@ -32,63 +32,12 @@ import {
   createUseFilter,
 } from "../FilterComponent/FilterComponent";
 import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { usePrevious } from "@/hooks/usePrevious";
+import { useTranslation } from "next-i18next";
 
-/**
- * const tempFilterData1: IFilterElement[] = [
-  {
-    queryParam: "category-1",
-    label: "foo-label-1",
-    values: ["foo-1", "bar-1"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-2",
-    label: "foo-label-2",
-    values: ["foo-2", "bar-2"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-3",
-    label: "foo-label-3",
-    values: ["foo-3", "bar-3"],
-    defaultValues: [1],
-    type: "multi-select",
-  },
-];
-
-const tempFilterData2: IFilterElement[] = [
-  {
-    queryParam: "category-1",
-    label: "foo-label-1",
-    values: ["foo-1", "bar-1"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-];
-
-const tempFilterData3: IFilterElement[] = [
-  {
-    queryParam: "category-2",
-    label: "foo-label-2",
-    values: ["foo-2", "bar-2"],
-    defaultValues: [0],
-    type: "single-select",
-  },
-  {
-    queryParam: "category-3",
-    label: "foo-label-3",
-    values: ["foo-3", "bar-3"],
-    defaultValues: [1],
-    type: "multi-select",
-  },
-];
- */
-
-const usePoiFilter = createUseFilter();
+export const usePoiFilter = createUseFilter();
 // const useHelpFilter = createUseFilter(tempFilterData2);
 // const useSearchFilter = createUseFilter(tempFilterData3);
 
@@ -188,26 +137,43 @@ interface IMapControlsProps {
 const MapControls = (props: IMapControlsProps) => {
   const poiFilter = usePoiFilter();
   const router = useRouter();
+  const { t } = useTranslation("home");
 
   const [poiFilters, setpoiFilters] = useState<IFilterElement[]>([]);
 
-  const constructFilterElements = (data: string[]) => {
-    const _data: IFilterElement[] = [
-      {
-        queryParam: "reason",
-        label: "Reasons",
-        values: data,
-        defaultValues: "all",
-        type: "multi-select",
-      },
-    ];
-    return _data;
-  };
+  const constructFilterElements = useCallback(
+    (data: string[]) => {
+      const queryReasons = (router.query.reasons as string | undefined) ?? "";
+
+      const _data: IFilterElement[] = [
+        {
+          queryParam: "reasons",
+          label: t("filter.reasonsTitle"),
+          values: data,
+          defaultValues: queryReasons
+            .split(",")
+            .map((reason) => data.indexOf(reason))
+            .filter((index) => index > -1),
+          type: "multi-select",
+        },
+      ];
+      return _data;
+    },
+    [router.query.reasons, t]
+  );
 
   useEffect(() => {
     setpoiFilters(constructFilterElements(props.filters.reasons));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [constructFilterElements, props.filters.reasons]);
+
+  const queryReasons = router.query.reasons as string | undefined;
+  const prevReasons = usePrevious(queryReasons);
+
+  useEffect(() => {
+    if (queryReasons && queryReasons !== prevReasons) {
+      poiFilter.setSelectedValues({ reasons: queryReasons.split(",") });
+    }
+  }, [poiFilter, prevReasons, queryReasons, router.query.reasons]);
 
   useEffect(() => {
     const query = new URLSearchParams(
@@ -216,7 +182,7 @@ const MapControls = (props: IMapControlsProps) => {
     ).toString();
     console.log("selected values", poiFilter.selectedValues);
     // FIXME: this will caouse an infinite loop if setpoiFilters depedency is added
-    router.push({ query }, { query });
+    router.push({ query }, { query }, { shallow: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [poiFilter.selectedValues]);
 
@@ -249,16 +215,17 @@ const MapControls = (props: IMapControlsProps) => {
               onClick={() => {
                 // searchFilter.toggle(!searchFilter.isOpen);
               }}
-            />
-            <FilterButtonComponent
-              buttonLabel="Yardim Talepleri"
+            /> */}
+            {/* <FilterButtonComponent
+              buttonLabel={t("filter.helpRequestTitle")}
               icon={<WifiTetheringErrorIcon />}
               onClick={() => {
-                // helpFilter.toggle(!helpFilter.isOpen);
+                // poiFilter.toggle(!poiFilter.isOpen);
               }}
             /> */}
+
             <FilterButtonComponent
-              buttonLabel="Hizmetler"
+              buttonLabel={t("filter.servicesTitle")}
               icon={<Diversity1Icon />}
               onClick={() => {
                 poiFilter.toggle(!poiFilter.isOpen);
@@ -266,15 +233,27 @@ const MapControls = (props: IMapControlsProps) => {
             />
           </Stack>
           <Stack display={"flex"} direction={"row"} columnGap={2}>
-            {/* <FilterComponent
+            {/* 
+            <FilterComponent
               filterStore={useSearchFilter}
               filters={tempFilterData1}
             />
-            <FilterComponent
+            */}
+
+            {/* <FilterComponent
               filterStore={useHelpFilter}
               filters={tempFilterData2}
+            />  */}
+            {/* <FilterComponent
+              title={t("filter.helpRequestTitle")}
+              filterStore={usePoiFilter}
+              filters={poiFilters}
             /> */}
-            <FilterComponent filterStore={usePoiFilter} filters={poiFilters} />
+            <FilterComponent
+              title={t("filter.servicesTitle")}
+              filterStore={usePoiFilter}
+              filters={poiFilters}
+            />
           </Stack>
         </Stack>
       </Control>
@@ -308,6 +287,9 @@ const styles: IStyles = {
     borderRadius: "8px !important",
     [theme.breakpoints.down("sm")]: {
       boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+    },
+    "&:hover": {
+      backgroundColor: theme.palette.common.white,
     },
   }),
   marginTopLeft: {
