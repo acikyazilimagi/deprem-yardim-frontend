@@ -4,7 +4,7 @@ import {
   useMTMLView,
 } from "../../MTMLView/MTMLView";
 import { MapType } from "../../MTMLView/types";
-import { AttributionComponent } from "../../Attribution/Attribution";
+import { AttributionComponent } from "../../Attributions/Attributions";
 import {
   ButtonGroup,
   IconButton,
