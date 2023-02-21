@@ -153,11 +153,10 @@ export const MapContent = ({
         <MapControls filters={{ reasons }} />
         <TileLayer url={baseMapUrl} />
         <LayerControl locations={locations} onMarkerClick={onMarkerClick} />
-
-        <Box sx={styles.fixedMidBottom}>
-          <CooldownButtonComponent />
-        </Box>
       </Map>
+      <Box sx={styles.fixedMidBottom}>
+        <CooldownButtonComponent />
+      </Box>
     </>
   );
 };
