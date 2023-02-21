@@ -12,7 +12,8 @@ export type APIChannel =
   | "guvenli_yerler_oteller"
   | "twitter"
   | "teyit_enkaz"
-  | "babala";
+  | "babala"
+  | "depremio";
 
 export type APIResponse<TChannel extends APIChannel = APIChannel> = {
   channel: TChannel;
@@ -375,6 +376,32 @@ export type TeyitEnkazData = {
   geometry: Geometry;
 };
 
+// Type definitions for deprem.io
+export type DepremIOAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+  description?: string;
+};
+
+export type DepremIOResponse = APIResponseObject<
+  "depremio",
+  DepremIOAPIExtraParams
+>;
+
+export type DepremIODataProperties = {
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
+};
+
+export type DepremIOData = {
+  channel: "depremio";
+  geometry: Geometry;
+  properties: DepremIODataProperties;
+};
+
 export type DataProperties =
   | TwitterData
   | BabalaData
@@ -386,7 +413,8 @@ export type DataProperties =
   | SafePlaceData
   | FoodData
   | HospitalData
-  | TeyitEnkazData;
+  | TeyitEnkazData
+  | DepremIOData;
 
 export type ChannelData = DataProperties & {
   reference?: number | null;
