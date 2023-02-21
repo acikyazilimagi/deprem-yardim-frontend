@@ -2,9 +2,9 @@ import { HelpOutline } from "@mui/icons-material";
 import {
   MapTypeMapLayerViewComponent,
   useMTMLView,
-} from "../MTMLViewComponent/MTMLViewComponent";
-import { MapType } from "../MTMLViewComponent/types";
-import { AttributionComponent } from "../AttributionComponent/AttributionComponent";
+} from "../../MTMLView/MTMLView";
+import { MapType } from "../../MTMLView/types";
+import { AttributionComponent } from "../../Attribution/Attribution";
 import {
   ButtonGroup,
   IconButton,
@@ -15,11 +15,11 @@ import {
   useTheme,
   Box,
 } from "@mui/material";
-import { LocaleSwitchComponent } from "../LocaleSwitchComponent/LocaleSwitchComponent";
+import { LocaleSwitchComponent } from "../../LocaleSwitch/LocaleSwitch";
 // import SearchIcon from "@mui/icons-material/Search";
 // import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import Diversity1Icon from "@mui/icons-material/Diversity1";
-import { FilterButtonComponent } from "../FilterButtonComponent/FilterButtonComponent";
+import { FilterButtonComponent } from "../../Button/Filter";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import LayersIcon from "@mui/icons-material/Layers";
@@ -30,8 +30,8 @@ import {
   FilterComponent,
   IFilterElement,
   createUseFilter,
-} from "../FilterComponent/FilterComponent";
-import { useHelpView } from "../HelpViewComponent/HelpViewComponent";
+} from "../../Filter/Filter";
+import { useHelpView } from "../../UserGuide/UserGuide";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";

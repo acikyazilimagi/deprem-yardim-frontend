@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { Box, SxProps, Theme } from "@mui/material";
-import { HelpViewComponent } from "@/newlayout/components/HelpViewComponent/HelpViewComponent";
+import { HelpViewComponent } from "@/newlayout/components/UserGuide/UserGuide";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
 import { APIResponse, ChannelData } from "@/types";
@@ -12,9 +12,7 @@ import { BASE_URL } from "@/utils/constants";
 
 const MapContent = dynamic(
   () =>
-    import("@/newlayout/components/map/MapContent").then(
-      (mod) => mod.MapContent
-    ),
+    import("@/newlayout/components/Map/Content").then((mod) => mod.MapContent),
   { ssr: false }
 );
 
@@ -64,6 +62,7 @@ const NHome = (props: INHome) => {
 export default NHome;
 
 export async function getServerSideProps(context: any) {
+  // TODO: this URL should come from env
   const client = new ApiClient({ url: "https://apigo.afetharita.com" });
   const searchParams = new URLSearchParams(context.query);
   let redirect = false;
