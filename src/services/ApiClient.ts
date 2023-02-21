@@ -54,11 +54,12 @@ export class ApiClient {
   }
 
   async fetchReasons() {
-    const response = (await dataFetcher(this.url + "/reasons")) as {
-      reasons: string[];
-    };
-
-    return response.reasons;
+    return reasons;
+    // const response = (await dataFetcher(this.url + "/reasons")) as {
+    //   reasons: string[];
+    // };
+    //
+    // return response.reasons;
   }
 
   async fetchLocationByID(id: number) {
@@ -77,3 +78,21 @@ export class ApiClient {
     return channel ?? null;
   }
 }
+
+const reasons = [
+  "kurtarma",
+  "barinma",
+  "elektronik",
+  "saglik",
+  "yemek",
+  "su",
+  "giysi",
+  "lojistik",
+  "enkaz",
+  "genel",
+  "yardim",
+  "guvenli-noktalar",
+  "hayvanlar-icin-tedavi",
+  "konaklama",
+  "erzak",
+];
