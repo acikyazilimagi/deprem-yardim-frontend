@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import styles from "./AttributionComponent.module.css";
+import styles from "./Attribution.module.css";
 
 interface AttributionComponentProps {
   onClick?: () => void;
