@@ -26,10 +26,13 @@ import {
   TeyitEnkazResponse,
   TwitterData,
   TwitterResponse,
+  TeyitYardimData,
+  TeyitYardimResponse,
 } from "@/types";
 import useLocation from "./useLocation";
 
 // TODO: PUT THESE HOOKS INTO THEIR OWN FILES
+// TODO: MAKE THESE TYPES GENERIC!!!
 // TODO: Remove this hook and use hooks defined above in relevant components
 
 const createGeometry = (res: APIResponseObject): Geometry => ({
@@ -219,6 +222,23 @@ export const transformTeyitEnkazResponse: RT<
   };
 };
 
+export const transformTeyitYardimResponse: RT<
+  TeyitYardimResponse,
+  TeyitYardimData
+> = (res) => {
+  return {
+    channel: "teyit_yardim",
+    geometry: createGeometry(res),
+    properties: {
+      name: res.extraParams?.name ?? null,
+      description: res.extraParams?.description ?? null,
+      type: res.extraParams?.styleUrl ?? null,
+      icon: null,
+    },
+    reference: res.entry_id ?? null,
+  };
+};
+
 export const transformers: Record<APIChannel, RT> = {
   ahbap_location: transformAhbapResponse as RT,
   eczane_excel: transformPharmacyResponse as RT,
@@ -232,6 +252,7 @@ export const transformers: Record<APIChannel, RT> = {
   twitter: transformTwitterResponse as RT,
   babala: transformBabalaResponse as RT,
   teyit_enkaz: transformTeyitEnkazResponse as RT,
+  teyit_yardim: transformTeyitYardimResponse as RT,
 };
 
 export function useVerifiedLocations() {
