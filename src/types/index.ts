@@ -442,7 +442,8 @@ export type DataProperties =
   | HospitalData
   | TeyitEnkazData
   | DepremIOData
-  | TeyitYardimData;
+  | TeyitYardimData
+  | TeyitEnkazData;
 
 export type ChannelData = DataProperties & {
   reference?: number | null;
