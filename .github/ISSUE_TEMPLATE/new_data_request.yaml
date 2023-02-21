@@ -38,7 +38,7 @@ body:
     attributes:
       label: icon
       description: icon url path
-      placeholder: e.g icon-20.jpg
+      placeholder: ex. icon-20.jpg
     validations:
       required: true
   - type: textarea
