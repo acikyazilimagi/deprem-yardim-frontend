@@ -22,9 +22,7 @@
             "kurtarma": "Kurtarma",
             "lojistik": "Lojistik",
             "su": "Su",
-            "yagma": "Yağma",
             "yemek": "Yemek"
-
         },
         "time": {
             "lastHalfHour": "Son 30 dakika",
