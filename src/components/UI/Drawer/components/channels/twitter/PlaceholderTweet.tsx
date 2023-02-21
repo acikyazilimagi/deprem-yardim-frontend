@@ -41,9 +41,11 @@ const PlaceholderTweet = ({ source, reason }: Props) => {
         <Typography style={styles.fullText}>{source.full_text}</Typography>
         <div style={styles.chipContainer}>
           {!isNaN(reason) &&
-            reasons.map((reason, i) => (
-              <Chip style={styles.chip} key={i} label={reason} color="info" />
-            ))}
+            reasons
+              .filter((item) => item.toLowerCase() !== "alakasiz")
+              .map((reason, i) => (
+                <Chip style={styles.chip} key={i} label={reason} color="info" />
+              ))}
         </div>
       </div>
     </>
