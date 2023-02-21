@@ -12,7 +12,8 @@ export type APIChannel =
   | "guvenli_yerler_oteller"
   | "twitter"
   | "teyit_enkaz"
-  | "babala";
+  | "babala"
+  | "teyit_yardim";
 
 export type APIResponse<TChannel extends APIChannel = APIChannel> = {
   channel: TChannel;
@@ -375,6 +376,32 @@ export type TeyitEnkazData = {
   geometry: Geometry;
 };
 
+// Type definitions for Teyit Yardım
+export type TeyitYardimAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+  description?: string;
+};
+
+export type TeyitYardimResponse = APIResponseObject<
+  "teyit_yardim",
+  TeyitEnkazAPIExtraParams
+>;
+
+export type TeyitYardimDataProperties = {
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
+};
+
+export type TeyitYardimData = {
+  channel: "teyit_yardim";
+  properties: TeyitEnkazDataProperties;
+  geometry: Geometry;
+};
+
 export type DataProperties =
   | TwitterData
   | BabalaData
@@ -386,7 +413,8 @@ export type DataProperties =
   | SafePlaceData
   | FoodData
   | HospitalData
-  | TeyitEnkazData;
+  | TeyitEnkazData
+  | TeyitYardimData;
 
 export type ChannelData = DataProperties & {
   reference?: number | null;
