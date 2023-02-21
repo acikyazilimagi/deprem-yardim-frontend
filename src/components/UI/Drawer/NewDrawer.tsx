@@ -185,7 +185,7 @@ const DrawerContent = ({
   const hasSource =
     data &&
     data?.channel === "twitter" &&
-    (data.properties as TwitterDataProperties).tweet_id !== "";
+    (data.properties as TwitterDataProperties).tweet_id;
 
   const formattedCoordinates = formatcoords([
     data.geometry.location?.lng,
