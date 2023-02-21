@@ -1,5 +1,5 @@
 name: New data channel request
-about: We added a new channel to backend, and we need to show it on the map
+description: We added a new channel to backend, and we need to show it on the map
 title: 'data-request: '
 labels: ["data-request", "unchecked"]
 assignees:
@@ -38,13 +38,13 @@ body:
     attributes:
       label: icon
       description: icon url path
-      placeholder: e.g icon-20.jpg
+      placeholder: ex. icon-20.jpg
     validations:
       required: true
   - type: textarea
     id: extra_params
     attributes:
-      label: `extra_parameters` example
+      label: extra_parameters example
       description: Copy & paste an example of an extra params object if data from this channel includes any.
       render: shell
     validations:
