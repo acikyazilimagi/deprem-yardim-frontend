@@ -90,9 +90,18 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
+
+  //Filter out duplicates, put "enkaz (wreckage)" on top
+  const reasonsPresent = new Set<string>();
+  let filteredReasons = reasons.filter((reason) => {
+    const filterCondition = !reasonsPresent.has(reason);
+    reasonsPresent.add(reason);
+    return filterCondition;
+  });
+
   if (context.query.reasons === "" || !context.query.reasons) {
     searchParams.delete("reasons");
-    searchParams.append("reasons", reasons.join(","));
+    searchParams.append("reasons", filteredReasons.join(","));
     redirect = true;
   }
 
@@ -108,7 +117,7 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      reasons,
+      reasons: filteredReasons,
       channel,
       apiResponse,
     },
