@@ -3,6 +3,8 @@ import { Marker, useMap } from "react-leaflet";
 import useSupercluster from "use-supercluster";
 import { findTagByClusterCount } from "../Tag/Tag.types";
 import { ChannelData } from "@/types";
+import { useVisitedMarkersStore } from "@/stores/visitedMarkersStore";
+import styles from "./MapMarker.module.css";
 
 const fetchIcon = (count: number) => {
   const tag = findTagByClusterCount(count);
@@ -17,11 +19,11 @@ const markerBlueIcon = L.Icon.Default.extend({
   options: {},
 });
 
-// const markerGrayIcon = L.Icon.Default.extend({
-//   options: {
-//     className: styles.marker_icon__visited,
-//   },
-// });
+const markerGrayIcon = L.Icon.Default.extend({
+  options: {
+    className: styles.marker_icon__visited,
+  },
+});
 
 type Props = {
   data: ChannelData[];
@@ -35,6 +37,7 @@ export const GenericClusterGroup = ({
 Props) => {
   const map = useMap();
   const bounds = map.getBounds();
+  const { setVisited, isVisited } = useVisitedMarkersStore();
 
   const geoJSON = data.map((item) => {
     return {
@@ -99,12 +102,20 @@ Props) => {
                     iconUrl: "/" + cluster.properties.icon,
                     iconSize: [28, 28],
                     iconAnchor: [14, 14],
+                    className: isVisited(cluster.item.reference)
+                      ? styles.marker_icon__visited
+                      : "",
                   })
+                : isVisited(cluster.item.reference)
+                ? new markerGrayIcon()
                 : new markerBlueIcon()
             }
             eventHandlers={{
               click: (e) => {
-                onMarkerClick(e, cluster.item);
+                if (cluster.item.reference) {
+                  setVisited(cluster.item.reference);
+                  onMarkerClick(e, cluster.item);
+                }
               },
             }}
           />
