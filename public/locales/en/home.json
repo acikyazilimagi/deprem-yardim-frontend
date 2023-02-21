@@ -95,6 +95,27 @@
         "closeBy": {
             "title": "Other records",
             "details": "You can click the below records to access the other records in the <b>same location</b>"
+        },
+        "channels": {
+            "ahbap":"Ahbap Locations",
+            "babala":"Babala Data",
+            "deprem_io":"deprem.io Calls",
+            "deprem_ihtiyac":"depremihtiyac.com Data",
+            "discord":"Discord Calls",
+            "dialysis":"Dialysis Centers",
+            "pharmacy":"Pharmacy",
+            "temporary_house":"Temporary Housing and Food Distribution",
+            "safe_places":"Safe Places and Hotels",
+            "hospital":"Hospital Locations",
+            "psychological_support":"Psychological Support Centers",
+            "evacuation":"Evacuation Locations",
+            "verified_rescue":"Verified Rescue Data",
+            "verified_relief":"Verified Relief Aid Data",
+            "twitter_relief":"Twitter Relief Aid Calls",
+            "uda":"University Solidarity Network",
+            "satellite":"Satellite Image Analysis",
+            "veterinary":"Veterinary locations",
+            "food":"Food Distribution Locations"
         }
     }
 }

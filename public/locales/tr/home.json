@@ -97,6 +97,28 @@
         "closeBy": {
             "title": "Diğer kayıtlar",
             "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
+        },
+        "channels": {
+            "ahbap":"Ahbap Lokasyonları",
+            "babala":"Babala Verileri",
+            "deprem_io":"Deprem.io Çağrıları",
+            "deprem_ihtiyac":"depremihtiyac.com Verileri",
+            "discord":"Discord Çağrıları",
+            "dialysis":"Diyaliz Merkezleri",
+            "pharmacy":"Eczane",
+            "temporary_house":"Geçici Barınma ve Gıda Dağıtım",
+            "safe_places":"Güvenli Yerler ve Oteller",
+            "hospital":"Hastane Lokasyonları",
+            "psychological_support":"Psikolojik Destek Merkezleri",
+            "evacuation":"Tahliye Noktaları",
+            "verified_rescue":"Teyitli Enkaz Verileri",
+            "verified_relief":"Teyitli Yardım Verileri",
+            "twitter_relief":"Twitter Yardım Çağrıları",
+            "uda":"Üniversite Dayanışma Ağı ",
+            "satellite":"Uydu Görüntüsü Analizi",
+            "veterinary":"Veteriner Lokasyonları",
+            "food":"Yemek Dağıtım Lokasyonları"
         }
     }
 }
+

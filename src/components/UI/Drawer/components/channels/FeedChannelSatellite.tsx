@@ -1,6 +1,6 @@
 import { DrawerContent } from "@/components/UI/Drawer/components/channels/DrawerContent";
 import { capitalize } from "@/utils/helpers";
-
+import { useTranslation } from "next-i18next";
 interface FeedChannelSatelliteProps {
   channel: string;
   properties: {
@@ -9,6 +9,7 @@ interface FeedChannelSatelliteProps {
 }
 
 export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
+  const { t } = useTranslation("home");
   return (
     <DrawerContent>
       <DrawerContent.Header>
@@ -19,7 +20,9 @@ export const FeedChannelSatellite = (props: FeedChannelSatelliteProps) => {
               : props?.properties?.damage
           )}
         </DrawerContent.Title>
-        <DrawerContent.Badge>{capitalize(props.channel)}</DrawerContent.Badge>
+        <DrawerContent.Badge>
+          {t("content.channels.satellite")}
+        </DrawerContent.Badge>
       </DrawerContent.Header>
     </DrawerContent>
   );
