@@ -45,8 +45,7 @@ body:
     id: extra_params
     attributes:
       label: `extra_parameters` example
-      description: An example of an extra params object if data from this channel includes any.
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      description: Copy & paste an example of an extra params object if data from this channel includes any.
+      render: shell
     validations:
-      required: true
+      required: false
