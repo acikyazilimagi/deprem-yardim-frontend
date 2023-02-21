@@ -24,6 +24,8 @@ import {
   TeyitEnkazResponse,
   TwitterData,
   TwitterResponse,
+  DepremIOResponse,
+  DepremIOData,
   TeyitYardimData,
   TeyitYardimResponse,
 } from "@/types";
@@ -223,6 +225,22 @@ export const transformTeyitYardimResponse: RT<
   };
 };
 
+export const transformDepremIOResponse: RT<DepremIOResponse, DepremIOData> = (
+  res
+) => {
+  return {
+    channel: "depremio",
+    geometry: createGeometry(res),
+    properties: {
+      name: res.extraParams?.name ?? null,
+      description: res.extraParams?.description ?? null,
+      type: res.extraParams?.styleUrl ?? null,
+      icon: null,
+    },
+    reference: res.entry_id ?? null,
+  };
+};
+
 export const transformers: Record<APIChannel, RT> = {
   ahbap_location: transformAhbapResponse as RT,
   eczane_excel: transformPharmacyResponse as RT,
@@ -236,6 +254,7 @@ export const transformers: Record<APIChannel, RT> = {
   twitter: transformTwitterResponse as RT,
   babala: transformBabalaResponse as RT,
   teyit_enkaz: transformTeyitEnkazResponse as RT,
+  depremio: transformDepremIOResponse as RT,
   teyit_yardim: transformTeyitYardimResponse as RT,
   malatya_yemek: transformFoodResponse as RT,
   adana_yemek: transformFoodResponse as RT,
