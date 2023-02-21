@@ -13,7 +13,9 @@ export type APIChannel =
   | "twitter"
   | "teyit_enkaz"
   | "babala"
-  | "teyit_yardim";
+  | "teyit_yardim"
+  | "adana_yemek"
+  | "malatya_yemek";
 
 export type APIResponse<TChannel extends APIChannel = APIChannel> = {
   channel: TChannel;
@@ -247,31 +249,31 @@ export type SatelliteData = {
   geometry: Geometry;
 };
 
-// Type definition for Sahra Kitchen
-export type SahraAPIExtraParams = {
-  name: string;
-  styleUrl: string;
-  icon: string;
-};
+// // Type definition for Sahra Kitchen
+// export type SahraAPIExtraParams = {
+//   name: string;
+//   styleUrl: string;
+//   icon: string;
+// };
 
-export type SahraResponse = APIResponseObject<
-  "sahra_mutfak",
-  SahraAPIExtraParams
->;
+// export type SahraResponse = APIResponseObject<
+//   "sahra_mutfak",
+//   SahraAPIExtraParams
+// >;
 
-export type SahraDataProperties = {
-  name: string | null;
-  reason: string | null;
-  verified: boolean | null;
-  icon: string | null;
-  description: string | null;
-};
+// export type SahraDataProperties = {
+//   name: string | null;
+//   reason: string | null;
+//   verified: boolean | null;
+//   icon: string | null;
+//   description: string | null;
+// };
 
-export type SahraData = {
-  channel: "sahra";
-  properties: SahraDataProperties;
-  geometry: Geometry;
-};
+// export type SahraData = {
+//   channel: "sahra";
+//   properties: SahraDataProperties;
+//   geometry: Geometry;
+// };
 
 // Type definitions for Pharmacy
 export type PharmacyAPIExtraParams = {
@@ -335,13 +337,17 @@ export type FoodAPIExtraParams = {
   description?: string;
 };
 
-export type FoodResponse = APIResponseObject<"sicak_yemek", FoodAPIExtraParams>;
+export type FoodResponse = APIResponseObject<
+  "sicak_yemek" | "malatya_yemek" | "adana_yemek" | "sahra_mutfak",
+  FoodAPIExtraParams
+>;
 
 export type FoodDataProperties = {
   name: string | null;
   description: string | null;
   type: string | null;
   icon: string | null;
+  reason: string | null;
 };
 
 export type FoodData = {
@@ -408,7 +414,7 @@ export type DataProperties =
   | AhbapData
   | TeleteyitData
   | SatelliteData
-  | SahraData
+  // | SahraData
   | PharmacyData
   | SafePlaceData
   | FoodData

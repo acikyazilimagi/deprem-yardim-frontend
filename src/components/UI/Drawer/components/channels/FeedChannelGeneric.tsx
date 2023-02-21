@@ -1,10 +1,14 @@
 import Typography from "@mui/material/Typography";
-import { Divider } from "@mui/material";
+import { Chip, Divider } from "@mui/material";
 import { ChannelData } from "@/types";
 import { useTranslation } from "next-i18next";
+import { Stack } from "@mui/system";
 
 export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
-  const { icon } = properties as { icon: string | null };
+  const { icon, reason } = properties as {
+    icon: string | null;
+    reason?: string | null;
+  };
   const { t } = useTranslation("home");
 
   interface ChannelNameTranslations {
@@ -12,6 +16,9 @@ export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
   }
 
   const genericChannelNameTranslations: ChannelNameTranslations = {
+    yemek: t("content.channels.food"),
+    hastane: t("content.channels.hospital"),
+    ahbap: t("content.channels.ahbap"),
     teyit_yardim: t("content.channels.verified_relief"),
     teyit_istek: t("content.channels.verified_rescue"),
     uda_yardim: t("content.channels.uda"),
@@ -20,10 +27,8 @@ export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
     discord: t("content.channels.discord"),
     depremio: t("content.channels.deprem_io"),
     psikolojik_destek: t("content.channels.psychological_support"),
-    ahbap_location: t("content.channels.ahbap"),
     depremihtiyaccom: t("content.channels.deprem_ihtiyac"),
     gecici_barinma_gida_dagitim: t("content.channels.temporary_house"),
-    hastane: t("content.channels.hospital"),
     tahliye_noktalari: t("content.channels.evacuation"),
   };
 
@@ -41,6 +46,15 @@ export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
           style={styles.description}
         >{`${properties.description}`}</Typography>
       )}
+
+      <Stack flexDirection="row" display="flex" gap={2} mt={4}>
+        {reason &&
+          reason
+            ?.split(",")
+            ?.map((reason: string, index: number) => (
+              <Chip key={index} label={reason} color="info" />
+            ))}
+      </Stack>
     </div>
   );
 };

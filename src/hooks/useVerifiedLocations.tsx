@@ -16,8 +16,8 @@ import {
   RT,
   SafePlaceData,
   SafePlaceResponse,
-  SahraData,
-  SahraResponse,
+  // SahraData,
+  // SahraResponse,
   SatelliteData,
   SatelliteResponse,
   TeleteyitData,
@@ -51,6 +51,7 @@ const transformFoodResponse: RT<FoodResponse, FoodData> = (res) => {
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
       icon: res.extraParams?.icon ?? null,
+      reason: res.reason ?? null,
     },
     reference: res.entry_id ?? null,
   };
@@ -120,20 +121,20 @@ const transformSatelliteResponse: RT<SatelliteResponse, SatelliteData> = (
   };
 };
 
-const transformSahraResponse: RT<SahraResponse, SahraData> = (res) => {
-  return {
-    channel: "sahra",
-    geometry: createGeometry(res),
-    properties: {
-      name: res.extraParams?.name ?? null,
-      reason: res.reason ?? null,
-      icon: res.extraParams?.icon ?? null,
-      verified: res.is_location_verified ?? false,
-      description: null,
-    },
-    reference: res.entry_id ?? null,
-  };
-};
+// const transformSahraResponse: RT<SahraResponse, SahraData> = (res) => {
+//   return {
+//     channel: "sahra",
+//     geometry: createGeometry(res),
+//     properties: {
+//       name: res.extraParams?.name ?? null,
+//       reason: res.reason ?? null,
+//       icon: res.extraParams?.icon ?? null,
+//       verified: res.is_location_verified ?? false,
+//       description: null,
+//     },
+//     reference: res.entry_id ?? null,
+//   };
+// };
 
 const transformPharmacyResponse: RT<PharmacyResponse, PharmacyData> = (res) => {
   return {
@@ -244,7 +245,7 @@ export const transformers: Record<APIChannel, RT> = {
   eczane_excel: transformPharmacyResponse as RT,
   guvenli_yerler_oteller: transformSafePlaceResponse as RT,
   hastahane_locations: transformHospitalResponse as RT,
-  sahra_mutfak: transformSahraResponse as RT,
+  sahra_mutfak: transformFoodResponse as RT,
   sicak_yemek: transformFoodResponse as RT,
   teleteyit: transformTeleteyitResponse as RT,
   turk_eczane: transformPharmacyResponse as RT,
@@ -253,14 +254,20 @@ export const transformers: Record<APIChannel, RT> = {
   babala: transformBabalaResponse as RT,
   teyit_enkaz: transformTeyitEnkazResponse as RT,
   teyit_yardim: transformTeyitYardimResponse as RT,
+  malatya_yemek: transformFoodResponse as RT,
+  adana_yemek: transformFoodResponse as RT,
 };
 
 export function useVerifiedLocations() {
   const channelFilter = useChannelFilterMenuOption();
 
-  const foodLocations = useLocation(["sicak_yemek"], "yemek", {
-    transformResponse: transformFoodResponse as RT,
-  });
+  const foodLocations = useLocation(
+    ["sicak_yemek", "adana_yemek", "malatya_yemek", "sahra_mutfak"],
+    "yemek",
+    {
+      transformResponse: transformFoodResponse as RT,
+    }
+  );
 
   const ahbapLocations = useLocation(["ahbap_location"], "ahbap", {
     transformResponse: transformAhbapResponse as RT,
@@ -278,9 +285,9 @@ export function useVerifiedLocations() {
     transformResponse: transformSatelliteResponse as RT,
   });
 
-  const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
-    transformResponse: transformSahraResponse as RT,
-  });
+  // const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
+  //   transformResponse: transformSahraResponse as RT,
+  // });
 
   const pharmacyLocations = useLocation(
     ["eczane_excel", "turk_eczane"],
@@ -312,7 +319,7 @@ export function useVerifiedLocations() {
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
-    sahraKitchenLocations,
+    // sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
   };
