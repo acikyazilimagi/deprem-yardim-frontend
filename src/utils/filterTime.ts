@@ -14,7 +14,6 @@ export type FilterOption = {
   value: TimeOption;
 };
 
-// TODO: move to constants file
 const HOUR_IN_MILLISECONDS = 60 * 60 * 1000;
 const DAY_IN_MILLISECONDS = 24 * HOUR_IN_MILLISECONDS;
 
