@@ -73,6 +73,9 @@ const styles: IStyles = {
     borderRadius: "8px !important",
     [theme.breakpoints.down("sm")]: {
       width: "50px",
+      position: "fixed",
+      bottom: "30px",
+      right: "10px",
     },
   }),
 };
