@@ -14,7 +14,7 @@ export type APIChannel =
   | "teyit_enkaz"
   | "babala"
   | "adana_yemek"
-  | "malatya_yemek";
+  | "malatya_yemek"
   | "depremio"
   | "teyit_yardim";
 
