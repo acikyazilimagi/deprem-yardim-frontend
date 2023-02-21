@@ -124,8 +124,8 @@ const styles: IStyles = {
     display: "flex",
     position: "fixed",
     flexDirection: "column",
-    top: "85px",
-    left: "55px",
+    top: "10px",
+    left: "60px",
     zIndex: 1100,
     pointerEvents: "none",
     [theme.breakpoints.down("sm")]: {

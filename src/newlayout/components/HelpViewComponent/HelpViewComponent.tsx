@@ -90,7 +90,7 @@ export const HelpViewComponent = () => {
               }
               title={selectedLocale.title.data.text}
             />
-            <CardContent>
+            <CardContent sx={styles.content}>
               {selectedLocale.blocks.map((block, index) => {
                 switch (block.type) {
                   case "header":
@@ -160,8 +160,8 @@ export const HelpViewComponent = () => {
                     return (
                       <Typography
                         key={`help-view-item-${index}`}
-                        sx={styles.header}
-                        color="primary.500"
+                        sx={styles.chip}
+                        color="common.black"
                         gutterBottom
                       >
                         {block.data.text}
@@ -182,8 +182,15 @@ const styles: IStyles = {
   container: () => ({
     padding: "0 !important",
     pointerEvents: "all",
+    fontSize: "12px",
+  }),
+  content: (theme: Theme) => ({
+    [theme.breakpoints.down("sm")]: {
+      overflowY: "scroll",
+    },
   }),
   card: (theme: Theme) => ({
+    fontSize: "12px",
     [theme.breakpoints.up("xs")]: {
       maxWidth: "100%",
       height: "100vh",
@@ -210,7 +217,8 @@ const styles: IStyles = {
       borderRadius: "8px !important",
     },
   }),
-  header: () => ({ fontSize: 16 }),
-  table: () => ({ marginTop: 3 }),
+  chip: () => ({ fontSize: 12 }),
+  header: () => ({ fontSize: 12 }),
+  table: () => ({ marginTop: 1 }),
 };
 //#endregion

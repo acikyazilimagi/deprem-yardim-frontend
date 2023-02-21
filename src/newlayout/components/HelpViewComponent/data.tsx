@@ -10,9 +10,16 @@ export const data = {
     },
     blocks: [
       {
+        type: "paragraph",
+        data: {
+          text: "Afet harita,  çeşitli mecralardan toplanan kazazede, yardım talepleri ve hizmetler ile ilgili konum ve yoğunluk bilgilerinin görüntülenmesini sağlamaktadır. Harita üzerinden teyit edilmiş yardım noktalarına filtreler kullanılarak erişilebilir.",
+          level: 6,
+        },
+      },
+      {
         type: "header",
         data: {
-          text: "Nasıl Kullanırım?",
+          text: "Harita Kullanımı",
           level: 6,
         },
       },
@@ -22,17 +29,19 @@ export const data = {
           style: "unordered",
           items: [
             "Karşınızdaki haritada bölgelere çıkan yuvarlakların üstüne tıklayarak yaklaşın.",
-            "Bölgelere yaklaştıkça bilgiler haritada yer yer görünecektir.",
-            "Yakınlaşmayı sürdürdükçe bilgilere erişeceksiniz.",
-            "Mavi pinlere tıklayıp bilgileri görüntüleyin.",
-            "En başta yer adı/adres bilgisini okuyacaksınız. Düğmeler ile amacına uygun ilerlemek isteyebilirsiniz.",
+            "Üzerinde adet bilgisi yer alan daireler ile karşılaşacaksınız, bunlara tıklayarak yakınlaşın.",
+            "Bölgelere yaklaştıkça bilgi daireleri dağılacaktır.",
+            "Pin görene dek yakınlaşmayı sürdürün.",
+            "Pinlere tıklayıp içerik detaylarını görüntüleyebilirsiniz.",
+            "Yardım çağrısı detaylarını kapatmak için çarpı simgesine ya da boş alan üstüne tıklamanız gereklidir.",
+            "Afetle ilgili diğer uygulamalara da sağ altta bulunan linklerden ulaşabilirsiniz.",
           ],
         },
       },
       {
         type: "header",
         data: {
-          text: "Kullanma yöntemleri",
+          text: "İçerik Detayları",
           level: 3,
         },
       },
@@ -41,15 +50,18 @@ export const data = {
         data: {
           style: "unordered",
           items: [
-            "*+* artı düğmesi ile haritayı yakınlaştırıp bakın.",
-            "*-* artı düğmesi ile haritayı uzaklaştırıp bakın.",
+            "Yer adı/adres bilgisi ve bildirimin oluşturulduğu tarih bilgisini en tepede görebilirsiniz.",
+            "“İçerik” alanında yardım çağrısının içeriği ve kaynak bilgisini görebilirsiniz.",
+            "Tıklanan pinin ilgili etiketleri “Etiketler” alanında yer alır.",
+            "Konum bilgilerini Google Haritalar ya da Apple Haritalar üzerinden görüntülemek isterseniz Yol tarifi altından **Google Haritalarda Aç** ya da **Apple Haritalarda Aç** butonlarına tıklayabilirsiniz.",
+            "Pinin koordinat bilgilerini en altta görüntüleyebilirsiniz.",
           ],
         },
       },
       {
         type: "header",
         data: {
-          text: "Renk alanlarının anlamları",
+          text: "Yoğunluk Haritası Gösterimleri",
           level: 6,
         },
       },
@@ -74,14 +86,22 @@ export const data = {
       type: "header",
       data: {
         text: "Manual",
-        level: 2,
+        level: 5,
       },
     },
     blocks: [
       {
         type: "paragraph",
         data: {
-          text: "Nasıl Kullanırım?",
+          text: "The disaster map provides the display of location and density information regarding Relief aid, Rescue help and Services media collected from various platforms. Confirmed help points on the map can be accessed using filters.",
+          level: 6,
+        },
+      },
+      {
+        type: "header",
+        data: {
+          text: "Map Usage",
+          level: 6,
         },
       },
       {
@@ -89,34 +109,40 @@ export const data = {
         data: {
           style: "unordered",
           items: [
-            "Karşınızdaki haritada bölgelere çıkan yuvarlakların üstüne tıklayarak yaklaşın.",
-            "Bölgelere yaklaştıkça bilgiler haritada yer yer görünecektir.",
-            "Yakınlaşmayı sürdürdükçe bilgilere erişeceksiniz.",
-            "Mavi pinlere tıklayıp bilgileri görüntüleyin.",
-            "En başta yer adı/adres bilgisini okuyacaksınız. Düğmeler ile amacına uygun ilerlemek isteyebilirsiniz.",
-          ],
-        },
-      },
-      {
-        type: "paragraph",
-        data: {
-          text: "Kullanma yöntemleri",
-        },
-      },
-      {
-        type: "list",
-        data: {
-          style: "unordered",
-          items: [
-            "*+* artı düğmesi ile haritayı yakınlaştırıp bakın.",
-            "*-* artı düğmesi ile haritayı uzaklaştırıp bakın.",
+            "After filtering, click the **Scan Field** button.",
+            "Click on the circles with numbers on to zoom in.",
+            "Information circles will dissipate as you get closer to the regions.",
+            "Keep zooming until you see the pins.",
+            "You can click on the pins to view the content details.",
+            "To close the details of the call for help, you need to click on the cross icon or on the empty space.",
+            "You can also access other disaster-related applications from the links at the bottom right.",
           ],
         },
       },
       {
         type: "header",
         data: {
-          text: "Renk alanlarının anlamları",
+          text: "İçerik Detayları",
+          level: 3,
+        },
+      },
+      {
+        type: "list",
+        data: {
+          style: "unordered",
+          items: [
+            "You can see the location name/address information and the date the notification was created at the top.",
+            "In the 'Content' area, you can see the content and source information of the call for help.",
+            "The relevant labels of the clicked pin are located in the 'Labels' field.",
+            "If you want to view the location information on Google Maps or Apple Maps, you can click the **Open in Google Maps** or **Open in Apple Maps** buttons under directions.",
+            "You can view the coordinate information of the pin at the bottom.",
+          ],
+        },
+      },
+      {
+        type: "header",
+        data: {
+          text: "Heatmap",
           level: 6,
         },
       },
