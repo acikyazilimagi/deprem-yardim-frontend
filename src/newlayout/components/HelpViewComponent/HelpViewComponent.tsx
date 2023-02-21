@@ -8,6 +8,7 @@ import {
   Container,
   Fade,
   IconButton,
+  Link,
   List,
   Stack,
   SxProps,
@@ -90,7 +91,7 @@ export const HelpViewComponent = () => {
               }
               title={selectedLocale.title.data.text}
             />
-            <CardContent>
+            <CardContent sx={styles.content}>
               {selectedLocale.blocks.map((block, index) => {
                 switch (block.type) {
                   case "header":
@@ -99,6 +100,7 @@ export const HelpViewComponent = () => {
                         key={`help-view-item-${index}`}
                         sx={styles.header}
                         color="primary.500"
+                        fontWeight={700}
                         gutterBottom
                       >
                         {block.data.text}
@@ -156,12 +158,35 @@ export const HelpViewComponent = () => {
                         })}
                       </Stack>
                     );
+                  case "links":
+                    return (
+                      <Stack
+                        key={`help-view-item-${index}`}
+                        display={"flex"}
+                        direction={"row"}
+                        flexWrap={"wrap"}
+                        gap={1}
+                        sx={styles.table}
+                      >
+                        {block.data.content?.map((item, index) => {
+                          return (
+                            <Link
+                              target={"_blank"}
+                              key={`help-view-link-${index}`}
+                              href={item[1]}
+                            >
+                              {item[0]}
+                            </Link>
+                          );
+                        })}
+                      </Stack>
+                    );
                   default:
                     return (
                       <Typography
                         key={`help-view-item-${index}`}
-                        sx={styles.header}
-                        color="primary.500"
+                        sx={styles.chip}
+                        color="common.black"
                         gutterBottom
                       >
                         {block.data.text}
@@ -182,8 +207,15 @@ const styles: IStyles = {
   container: () => ({
     padding: "0 !important",
     pointerEvents: "all",
+    fontSize: "12px",
+  }),
+  content: (theme: Theme) => ({
+    [theme.breakpoints.down("sm")]: {
+      overflowY: "scroll",
+    },
   }),
   card: (theme: Theme) => ({
+    fontSize: "12px",
     [theme.breakpoints.up("xs")]: {
       maxWidth: "100%",
       height: "100vh",
@@ -211,7 +243,8 @@ const styles: IStyles = {
       borderRadius: "8px !important",
     },
   }),
-  header: () => ({ fontSize: 16 }),
-  table: () => ({ marginTop: 3 }),
+  chip: () => ({ fontSize: 12 }),
+  header: () => ({ fontSize: 14 }),
+  table: () => ({ marginTop: 1, marginBottom: "15px" }),
 };
 //#endregion
