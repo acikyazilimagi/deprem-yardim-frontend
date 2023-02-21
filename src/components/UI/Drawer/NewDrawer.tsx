@@ -1,11 +1,9 @@
 import styles from "./Drawer.module.css";
 import { default as MuiDrawer } from "@mui/material/Drawer";
 import { DrawerData } from "../../../stores/mapStore";
-import {
-  BabalaDataProperties,
-  ChannelData,
-  TwitterDataProperties,
-} from "@/types";
+import { ChannelData } from "@/types";
+import { BabalaDataProperties } from "@/services/responses/babala";
+import { TwitterDataProperties } from "@/services/responses/twitter";
 import Button from "@mui/material/Button";
 import { CopyAll, OpenInNew } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";

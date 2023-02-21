@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { TwitterDataProperties } from "@/types";
+import { TwitterDataProperties } from "@/services/responses/twitter";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
 

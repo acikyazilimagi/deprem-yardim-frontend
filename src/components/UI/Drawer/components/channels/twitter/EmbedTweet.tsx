@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
 import PlaceholderTweet from "./PlaceholderTweet";
-import { TwitterDataProperties } from "@/types";
+import { TwitterDataProperties } from "@/services/responses/twitter";
 
 type Props = {
   reason: string;
