@@ -1,6 +1,9 @@
 import { useLoading } from "@/stores/loadingStore";
+import { shallowEqual } from "@/utils/helpers";
 import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { mutate } from "swr";
 
 interface IStyles {
@@ -9,13 +12,25 @@ interface IStyles {
 
 export const CooldownButtonComponent = () => {
   const { t } = useTranslation("home");
+  const router = useRouter();
   const { loading } = useLoading();
+  const [queryParams, setQueryParams] = useState<{
+    [key: string]: string | string[] | undefined;
+  }>({ ...router.query });
+  const isSameParams = shallowEqual(router.query, queryParams);
 
-  const refetch = () =>
+  const refetch = () => {
+    setQueryParams({ ...router.query });
     mutate((key) => Array.isArray(key) && key[0] == "areas");
+  };
 
   return (
-    <Button sx={styles.button} variant="contained" onClick={refetch}>
+    <Button
+      sx={styles.button}
+      variant="contained"
+      onClick={refetch}
+      disabled={isSameParams}
+    >
       {t("scanner.text")}
       {loading ? <LinearProgress sx={styles.progress} /> : null}
     </Button>
