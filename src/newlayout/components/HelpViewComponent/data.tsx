@@ -52,7 +52,6 @@ export const data = {
           items: [
             "Yer adı/adres bilgisi ve bildirimin oluşturulduğu tarih bilgisini en tepede görebilirsiniz.",
             "“İçerik” alanında yardım çağrısının içeriği ve kaynak bilgisini görebilirsiniz.",
-            "Tıklanan pinin ilgili etiketleri “Etiketler” alanında yer alır.",
             "Konum bilgilerini Google Haritalar ya da Apple Haritalar üzerinden görüntülemek isterseniz Yol tarifi altından **Google Haritalarda Aç** ya da **Apple Haritalarda Aç** butonlarına tıklayabilirsiniz.",
             "Pinin koordinat bilgilerini en altta görüntüleyebilirsiniz.",
           ],
@@ -76,6 +75,24 @@ export const data = {
             ["Orta-Yüksek Yoğun", "4"],
             ["Yüksek Yoğun", "5"],
             ["Çok Yoğun", "6"],
+          ],
+        },
+      },
+      {
+        type: "header",
+        data: {
+          text: "Faydalı Siteler",
+          level: 6,
+        },
+      },
+      {
+        type: "links",
+        data: {
+          withHeadings: false,
+          content: [
+            ["depremyardim.com", "https://depremyardim.com/"],
+            ["deprem.io", "https://deprem.io/"],
+            ["afetbilgi.com", "https://www.afetbilgi.com/"],
           ],
         },
       },
@@ -122,7 +139,7 @@ export const data = {
       {
         type: "header",
         data: {
-          text: "İçerik Detayları",
+          text: "Content Details",
           level: 3,
         },
       },
@@ -133,7 +150,6 @@ export const data = {
           items: [
             "You can see the location name/address information and the date the notification was created at the top.",
             "In the 'Content' area, you can see the content and source information of the call for help.",
-            "The relevant labels of the clicked pin are located in the 'Labels' field.",
             "If you want to view the location information on Google Maps or Apple Maps, you can click the **Open in Google Maps** or **Open in Apple Maps** buttons under directions.",
             "You can view the coordinate information of the pin at the bottom.",
           ],
@@ -151,12 +167,30 @@ export const data = {
         data: {
           withHeadings: false,
           content: [
-            ["Az Yoğun", "1"],
-            ["Az-Orta Yoğun", "2"],
-            ["Orta Yoğun", "3"],
-            ["Orta-Yüksek Yoğun", "4"],
-            ["Yüksek Yoğun", "5"],
-            ["Çok Yoğun", "6"],
+            ["Less Intense", "1"],
+            ["Low-Medium Intense", "2"],
+            ["Medium Intense", "3"],
+            ["Medium-High Intense", "4"],
+            ["High Intensity", "5"],
+            ["Very Intense", "6"],
+          ],
+        },
+      },
+      {
+        type: "header",
+        data: {
+          text: "Useful Sites",
+          level: 6,
+        },
+      },
+      {
+        type: "links",
+        data: {
+          withHeadings: false,
+          content: [
+            ["depremyardim.com", "https://depremyardim.com/"],
+            ["deprem.io", "https://deprem.io/"],
+            ["afetbilgi.com", "https://www.afetbilgi.com/"],
           ],
         },
       },

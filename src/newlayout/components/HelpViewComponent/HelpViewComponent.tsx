@@ -8,6 +8,7 @@ import {
   Container,
   Fade,
   IconButton,
+  Link,
   List,
   Stack,
   SxProps,
@@ -99,6 +100,7 @@ export const HelpViewComponent = () => {
                         key={`help-view-item-${index}`}
                         sx={styles.header}
                         color="primary.500"
+                        fontWeight={700}
                         gutterBottom
                       >
                         {block.data.text}
@@ -152,6 +154,29 @@ export const HelpViewComponent = () => {
                                 />
                               }
                             />
+                          );
+                        })}
+                      </Stack>
+                    );
+                  case "links":
+                    return (
+                      <Stack
+                        key={`help-view-item-${index}`}
+                        display={"flex"}
+                        direction={"row"}
+                        flexWrap={"wrap"}
+                        gap={1}
+                        sx={styles.table}
+                      >
+                        {block.data.content?.map((item, index) => {
+                          return (
+                            <Link
+                              target={"_blank"}
+                              key={`help-view-link-${index}`}
+                              href={item[1]}
+                            >
+                              {item[0]}
+                            </Link>
                           );
                         })}
                       </Stack>
@@ -218,7 +243,7 @@ const styles: IStyles = {
     },
   }),
   chip: () => ({ fontSize: 12 }),
-  header: () => ({ fontSize: 12 }),
-  table: () => ({ marginTop: 1 }),
+  header: () => ({ fontSize: 14 }),
+  table: () => ({ marginTop: 1, marginBottom: "15px" }),
 };
 //#endregion
