@@ -1,5 +1,5 @@
 name: New data channel request
-about: We added a new channel to backend, and we need to show it on the map
+description: We added a new channel to backend, and we need to show it on the map
 title: 'data-request: '
 labels: ["data-request", "unchecked"]
 assignees:
