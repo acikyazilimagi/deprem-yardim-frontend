@@ -68,9 +68,16 @@ export const useMapEvents = () => {
   );
 
   const map = useLeafletMapEvents({
-    moveend: () => debounced(map.getBounds(), "moveend"),
+    movestart: () => {
+      setEventType("movestart");
+    },
+    moveend: () => {
+      debounced(map.getBounds(), "moveend");
+      setEventType("moveend");
+    },
     zoomend: () => {
       debounced(map.getBounds(), "zoomend");
+      setEventType("zoomend");
 
       const isZoomOut = mapZoomLevelRef.current > map.getZoom();
       if (isZoomOut) {
@@ -78,6 +85,7 @@ export const useMapEvents = () => {
       }
     },
     zoomstart: () => {
+      setEventType("zoomstart");
       mapZoomLevelRef.current = map.getZoom();
     },
   });

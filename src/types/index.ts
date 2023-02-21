@@ -466,4 +466,9 @@ export type ClusterPopupData = {
   markers: any[];
 };
 
-export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
+export type EVENT_TYPES =
+  | "movestart"
+  | "moveend"
+  | "zoomstart"
+  | "zoomend"
+  | "ready";
