@@ -8,7 +8,7 @@ import {
   SatelliteData,
   TeleteyitData,
   TwitterData,
-} from "@/types";
+} from "@/services/responses";
 
 export type FeedChannelBabalaProps = BabalaData;
 export type FeedChannelTwitterProps = TwitterData;
