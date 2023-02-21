@@ -18,7 +18,6 @@ const reasonFilterMenuOptions: string[] = [
   "kurtarma",
   "lojistik",
   "su",
-  "yagma",
   "yemek",
 ];
 
