@@ -6,7 +6,7 @@ export const FeedChannelTeleteyit = (props: FeedChannelTeleteyitProps) => {
   return (
     <DrawerContent>
       <DrawerContent.Header>
-        <DrawerContent.Title>{capitalize(props.channel)}</DrawerContent.Title>
+        <DrawerContent.Title>Teleteyit</DrawerContent.Title>
         <DrawerContent.Badge>
           {capitalize(props.properties?.status || "")}
         </DrawerContent.Badge>
