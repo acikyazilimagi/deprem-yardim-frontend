@@ -220,6 +220,7 @@ const styles: IStyles = {
       maxWidth: "100%",
       height: "100vh",
       borderRadius: "0px !important",
+      overflow: "scroll",
     },
     [theme.breakpoints.up("sm")]: {
       maxWidth: 550,
