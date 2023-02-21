@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import styles from "./AttributionComponent.module.css";
 
 interface AttributionComponentProps {
   onClick?: () => void;
@@ -7,12 +8,7 @@ interface AttributionComponentProps {
 export function AttributionComponent(props: AttributionComponentProps) {
   const { t } = useTranslation("common");
   return (
-    <div
-      style={{
-        whiteSpace: "nowrap",
-        fontSize: "0.6rem",
-      }}
-    >
+    <div className={styles.attribution}>
       <a href="./cerez.pdf" target="_blank">
         {t("footer.politic.cookie")}
       </a>
