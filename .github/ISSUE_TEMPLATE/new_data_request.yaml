@@ -44,7 +44,7 @@ body:
   - type: textarea
     id: extra_params
     attributes:
-      label: `extra_parameters` example
+      label: extra_parameters example
       description: Copy & paste an example of an extra params object if data from this channel includes any.
       render: shell
     validations:
