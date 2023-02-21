@@ -20,12 +20,9 @@ import { CloseByRecord } from "./OtherRecordsInSameLocation";
 import { useRouter } from "next/router";
 import { parseChannelData } from "@/hooks/useLocation";
 import { DrawerData, useMapActions } from "@/stores/mapStore";
-import {
-  BabalaData,
-  APIResponse,
-  TwitterData,
-  TwitterDataProperties,
-} from "@/types";
+import { APIResponse } from "@/types";
+import { BabalaData, TwitterData } from "@/services/responses";
+import { TwitterDataProperties } from "@/services/responses/twitter";
 
 export interface ContentProps {
   onCopyBillboard: (_clipped: string) => void;
