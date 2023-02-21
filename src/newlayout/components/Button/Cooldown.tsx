@@ -1,26 +1,31 @@
 import { useLoading } from "@/stores/loadingStore";
-import { shallowEqual } from "@/utils/helpers";
+import { useEventType } from "@/stores/mapStore";
+import { EVENT_TYPES } from "@/types";
 import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
+const scanAreaWhiteList: Partial<EVENT_TYPES[]> = ["moveend", "zoomend"];
+
 export const CooldownButtonComponent = () => {
   const { t } = useTranslation("home");
-  const router = useRouter();
   const { loading } = useLoading();
-  const [queryParams, setQueryParams] = useState<{
-    [key: string]: string | string[] | undefined;
-  }>({ ...router.query });
-  const isSameParams = shallowEqual(router.query, queryParams);
+  const eventType = useEventType();
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    if (!scanAreaWhiteList.includes(eventType)) return;
+
+    setIsDisabled(false);
+  }, [eventType]);
 
   const refetch = () => {
-    setQueryParams({ ...router.query });
+    setIsDisabled(true);
     mutate((key) => Array.isArray(key) && key[0] == "areas");
   };
 
@@ -29,7 +34,7 @@ export const CooldownButtonComponent = () => {
       sx={styles.button}
       variant="contained"
       onClick={refetch}
-      disabled={isSameParams}
+      disabled={isDisabled}
     >
       {t("scanner.text")}
       {loading ? <LinearProgress sx={styles.progress} /> : null}

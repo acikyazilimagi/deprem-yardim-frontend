@@ -1,7 +1,7 @@
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/newlayout/components/MTMLView/MTMLView";
-import { useDevice } from "@/stores/mapStore";
+import { useDevice, useMapActions } from "@/stores/mapStore";
 import {
   DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
@@ -105,6 +105,7 @@ export const MapContent = ({
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
   const { setCoordinates } = useURLActions();
+  const { setEventType } = useMapActions();
   const device = useDevice();
   const router = useRouter();
 
@@ -141,6 +142,7 @@ export const MapContent = ({
         whenReady={(map: any) => {
           setTimeout(() => {
             setCoordinates(map.target.getBounds());
+            setEventType("ready");
             map.target.invalidateSize();
           }, 100);
         }}
