@@ -83,7 +83,7 @@ const styles: IStyles = {
     color: `${theme.palette.grey[700]} !important`,
     borderRadius: "8px !important",
     [theme.breakpoints.down("sm")]: {
-      width: "60px",
+      width: "45px",
       position: "fixed",
       bottom: "30px",
       right: "10px",
