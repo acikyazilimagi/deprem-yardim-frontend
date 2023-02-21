@@ -1,15 +1,15 @@
 import useDefaultZoom from "@/hooks/useDefaultZoom";
 import useDefaultCenter from "@/hooks/useDefaultCenter";
-import { useMTMLView } from "@/newlayout/components/MTMLViewComponent/MTMLViewComponent";
+import { useMTMLView } from "@/newlayout/components/MTMLView/MTMLView";
 import { useDevice } from "@/stores/mapStore";
 import {
   DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/UI/Map/utils";
-import { CooldownButtonComponent } from "@/newlayout/components/CooldownButtonComponent/CooldownButtonComponent";
+import { CooldownButtonComponent } from "@/newlayout/components/Button/Cooldown";
 import Map from "@/components/UI/Map/Map";
-import MapControls from "./MapControls";
+import MapControls from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/UI/Map/GenericClusterGroup";
@@ -22,7 +22,7 @@ import { MapClusterStyle } from "@/components/UI/Map/MapClusterStyle";
 import { latLng, latLngBounds } from "leaflet";
 import { useFetchLocations } from "@/hooks/useFetchLocations";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { MapLayer } from "../MTMLViewComponent/types";
+import { MapLayer } from "../MTMLView/types";
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
 type EventProps = {

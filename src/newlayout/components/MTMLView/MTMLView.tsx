@@ -14,11 +14,8 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTranslation } from "next-i18next";
-import {
-  MapLayer,
-  MapType,
-} from "@/newlayout/components/MTMLViewComponent/types";
-import { LayerButton } from "../map/LayerButton";
+import { MapLayer, MapType } from "@/newlayout/components/MTMLView/types";
+import { LayerButton } from "../Map/Controls/LayerButton";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;

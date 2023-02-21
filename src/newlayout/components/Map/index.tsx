@@ -2,7 +2,7 @@ import { MapOptions } from "leaflet";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 
-const DynamicMap = dynamic(() => import("./DynamicMap"), {
+const DynamicMap = dynamic(() => import("./Dynamic"), {
   ssr: false,
 });
 
