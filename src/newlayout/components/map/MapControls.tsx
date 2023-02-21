@@ -155,6 +155,7 @@ const MapControls = (props: IMapControlsProps) => {
             .map((reason) => data.indexOf(reason))
             .filter((index) => index > -1),
           type: "multi-select",
+          showSelectAll: true,
         },
       ];
       return _data;

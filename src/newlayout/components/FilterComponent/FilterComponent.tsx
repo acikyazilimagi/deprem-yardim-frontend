@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardHeader,
@@ -19,6 +20,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 export interface IFilterElement {
   queryParam: string;
@@ -26,6 +28,7 @@ export interface IFilterElement {
   values: string[];
   defaultValues: number[] | "all";
   type: "single-select" | "multi-select";
+  showSelectAll?: boolean;
 }
 
 interface IFilterSelectState {
@@ -96,6 +99,7 @@ interface IFilterComponent {
 }
 
 export const FilterComponent = (props: IFilterComponent) => {
+  const { t } = useTranslation("home");
   const filterView = props.filterStore();
   useEffect(() => {
     filterView.setFilters(props.filters);
@@ -113,6 +117,22 @@ export const FilterComponent = (props: IFilterComponent) => {
         [event.target.name]: selectedValue,
       });
     }
+  };
+
+  const handleSelectAll = (filter: IFilterElement) => {
+    if (filter.type !== "multi-select" || !filter.showSelectAll) {
+      return;
+    }
+
+    filterView.setSelectedValues({ [filter.queryParam]: [...filter.values] });
+  };
+
+  const handleClearAll = (filter: IFilterElement) => {
+    if (filter.type !== "multi-select" || !filter.showSelectAll) {
+      return;
+    }
+
+    filterView.setSelectedValues({ [filter.queryParam]: [] });
   };
 
   const valueSelector = (filter: IFilterElement) => {
@@ -147,29 +167,55 @@ export const FilterComponent = (props: IFilterComponent) => {
             <CardContent>
               <Stack display={"flex"} direction={"column"} rowGap={2}>
                 {filterView.filters.map((filter, index) => {
+                  const isSelectedAll =
+                    filter.values.length ===
+                    filterView.selectedValues[filter.queryParam].length;
                   return (
-                    <FormControl key={`filter-form-control-${index}`}>
-                      <InputLabel id="select-label">{filter.label}</InputLabel>
-                      <Select
-                        multiple={filter.type === "multi-select"}
-                        labelId="select-label"
-                        // @ts-ignore - TODO: Fix this type error, if multiple is true, value should be an array.
-                        value={valueSelector(filter)}
-                        id={filter.queryParam}
-                        label={filter.label}
-                        name={filter.queryParam}
-                        onChange={handleChange}
-                      >
-                        {filter.values.map((value, index) => (
-                          <MenuItem
-                            key={`filter-menu-item-${index}`}
-                            value={value}
-                          >
-                            {value}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <>
+                      {filter.showSelectAll &&
+                        filter.type === "multi-select" && (
+                          <FormControl key={`filter-form-control-${index}`}>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              fullWidth
+                              onClick={() =>
+                                !isSelectedAll
+                                  ? handleSelectAll(filter)
+                                  : handleClearAll(filter)
+                              }
+                            >
+                              {!isSelectedAll
+                                ? t("filter.selectAll")
+                                : t("filter.clearAll")}
+                            </Button>
+                          </FormControl>
+                        )}
+                      <FormControl key={`filter-form-control-${index}`}>
+                        <InputLabel id="select-label">
+                          {filter.label}
+                        </InputLabel>
+                        <Select
+                          multiple={filter.type === "multi-select"}
+                          labelId="select-label"
+                          // @ts-ignore - TODO: Fix this type error, if multiple is true, value should be an array.
+                          value={valueSelector(filter)}
+                          id={filter.queryParam}
+                          label={filter.label}
+                          name={filter.queryParam}
+                          onChange={handleChange}
+                        >
+                          {filter.values.map((value, index) => (
+                            <MenuItem
+                              key={`filter-menu-item-${index}`}
+                              value={value}
+                            >
+                              {value}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </>
                   );
                 })}
               </Stack>

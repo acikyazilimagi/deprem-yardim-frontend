@@ -4,6 +4,8 @@
     },
     "filter": {
         "title": "Filtre",
+        "selectAll": "Tümünü Seç",
+        "clearAll": "Tümünü Kaldır",
         "servicesTitle": "Hizmetler",
         "helpRequestTitle": "Yardım Talepleri",
         "reasonsTitle": "İhtiyaçlar",
