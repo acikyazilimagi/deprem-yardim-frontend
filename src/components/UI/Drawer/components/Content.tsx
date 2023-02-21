@@ -203,16 +203,6 @@ export const Content = ({ drawerData, onCopyBillboard }: ContentProps) => {
             </div>
           </div>
           <FeedContent content={drawerData} />
-          {/* {(data ||
-            (drawerData as AhbapData).channel === "ahbap" ||
-            (drawerData as SafePlaceData).channel ===
-              "guvenli_yerler_oteller" ||
-            (drawerData as TeleteyitData).channel === "teleteyit" ||
-            (drawerData as SatelliteData).channel === "uydu" ||
-            (drawerData as SahraKitchenData).channel === "sahra_mutfak" ||
-            (drawerData as PharmacyData).channel === "eczane_excel") && (
-            <FeedContent content={data ?? (drawerData as AhbapData)} />
-          )} */}
         </div>
       )}
 

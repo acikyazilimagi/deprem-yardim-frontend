@@ -23,7 +23,6 @@ export enum MapLayer {
   Food = "food",
   Teleteyit = "teleteyit",
   Satellite = "satellite",
-  SahraMutfak = "sahramutfak",
   Pharmacy = "pharmacy",
   SafePlaces = "safeplaces",
 }

@@ -16,8 +16,6 @@ import {
   RT,
   SafePlaceData,
   SafePlaceResponse,
-  // SahraData,
-  // SahraResponse,
   SatelliteData,
   SatelliteResponse,
   TeleteyitData,
@@ -120,21 +118,6 @@ const transformSatelliteResponse: RT<SatelliteResponse, SatelliteData> = (
     reference: res.entry_id ?? null,
   };
 };
-
-// const transformSahraResponse: RT<SahraResponse, SahraData> = (res) => {
-//   return {
-//     channel: "sahra",
-//     geometry: createGeometry(res),
-//     properties: {
-//       name: res.extraParams?.name ?? null,
-//       reason: res.reason ?? null,
-//       icon: res.extraParams?.icon ?? null,
-//       verified: res.is_location_verified ?? false,
-//       description: null,
-//     },
-//     reference: res.entry_id ?? null,
-//   };
-// };
 
 const transformPharmacyResponse: RT<PharmacyResponse, PharmacyData> = (res) => {
   return {
@@ -285,10 +268,6 @@ export function useVerifiedLocations() {
     transformResponse: transformSatelliteResponse as RT,
   });
 
-  // const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
-  //   transformResponse: transformSahraResponse as RT,
-  // });
-
   const pharmacyLocations = useLocation(
     ["eczane_excel", "turk_eczane"],
     "eczane",
@@ -319,7 +298,6 @@ export function useVerifiedLocations() {
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
-    // sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
   };

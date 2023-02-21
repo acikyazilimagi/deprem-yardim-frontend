@@ -50,7 +50,6 @@ export type Channel =
   | "yemek"
   | "teleteyit"
   | "uydu"
-  | "sahra"
   | "eczane"
   | "guvenli"
   | "hastane";
@@ -249,32 +248,6 @@ export type SatelliteData = {
   geometry: Geometry;
 };
 
-// // Type definition for Sahra Kitchen
-// export type SahraAPIExtraParams = {
-//   name: string;
-//   styleUrl: string;
-//   icon: string;
-// };
-
-// export type SahraResponse = APIResponseObject<
-//   "sahra_mutfak",
-//   SahraAPIExtraParams
-// >;
-
-// export type SahraDataProperties = {
-//   name: string | null;
-//   reason: string | null;
-//   verified: boolean | null;
-//   icon: string | null;
-//   description: string | null;
-// };
-
-// export type SahraData = {
-//   channel: "sahra";
-//   properties: SahraDataProperties;
-//   geometry: Geometry;
-// };
-
 // Type definitions for Pharmacy
 export type PharmacyAPIExtraParams = {
   name: string;
@@ -414,7 +387,6 @@ export type DataProperties =
   | AhbapData
   | TeleteyitData
   | SatelliteData
-  // | SahraData
   | PharmacyData
   | SafePlaceData
   | FoodData
