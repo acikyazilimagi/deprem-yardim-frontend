@@ -81,7 +81,6 @@ export class ApiClient {
 
 const reasons = [
   "kurtarma",
-  "alakasiz",
   "barinma",
   "elektronik",
   "saglik",
