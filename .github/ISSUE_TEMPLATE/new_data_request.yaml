@@ -1,0 +1,51 @@
+name: New data channel request
+description: We added a new channel to backend, and we need to show it on the map
+title: 'data-request: '
+labels: ["data-request", "unchecked"]
+assignees:
+  - afet-harita-frontend
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: discord
+    attributes:
+      label: discord username
+      description: discord handle so we can reach out to you
+      placeholder: ex. username#1234
+    validations:
+      required: true
+  - type: input
+    id: channel_name
+    attributes:
+      label: channel name
+      description: which channel this data belongs to
+      placeholder: ex. ahbap_location
+    validations:
+      required: true
+  - type: input
+    id: reasons
+    attributes:
+      label: reasons
+      description: with which reasons should we expect to show this data with.
+      placeholder: ex. enkaz,genel,yardim
+    validations:
+      required: true
+  - type: input
+    id: icon
+    attributes:
+      label: icon
+      description: icon url path
+      placeholder: ex. icon-20.jpg
+    validations:
+      required: true
+  - type: textarea
+    id: extra_params
+    attributes:
+      label: extra_parameters example
+      description: Copy & paste an example of an extra params object if data from this channel includes any.
+      render: shell
+    validations:
+      required: false

@@ -11,6 +11,7 @@ export type APIChannel =
   | "eczane_excel"
   | "guvenli_yerler_oteller"
   | "twitter"
+  | "teyit_enkaz"
   | "babala";
 
 export type APIResponse<TChannel extends APIChannel = APIChannel> = {
@@ -348,6 +349,32 @@ export type FoodData = {
   geometry: Geometry;
 };
 
+// Type definitions for Food
+export type TeyitEnkazAPIExtraParams = {
+  name: string;
+  styleUrl: string;
+  icon: string;
+  description?: string;
+};
+
+export type TeyitEnkazResponse = APIResponseObject<
+  "sicak_yemek",
+  TeyitEnkazAPIExtraParams
+>;
+
+export type TeyitEnkazDataProperties = {
+  name: string | null;
+  description: string | null;
+  type: string | null;
+  icon: string | null;
+};
+
+export type TeyitEnkazData = {
+  channel: "teyit_enkaz";
+  properties: TeyitEnkazDataProperties;
+  geometry: Geometry;
+};
+
 export type DataProperties =
   | TwitterData
   | BabalaData
@@ -358,7 +385,8 @@ export type DataProperties =
   | PharmacyData
   | SafePlaceData
   | FoodData
-  | HospitalData;
+  | HospitalData
+  | TeyitEnkazData;
 
 export type ChannelData = DataProperties & {
   reference?: number | null;

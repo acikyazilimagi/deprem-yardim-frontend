@@ -22,6 +22,8 @@ import {
   SatelliteResponse,
   TeleteyitData,
   TeleteyitResponse,
+  TeyitEnkazData,
+  TeyitEnkazResponse,
   TwitterData,
   TwitterResponse,
 } from "@/types";
@@ -200,6 +202,23 @@ export const transformBabalaResponse: RT<BabalaResponse, BabalaData> = (
   };
 };
 
+export const transformTeyitEnkazResponse: RT<
+  TeyitEnkazResponse,
+  TeyitEnkazData
+> = (res) => {
+  return {
+    channel: "teyit_enkaz",
+    geometry: createGeometry(res),
+    properties: {
+      name: res.extraParams?.name ?? null,
+      description: res.extraParams?.description ?? null,
+      type: res.extraParams?.styleUrl ?? null,
+      icon: null, // TODO: fix this after we have an icon
+    },
+    reference: res.entry_id ?? null,
+  };
+};
+
 export const transformers: Record<APIChannel, RT> = {
   ahbap_location: transformAhbapResponse as RT,
   eczane_excel: transformPharmacyResponse as RT,
@@ -212,6 +231,7 @@ export const transformers: Record<APIChannel, RT> = {
   uydu: transformSatelliteResponse as RT,
   twitter: transformTwitterResponse as RT,
   babala: transformBabalaResponse as RT,
+  teyit_enkaz: transformTeyitEnkazResponse as RT,
 };
 
 export function useVerifiedLocations() {
