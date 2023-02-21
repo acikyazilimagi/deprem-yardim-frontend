@@ -204,10 +204,14 @@ export const HelpViewComponent = () => {
 //#endregion
 //#region styles
 const styles: IStyles = {
-  container: () => ({
+  container: (theme: Theme) => ({
     padding: "0 !important",
     pointerEvents: "all",
     fontSize: "12px",
+    [theme.breakpoints.up("sm")]: {
+      maxHeight: "90vh",
+      overflowY: "scroll",
+    },
   }),
   content: (theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
