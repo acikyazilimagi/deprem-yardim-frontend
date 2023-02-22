@@ -2,7 +2,7 @@ import Close from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 import { SnackbarKey } from "notistack";
 import React, { useCallback } from "react";
-import useSnackbarHook from "./useSnackbar";
+import { useSnackbarHook } from "./useSnackbar";
 
 type SnackbarCloseButtonProps = {
   key: SnackbarKey;
@@ -26,4 +26,4 @@ const SnackbarCloseButton: React.FC<SnackbarCloseButtonProps> = ({ key }) => {
   );
 };
 
-export default SnackbarCloseButton;
+export { SnackbarCloseButton };

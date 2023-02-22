@@ -6,8 +6,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../utils/theme";
-import createEmotionCache from "../utils/createEmotionCache";
-import { SnackbarProvider } from "@/components/Snackbar";
+import { createEmotionCache } from "../utils/createEmotionCache";
+import { SnackbarProvider } from "@/components/Snackbar/Snackbar";
 import { appWithTranslation } from "next-i18next";
 import { usePersistentLanguage } from "@/hooks/usePersistentLangauge";
 

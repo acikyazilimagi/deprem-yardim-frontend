@@ -1,4 +1,4 @@
-import useSnackbarHook from "@/components/Snackbar/useSnackbar";
+import { useSnackbarHook } from "@/components/Snackbar/useSnackbar";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { CopyAll } from "@mui/icons-material";
 import { Button } from "@mui/material";

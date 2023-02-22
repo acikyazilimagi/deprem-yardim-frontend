@@ -1,10 +1,10 @@
-import { SnackbarProvider } from "notistack";
 import { ReactNode } from "react";
-import SnackbarCloseButton from "./SnackbarCloseButton";
+import { SnackbarProvider as NotiSnackBar } from "notistack";
+import { SnackbarCloseButton } from "./SnackbarCloseButton";
 
-const Snackbar = (props: { children: ReactNode }) => {
+export const SnackbarProvider = (props: { children: ReactNode }) => {
   return (
-    <SnackbarProvider
+    <NotiSnackBar
       maxSnack={3}
       action={(key) => <SnackbarCloseButton key={key} />}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -22,8 +22,6 @@ const Snackbar = (props: { children: ReactNode }) => {
       {...props}
     >
       {props.children}
-    </SnackbarProvider>
+    </NotiSnackBar>
   );
 };
-
-export default Snackbar;
