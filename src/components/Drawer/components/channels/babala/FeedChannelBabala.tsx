@@ -3,8 +3,10 @@ import Chip from "@mui/material/Chip";
 import { Divider } from "@mui/material";
 import { capitalize, isNaN } from "@/utils/helpers";
 import { FeedChannelBabalaProps } from "../../../types";
+import { useTranslation } from "next-i18next";
 
 export const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
+  const { t } = useTranslation("home");
   return (
     <>
       <div style={styles.container}>
