@@ -9,7 +9,7 @@ import {
 } from "@/components/Map/utils";
 import { CooldownButtonComponent } from "@/components/Button/Cooldown";
 import { Map } from "@/components/Map/Map";
-import MapControls from "./Controls/index";
+import { MapControls } from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/Map/Cluster/GenericClusterGroup";

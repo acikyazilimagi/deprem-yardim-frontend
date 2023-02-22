@@ -9,7 +9,7 @@ type Props = {
   reason: string;
 };
 
-const PlaceholderTweet = ({ source, reason }: Props) => {
+export const PlaceholderTweet = ({ source, reason }: Props) => {
   const reasons = reason
     .split(",")
     .filter((s) => s)
@@ -124,5 +124,3 @@ const styles = {
     lineHeight: 1.35,
   },
 };
-
-export default PlaceholderTweet;

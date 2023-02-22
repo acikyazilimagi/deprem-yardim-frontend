@@ -1,5 +1,5 @@
-import FeedChannelTwitter from "./twitter/FeedChannelTwitter";
-import FeedChannelBabala from "./babala/FeedChannelBabala";
+import { FeedChannelTwitter } from "./twitter/FeedChannelTwitter";
+import { FeedChannelBabala } from "./babala/FeedChannelBabala";
 import { FeedChannelGeneric } from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
@@ -46,7 +46,7 @@ const isChannelExist = (channel?: string) => {
   return Object.keys(contentMapper).includes(channel.toLowerCase());
 };
 
-const FeedContent = ({ content }: Props) => {
+export const FeedContent = ({ content }: Props) => {
   if (!content) {
     return null;
   }
@@ -56,5 +56,3 @@ const FeedContent = ({ content }: Props) => {
   // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
   return <>{contentMapper[channel](content)}</>;
 };
-
-export default FeedContent;

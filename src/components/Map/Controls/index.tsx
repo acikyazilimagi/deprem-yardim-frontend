@@ -135,7 +135,7 @@ interface IMapControlsProps {
   };
 }
 
-const MapControls = (props: IMapControlsProps) => {
+export const MapControls = (props: IMapControlsProps) => {
   const poiFilter = usePoiFilter();
   const router = useRouter();
   const { t } = useTranslation("home");
@@ -282,8 +282,6 @@ const MapControls = (props: IMapControlsProps) => {
     </DoubleClickStopPropagation>
   );
 };
-
-export default MapControls;
 
 const styles: IStyles = {
   button: (theme: Theme) => ({
