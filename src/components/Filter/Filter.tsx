@@ -168,7 +168,7 @@ export const FilterComponent = (props: IFilterComponent) => {
                       >
                         {filter.values.map((value) => (
                           <MenuItem
-                            key={`filter-menu-item${generateRandomKey(8)}`}
+                            key={`filter-menu-item-${generateRandomKey(8)}`}
                             value={value}
                           >
                             {value}
