@@ -3,7 +3,7 @@ import {
   DEFAULT_ZOOM_MOBILE,
   localStorageKeys,
   safeGetLocalStorage,
-} from "@/components/UI/Map/utils";
+} from "@/components/Map/utils";
 import { useDevice } from "@/stores/mapStore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

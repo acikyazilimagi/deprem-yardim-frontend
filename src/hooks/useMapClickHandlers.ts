@@ -4,7 +4,7 @@ import { useCallback, MouseEvent, KeyboardEvent } from "react";
 import { LeafletMouseEvent } from "leaflet";
 
 import * as localForage from "localforage";
-import { localForageKeys } from "@/components/UI/Map/utils";
+import { localForageKeys } from "@/components/Map/utils";
 import { useAreasActions } from "@/stores/areasStore";
 
 export function useMapClickHandlers() {

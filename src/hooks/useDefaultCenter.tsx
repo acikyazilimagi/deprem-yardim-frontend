@@ -2,7 +2,7 @@ import {
   DEFAULT_CENTER,
   localStorageKeys,
   safeGetLocalStorage,
-} from "@/components/UI/Map/utils";
+} from "@/components/Map/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
