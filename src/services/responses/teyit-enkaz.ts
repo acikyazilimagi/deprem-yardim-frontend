@@ -9,7 +9,7 @@ export type TeyitEnkazAPIExtraParams = {
 };
 
 export type TeyitEnkazResponse = APIResponseObject<
-  "sicak_yemek",
+  "teyit_enkaz",
   TeyitEnkazAPIExtraParams
 >;
 

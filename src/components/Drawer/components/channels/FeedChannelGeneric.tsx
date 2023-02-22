@@ -20,7 +20,7 @@ export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
     hastane: t("content.channels.hospital"),
     ahbap: t("content.channels.ahbap"),
     teyit_yardim: t("content.channels.verified_relief"),
-    teyit_istek: t("content.channels.verified_rescue"),
+    teyit_enkaz: t("content.channels.verified_rescue"),
     uda_yardim: t("content.channels.uda"),
     veteriner: t("content.channels.veterinary"),
     diyaliz_merkezleri: t("content.channels.dialysis"),

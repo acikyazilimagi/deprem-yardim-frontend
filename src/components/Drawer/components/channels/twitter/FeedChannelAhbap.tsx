@@ -2,6 +2,7 @@ import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
 import { CHANNEL_AHBAP_TYPES } from "@/utils/constants";
 import { FeedChannelAhbapProps } from "../../../types";
+import { useTranslation } from "next-i18next";
 
 const getTypeLabel = (type: string) => {
   const id = type.split("-")[1];
@@ -11,11 +12,15 @@ const getTypeLabel = (type: string) => {
 export const FeedChannelAhbap = ({
   properties: { type = "", description = "", icon = "" },
 }: FeedChannelAhbapProps) => {
+  const { t } = useTranslation("home");
+
   return (
     <>
       <div style={styles.container}>
         <div style={styles.logo_container}>
-          <Typography style={styles.logo}>Ahbap</Typography>
+          <Typography style={styles.logo}>
+            {t("content.channels.ahbap")}
+          </Typography>
           <img
             style={styles.icon}
             src={icon ?? ""}

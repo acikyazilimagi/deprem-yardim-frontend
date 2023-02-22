@@ -26,9 +26,8 @@ const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
     <div className={styles.sourceContent}>
       <div className={styles.sourceHelpContent}>
         <Typography className={styles.sourceContentTitle}>
-          {t("content.helpContent")}
+          {t("content.channels.twitter")}
         </Typography>
-
         {properties?.name && (
           <div className={styles.sourceContentSwitch}>
             <p> {t("content.showData")}</p>
