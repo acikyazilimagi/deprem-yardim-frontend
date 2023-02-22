@@ -15,7 +15,7 @@ interface IHeadWithMeta {
 }
 
 // TODO: OG_EDGE_URL should be replace with main API
-const HeadWithMeta = (props: IHeadWithMeta) => {
+export const HeadWithMeta = (props: IHeadWithMeta) => {
   const validateAddress =
     props.singleItemDetail?.formatted_address !== undefined;
   const validateEntry = props.singleItemDetail?.full_text !== undefined;
@@ -105,4 +105,3 @@ const HeadWithMeta = (props: IHeadWithMeta) => {
     />
   );
 };
-export default HeadWithMeta;

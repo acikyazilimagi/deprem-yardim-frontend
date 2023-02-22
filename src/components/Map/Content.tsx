@@ -8,7 +8,7 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/Map/utils";
 import { CooldownButtonComponent } from "@/components/Button/Cooldown";
-import Map from "@/components/Map/Map";
+import { Map } from "@/components/Map/Map";
 import MapControls from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";

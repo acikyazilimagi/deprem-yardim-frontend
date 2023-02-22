@@ -1,5 +1,5 @@
 import "@/styles/global.css";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";

@@ -9,7 +9,7 @@ type Props = {
   onClick?: () => void;
 } & React.ComponentProps<typeof Control>;
 
-const ButtonControl = ({
+export const ButtonControl = ({
   classNames,
   children,
   title,
@@ -30,5 +30,3 @@ const ButtonControl = ({
     </Control>
   );
 };
-
-export default ButtonControl;

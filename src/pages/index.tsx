@@ -6,7 +6,7 @@ import { ApiClient } from "@/services/ApiClient";
 import { APIResponse, ChannelData } from "@/types";
 import { useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import HeadWithMeta from "@/components/HeadWithMeta/HeadWithMeta";
+import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
 import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
 
