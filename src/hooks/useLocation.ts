@@ -4,7 +4,13 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
-import { APIChannel, APIResponse, Channel, ChannelData, RT } from "@/types";
+import {
+  APIChannel,
+  APIResponse,
+  ClientChannel,
+  ChannelData,
+  RT,
+} from "@/types";
 import { areasURL } from "@/utils/urls";
 import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
 
@@ -21,7 +27,7 @@ type HandleLocationResponseOptions = {
 
 export default function useLocation(
   apiChannels: APIChannel[],
-  channelName: Channel,
+  channelName: ClientChannel,
   options: HandleLocationResponseOptions
 ) {
   const [locations, setLocations] = useState<ChannelData[]>([]);
