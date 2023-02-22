@@ -1,6 +1,6 @@
 import { useChannelFilterMenuOption } from "@/stores/urlStore";
 import { APIChannel, RT } from "@/types";
-import useLocation from "./useLocation";
+import { useLocation } from "./useLocation";
 
 import {
   transformFoodResponse,

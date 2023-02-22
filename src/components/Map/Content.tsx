@@ -1,5 +1,5 @@
-import useDefaultZoom from "@/hooks/useDefaultZoom";
-import useDefaultCenter from "@/hooks/useDefaultCenter";
+import { useDefaultZoom } from "@/hooks/useDefaultZoom";
+import { useDefaultCenter } from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/components/MTMLView/MTMLView";
 import { useDevice, useMapActions } from "@/stores/mapStore";
 import {
