@@ -8,7 +8,10 @@ export type FoodAPIExtraParams = {
   description?: string;
 };
 
-export type FoodResponse = APIResponseObject<"sicak_yemek", FoodAPIExtraParams>;
+export type FoodResponse = APIResponseObject<
+  "sicak_yemek" | "malatya_yemek" | "adana_yemek" | "sahra_mutfak",
+  FoodAPIExtraParams
+>;
 
 export type FoodDataProperties = {
   name: string | null;
@@ -31,7 +34,8 @@ export const transformFoodResponse: RT<FoodResponse, FoodData> = (res) => {
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: res.extraParams?.icon ?? null,
+      icon: "images/icon-21.png",
+      reason: res.reason ?? null,
     },
     reference: res.entry_id ?? null,
   };

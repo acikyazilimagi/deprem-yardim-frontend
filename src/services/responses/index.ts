@@ -4,7 +4,6 @@ import { transformAhbapResponse, AhbapData } from "./ahbap";
 import { transformHospitalResponse, HospitalData } from "./hospital";
 import { transformTeleteyitResponse, TeleteyitData } from "./teleteyit";
 import { transformSatelliteResponse, SatelliteData } from "./satellite";
-import { transformSahraResponse, SahraData } from "./sahra";
 import { transformPharmacyResponse, PharmacyData } from "./pharmacy";
 import { transformSafePlaceResponse, SafePlaceData } from "./safe-place";
 import { transformTwitterResponse, TwitterData } from "./twitter";
@@ -19,7 +18,6 @@ export {
   transformHospitalResponse,
   transformTeleteyitResponse,
   transformSatelliteResponse,
-  transformSahraResponse,
   transformPharmacyResponse,
   transformSafePlaceResponse,
   transformTwitterResponse,
@@ -34,7 +32,6 @@ export type {
   HospitalData,
   TeleteyitData,
   SatelliteData,
-  SahraData,
   PharmacyData,
   SafePlaceData,
   TwitterData,

@@ -1,15 +1,43 @@
 import Typography from "@mui/material/Typography";
-import { Divider } from "@mui/material";
+import { Chip, Divider } from "@mui/material";
 import { ChannelData } from "@/types";
-import { capitalize } from "@/utils/helpers";
+import { useTranslation } from "next-i18next";
+import { Stack } from "@mui/system";
 
 export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
-  const { icon } = properties as { icon: string | null };
+  const { icon, reason } = properties as {
+    icon: string | null;
+    reason?: string | null;
+  };
+  const { t } = useTranslation("home");
+
+  interface ChannelNameTranslations {
+    [key: string]: string;
+  }
+
+  const genericChannelNameTranslations: ChannelNameTranslations = {
+    yemek: t("content.channels.food"),
+    hastane: t("content.channels.hospital"),
+    ahbap: t("content.channels.ahbap"),
+    teyit_yardim: t("content.channels.verified_relief"),
+    teyit_enkaz: t("content.channels.verified_rescue"),
+    uda_yardim: t("content.channels.uda"),
+    veteriner: t("content.channels.veterinary"),
+    diyaliz_merkezleri: t("content.channels.dialysis"),
+    discord: t("content.channels.discord"),
+    depremio: t("content.channels.deprem_io"),
+    psikolojik_destek: t("content.channels.psychological_support"),
+    depremihtiyaccom: t("content.channels.deprem_ihtiyac"),
+    gecici_barinma_gida_dagitim: t("content.channels.temporary_house"),
+    tahliye_noktalari: t("content.channels.evacuation"),
+  };
 
   return (
     <div style={styles.container}>
       <div style={styles.logo_container}>
-        <Typography style={styles.logo}>{capitalize(channel)}</Typography>
+        <Typography style={styles.logo}>
+          {genericChannelNameTranslations[channel] || channel}
+        </Typography>
         {icon && <img style={styles.icon} src={icon} alt={`${channel} icon`} />}
       </div>
       <Divider />
@@ -18,6 +46,15 @@ export const FeedChannelGeneric = ({ channel, properties }: ChannelData) => {
           style={styles.description}
         >{`${properties.description}`}</Typography>
       )}
+
+      <Stack flexDirection="row" display="flex" gap={2} mt={4}>
+        {reason &&
+          reason
+            ?.split(",")
+            ?.map((reason: string, index: number) => (
+              <Chip key={index} label={reason} color="info" />
+            ))}
+      </Stack>
     </div>
   );
 };

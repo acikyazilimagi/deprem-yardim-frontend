@@ -3,13 +3,16 @@ import Chip from "@mui/material/Chip";
 import { Divider } from "@mui/material";
 import { capitalize, isNaN } from "@/utils/helpers";
 import { FeedChannelBabalaProps } from "../../../types";
-
+import { useTranslation } from "next-i18next";
 const FeedChannelBabala = ({ properties }: FeedChannelBabalaProps) => {
+  const { t } = useTranslation("home");
   return (
     <>
       <div style={styles.container}>
         <div style={styles.logo_container}>
-          <Typography style={styles.logo}>Babala</Typography>
+          <Typography style={styles.logo}>
+            {t("content.channels.babala")}
+          </Typography>
         </div>
         <Divider />
         <Typography style={styles.fullText}>{properties.full_text}</Typography>
