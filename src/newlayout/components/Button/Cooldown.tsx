@@ -10,7 +10,7 @@ interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
-const scanAreaWhiteList: Partial<EVENT_TYPES[]> = ["moveend", "zoomend"];
+const scanAreaAllowList: Partial<EVENT_TYPES[]> = ["moveend", "zoomend"];
 
 export const CooldownButtonComponent = () => {
   const { t } = useTranslation("home");
@@ -19,7 +19,7 @@ export const CooldownButtonComponent = () => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    if (!scanAreaWhiteList.includes(eventType)) return;
+    if (!scanAreaAllowList.includes(eventType)) return;
 
     setIsDisabled(false);
   }, [eventType]);
