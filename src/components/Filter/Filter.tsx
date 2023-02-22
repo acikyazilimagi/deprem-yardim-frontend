@@ -45,6 +45,12 @@ interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
+function generateRandomKey(length: number) {
+  return Math.random()
+    .toString(36)
+    .substring(2, length + 2);
+}
+
 export const createUseFilter = () => {
   return create<IFilterState>()(
     devtools(
@@ -160,9 +166,9 @@ export const FilterComponent = (props: IFilterComponent) => {
                         name={filter.queryParam}
                         onChange={handleChange}
                       >
-                        {filter.values.map((value, index) => (
+                        {filter.values.map((value) => (
                           <MenuItem
-                            key={`filter-menu-item-${index}`}
+                            key={`filter-menu-item${generateRandomKey(8)}`}
                             value={value}
                           >
                             {value}
