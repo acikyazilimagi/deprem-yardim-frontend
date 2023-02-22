@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 //#region imports
 import {
   Box,
@@ -9,7 +10,8 @@ import {
   Theme,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useWindowSize } from "@/hooks/useWindowSize";
+import TranslateIcon from "@mui/icons-material/Translate";
 //#endregion
 //#region interfaces
 interface IStyles {
@@ -19,6 +21,8 @@ interface IStyles {
 //#region component
 export const LocaleSwitchComponent = () => {
   const router = useRouter();
+  const sizes = useWindowSize();
+
   const { locales, locale: defaultLocale, pathname, asPath, query } = router;
   const [activeState, setActiveState] = useState(defaultLocale);
 
@@ -42,16 +46,23 @@ export const LocaleSwitchComponent = () => {
   return (
     <Box sx={styles.select}>
       <FormControl sx={styles.select}>
+        <TranslateIcon sx={styles.icon} />
         <Select
           sx={styles.select}
-          value={activeState}
+          value={sizes.width < 600 ? "" : activeState}
           onChange={handleChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
         >
           {locales?.map((_locale, index) => (
-            <MenuItem key={`locale-select-item-${index}`} value={_locale}>
-              {_locale === "en" ? "English" : "Türkçe"}
+            <MenuItem
+              sx={styles.menuItem}
+              key={`locale-select-item-${index}`}
+              value={_locale}
+            >
+              <Box sx={styles.option}>
+                {_locale === "en" ? "English" : "Türkçe"}
+              </Box>
             </MenuItem>
           ))}
         </Select>
@@ -63,7 +74,7 @@ export const LocaleSwitchComponent = () => {
 //#region styles
 const styles: IStyles = {
   select: (theme: Theme) => ({
-    width: "100px",
+    width: "120px",
     height: "49px",
     fontSize: "14px",
     fontWeight: "400",
@@ -72,11 +83,20 @@ const styles: IStyles = {
     color: `${theme.palette.grey[700]} !important`,
     borderRadius: "8px !important",
     [theme.breakpoints.down("sm")]: {
-      width: "50px",
+      width: "45px",
       position: "fixed",
       bottom: "30px",
       right: "10px",
     },
+  }),
+  icon: () => ({
+    position: "absolute",
+    zIndex: 2,
+    top: "25%",
+    left: "10px",
+  }),
+  option: () => ({
+    textAlign: "right",
   }),
 };
 //#endregion

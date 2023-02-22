@@ -4,7 +4,7 @@ import { FeedChannelGeneric } from "./FeedChannelGeneric";
 import { FeedChannelTeleteyit } from "./FeedChannelTeleteyit";
 import { FeedChannelSahra } from "./FeedChannelSahraKitchen";
 import { FeedChannelPharmacy } from "./FeedChannelPharmacy";
-import { Channel, ChannelData } from "@/types";
+import { ClientChannel, ChannelData } from "@/types";
 import { FeedChannelAhbap } from "./twitter/FeedChannelAhbap";
 import { FeedChannelSafePlaces } from "@/components/UI/Drawer/components/channels/FeedChannelSafePlaces";
 import { DrawerData } from "@/stores/mapStore";
@@ -54,7 +54,7 @@ const FeedContent = ({ content }: Props) => {
     return null;
   }
   const channel = isChannelExist(content.channel)
-    ? (content.channel!.toLowerCase() as Channel)
+    ? (content.channel!.toLowerCase() as ClientChannel)
     : "generic";
   // @ts-ignore: "content" parametresini tüm channel tipleriyle eşlemeye çalışıyor. Şimdilik ignore bırakıldı
   return <>{contentMapper[channel](content)}</>;

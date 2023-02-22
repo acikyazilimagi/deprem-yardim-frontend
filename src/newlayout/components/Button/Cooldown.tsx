@@ -1,21 +1,41 @@
 import { useLoading } from "@/stores/loadingStore";
+import { useEventType } from "@/stores/mapStore";
+import { EVENT_TYPES } from "@/types";
 import { Button, LinearProgress, SxProps, Theme } from "@mui/material";
 import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;
 }
 
+const scanAreaWhiteList: Partial<EVENT_TYPES[]> = ["moveend", "zoomend"];
+
 export const CooldownButtonComponent = () => {
   const { t } = useTranslation("home");
   const { loading } = useLoading();
+  const eventType = useEventType();
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const refetch = () =>
+  useEffect(() => {
+    if (!scanAreaWhiteList.includes(eventType)) return;
+
+    setIsDisabled(false);
+  }, [eventType]);
+
+  const refetch = () => {
+    setIsDisabled(true);
     mutate((key) => Array.isArray(key) && key[0] == "areas");
+  };
 
   return (
-    <Button sx={styles.button} variant="contained" onClick={refetch}>
+    <Button
+      sx={styles.button}
+      variant="contained"
+      onClick={refetch}
+      disabled={isDisabled}
+    >
       {t("scanner.text")}
       {loading ? <LinearProgress sx={styles.progress} /> : null}
     </Button>

@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { TwitterDataProperties } from "@/types";
+import { TwitterDataProperties } from "@/services/responses/twitter";
 import { capitalize, Chip } from "@mui/material";
 import { isNaN } from "@/utils/helpers";
 
@@ -41,9 +41,11 @@ const PlaceholderTweet = ({ source, reason }: Props) => {
         <Typography style={styles.fullText}>{source.full_text}</Typography>
         <div style={styles.chipContainer}>
           {!isNaN(reason) &&
-            reasons.map((reason, i) => (
-              <Chip style={styles.chip} key={i} label={reason} color="info" />
-            ))}
+            reasons
+              .filter((item) => item.toLowerCase() !== "alakasiz")
+              .map((reason, i) => (
+                <Chip style={styles.chip} key={i} label={reason} color="info" />
+              ))}
         </div>
       </div>
     </>
