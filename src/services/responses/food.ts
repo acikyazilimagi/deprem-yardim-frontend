@@ -34,7 +34,7 @@ export const transformFoodResponse: RT<FoodResponse, FoodData> = (res) => {
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: res.extraParams?.icon ?? null,
+      icon: "images/icon-21.png",
       reason: res.reason ?? null,
     },
     reference: res.entry_id ?? null,
