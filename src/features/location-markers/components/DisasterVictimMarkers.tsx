@@ -13,8 +13,6 @@ type Props = {
   onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
 export const DisasterVictimMarkers = ({ onMarkerClick }: Props) => {
-  // const { t } = useTranslation("home");
-
   // data fetching, maybe refactor out into a hook?
   const router = useRouter();
   const { apiClient } = useSingletonsStore();
