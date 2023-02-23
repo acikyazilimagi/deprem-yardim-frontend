@@ -37,7 +37,6 @@ interface INHome {
 const NHome = (props: INHome) => {
   const { copyToClipBoard } = useCopyToClipboard();
 
-  const [reasons] = useState(() => props.reasons);
   const [locations, setLocations] = useState<ChannelData[]>(() => []);
 
   return (
@@ -45,11 +44,7 @@ const NHome = (props: INHome) => {
       <HeadWithMeta singleItemDetail={props.apiResponse} />
       <main id="new-layout">
         <UIElementsOverlay />
-        <MapContent
-          reasons={reasons}
-          locations={locations}
-          setLocations={setLocations}
-        />
+        <MapContent locations={locations} setLocations={setLocations} />
         <Drawer
           data={props.channel}
           onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}

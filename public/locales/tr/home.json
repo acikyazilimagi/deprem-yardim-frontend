@@ -4,9 +4,11 @@
   },
   "filter": {
     "title": "Filtre",
+    "disasterVictimTitle": "Afetzede Bul",
     "servicesTitle": "Hizmetler",
     "helpRequestTitle": "Yardım Talepleri",
     "reasonsTitle": "İhtiyaçlar",
+    "timestampTitle": "Zaman aralığı",
     "channels": {
       "all": "Tüm kanallar",
       "twitter": "Sosyal medya",
@@ -27,6 +29,17 @@
       "su": "Su",
       "yagma": "Yağma",
       "yemek": "Yemek"
+    },
+    "category": {
+      "afetzede": "Afetzede",
+      "barinma": "Barınma",
+      "elektronik": "Elektronik",
+      "yiyecek": "Yiyecek",
+      "saglik": "Sağlık",
+      "lojistik": "Lojistik",
+      "giyecek": "Giyecek",
+      "genel": "Genel",
+      "guvenlik": "Güvenlik"
     },
     "time": {
       "lastHalfHour": "Son 30 dakika",
