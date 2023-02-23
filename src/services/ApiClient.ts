@@ -128,3 +128,20 @@ const reasons = [
 ] as const;
 
 type Reason = (typeof reasons)[number];
+
+export const apiServiceChannels = [
+  "ahbap_location",
+  "sicak_yemek",
+  "hastahane_locations",
+  "teleteyit",
+  "uydu",
+  "sahra_mutfak",
+  "turk_eczane",
+  "eczane_excel",
+  "guvenli_yerler_oteller",
+  "teyit_enkaz",
+  "adana_yemek",
+  "malatya_yemek",
+  "depremio",
+  "teyit_yardim",
+] as const;
