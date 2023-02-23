@@ -1,6 +1,6 @@
 import { parseChannelData } from "@/hooks/useLocation";
 import { transformers } from "@/hooks/useVerifiedLocations";
-import { APIChannel, APIResponse, ChannelData } from "@/types";
+import { APIChannel, APIResponse, ChannelData, ClientChannel } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 
 export type Bounds = {
@@ -36,9 +36,7 @@ export class ApiClient {
 
     url.search = decodeURIComponent(searchParams.toString());
 
-    const response = (await dataFetcher(url)) as {
-      results: APIResponse[];
-    };
+    const response = await dataFetcher<{ results: APIResponse[] }>(url);
 
     const data = (response.results ?? [])
       .map((item) => {
@@ -63,9 +61,7 @@ export class ApiClient {
   }
 
   async fetchLocationByID(id: number) {
-    const response = (await dataFetcher(
-      `${this.url}/feeds/${id}`
-    )) as APIResponse;
+    const response = await dataFetcher<APIResponse>(`${this.url}/feeds/${id}`);
 
     let channel: ChannelData | undefined = undefined;
     if (response.channel) {
@@ -75,24 +71,46 @@ export class ApiClient {
       });
     }
 
-    return channel ?? null;
+    return { channel: channel ?? null, _raw: response ?? null };
   }
 }
 
-const reasons = [
-  "kurtarma",
+const categories = [
+  "afetzede",
   "barinma",
   "elektronik",
+  "yiyecek",
   "saglik",
-  "yemek",
-  "su",
-  "giysi",
   "lojistik",
-  "enkaz",
+  "giyecek",
   "genel",
-  "yardim",
+  "guvenlik",
+] as const;
+
+export type DataCategory = (typeof categories)[number];
+
+export interface DataCategoryValues {
+  type: DataCategory;
+  reasons: Reason[];
+  channels: ClientChannel[];
+}
+
+const reasons = [
+  "barinma",
+  "elektronik",
+  "enkaz",
+  "erzak",
+  "genel",
+  "giysi",
   "guvenli-noktalar",
   "hayvanlar-icin-tedavi",
   "konaklama",
-  "erzak",
-];
+  "kurtarma",
+  "lojistik",
+  "saglik",
+  "su",
+  "yardim",
+  "yemek",
+] as const;
+
+type Reason = (typeof reasons)[number];
