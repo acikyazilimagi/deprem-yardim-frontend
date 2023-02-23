@@ -4,9 +4,11 @@
   },
   "filter": {
     "title": "Filter",
+    "disasterVictimTitle": "Find Disaster Victim",
     "servicesTitle": "Services",
     "helpRequestTitle": "Help Requests",
     "reasonsTitle": "Reasons",
+    "timestampTitle": "Timeframe",
     "channels": {
       "all": "All channels",
       "twitter": "Social media",
@@ -27,6 +29,17 @@
       "su": "Water",
       "yagma": "Looting",
       "yemek": "Food"
+    },
+    "category": {
+      "afetzede": "Disaster Victim",
+      "barinma": "Shelter",
+      "elektronik": "Electronics",
+      "yiyecek": "Food",
+      "saglik": "Health",
+      "lojistik": "Logistics",
+      "giyecek": "Clothes",
+      "genel": "General",
+      "guvenlik": "Security"
     },
     "time": {
       "lastHalfHour": "Last 30 minutes",

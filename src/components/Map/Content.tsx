@@ -91,16 +91,11 @@ const LayerControl = ({ locations, onMarkerClick }: LayerControlProps) => {
 };
 
 type ContentProps = {
-  reasons: string[];
   locations: ChannelData[];
   setLocations: Dispatch<SetStateAction<ChannelData[]>>;
 };
 
-export const MapContent = ({
-  reasons,
-  locations,
-  setLocations,
-}: ContentProps) => {
+export const MapContent = ({ locations, setLocations }: ContentProps) => {
   const { mapType } = useMTMLView();
   const { defaultZoom } = useDefaultZoom();
   const { defaultCenter } = useDefaultCenter();
@@ -152,7 +147,7 @@ export const MapContent = ({
         maxZoom={18}
       >
         <MapEvents setLocations={setLocations} />
-        <MapControls filters={{ reasons }} />
+        <MapControls />
         <TileLayer url={baseMapUrl} />
         <LayerControl locations={locations} onMarkerClick={onMarkerClick} />
       </Map>
