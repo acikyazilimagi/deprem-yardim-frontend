@@ -23,8 +23,6 @@ export const useMapEvents = () => {
   const router = useRouter();
   const { setPopUpData, setEventType } = useMapActions();
   const { setCoordinates } = useURLActions();
-  const id = router.query["id"];
-  const reasons = router.query["reasons"] as string | undefined;
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
@@ -50,18 +48,11 @@ export const useMapEvents = () => {
       const _lng = localCoordinates.getCenter().lng;
       const _zoomLevel = zoomLevel;
 
-      const locationWithZoomLevel = new URLSearchParams();
-      locationWithZoomLevel.append("lat", _lat.toString());
-      locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
-      if (id) {
-        locationWithZoomLevel.append("id", id.toString());
-      }
-      if (reasons) {
-        locationWithZoomLevel.append("reasons", reasons.toString());
-      }
-      const query = locationWithZoomLevel.toString();
-
+      const queryParams = new Map<string, string>();
+      queryParams.set("lat", _lat.toString());
+      queryParams.set("lng", _lng.toString());
+      queryParams.set("zoom", _zoomLevel.toString());
+      const query = { ...router.query, ...Object.fromEntries(queryParams) };
       router.push({ query }, { query }, { shallow: true });
     },
     100
