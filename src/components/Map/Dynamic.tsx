@@ -17,9 +17,11 @@ const Map = ({ children, className, ...rest }: MapProps) => {
       // @ts-ignore
       delete Leaflet.Icon.Default.prototype._getIconUrl;
       Leaflet.Icon.Default.mergeOptions({
-        iconRetinaUrl: "/leaflet/images/marker-icon-2x.webp",
-        iconUrl: "/leaflet/images/marker-icon.webp",
-        shadowUrl: "/leaflet/images/marker-shadow.webp",
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        iconRetinaUrl: "/images/icon-generic.png",
+        iconUrl: "/images/icon-generic.png",
+        shadowUrl: "",
       });
     })();
   }, []);
