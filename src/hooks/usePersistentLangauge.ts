@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const ONE_DAY = 24 * 7;
 
-function usePersistentLanguage(expiresIn: number = ONE_DAY) {
+export function usePersistentLanguage(expiresIn: number = ONE_DAY) {
   const router = useRouter();
 
   useEffect(() => {
@@ -16,5 +16,3 @@ function usePersistentLanguage(expiresIn: number = ONE_DAY) {
     }
   }, [expiresIn, router.locale]);
 }
-
-export { usePersistentLanguage };

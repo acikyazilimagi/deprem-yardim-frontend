@@ -4,7 +4,6 @@ import {
   BabalaData,
   TeleteyitData,
   SatelliteData,
-  SahraData,
   PharmacyData,
   FoodData,
   SafePlaceData,
@@ -29,6 +28,8 @@ export type APIChannel =
   | "twitter"
   | "teyit_enkaz"
   | "babala"
+  | "adana_yemek"
+  | "malatya_yemek"
   | "depremio"
   | "teyit_yardim";
 
@@ -39,7 +40,6 @@ export type ClientChannel =
   | "yemek"
   | "teleteyit"
   | "uydu"
-  | "sahra"
   | "eczane"
   | "guvenli"
   | "hastane";
@@ -87,12 +87,10 @@ export type DataProperties =
   | AhbapData
   | TeleteyitData
   | SatelliteData
-  | SahraData
   | PharmacyData
   | SafePlaceData
   | FoodData
   | HospitalData
-  | TeyitEnkazData
   | DepremIOData
   | TeyitYardimData
   | TeyitEnkazData;
@@ -101,12 +99,6 @@ export type ChannelData = DataProperties & {
   reference?: number | null;
   closeByRecords?: number[];
   isVisited?: boolean;
-};
-
-// UNUSED?
-export type DataLite = {
-  count: number;
-  results: APIResponse[];
 };
 
 export type MarkerVisited = {

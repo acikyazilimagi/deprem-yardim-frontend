@@ -2,11 +2,11 @@ import {
   DEFAULT_CENTER,
   localStorageKeys,
   safeGetLocalStorage,
-} from "@/components/UI/Map/utils";
+} from "@/components/Map/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function useDefaultCenter() {
+export function useDefaultCenter() {
   const [defaultCenter, setDefaultCenter] = useState(DEFAULT_CENTER);
 
   const router = useRouter();

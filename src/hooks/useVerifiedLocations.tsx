@@ -1,6 +1,6 @@
 import { useChannelFilterMenuOption } from "@/stores/urlStore";
 import { APIChannel, RT } from "@/types";
-import useLocation from "./useLocation";
+import { useLocation } from "./useLocation";
 
 import {
   transformFoodResponse,
@@ -9,7 +9,6 @@ import {
   transformHospitalResponse,
   transformTeleteyitResponse,
   transformSatelliteResponse,
-  transformSahraResponse,
   transformPharmacyResponse,
   transformSafePlaceResponse,
   transformTwitterResponse,
@@ -23,7 +22,7 @@ export const transformers: Record<APIChannel, RT> = {
   eczane_excel: transformPharmacyResponse as RT,
   guvenli_yerler_oteller: transformSafePlaceResponse as RT,
   hastahane_locations: transformHospitalResponse as RT,
-  sahra_mutfak: transformSahraResponse as RT,
+  sahra_mutfak: transformFoodResponse as RT,
   sicak_yemek: transformFoodResponse as RT,
   teleteyit: transformTeleteyitResponse as RT,
   turk_eczane: transformPharmacyResponse as RT,
@@ -33,14 +32,20 @@ export const transformers: Record<APIChannel, RT> = {
   teyit_enkaz: transformTeyitEnkazResponse as RT,
   depremio: transformDepremIOResponse as RT,
   teyit_yardim: transformTeyitYardimResponse as RT,
+  malatya_yemek: transformFoodResponse as RT,
+  adana_yemek: transformFoodResponse as RT,
 };
 
 export function useVerifiedLocations() {
   const channelFilter = useChannelFilterMenuOption();
 
-  const foodLocations = useLocation(["sicak_yemek"], "yemek", {
-    transformResponse: transformFoodResponse as RT,
-  });
+  const foodLocations = useLocation(
+    ["sicak_yemek", "adana_yemek", "malatya_yemek", "sahra_mutfak"],
+    "yemek",
+    {
+      transformResponse: transformFoodResponse as RT,
+    }
+  );
 
   const ahbapLocations = useLocation(["ahbap_location"], "ahbap", {
     transformResponse: transformAhbapResponse as RT,
@@ -56,10 +61,6 @@ export function useVerifiedLocations() {
 
   const satelliteLocations = useLocation(["uydu"], "uydu", {
     transformResponse: transformSatelliteResponse as RT,
-  });
-
-  const sahraKitchenLocations = useLocation(["sahra_mutfak"], "sahra", {
-    transformResponse: transformSahraResponse as RT,
   });
 
   const pharmacyLocations = useLocation(
@@ -92,7 +93,6 @@ export function useVerifiedLocations() {
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
-    sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
   };

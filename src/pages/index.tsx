@@ -1,23 +1,22 @@
 import dynamic from "next/dynamic";
 import { Box, SxProps, Theme } from "@mui/material";
-import { HelpViewComponent } from "@/newlayout/components/UserGuide/UserGuide";
+import { HelpViewComponent } from "@/components/UserGuide/UserGuide";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
 import { APIResponse, ChannelData } from "@/types";
 import { useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
+import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
 import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
 
 const MapContent = dynamic(
-  () =>
-    import("@/newlayout/components/Map/Content").then((mod) => mod.MapContent),
+  () => import("@/components/Map/Content").then((mod) => mod.MapContent),
   { ssr: false }
 );
 
 const Drawer = dynamic(
-  () => import("@/components/UI/Drawer/NewDrawer").then((mod) => mod.Drawer),
+  () => import("@/components/Drawer/NewDrawer").then((mod) => mod.Drawer),
   { ssr: false }
 );
 // Development overlay container

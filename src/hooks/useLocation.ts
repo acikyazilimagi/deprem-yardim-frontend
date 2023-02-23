@@ -25,7 +25,7 @@ type HandleLocationResponseOptions = {
   transformResponse: RT;
 };
 
-export default function useLocation(
+export function useLocation(
   apiChannels: APIChannel[],
   channelName: ClientChannel,
   options: HandleLocationResponseOptions
