@@ -9,7 +9,7 @@ import { useLoading } from "@/stores/loadingStore";
 
 const REQUEST_DEBOUNCE_TIME = 500; //ms
 
-const useFetchLocations = (
+export const useFetchLocations = (
   updaterFunction: Dispatch<SetStateAction<ChannelData[]>>
 ) => {
   const router = useRouter();
@@ -42,5 +42,3 @@ const useFetchLocations = (
     showLoading(isLoading);
   }, [isLoading, showLoading]);
 };
-
-export { useFetchLocations };

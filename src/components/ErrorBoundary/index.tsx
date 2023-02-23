@@ -25,7 +25,7 @@ const isMaintenanceError = (error: Error): error is MaintenanceError => {
   return error.name === "Bakımdayız";
 };
 
-class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
   };
@@ -70,5 +70,3 @@ class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;

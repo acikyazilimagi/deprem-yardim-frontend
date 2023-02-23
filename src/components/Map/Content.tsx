@@ -1,5 +1,5 @@
-import useDefaultZoom from "@/hooks/useDefaultZoom";
-import useDefaultCenter from "@/hooks/useDefaultCenter";
+import { useDefaultZoom } from "@/hooks/useDefaultZoom";
+import { useDefaultCenter } from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/components/MTMLView/MTMLView";
 import { useDevice, useMapActions } from "@/stores/mapStore";
 import {
@@ -8,8 +8,8 @@ import {
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/Map/utils";
 import { CooldownButtonComponent } from "@/components/Button/Cooldown";
-import Map from "@/components/Map/Map";
-import MapControls from "./Controls/index";
+import { Map } from "@/components/Map/Map";
+import { MapControls } from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
 import { GenericClusterGroup } from "@/components/Map/Cluster/GenericClusterGroup";

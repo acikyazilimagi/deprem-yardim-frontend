@@ -36,7 +36,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { usePrevious } from "@/hooks/usePrevious";
 import { useTranslation } from "next-i18next";
-import DoubleClickStopPropagation from "@/components/DoubleClickStopPropagation";
+import { DoubleClickStopPropagation } from "@/components/DoubleClickStopPropagation";
 
 export const usePoiFilter = createUseFilter();
 // const useHelpFilter = createUseFilter(tempFilterData2);
@@ -135,7 +135,7 @@ interface IMapControlsProps {
   };
 }
 
-const MapControls = (props: IMapControlsProps) => {
+export const MapControls = (props: IMapControlsProps) => {
   const poiFilter = usePoiFilter();
   const router = useRouter();
   const { t } = useTranslation("home");
@@ -282,8 +282,6 @@ const MapControls = (props: IMapControlsProps) => {
     </DoubleClickStopPropagation>
   );
 };
-
-export default MapControls;
 
 const styles: IStyles = {
   button: (theme: Theme) => ({

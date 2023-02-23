@@ -12,12 +12,10 @@ interface MapProps extends MapOptions {
   whenReady: (map: any) => void;
 }
 
-const Map = (props: MapProps) => {
+export const Map = (props: MapProps) => {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <DynamicMap {...props} />
     </div>
   );
 };
-
-export default Map;

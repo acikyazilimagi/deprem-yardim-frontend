@@ -6,7 +6,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function useDefaultCenter() {
+export function useDefaultCenter() {
   const [defaultCenter, setDefaultCenter] = useState(DEFAULT_CENTER);
 
   const router = useRouter();

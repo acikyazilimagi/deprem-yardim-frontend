@@ -69,7 +69,7 @@ interface Props {
   drawerData: NonNullable<DrawerData>;
 }
 
-export default function MapButtons({ drawerData }: Props) {
+export function MapButtons({ drawerData }: Props) {
   const { t } = useTranslation("home");
   return (
     <div className={styles.contentButtons}>
