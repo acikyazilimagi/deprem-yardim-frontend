@@ -71,11 +71,11 @@ export async function getServerSideProps(context: any) {
   let channel: ChannelData | null = null;
   let apiResponse: APIResponse | null = null;
   if (context.query.id) {
-    apiResponse = (await dataFetcher(
-      `${BASE_URL}/feeds/${context.query.id}`
-    )) as APIResponse;
-    channel = await client.fetchLocationByID(context.query.id);
-    if (!channel) {
+    const response = await client.fetchLocationByID(context.query.id);
+    channel = response.channel;
+    apiResponse = response._raw;
+
+    if (!response.channel) {
       searchParams.delete("id");
       redirect = true;
     }
