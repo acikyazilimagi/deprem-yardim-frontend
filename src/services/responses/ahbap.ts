@@ -33,7 +33,7 @@ export const transformAhbapResponse: RT<AhbapResponse, AhbapData> = (res) => {
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: res.extraParams?.icon ?? null,
+      icon: "images/icon-ahbap.png",
     },
     reference: res.entry_id ?? null,
   };

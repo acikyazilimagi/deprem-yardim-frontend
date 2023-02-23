@@ -36,7 +36,7 @@ export const transformTeyitYardimResponse: RT<
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: null,
+      icon: "images/icon-yardim.png",
     },
     reference: res.entry_id ?? null,
   };

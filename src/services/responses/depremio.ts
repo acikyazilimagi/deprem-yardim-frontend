@@ -35,7 +35,7 @@ export const transformDepremIOResponse: RT<DepremIOResponse, DepremIOData> = (
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: null,
+      icon: "images/icon-deprem.io.png",
     },
     reference: res.entry_id ?? null,
   };
