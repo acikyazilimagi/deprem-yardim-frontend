@@ -29,12 +29,14 @@ import { LayerButton } from "./LayerButton";
 import { useHelpView } from "../../UserGuide/UserGuide";
 import { useTranslation } from "next-i18next";
 import { DoubleClickStopPropagation } from "@/components/DoubleClickStopPropagation";
-import { FilterDisasterVictim } from "@/features/location-filters/components/FilterDisasterVictim";
-import { FilterHelpRequest } from "@/features/location-filters/components/FilterHelpRequest";
-import { FilterService } from "@/features/location-filters/components/FilterService";
-import { useDisasterVictimFilter } from "@/features/location-filters/stores/useDisasterVictimFilter";
-import { useHelpRequestFilter } from "@/features/location-filters/stores/useHelpRequestFilter";
-import { useServiceFilter } from "@/features/location-filters/stores/useServiceFilter";
+import {
+  FilterDisasterVictim,
+  FilterHelpRequest,
+  FilterService,
+  useDisasterVictimFilter,
+  useHelpRequestFilter,
+  useServiceFilter,
+} from "@/features/location-categories";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",

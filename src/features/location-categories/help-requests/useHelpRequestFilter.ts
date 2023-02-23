@@ -17,7 +17,10 @@ interface State {
   };
 }
 
-export const filters = omit(categoryFilters, "afetzede") as HelpRequestFilters;
+export const helpRequestFilters = omit(
+  categoryFilters,
+  "afetzede"
+) as HelpRequestFilters;
 
 export const useHelpRequestFilter = create<State>()((set) => ({
   isOpen: false,

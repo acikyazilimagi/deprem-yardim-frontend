@@ -1,10 +1,10 @@
 import { Filter } from "@/components/Filter/Filter";
 import { FilterHeader } from "@/components/Filter/FilterHeader";
-import { useDisasterVictimFilter } from "../stores/useDisasterVictimFilter";
 import { useTranslation } from "next-i18next";
 import { FilterControl } from "@/components/Filter/FilterControl";
 import { FilterOptions } from "@/utils/filterTime";
 import { MenuItem } from "@mui/material";
+import { useDisasterVictimFilter } from "./useDisasterVictimFilter";
 
 export const FilterDisasterVictim = () => {
   const { t } = useTranslation("home");

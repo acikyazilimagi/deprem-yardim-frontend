@@ -2,18 +2,18 @@ import { Filter } from "@/components/Filter/Filter";
 import { FilterHeader } from "@/components/Filter/FilterHeader";
 import { useTranslation } from "next-i18next";
 import { FilterControl } from "@/components/Filter/FilterControl";
-import { FilterOptions, TimeOption } from "@/utils/filterTime";
 import { MenuItem } from "@mui/material";
 import {
-  useHelpRequestFilter,
-  filters as helpRequestFilters,
-  HelpRequestCategory,
-} from "../stores/useHelpRequestFilter";
+  useServiceFilter,
+  serviceCategories as serviceCategories,
+  ServiceCategory,
+} from "./useServiceFilter";
 
-export const FilterHelpRequest = () => {
+export const FilterService = () => {
   const { t } = useTranslation("home");
-  const { selectedTime, isOpen, actions, selectedCategories } =
-    useHelpRequestFilter();
+  const { isOpen, actions, selectedCategories } = useServiceFilter();
+
+  console.log({ selectedCategories });
 
   if (!isOpen) {
     return null;
@@ -24,7 +24,7 @@ export const FilterHelpRequest = () => {
       isOpen={isOpen}
       header={
         <FilterHeader
-          title={t("filter.helpRequestTitle")}
+          title={t("filter.servicesTitle")}
           onClose={() => {
             actions.setIsOpen(false);
           }}
@@ -36,35 +36,18 @@ export const FilterHelpRequest = () => {
         value={selectedCategories}
         label={t("filter.reasonsTitle")}
         onChange={(_e, selectedCategories) => {
+          console.log({ selectedCategories });
           if (Array.isArray(selectedCategories)) {
             actions.setSelectedCategories(
-              selectedCategories as HelpRequestCategory[]
+              selectedCategories as ServiceCategory[]
             );
           }
         }}
       >
-        {Object.entries(helpRequestFilters).map(([key, option]) => {
+        {Object.entries(serviceCategories).map(([key, option]) => {
           return (
             <MenuItem key={key} value={option.type}>
               {t(`filter.category.${option.type}`)}
-            </MenuItem>
-          );
-        })}
-      </FilterControl>
-
-      <FilterControl
-        value={selectedTime}
-        label={t("filter.timestampTitle")}
-        onChange={(_e, [selected]) => {
-          if (typeof selected === "string") {
-            actions.setTimestamp(selected as TimeOption);
-          }
-        }}
-      >
-        {FilterOptions.map((option, idx) => {
-          return (
-            <MenuItem key={idx} value={option.value}>
-              {t(`filter.time.${option.label}`)}
             </MenuItem>
           );
         })}

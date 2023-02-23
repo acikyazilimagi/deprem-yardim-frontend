@@ -14,7 +14,10 @@ interface State {
   };
 }
 
-export const filters = omit(categoryFilters, "afetzede") as ServiceFilters;
+export const serviceCategories = omit(
+  categoryFilters,
+  "afetzede"
+) as ServiceFilters;
 
 export const useServiceFilter = create<State>()((set) => ({
   isOpen: false,

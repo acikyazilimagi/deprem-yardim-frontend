@@ -75,26 +75,6 @@ export class ApiClient {
   }
 }
 
-const categories = [
-  "afetzede",
-  "barinma",
-  "elektronik",
-  "yiyecek",
-  "saglik",
-  "lojistik",
-  "giyecek",
-  "genel",
-  "guvenlik",
-] as const;
-
-export type DataCategory = (typeof categories)[number];
-
-export interface DataCategoryValues {
-  type: DataCategory;
-  reasons: Reason[];
-  channels: ClientChannel[];
-}
-
 const reasons = [
   "barinma",
   "elektronik",
@@ -113,4 +93,4 @@ const reasons = [
   "yemek",
 ] as const;
 
-type Reason = (typeof reasons)[number];
+export type Reason = (typeof reasons)[number];
