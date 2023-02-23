@@ -81,12 +81,6 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
-  if (context.query.reasons === "" || !context.query.reasons) {
-    searchParams.delete("reasons");
-    searchParams.append("reasons", reasons.join(","));
-    redirect = true;
-  }
-
   if (redirect) {
     return {
       redirect: {
