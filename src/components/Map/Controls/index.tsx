@@ -28,7 +28,7 @@ import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
 import { useHelpView } from "../../UserGuide/UserGuide";
 import { useTranslation } from "next-i18next";
-import DoubleClickStopPropagation from "@/components/DoubleClickStopPropagation";
+import { DoubleClickStopPropagation } from "@/components/DoubleClickStopPropagation";
 import { FilterDisasterVictim } from "@/features/location-filters/components/FilterDisasterVictim";
 import { FilterHelpRequest } from "@/features/location-filters/components/FilterHelpRequest";
 import { FilterService } from "@/features/location-filters/components/FilterService";
@@ -123,7 +123,7 @@ const HelpViewControl = () => {
   );
 };
 
-const MapControls = () => {
+export const MapControls = () => {
   const { t } = useTranslation("home");
 
   const disasterVictimFilter = useDisasterVictimFilter();
@@ -212,8 +212,6 @@ const MapControls = () => {
     </DoubleClickStopPropagation>
   );
 };
-
-export default MapControls;
 
 const styles: IStyles = {
   button: (theme: Theme) => ({

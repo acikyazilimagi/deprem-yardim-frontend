@@ -8,7 +8,7 @@ import { useDevice } from "@/stores/mapStore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-export default function useDefaultZoom() {
+export function useDefaultZoom() {
   const [defaultZoom, setDefaultZoom] = useState(DEFAULT_ZOOM);
 
   const device = useDevice();

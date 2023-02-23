@@ -41,4 +41,4 @@ const useSnackbarHook = () => {
   };
 };
 
-export default useSnackbarHook;
+export { useSnackbarHook };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import TweetEmbed from "react-tweet-embed";
-import PlaceholderTweet from "./PlaceholderTweet";
+import { PlaceholderTweet } from "./PlaceholderTweet";
 import { TwitterDataProperties } from "@/services/responses/twitter";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   source: TwitterDataProperties;
 };
 
-const EmbedTweet = ({ source, reason }: Props) => {
+export const EmbedTweet = ({ source, reason }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReadyForRender, setIsReadyForRender] = useState(false);
 
@@ -38,5 +38,3 @@ const EmbedTweet = ({ source, reason }: Props) => {
     </>
   );
 };
-
-export default EmbedTweet;

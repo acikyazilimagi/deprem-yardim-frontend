@@ -22,4 +22,4 @@ const DoubleClickStopPropagation = ({
   );
 };
 
-export default DoubleClickStopPropagation;
+export { DoubleClickStopPropagation };

@@ -1,4 +1,4 @@
-import useSnackbarHook from "@/components/Snackbar/useSnackbar";
+import { useSnackbarHook } from "@/components/Snackbar/useSnackbar";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { CopyAll } from "@mui/icons-material";
 import { Button } from "@mui/material";
@@ -7,11 +7,11 @@ import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { FeedChannelTwitterProps } from "../../../types";
-import EmbedTweet from "./EmbedTweet";
+import { EmbedTweet } from "./EmbedTweet";
 import styles from "./FeedChannelTwitter.module.css";
-import PlaceholderTweet from "./PlaceholderTweet";
+import { PlaceholderTweet } from "./PlaceholderTweet";
 
-const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
+export const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
   const { t } = useTranslation("home");
   const [showSavedData, setShowSavedData] = useState(true);
   const { enqueueInfo } = useSnackbarHook();
@@ -60,5 +60,3 @@ const FeedChannelTwitter = ({ properties }: FeedChannelTwitterProps) => {
     </div>
   );
 };
-
-export default FeedChannelTwitter;
