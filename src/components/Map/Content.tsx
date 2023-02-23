@@ -12,7 +12,6 @@ import { Map } from "@/components/Map/Map";
 import { MapControls } from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
-import { GenericClusterGroup } from "@/components/Map/Cluster/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
@@ -23,6 +22,7 @@ import { latLng, latLngBounds } from "leaflet";
 import { useFetchLocations } from "@/hooks/useFetchLocations";
 import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
 import { MapLayer } from "../MTMLView/types";
+import { MarkerLayer } from "@/features/location-markers/components/MarkerLayer";
 const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
 
 type EventProps = {
@@ -78,13 +78,7 @@ const LayerControl = ({ locations, onMarkerClick }: LayerControlProps) => {
             />
           );
         }
-        return (
-          <GenericClusterGroup
-            key={idx}
-            data={locations}
-            onMarkerClick={onMarkerClick}
-          />
-        );
+        return <MarkerLayer key={idx} onMarkerClick={onMarkerClick} />;
       })}
     </>
   );
