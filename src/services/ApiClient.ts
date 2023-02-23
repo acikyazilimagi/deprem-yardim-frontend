@@ -10,13 +10,29 @@ export type Bounds = {
   sw_lng: string;
 };
 
-type FetchAreasOptions = {
+export type FetchAreasOptions = {
   reasons: string;
+  channels?: string;
   bound?: Bounds;
+  timestamp?: string;
 };
 
 type ApiClientProps = {
   url: string;
+};
+
+const parseResults = (results: APIResponse[]) => {
+  const data = (results ?? [])
+    .map((item) => {
+      const transformResponse = transformers[item.channel] ?? null;
+      // @ts-ignore
+      if (transformResponse) {
+        return parseChannelData(item, { transformResponse });
+      }
+    })
+    .filter(Boolean) as ChannelData[];
+
+  return data;
 };
 
 export class ApiClient {
@@ -25,30 +41,28 @@ export class ApiClient {
   constructor(props: ApiClientProps) {
     this.url = props.url;
   }
-
+  // dvf_t, hrf_t, hrf_c, sf_c
   async fetchAreas(options: FetchAreasOptions) {
     const url = new URL(this.url + "/feeds/areas");
+    // TODO: refactor out into a util function (maybe take a function that returns the params and call it below)
     const searchParams = new URLSearchParams({
       reason: options.reasons,
       ...options.bound,
       extraParams: "true",
     });
+    if (options.channels && options.channels.length > 0) {
+      searchParams.set("channel", options.channels);
+    }
+
+    if (options.timestamp && parseInt(options.timestamp) > 0) {
+      searchParams.set("time_stamp", options.timestamp);
+    }
 
     url.search = decodeURIComponent(searchParams.toString());
 
     const response = await dataFetcher<{ results: APIResponse[] }>(url);
 
-    const data = (response.results ?? [])
-      .map((item) => {
-        const transformResponse = transformers[item.channel] ?? null;
-        // @ts-ignore
-        if (transformResponse) {
-          return parseChannelData(item, { transformResponse });
-        }
-      })
-      .filter(Boolean) as ChannelData[];
-
-    return data;
+    return parseResults(response.results);
   }
 
   async fetchReasons() {

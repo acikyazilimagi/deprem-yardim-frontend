@@ -2,7 +2,7 @@ import { Filter } from "@/components/Filter/Filter";
 import { FilterHeader } from "@/components/Filter/FilterHeader";
 import { useTranslation } from "next-i18next";
 import { FilterControl } from "@/components/Filter/FilterControl";
-import { FilterOptions, TimeOption } from "@/utils/filterTime";
+import { FilterOptions } from "@/utils/filterTime";
 import { MenuItem } from "@mui/material";
 import {
   useHelpRequestFilter,
@@ -12,7 +12,7 @@ import {
 
 export const FilterHelpRequest = () => {
   const { t } = useTranslation("home");
-  const { selectedTime, isOpen, actions, selectedCategories } =
+  const { timestamp, isOpen, actions, selectedCategories } =
     useHelpRequestFilter();
 
   if (!isOpen) {
@@ -52,18 +52,16 @@ export const FilterHelpRequest = () => {
         })}
       </FilterControl>
 
-      <FilterControl
-        value={selectedTime}
+      <FilterControl<number>
+        value={timestamp ?? 0}
         label={t("filter.timestampTitle")}
-        onChange={(_e, [selected]) => {
-          if (typeof selected === "string") {
-            actions.setTimestamp(selected as TimeOption);
-          }
+        onChange={(_e, selected) => {
+          actions.setTimestamp(selected);
         }}
       >
         {FilterOptions.map((option, idx) => {
           return (
-            <MenuItem key={idx} value={option.value}>
+            <MenuItem key={idx} value={option.inMilliseconds}>
               {t(`filter.time.${option.label}`)}
             </MenuItem>
           );

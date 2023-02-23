@@ -1,6 +1,7 @@
 import omit from "lodash.omit";
 import { create } from "zustand";
 import { categoryFilters } from "../category-filters";
+import Router from "next/router";
 
 export type ServiceFilters = Omit<typeof categoryFilters, "afetzede">;
 export type ServiceCategory = keyof ServiceFilters;
@@ -20,8 +21,15 @@ export const useServiceFilter = create<State>()((set) => ({
   isOpen: false,
   selectedCategories: ["barinma"],
   actions: {
-    setSelectedCategories: (selectedCategories) =>
-      set(() => ({ selectedCategories })),
+    setSelectedCategories: (selectedCategories) => {
+      // TODO: refactor out into a util function
+      const query = {
+        ...Router.query,
+        sf_c: selectedCategories.join(","),
+      };
+      Router.push({ query }, { query }, { shallow: true });
+      set(() => ({ selectedCategories }));
+    },
     setIsOpen: (isOpen) => set(() => ({ isOpen })),
   },
 }));

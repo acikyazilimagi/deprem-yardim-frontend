@@ -7,23 +7,24 @@ import {
 } from "@mui/material";
 import { PropsWithChildren } from "react";
 
-type Props = Pick<SelectProps<any>, "multiple" | "label" | "value" | "name"> & {
-  selected?: string[];
-  onChange: (_event: SelectChangeEvent, _selected: string[]) => void;
+type Props<TSelect = string> = Pick<
+  SelectProps<any>,
+  "multiple" | "label" | "value" | "name"
+> & {
+  selected?: TSelect;
+  onChange: (_event: SelectChangeEvent<TSelect>, _selected: TSelect) => void;
 };
 
 const labelID = () => `filter-control-${Date.now()}`;
 
-export const FilterControl = (props: PropsWithChildren<Props>) => {
+export const FilterControl = <TSelect = string,>(
+  props: PropsWithChildren<Props<TSelect>>
+) => {
   const domID = labelID();
 
-  const onChange = (event: SelectChangeEvent) => {
+  const onChange = (event: SelectChangeEvent<TSelect>) => {
     const { value } = event.target;
-    console.log("original onChange event", value);
-    const values = typeof value === "string" ? value.split(",") : value;
-    if (values.length > 0) {
-      props.onChange(event, values);
-    }
+    props.onChange(event, value as TSelect);
   };
 
   return (

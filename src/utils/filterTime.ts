@@ -65,5 +65,9 @@ export const computeTimestamp = (option: FilterOption): number => {
   const pastTimestampInMillis =
     currentTimestampInMillis - option.inMilliseconds;
   const pastTimestampInSeconds = Math.floor(pastTimestampInMillis / 1000);
-  return Math.floor(pastTimestampInSeconds);
+  return pastTimestampInSeconds;
+};
+
+export const dateDifferenceSeconds = (date1: number, date2: number) => {
+  return Math.floor((date1 - date2) / 1000);
 };

@@ -26,13 +26,11 @@ export const FilterDisasterVictim = () => {
         />
       }
     >
-      <FilterControl
+      <FilterControl<number>
         value={timestamp ?? 0}
         label={t("filter.timestampTitle")}
         onChange={(_e, selected) => {
-          if (typeof selected === "string") {
-            actions.setTimestamp(Date.now() - parseInt(selected));
-          }
+          actions.setTimestamp(selected);
         }}
       >
         {FilterOptions.map((option) => {
