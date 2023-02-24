@@ -42,6 +42,7 @@ export const transformBabalaResponse: RT<BabalaResponse, BabalaData> = (
       formatted_address: res.formatted_address,
       name: res.extraParams?.name ?? null,
       description: null,
+      icon: "images/icon-babala.png",
     },
     geometry: createGeometry(res),
     reference: res.entry_id ?? null,

@@ -34,6 +34,7 @@ export const transformTwitterResponse: RT<TwitterResponse, TwitterData> = (
   return {
     channel: "twitter",
     properties: {
+      icon: "images/icon-twitter.png",
       full_text: res.full_text ?? "",
       reason: res.reason ?? null,
       screen_name: res.extraParams?.screen_name ?? null,

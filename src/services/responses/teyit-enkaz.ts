@@ -37,7 +37,7 @@ export const transformTeyitEnkazResponse: RT<
       name: res.extraParams?.name ?? null,
       description: res.extraParams?.description ?? null,
       type: res.extraParams?.styleUrl ?? null,
-      icon: null, // TODO: fix this after we have an icon
+      icon: "images/icon-enkaz.png",
     },
     reference: res.entry_id ?? null,
   };
