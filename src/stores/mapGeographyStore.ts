@@ -3,14 +3,15 @@ import { getHashStorage } from "@/utils/zustand";
 import omit from "lodash.omit";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { DEFAULT_CENTER } from "../components/Map/utils";
 
 type Coordinates = { lat: number; lng: number };
 
 interface State {
-  coordinates: Coordinates | null;
+  coordinates: Coordinates;
   zoom: number;
   actions: {
-    setCoordinates: (_data: Coordinates | null) => void;
+    setCoordinates: (_data: Coordinates) => void;
     setZoom: (_zoom: number) => void;
   };
 }
@@ -18,7 +19,10 @@ interface State {
 export const useMapGeographyStore = create<State>()(
   persist(
     (set) => ({
-      coordinates: null,
+      coordinates: {
+        lat: DEFAULT_CENTER[0],
+        lng: DEFAULT_CENTER[1],
+      },
       zoom: DEFAULT_ZOOM,
       actions: {
         setCoordinates: (coordinates) => set(() => ({ coordinates })),

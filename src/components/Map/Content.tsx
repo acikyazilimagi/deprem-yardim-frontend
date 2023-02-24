@@ -1,5 +1,3 @@
-import { useDefaultZoom } from "@/hooks/useDefaultZoom";
-import { useDefaultCenter } from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/components/MTMLView/MTMLView";
 import { useDevice, useMapActions } from "@/stores/mapStore";
 import {
@@ -31,8 +29,7 @@ const MapEvents = () => {
 
 export const MapContent = () => {
   const { mapType } = useMTMLView();
-  const { defaultZoom } = useDefaultZoom();
-  const { defaultCenter } = useDefaultCenter();
+  const { coordinates, zoom } = useMapGeographyStore();
   const { actions } = useMapGeographyStore();
   const { setEventType } = useMapActions();
   const device = useDevice();
@@ -63,8 +60,8 @@ export const MapContent = () => {
       <Map
         zoomControl={false}
         attributionControl={false}
-        center={defaultCenter}
-        zoom={defaultZoom}
+        center={coordinates}
+        zoom={zoom}
         minZoom={
           device === "desktop"
             ? DEFAULT_MIN_ZOOM_DESKTOP
