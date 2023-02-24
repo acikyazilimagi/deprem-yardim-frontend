@@ -1,30 +1,17 @@
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
-  SelectProps,
-} from "@mui/material";
+import { FormControl, InputLabel, Select, SelectProps } from "@mui/material";
 import { PropsWithChildren } from "react";
 
-type Props = Pick<SelectProps<any>, "multiple" | "label" | "value" | "name"> & {
+type Props = Pick<
+  SelectProps<any>,
+  "multiple" | "label" | "value" | "name" | "onChange"
+> & {
   selected?: string[];
-  onChange: (_event: SelectChangeEvent, _selected: string[]) => void;
 };
 
 const labelID = () => `filter-control-${Date.now()}`;
 
 export const FilterControl = (props: PropsWithChildren<Props>) => {
   const domID = labelID();
-
-  const onChange = (event: SelectChangeEvent) => {
-    const { value } = event.target;
-    console.log("original onChange event", value);
-    const values = typeof value === "string" ? value.split(",") : value;
-    if (values.length > 0) {
-      props.onChange(event, values);
-    }
-  };
 
   return (
     <FormControl>
@@ -36,7 +23,7 @@ export const FilterControl = (props: PropsWithChildren<Props>) => {
         id={props.name}
         label={props.label}
         name={props.name}
-        onChange={onChange}
+        onChange={props.onChange}
       >
         {props.children}
       </Select>

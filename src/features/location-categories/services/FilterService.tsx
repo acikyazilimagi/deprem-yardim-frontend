@@ -2,7 +2,7 @@ import { Filter } from "@/components/Filter/Filter";
 import { FilterHeader } from "@/components/Filter/FilterHeader";
 import { useTranslation } from "next-i18next";
 import { FilterControl } from "@/components/Filter/FilterControl";
-import { MenuItem } from "@mui/material";
+import { MenuItem, SelectChangeEvent } from "@mui/material";
 import {
   useServiceFilter,
   serviceCategories as serviceCategories,
@@ -35,12 +35,10 @@ export const FilterService = () => {
         multiple
         value={selectedCategories}
         label={t("filter.reasonsTitle")}
-        onChange={(_e, selectedCategories) => {
-          console.log({ selectedCategories });
-          if (Array.isArray(selectedCategories)) {
-            actions.setSelectedCategories(
-              selectedCategories as ServiceCategory[]
-            );
+        onChange={(event: SelectChangeEvent<ServiceCategory[]>) => {
+          const { value } = event.target;
+          if (Array.isArray(value) && value.length > 0) {
+            actions.setSelectedCategories(value);
           }
         }}
       >

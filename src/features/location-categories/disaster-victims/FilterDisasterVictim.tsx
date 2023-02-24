@@ -3,7 +3,7 @@ import { FilterHeader } from "@/components/Filter/FilterHeader";
 import { useTranslation } from "next-i18next";
 import { FilterControl } from "@/components/Filter/FilterControl";
 import { FilterOptions } from "@/utils/filterTime";
-import { MenuItem } from "@mui/material";
+import { MenuItem, SelectChangeEvent } from "@mui/material";
 import { useDisasterVictimFilter } from "./useDisasterVictimFilter";
 
 export const FilterDisasterVictim = () => {
@@ -29,9 +29,10 @@ export const FilterDisasterVictim = () => {
       <FilterControl
         value={timestamp ?? 0}
         label={t("filter.timestampTitle")}
-        onChange={(_e, selected) => {
-          if (typeof selected === "string") {
-            actions.setTimestamp(Date.now() - parseInt(selected));
+        onChange={(event: SelectChangeEvent<number>) => {
+          const { value } = event.target;
+          if (typeof value === "number") {
+            actions.setTimestamp(value);
           }
         }}
       >

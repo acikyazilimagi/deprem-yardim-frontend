@@ -1,5 +1,4 @@
 import { Reason } from "@/services/ApiClient";
-import { ClientChannel } from "@/types";
 
 const categories = [
   "afetzede",
@@ -18,5 +17,4 @@ export type LocationCategory = (typeof categories)[number];
 export interface LocationCategoryConfig {
   type: LocationCategory;
   reasons: Reason[];
-  channels: ClientChannel[];
 }

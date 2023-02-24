@@ -1,7 +1,10 @@
 import omit from "lodash.omit";
 import { create } from "zustand";
-import { FilterOptions, TimeOption } from "@/utils/filterTime";
+import { FilterOptions } from "@/utils/filterTime";
 import { categoryFilters } from "../category-filters";
+import { APIChannel } from "@/types";
+import { getHashStorage } from "@/utils/zustand";
+import { persist } from "zustand/middleware";
 
 export type HelpRequestFilters = Omit<typeof categoryFilters, "afetzede">;
 export type HelpRequestCategory = keyof HelpRequestFilters;
@@ -9,27 +12,34 @@ export type HelpRequestCategory = keyof HelpRequestFilters;
 interface State {
   isOpen: boolean;
   selectedCategories: HelpRequestCategory[];
-  selectedTime: TimeOption;
+  timestamp: number;
   actions: {
-    setTimestamp: (_selectedTime: TimeOption) => void;
+    setTimestamp: (_timestamp: number) => void;
     setSelectedCategories: (_selected: HelpRequestCategory[]) => void;
     setIsOpen: (_isOpen: boolean) => void;
   };
 }
 
-export const helpRequestFilters = omit(
-  categoryFilters,
-  "afetzede"
-) as HelpRequestFilters;
+export const helpRequestFilters = omit(categoryFilters, "afetzede");
+export const helpRequestChannels: APIChannel[] = ["twitter", "teyit_enkaz"];
 
-export const useHelpRequestFilter = create<State>()((set) => ({
-  isOpen: false,
-  selectedCategories: ["barinma"],
-  selectedTime: FilterOptions[0].value,
-  actions: {
-    setTimestamp: (selectedTime) => set(() => ({ selectedTime })),
-    setSelectedCategories: (selectedCategories) =>
-      set(() => ({ selectedCategories })),
-    setIsOpen: (isOpen) => set(() => ({ isOpen })),
-  },
-}));
+export const useHelpRequestFilter = create<State>()(
+  persist(
+    (set) => ({
+      isOpen: false,
+      selectedCategories: ["barinma"],
+      timestamp: FilterOptions[0].inMilliseconds,
+      actions: {
+        setTimestamp: (timestamp) => set(() => ({ timestamp })),
+        setSelectedCategories: (selectedCategories) =>
+          set(() => ({ selectedCategories })),
+        setIsOpen: (isOpen) => set(() => ({ isOpen })),
+      },
+    }),
+    {
+      name: "hrf",
+      getStorage: () => getHashStorage(),
+      partialize: (state) => ({ ...omit(state, "actions") }),
+    }
+  )
+);

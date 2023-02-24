@@ -4,7 +4,6 @@ import { HelpViewComponent } from "@/components/UserGuide/UserGuide";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ApiClient } from "@/services/ApiClient";
 import { APIResponse, ChannelData } from "@/types";
-import { useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
 import { BASE_URL } from "@/utils/constants";

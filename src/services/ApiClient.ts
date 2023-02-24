@@ -1,6 +1,6 @@
 import { parseChannelData } from "@/hooks/useLocation";
 import { transformers } from "@/hooks/useVerifiedLocations";
-import { APIChannel, APIResponse, ChannelData, ClientChannel } from "@/types";
+import { APIChannel, APIResponse, ChannelData } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 
 export type Bounds = {
@@ -13,6 +13,8 @@ export type Bounds = {
 type FetchAreasOptions = {
   reasons: string;
   bound?: Bounds;
+  channels?: APIChannel[];
+  timestamp?: number;
 };
 
 type ApiClientProps = {
@@ -33,6 +35,14 @@ export class ApiClient {
       ...options.bound,
       extraParams: "true",
     });
+
+    if (options.channels && options.channels.length > 0) {
+      searchParams.set("channel", options.channels.join(","));
+    }
+
+    if (options.timestamp && options.timestamp > 0) {
+      searchParams.set("time_stamp", options.timestamp.toString());
+    }
 
     url.search = decodeURIComponent(searchParams.toString());
 

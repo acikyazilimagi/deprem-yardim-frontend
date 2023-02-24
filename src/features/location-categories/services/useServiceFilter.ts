@@ -1,5 +1,8 @@
+import { APIChannel } from "@/types";
+import { getHashStorage } from "@/utils/zustand";
 import omit from "lodash.omit";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { categoryFilters } from "../category-filters";
 
 export type ServiceFilters = Omit<typeof categoryFilters, "afetzede">;
@@ -19,12 +22,38 @@ export const serviceCategories = omit(
   "afetzede"
 ) as ServiceFilters;
 
-export const useServiceFilter = create<State>()((set) => ({
-  isOpen: false,
-  selectedCategories: ["barinma"],
-  actions: {
-    setSelectedCategories: (selectedCategories) =>
-      set(() => ({ selectedCategories })),
-    setIsOpen: (isOpen) => set(() => ({ isOpen })),
-  },
-}));
+export const serviceChannels: APIChannel[] = [
+  "ahbap_location",
+  "sicak_yemek",
+  "hastahane_locations",
+  "teleteyit",
+  "uydu",
+  "sahra_mutfak",
+  "turk_eczane",
+  "eczane_excel",
+  "guvenli_yerler_oteller",
+  "babala",
+  "adana_yemek",
+  "malatya_yemek",
+  "depremio",
+  "teyit_yardim",
+];
+
+export const useServiceFilter = create<State>()(
+  persist(
+    (set) => ({
+      isOpen: false,
+      selectedCategories: ["barinma"],
+      actions: {
+        setSelectedCategories: (selectedCategories) =>
+          set(() => ({ selectedCategories })),
+        setIsOpen: (isOpen) => set(() => ({ isOpen })),
+      },
+    }),
+    {
+      name: "sf",
+      getStorage: () => getHashStorage(),
+      partialize: (state) => ({ ...omit(state, "actions") }),
+    }
+  )
+);

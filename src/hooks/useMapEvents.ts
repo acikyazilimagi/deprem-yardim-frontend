@@ -2,11 +2,10 @@ import L from "leaflet";
 import { useMapEvents as useLeafletMapEvents } from "react-leaflet";
 import { EVENT_TYPES } from "@/types";
 import { EXPAND_COORDINATE_BY_VALUE } from "@/utils/constants";
-import { useRouter } from "next/router";
 import { useRef } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import { useURLActions } from "@/stores/urlStore";
 import { useMapActions } from "@/stores/mapStore";
+import { useMapGeographyStore } from "@/stores/mapGeographyStore";
 
 const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
   const { lat: neLat, lng: neLng } = coordinates.getNorthEast();
@@ -20,23 +19,17 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 
 export const useMapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const router = useRouter();
   const { setPopUpData, setEventType } = useMapActions();
-  const { setCoordinates } = useURLActions();
-  const id = router.query["id"];
-  const reasons = router.query["reasons"] as string | undefined;
+  const { actions } = useMapGeographyStore();
 
   const debounced = useDebouncedCallback(
     (value: L.LatLngBounds, eventType: EVENT_TYPES) => {
-      const zoomLevel = map.getZoom();
+      const zoom = map.getZoom();
       let localCoordinates = value;
 
       // https://github.com/acikkaynak/deprem-yardim-frontend/issues/368
       const shouldExpandCoordinates =
-        zoomLevel === 18 ||
-        zoomLevel === 17 ||
-        zoomLevel === 16 ||
-        zoomLevel === 15;
+        zoom === 18 || zoom === 17 || zoom === 16 || zoom === 15;
 
       if (shouldExpandCoordinates) {
         localCoordinates = expandCoordinatesBy(
@@ -44,25 +37,12 @@ export const useMapEvents = () => {
           EXPAND_COORDINATE_BY_VALUE
         );
       }
-      setCoordinates(localCoordinates);
+
       setEventType(eventType);
-      const _lat = localCoordinates.getCenter().lat;
-      const _lng = localCoordinates.getCenter().lng;
-      const _zoomLevel = zoomLevel;
+      const { lat, lng } = localCoordinates.getCenter();
 
-      const locationWithZoomLevel = new URLSearchParams();
-      locationWithZoomLevel.append("lat", _lat.toString());
-      locationWithZoomLevel.append("lng", _lng.toString());
-      locationWithZoomLevel.append("zoom", _zoomLevel.toString());
-      if (id) {
-        locationWithZoomLevel.append("id", id.toString());
-      }
-      if (reasons) {
-        locationWithZoomLevel.append("reasons", reasons.toString());
-      }
-      const query = locationWithZoomLevel.toString();
-
-      router.push({ query }, { query }, { shallow: true });
+      actions.setCoordinates({ lat, lng });
+      actions.setZoom(zoom);
     },
     100
   );
