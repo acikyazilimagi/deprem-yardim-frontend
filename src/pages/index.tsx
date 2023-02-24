@@ -7,7 +7,6 @@ import { APIResponse, ChannelData } from "@/types";
 import { useState } from "react";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
-import { dataFetcher } from "@/services/dataFetcher";
 import { BASE_URL } from "@/utils/constants";
 
 const MapContent = dynamic(
@@ -29,7 +28,6 @@ const UIElementsOverlay = () => {
 };
 
 interface INHome {
-  reasons: string[];
   channel: ChannelData;
   apiResponse: APIResponse;
 }
@@ -37,14 +35,12 @@ interface INHome {
 const NHome = (props: INHome) => {
   const { copyToClipBoard } = useCopyToClipboard();
 
-  const [locations, setLocations] = useState<ChannelData[]>(() => []);
-
   return (
     <>
       <HeadWithMeta singleItemDetail={props.apiResponse} />
       <main id="new-layout">
         <UIElementsOverlay />
-        <MapContent locations={locations} setLocations={setLocations} />
+        <MapContent />
         <Drawer
           data={props.channel}
           onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
@@ -53,15 +49,13 @@ const NHome = (props: INHome) => {
     </>
   );
 };
+
 export default NHome;
 
 export async function getServerSideProps(context: any) {
-  // TODO: this URL should come from env
-  const client = new ApiClient({ url: "https://apigo.afetharita.com" });
+  const client = new ApiClient({ url: BASE_URL });
   const searchParams = new URLSearchParams(context.query);
   let redirect = false;
-
-  const reasons = await client.fetchReasons();
 
   let channel: ChannelData | null = null;
   let apiResponse: APIResponse | null = null;
@@ -83,11 +77,6 @@ export async function getServerSideProps(context: any) {
       /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
     )
   );
-  if (context.query.reasons === "" || !context.query.reasons) {
-    searchParams.delete("reasons");
-    searchParams.append("reasons", reasons.join(","));
-    redirect = true;
-  }
 
   if (redirect) {
     return {
@@ -101,7 +90,6 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      reasons,
       channel,
       apiResponse,
     },
