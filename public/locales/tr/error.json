@@ -5,7 +5,7 @@
   },
   "defaults": {
     "title": "Hata",
-    "detail": "Teknik hatayla karşılaşıldı, lütfen tekrar deneyin."
-  },
-  "returnHome": "Anasayfaya dön"
+    "detail": "Teknik hatayla karşılaşıldı, lütfen tekrar deneyin.",
+    "returnHome": "Anasayfaya dön"
+  }
 }

@@ -5,7 +5,7 @@
   },
   "defaults": {
     "title": "Error",
-    "detail": "Technical error encountered, please try again."
-  },
-  "returnHome": "Return to home"
+    "detail": "Technical error encountered, please try again.",
+    "returnHome": "Return to home"
+  }
 }
