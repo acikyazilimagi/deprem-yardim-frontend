@@ -19,6 +19,8 @@ import { useRouter } from "next/router";
 import { getTimeAgo } from "@/utils/date";
 import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import RoomIcon from "@mui/icons-material/Room";
+import omit from "lodash.omit";
+import Link from "next/link";
 
 const DrawerIDLabel = ({ id }: { id: number }) => {
   return <span className={styles.contentIdSection}>ID: {id}</span>;
@@ -123,17 +125,10 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
   const anchor = size.width > 768 ? "left" : "bottom";
   const router = useRouter();
 
-  const handleDataDrawerClose = () => {
-    const query = { ...router.query };
-    delete query["id"];
-    router.push({ query }, { query });
-  };
-
   return (
     <MuiDrawer
       className={styles.drawer}
       open={!!data}
-      onClose={handleDataDrawerClose}
       anchor={anchor}
       hideBackdrop
     >
@@ -152,10 +147,15 @@ export const Drawer = ({ data, onCopyBillboard }: DrawerProps) => {
           <DrawerContent data={data} onCopyBillboard={onCopyBillboard} />
         )}
         {/* <CloseByRecord drawerData={drawerData} /> */}
-        <CloseIcon
-          onClick={handleDataDrawerClose}
-          className={styles.closeButton}
-        />
+        <Link
+          href={{
+            pathname: "/",
+            query: omit(router.query, "id"),
+            hash: window.location.hash,
+          }}
+        >
+          <CloseIcon className={styles.closeButton} />
+        </Link>
       </Box>
     </MuiDrawer>
   );

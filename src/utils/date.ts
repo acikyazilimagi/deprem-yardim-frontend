@@ -96,3 +96,7 @@ export const getTimeAgo = (value: string, locale: string = "tr") => {
   result += LABELS[locale].ago;
   return result;
 };
+
+export const dateDifferenceSeconds = (date1: number, date2: number) => {
+  return Math.floor((date1 - date2) / 1000);
+};
