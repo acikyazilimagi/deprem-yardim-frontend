@@ -19,6 +19,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 export interface IFilterElement {
   queryParam: string;
@@ -96,6 +97,7 @@ interface IFilterComponent {
 }
 
 export const FilterComponent = (props: IFilterComponent) => {
+  const { t } = useTranslation("home");
   const filterView = props.filterStore();
   useEffect(() => {
     filterView.setFilters(props.filters);
@@ -165,7 +167,7 @@ export const FilterComponent = (props: IFilterComponent) => {
                             key={`filter-menu-item-${index}`}
                             value={value}
                           >
-                            {value}
+                            {t([`filter.reasons.${value}`, value])}
                           </MenuItem>
                         ))}
                       </Select>
