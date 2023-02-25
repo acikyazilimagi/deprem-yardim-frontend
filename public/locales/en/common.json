@@ -10,15 +10,9 @@
   "footer": {
     "banner": "<b>Disclosure:</b> We gather information on relief efforts, support requests, search and rescue requests that are shared by social media platforms, websites, civil society organizations, associations, aid organizations, the media, public institutions and organizations. We process this data to make it usable in the field. Our aim is to support relevant institutions and NGOs using information technology and to provide a clear and accessible data platform during times of disaster",
     "politic": {
-      "cookie": "Cookie Policy",
-      "privacy": "Privacy Policy",
+      "cookie": "Cookies",
+      "privacy": "Privacy",
       "data": "Data Sources"
     }
-  },
-  "site": {
-    "depremyardim": "The site we use to search and help earthquake victims.",
-    "afetbilgi": "The website we use to get information on various disaster-related topics.",
-    "depremio": "The site we use to help earthquake victims with supplies.",
-    "discord": "The Discord server we use to develop our projects and communicate with each other."
   }
 }
