@@ -11,11 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import CloseIcon from "@mui/icons-material/Close";
 import { useTranslation } from "next-i18next";
 import { MapLayer, MapType } from "@/components/MTMLView/types";
 import { LayerButton } from "@/components//Map/Controls/LayerButton";
+import { getHashStorage } from "@/utils/zustand";
 
 interface IStyles {
   [key: string]: SxProps<Theme>;
@@ -31,27 +32,38 @@ type MTMLViewStore = {
 };
 
 export const useMTMLView = create<MTMLViewStore>()(
-  devtools(
-    (set) => ({
-      isOpen: false,
-      mapType: MapType.Default,
-      mapLayers: [MapLayer.Markers, MapLayer.Heatmap],
-      toggle: (checked: boolean) =>
-        set(() => ({ isOpen: checked }), undefined, { type: "set" }),
-      setMapType: (type: MapType) =>
-        set(() => ({ mapType: type }), undefined, { type: "set" }),
-      toggleMapLayer: (layer: MapLayer) =>
-        set(
-          ({ mapLayers }) => ({
-            mapLayers: mapLayers.includes(layer)
-              ? mapLayers.filter((l) => l !== layer)
-              : [...mapLayers, layer],
-          }),
-          undefined,
-          { type: "set" }
-        ),
-    }),
-    { name: "MTMLViewStore" }
+  persist(
+    devtools(
+      (set) => ({
+        isOpen: false,
+        mapType: MapType.Default,
+        mapLayers: [MapLayer.Markers, MapLayer.Heatmap],
+        toggle: (checked: boolean) =>
+          set(() => ({ isOpen: checked }), undefined, { type: "set" }),
+        setMapType: (type: MapType) =>
+          set(() => ({ mapType: type }), undefined, { type: "set" }),
+        toggleMapLayer: (layer: MapLayer) =>
+          set(
+            ({ mapLayers }) => ({
+              mapLayers: mapLayers.includes(layer)
+                ? mapLayers.filter((l) => l !== layer)
+                : [...mapLayers, layer],
+            }),
+            undefined,
+            { type: "set" }
+          ),
+      }),
+      { name: "MTMLViewStore" }
+    ),
+    {
+      name: "mtml",
+      getStorage: () => getHashStorage(),
+      partialize: ({ isOpen, mapType, mapLayers }) => ({
+        isOpen,
+        mapType,
+        mapLayers,
+      }),
+    }
   )
 );
 

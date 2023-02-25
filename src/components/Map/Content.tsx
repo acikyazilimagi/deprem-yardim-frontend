@@ -1,9 +1,6 @@
-import { useDefaultZoom } from "@/hooks/useDefaultZoom";
-import { useDefaultCenter } from "@/hooks/useDefaultCenter";
 import { useMTMLView } from "@/components/MTMLView/MTMLView";
 import { useDevice, useMapActions } from "@/stores/mapStore";
 import {
-  DEFAULT_IMPORTANCY,
   DEFAULT_MIN_ZOOM_DESKTOP,
   DEFAULT_MIN_ZOOM_MOBILE,
 } from "@/components/Map/utils";
@@ -12,106 +9,39 @@ import { Map } from "@/components/Map/Map";
 import { MapControls } from "./Controls/index";
 import { TileLayer } from "react-leaflet";
 import { Box } from "@mui/material";
-import { GenericClusterGroup } from "@/components/Map/Cluster/GenericClusterGroup";
 import { ChannelData } from "@/types";
 import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
-import { useURLActions } from "@/stores/urlStore";
-import { Dispatch, SetStateAction, memo, useMemo } from "react";
 import { MapClusterStyle } from "@/components/Map/Cluster/ClusterStyle";
 import { latLng, latLngBounds } from "leaflet";
-import { useFetchLocations } from "@/hooks/useFetchLocations";
-import { HeatmapLayerFactory } from "@vgrid/react-leaflet-heatmap-layer";
-import { MapLayer } from "../MTMLView/types";
-const HeatmapLayer = memo(HeatmapLayerFactory<Point>());
+import {
+  useDisasterVictimsData,
+  useHelpRequestsData,
+  useServicesData,
+} from "@/features/location-categories";
+import { LayerControl } from "./LayerControl";
+import { useMapGeographyStore } from "@/stores/mapGeographyStore";
 
-type EventProps = {
-  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
-};
-
-const MapEvents = ({ setLocations }: EventProps) => {
-  useFetchLocations(setLocations);
+const MapEvents = () => {
   useMapEvents();
   return null;
 };
 
-type LayerControlProps = {
-  locations: ChannelData[];
-  onMarkerClick: (_event: any, _markerData: ChannelData) => void;
-};
-
-export type Point = [number, number, number];
-
-const longitudeExtractor = (p: Point) => p[1];
-const latitudeExtractor = (p: Point) => p[0];
-const intensityExtractor = (p: Point) => p[2];
-
-const LayerControl = ({ locations, onMarkerClick }: LayerControlProps) => {
-  const { mapLayers } = useMTMLView();
-  const points = useMemo(
-    () =>
-      locations.map(
-        (item) =>
-          [
-            item.geometry.location.lng,
-            item.geometry.location.lat,
-            DEFAULT_IMPORTANCY,
-          ] as Point
-      ),
-    [locations]
-  );
-
-  return (
-    <>
-      {mapLayers.map((layer, idx) => {
-        if (layer === MapLayer.Heatmap) {
-          return (
-            <HeatmapLayer
-              key={idx}
-              fitBoundsOnUpdate
-              radius={15}
-              points={points}
-              longitudeExtractor={longitudeExtractor}
-              latitudeExtractor={latitudeExtractor}
-              intensityExtractor={intensityExtractor}
-              useLocalExtrema={false}
-            />
-          );
-        }
-        return (
-          <GenericClusterGroup
-            key={idx}
-            data={locations}
-            onMarkerClick={onMarkerClick}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-type ContentProps = {
-  reasons: string[];
-  locations: ChannelData[];
-  setLocations: Dispatch<SetStateAction<ChannelData[]>>;
-};
-
-export const MapContent = ({
-  reasons,
-  locations,
-  setLocations,
-}: ContentProps) => {
+export const MapContent = () => {
   const { mapType } = useMTMLView();
-  const { defaultZoom } = useDefaultZoom();
-  const { defaultCenter } = useDefaultCenter();
-  const { setCoordinates } = useURLActions();
+  const { coordinates, zoom } = useMapGeographyStore();
+  const { actions } = useMapGeographyStore();
   const { setEventType } = useMapActions();
   const device = useDevice();
   const router = useRouter();
 
+  const { data: servicesData = [] } = useServicesData();
+  const { data: disasterVictimsData = [] } = useDisasterVictimsData();
+  const { data: helpRequestsData = [] } = useHelpRequestsData();
+
   const onMarkerClick = (_e: any, markerData: ChannelData) => {
     const query = { ...router.query, id: markerData.reference };
-    router.push({ query }, { query });
+    router.push({ query, hash: location.hash }, { query, hash: location.hash });
   };
 
   const mapBoundaries = {
@@ -130,8 +60,8 @@ export const MapContent = ({
       <Map
         zoomControl={false}
         attributionControl={false}
-        center={defaultCenter}
-        zoom={defaultZoom}
+        center={coordinates}
+        zoom={zoom}
         minZoom={
           device === "desktop"
             ? DEFAULT_MIN_ZOOM_DESKTOP
@@ -141,7 +71,7 @@ export const MapContent = ({
         zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
-            setCoordinates(map.target.getBounds());
+            actions.setCoordinates(map.target.getBounds());
             setEventType("ready");
             map.target.invalidateSize();
           }, 100);
@@ -151,10 +81,16 @@ export const MapContent = ({
         maxBounds={bounds}
         maxZoom={18}
       >
-        <MapEvents setLocations={setLocations} />
-        <MapControls filters={{ reasons }} />
+        <MapEvents />
+        <MapControls />
         <TileLayer url={baseMapUrl} />
-        <LayerControl locations={locations} onMarkerClick={onMarkerClick} />
+
+        <LayerControl
+          locations={disasterVictimsData
+            .concat(servicesData)
+            .concat(helpRequestsData)}
+          onMarkerClick={onMarkerClick}
+        />
       </Map>
       <Box sx={styles.fixedMidBottom}>
         <CooldownButtonComponent />

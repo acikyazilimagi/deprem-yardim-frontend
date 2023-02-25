@@ -10,15 +10,9 @@
   "footer": {
     "banner": "<b>Açıklama:</b> Sosyal medya ve haberleşme platformları, web siteleri, sivil toplum kuruluşları, dernekler, yardım kuruluşları, basın ve medya kuruluşları ile kamu kurum ve kuruluşları tarafından paylaşılan/yapılan/yayınlanan yardım, destek ve arama kurtarma çağlarılarını topluyoruz ve bu veriyi sahada kullanılmak üzere anlamlı, rafine hale getiriyoruz. Amacımız bilgi teknolojilerini kullanarak ilgili kurum ve STK'lara yardımcı olmak ve afet zamanlarında açık bir veri platformu sağlamaktır.",
     "politic": {
-      "cookie": "Çerez Politikası",
-      "privacy": "Gizlilik Politikası",
+      "cookie": "Çerezler",
+      "privacy": "Gizlilik",
       "data": "Veri Kaynakları"
     }
-  },
-  "site": {
-    "depremyardim": "Depremzedeleri aramak ve yardım etmek için kullandığımız site.",
-    "afetbilgi": "Afetle ilgili çeşitli konularda bilgi almak için kullandığımız web sitesi.",
-    "depremio": "Depremzedelere erzak yardımı için kullandığımız site.",
-    "discord": "Projelerimizi geliştirmek ve birbirimizle iletişim kurmak için kullandığımız Discord sunucusu."
   }
 }

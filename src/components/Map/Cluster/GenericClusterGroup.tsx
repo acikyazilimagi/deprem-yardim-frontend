@@ -30,11 +30,7 @@ type Props = {
   onMarkerClick: (_event: any, _markerData: ChannelData) => void;
 };
 
-export const GenericClusterGroup = ({
-  data,
-  onMarkerClick,
-}: // propertyMap = DEFAULT_PROPERTY_MAP,
-Props) => {
+export const GenericClusterGroup = ({ data, onMarkerClick }: Props) => {
   const map = useMap();
   const bounds = map.getBounds();
   const { setVisited, isVisited } = useVisitedMarkersStore();
