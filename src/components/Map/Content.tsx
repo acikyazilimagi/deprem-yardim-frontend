@@ -30,7 +30,6 @@ const MapEvents = () => {
 export const MapContent = () => {
   const { mapType } = useMTMLView();
   const { coordinates, zoom } = useMapGeographyStore();
-  const { actions } = useMapGeographyStore();
   const { setEventType } = useMapActions();
   const device = useDevice();
   const router = useRouter();
@@ -71,7 +70,6 @@ export const MapContent = () => {
         zoomDelta={1}
         whenReady={(map: any) => {
           setTimeout(() => {
-            actions.setCoordinates(map.target.getBounds());
             setEventType("ready");
             map.target.invalidateSize();
           }, 100);
