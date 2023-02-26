@@ -1,13 +1,13 @@
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import styles from "./FooterBanner.module.css";
+import styles from "./DataSourcesInfo.module.css";
 import { Trans } from "next-i18next";
 
-interface FooterBannerProps {
+interface DataSourcesInfoProps {
   onClick: () => void;
   open: boolean;
 }
 
-export function FooterBanner(props: FooterBannerProps) {
+export function DataSourcesInfo(props: DataSourcesInfoProps) {
   if (!props.open) return null;
 
   return (

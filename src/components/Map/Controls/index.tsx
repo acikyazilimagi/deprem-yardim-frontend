@@ -37,7 +37,7 @@ import {
   useHelpRequestFilter,
   useServiceFilter,
 } from "@/features/location-categories";
-import { FooterBanner } from "@/components/FooterBanner/FooterBanner";
+import { DataSourcesInfo } from "@/components/DataSourcesInfo/DataSourcesInfo";
 import { useState } from "react";
 
 const typeImages: Record<MapType, string> = {
@@ -197,7 +197,7 @@ export const MapControls = () => {
             </Stack>
           </Stack>
         </Control>
-        <FooterBanner
+        <DataSourcesInfo
           open={dataSourcesOpen}
           onClick={() => setDataSourcesOpen(false)}
         />
