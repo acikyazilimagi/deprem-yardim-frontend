@@ -13,8 +13,6 @@ export const FilterService = () => {
   const { t } = useTranslation("home");
   const { isOpen, actions, selectedCategories } = useServiceFilter();
 
-  console.log({ selectedCategories });
-
   if (!isOpen) {
     return null;
   }
