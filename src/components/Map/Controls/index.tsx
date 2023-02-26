@@ -37,6 +37,8 @@ import {
   useHelpRequestFilter,
   useServiceFilter,
 } from "@/features/location-categories";
+import { FooterBanner } from "@/components/FooterBanner/FooterBanner";
+import { useState } from "react";
 
 const typeImages: Record<MapType, string> = {
   [MapType.Default]: "default",
@@ -131,6 +133,7 @@ export const MapControls = () => {
   const disasterVictimFilter = useDisasterVictimFilter();
   const helpRequestFilter = useHelpRequestFilter();
   const serviceFilter = useServiceFilter();
+  const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
 
   return (
     <DoubleClickStopPropagation>
@@ -194,7 +197,10 @@ export const MapControls = () => {
             </Stack>
           </Stack>
         </Control>
-
+        <FooterBanner
+          open={dataSourcesOpen}
+          onClick={() => setDataSourcesOpen(false)}
+        />
         <Control position="bottomright">
           <Stack
             display={"flex"}
@@ -206,7 +212,7 @@ export const MapControls = () => {
               <LocaleSwitchComponent />
             </Stack>
             <Stack display={"flex"} direction={"row"}>
-              <AttributionComponent />
+              <AttributionComponent onClick={() => setDataSourcesOpen(true)} />
             </Stack>
           </Stack>
         </Control>
