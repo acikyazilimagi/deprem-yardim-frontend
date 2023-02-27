@@ -1,27 +1,19 @@
 .footer {
-  bottom: 124px;
+  bottom: 6rem;
   z-index: 998;
   margin: 10px;
-  font-weight: 500;
-  font-size: 0.7rem;
+  font-weight: 400;
   position: absolute;
+  font-size: 14px;
   text-align: center;
-  color: white;
   left: 0;
   right: 0;
-  width: 24rem;
+  width: 50%;
   margin: 0 auto;
-}
-
-.footer .dismissible {
-  position: relative;
-  display: flex;
+  background-color: #fff;
   border-radius: 8px;
-  background-color: rgba(220, 20, 60, 0.768);
   padding: 1.7rem 0.9rem 0.9rem 0.9rem;
-  z-index: 999;
-  bottom: 0.5rem;
-  margin: auto;
+  display: flex;
 }
 
 .footer .dismissible span {
@@ -30,40 +22,32 @@
   text-justify: distribute;
   letter-spacing: -0.3px;
   width: 22rem;
-  font-size: 0.6rem;
 }
 
-.footer .dismissible .closeButton {
+.footer .closeButton {
   position: absolute;
-  right: -4px;
-  top: 1px;
+  right: 3px;
+  top: 3px;
   width: 30px;
   bottom: 0;
   margin: auto;
   cursor: pointer;
 }
 
-.footer .dismissible svg {
-  margin-right: 10px;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
 /* Mobile */
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .footer {
     margin-bottom: 0;
     padding-bottom: 0;
   }
-  .footer .dismissible {
+  .footer {
     width: 85%;
-    bottom: 4rem;
     font-size: 0.56rem;
     font-weight: 400;
-    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    padding: 1.5rem 0.5rem 0.5rem 0.5rem;
   }
 
-  .footer .dismissible span {
+  .footer div {
     letter-spacing: -0.2px;
     width: 16rem;
   }
