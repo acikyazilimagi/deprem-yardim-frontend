@@ -6,6 +6,7 @@ export type DepremIOAPIExtraParams = {
   styleUrl: string;
   icon: string;
   description?: string;
+  fizikiDurum?: string;
 };
 
 export type DepremIOResponse = APIResponseObject<
@@ -33,7 +34,7 @@ export const transformDepremIOResponse: RT<DepremIOResponse, DepremIOData> = (
     geometry: createGeometry(res),
     properties: {
       name: res.extraParams?.name ?? null,
-      description: res.extraParams?.description ?? null,
+      description: res.extraParams?.fizikiDurum ?? null,
       type: res.extraParams?.styleUrl ?? null,
       icon: "images/icon-deprem.io.png",
     },

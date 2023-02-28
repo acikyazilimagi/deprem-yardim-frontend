@@ -16,7 +16,7 @@ import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
 
 const parseExtraParams = (extraParamsStr: string) => {
   return dJSON.parse<string, ChannelData["properties"]>(
-    extraParamsStr?.replaceAll("nan", "")
+    extraParamsStr?.replace("nan", "")
   );
 };
 
@@ -72,7 +72,7 @@ export const parseChannelData = (
   try {
     if (typeof item.extra_parameters === "string") {
       extraParams = parseExtraParams(
-        item.extra_parameters.replaceAll(/\\"/g, '"')
+        item.extra_parameters.replace(/\\"/g, '"')
       );
     }
   } catch (error) {
