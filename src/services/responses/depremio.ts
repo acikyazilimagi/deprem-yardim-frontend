@@ -6,7 +6,6 @@ export type DepremIOAPIExtraParams = {
   styleUrl: string;
   icon: string;
   description?: string;
-  fizikiDurum?: string;
 };
 
 export type DepremIOResponse = APIResponseObject<
