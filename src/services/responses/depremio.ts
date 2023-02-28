@@ -34,7 +34,7 @@ export const transformDepremIOResponse: RT<DepremIOResponse, DepremIOData> = (
     geometry: createGeometry(res),
     properties: {
       name: res.extraParams?.name ?? null,
-      description: res.extraParams?.fizikiDurum ?? null,
+      description: res?.full_text ?? null,
       type: res.extraParams?.styleUrl ?? null,
       icon: "images/icon-deprem.io.png",
     },
