@@ -1,19 +1,19 @@
 .footer {
+  width: 40rem;
+  display: flex;
   bottom: 6rem;
   z-index: 998;
   margin: 10px;
   font-weight: 400;
   position: absolute;
   font-size: 14px;
-  text-align: center;
   left: 0;
   right: 0;
-  width: 50%;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 8px;
-  padding: 1.7rem 0.9rem 0.9rem 0.9rem;
-  display: flex;
+  padding: 2.5rem 2rem 1.5rem 2rem;
+  boxshadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer .dismissible span {
@@ -26,12 +26,19 @@
 
 .footer .closeButton {
   position: absolute;
-  right: 3px;
-  top: 3px;
+  right: 0.75rem;
+  top: 0.75rem;
   width: 30px;
   bottom: 0;
   margin: auto;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1055px) {
+  .footer {
+    width: 60%;
+    font-size: 12px;
+  }
 }
 
 /* Mobile */
@@ -42,13 +49,15 @@
   }
   .footer {
     width: 85%;
-    font-size: 0.56rem;
-    font-weight: 400;
-    padding: 1.5rem 0.5rem 0.5rem 0.5rem;
+    padding: 2.5rem 1rem 1rem 1rem;
   }
 
   .footer div {
     letter-spacing: -0.2px;
     width: 16rem;
+  }
+  .footer .closeButton {
+    right: 0.25rem;
+    top: 0.75rem;
   }
 }
