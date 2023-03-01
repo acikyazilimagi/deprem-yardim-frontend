@@ -57,7 +57,15 @@ export const useMapStore = create<MapState>()((set) => ({
   device: "desktop",
   markerData: [],
   mapType: MapType.Default,
-  mapLayers: [MapLayer.Heatmap, MapLayer.Markers],
+  mapLayers: [
+    MapLayer.Ahbap,
+    MapLayer.Pharmacy,
+    MapLayer.SafePlaces,
+    MapLayer.Hospital,
+    MapLayer.Food,
+    MapLayer.Teleteyit,
+    MapLayer.SahraMutfak,
+  ],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
     toggleMapLayer: (mapLayer: MapLayer) =>
