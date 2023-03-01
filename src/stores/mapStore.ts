@@ -64,7 +64,6 @@ export const useMapStore = create<MapState>()((set) => ({
     MapLayer.Hospital,
     MapLayer.Food,
     MapLayer.Teleteyit,
-    MapLayer.SahraMutfak,
   ],
   actions: {
     toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
