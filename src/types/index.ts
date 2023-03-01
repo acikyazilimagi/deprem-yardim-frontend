@@ -1,202 +1,48 @@
-export type Channel =
+import {
+  TwitterData,
+  AhbapData,
+  BabalaData,
+  TeleteyitData,
+  SatelliteData,
+  PharmacyData,
+  FoodData,
+  SafePlaceData,
+  HospitalData,
+  TeyitEnkazData,
+  TeyitYardimData,
+  DepremIOData,
+} from "@/services/responses";
+
+export type DeviceType = "mobile" | "desktop";
+
+export type APIChannel =
+  | "ahbap_location"
+  | "sicak_yemek"
+  | "hastahane_locations"
+  | "teleteyit"
+  | "uydu"
+  | "sahra_mutfak"
+  | "turk_eczane"
+  | "eczane_excel"
+  | "guvenli_yerler_oteller"
+  | "twitter"
+  | "teyit_enkaz"
+  | "babala"
+  | "adana_yemek"
+  | "malatya_yemek"
+  | "depremio"
+  | "teyit_yardim";
+
+export type ClientChannel =
   | "twitter"
   | "babala"
   | "ahbap"
-  | "generic"
+  | "yemek"
   | "teleteyit"
   | "uydu"
-  | "sahra_kitchen"
-  | "turk_eczane"
-  | "eczane_excel"
-  | "guvenli_yerler_oteller";
-
-export type ExtraParams = BabalaParameters | TwitterParameters;
-
-export interface BaseFeedChannel<T> {
-  id?: number;
-  full_text?: string;
-  is_resolved?: boolean;
-  channel?: Channel;
-  timestamp?: string;
-  extra_parameters: T;
-  formatted_address?: string;
-  reason?: string | null;
-}
-
-export type BabalaParameters = {
-  name_surname: string;
-  tel: number;
-  additional_notes: string;
-  status: string;
-  manual_confirmation: string;
-};
-
-export type TwitterParameters = {
-  user_id: string;
-  screen_name: string;
-  name: string;
-  tweet_id: string;
-  created_at: string;
-  hashtags: string;
-  user_account_created_at: string;
-  media: string;
-};
-
-export type AhbapData = {
-  channel: "ahbap";
-  properties: {
-    name: string;
-    description: string | { value: string };
-    type: string;
-    icon: string;
-  };
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  closeByRecords?: number[];
-};
-
-export type HospitalData = {
-  channel: "hospital";
-  properties: {
-    name: string;
-    description: string;
-    type: string;
-    icon: string;
-  };
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-};
-
-export type TeleteyitData = {
-  channel: "teleteyit";
-  properties: {
-    name: string;
-    description: string;
-    type: string;
-    icon: string;
-    verified: string;
-    city: string;
-    district: string;
-  };
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  closeByRecords?: number[];
-};
-
-export type SatelliteData = {
-  channel: "uydu";
-  properties: {
-    damage: string;
-  };
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  closeByRecords?: number[];
-};
-export type SahraKitchenData = {
-  channel: "sahra_mutfak";
-  properties: {};
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  id: number;
-  reason: string;
-  verified: string;
-  closeByRecords?: number[];
-};
-
-export type PharmacyData = {
-  channel: "eczane_excel";
-  properties: {};
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  id: number;
-  reason: string;
-  verified: string;
-  closeByRecords?: number[];
-};
-
-export type SafePlaceData = {
-  channel: "guvenli_yerler_oteller";
-  properties: {
-    reason: string;
-    verified: string;
-  };
-  reference?: undefined;
-  geometry: {
-    location: {
-      lat: number;
-      lng: number;
-    };
-  };
-  closeByRecords?: number[];
-};
-
-export type FeedChannelBabalaProps = BaseFeedChannel<BabalaParameters>;
-
-export type FeedChannelTwitterProps = BaseFeedChannel<TwitterParameters>;
-
-export type FeedChannelAhbapProps = AhbapData;
-
-export type FeedChannelHospitalProps = HospitalData;
-
-export type FeedChannelTeleteyitProps = TeleteyitData;
-
-export type FeedChannelSatelliteProps = SatelliteData;
-
-export type FeedChannelSahraKitchenProps = SahraKitchenData;
-
-export type FeedChannelPharmacyProps = PharmacyData;
-
-export type FeedChannelSafePlacesProps = SafePlaceData;
-
-export type Data = {
-  id: number;
-  full_text: string;
-  formatted_address: string;
-  extra_parameters?: string;
-  timestamp: string;
-  is_resolved: boolean;
-  channel: Channel;
-  reason: string | null;
-};
-
-export type DataLite = {
-  count: number;
-  results: {
-    id: number;
-    entry_id: number;
-    loc: [number, number];
-  }[];
-};
+  | "eczane"
+  | "guvenli"
+  | "hastane";
 
 export type Point = {
   lat: number;
@@ -207,11 +53,52 @@ export type Geometry = {
   location: Point;
 };
 
-export type MarkerData = {
-  geometry: Geometry;
-  reference: number;
-  isVisited: boolean;
+export type APIResponse<TChannel extends APIChannel = APIChannel> = {
+  channel: TChannel;
+  id: number;
+  entry_id: number;
+  reason?: string;
+  extra_parameters: string;
+  full_text?: string;
+  formatted_address: string;
+  timestamp?: string;
+  loc?: [number, number];
+  lat?: number;
+  lng?: number;
+  is_location_verified?: boolean;
+  is_need_verified: boolean;
+};
+
+export type APIResponseObject<
+  TChannel extends APIChannel = APIChannel,
+  T = any
+> = Omit<APIResponse<TChannel>, "extra_parameters"> & {
+  extraParams: T | undefined;
+};
+
+export type RT<
+  TResponse extends APIResponseObject = APIResponseObject,
+  TChannelData extends ChannelData = ChannelData
+> = (_response: TResponse) => TChannelData;
+
+export type DataProperties =
+  | TwitterData
+  | BabalaData
+  | AhbapData
+  | TeleteyitData
+  | SatelliteData
+  | PharmacyData
+  | SafePlaceData
+  | FoodData
+  | HospitalData
+  | DepremIOData
+  | TeyitYardimData
+  | TeyitEnkazData;
+
+export type ChannelData = DataProperties & {
+  reference?: number | null;
   closeByRecords?: number[];
+  isVisited?: boolean;
 };
 
 export type MarkerVisited = {
@@ -220,10 +107,13 @@ export type MarkerVisited = {
 
 export type ClusterPopupData = {
   count: number;
-  baseMarker: MarkerData;
+  baseMarker: ChannelData;
   markers: any[];
 };
 
-export type EVENT_TYPES = "moveend" | "zoomend" | "ready";
-
-export type DeviceType = "mobile" | "desktop";
+export type EVENT_TYPES =
+  | "movestart"
+  | "moveend"
+  | "zoomstart"
+  | "zoomend"
+  | "ready";

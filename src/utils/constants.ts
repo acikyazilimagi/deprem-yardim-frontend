@@ -1,4 +1,10 @@
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+if (!process.env.NEXT_PUBLIC_BASE_URL) {
+  throw new Error(
+    "NEXT_PUBLIC_BASE_URL is not defined, change .env.sample filename to .env.development to fix it"
+  );
+}
+
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 export const EXPAND_COORDINATE_BY_VALUE = 0.02;
 export const REQUEST_THROTTLING_INITIAL_SEC = 10;
 
@@ -26,9 +32,6 @@ export const TELETEYIT_URL =
 
 export const SATELLITE_URL =
   BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";
-
-export const SAHRA_KITCHEN_URL =
-  BASE_URL + "/feeds/areas?channel=sahra_mutfak&extraParams=true";
 
 export const PHARMACY_URL =
   BASE_URL + "/feeds/areas?channel=turk_eczane,eczane_excel&extraParams=true";

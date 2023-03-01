@@ -6,7 +6,6 @@ const MINUTES_IN_SEC = 60;
 
 export const getTimeAgo = (value: string, locale: string = "tr") => {
   const now = new Date().getTime();
-
   const entryTime = Date.parse(value);
 
   const valueTime = new Date(entryTime).getTime();
@@ -96,4 +95,8 @@ export const getTimeAgo = (value: string, locale: string = "tr") => {
   if (minutes) result += `${minutes} ${minutesLabel} `;
   result += LABELS[locale].ago;
   return result;
+};
+
+export const dateDifferenceSeconds = (date1: number, date2: number) => {
+  return Math.floor((date1 - date2) / 1000);
 };

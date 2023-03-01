@@ -1,157 +1,75 @@
-import HeadWithMeta from "@/components/base/HeadWithMeta/HeadWithMeta";
-import ClusterPopup from "@/components/UI/ClusterPopup";
-import Drawer from "@/components/UI/Drawer/Drawer";
-import FilterMenu from "@/components/UI/FilterMenu/FilterMenu";
-import Footer from "@/components/UI/Footer/Footer";
-import FooterBanner from "@/components/UI/Footer/Banner";
-import LocaleSwitch from "@/components/UI/I18n/LocaleSwitch";
-import ScanAreaButton from "@/components/UI/Button/ScanArea";
-import SitesIcon from "@/components/UI/SitesIcon/Icons";
-import { useVerifiedLocations } from "@/hooks/useVerifiedLocations";
-import { getLocationById } from "@/services/location";
-import { useAreasActions, useShouldFetchNextOption } from "@/stores/areasStore";
-import { useDevice, useMapActions } from "@/stores/mapStore";
-import { useURLActions } from "@/stores/urlStore";
-import styles from "@/styles/Home.module.css";
-import { DeviceType } from "@/types";
-import { Box } from "@mui/material";
-import Container from "@mui/material/Container";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { Box, SxProps, Theme } from "@mui/material";
+import { HelpViewComponent } from "@/components/UserGuide/UserGuide";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ApiClient } from "@/services/ApiClient";
+import { APIResponse, ChannelData } from "@/types";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
+import { BASE_URL } from "@/utils/constants";
 
-const LeafletMap = dynamic(() => import("@/components/UI/Map"), {
-  ssr: false,
-});
+const MapContent = dynamic(
+  () => import("@/components/Map/Content").then((mod) => mod.MapContent),
+  { ssr: false }
+);
 
-type Props = {
-  deviceType: DeviceType;
-  singleItemDetail: any;
-  ahbap: any[];
+const Drawer = dynamic(
+  () => import("@/components/Drawer/NewDrawer").then((mod) => mod.Drawer),
+  { ssr: false }
+);
+// Development overlay container
+const UIElementsOverlay = () => {
+  return (
+    <Box sx={styles.overlay}>
+      <HelpViewComponent />
+    </Box>
+  );
 };
 
-export default function Home({ deviceType, singleItemDetail }: Props) {
-  const {
-    ahbapLocations,
-    hospitalLocations,
-    foodLocations,
-    teleteyitLocations,
-    satelliteLocations,
-    sahraKitchenLocations,
-    pharmacyLocations,
-    safePlaceLocations,
-  } = useVerifiedLocations();
-  const { setTimeStamp } = useURLActions();
-  const router = useRouter();
-  const device = useDevice();
+interface INHome {
+  channel: ChannelData;
+  apiResponse: APIResponse;
+}
 
-  const { setShouldFetchNextOption } = useAreasActions();
-  const resetShouldFetchNextOption = () => setShouldFetchNextOption(false);
-  const shouldFetchNextOption = useShouldFetchNextOption();
-
-  const isMobile = device === "mobile";
-
-  const { setDevice } = useMapActions();
-
-  useEffect(() => {
-    setDevice(deviceType);
-  }, [deviceType, setDevice]);
-
-  const onLanguageChange = (newLocale: string) => {
-    const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
+const NHome = (props: INHome) => {
+  const { copyToClipBoard } = useCopyToClipboard();
 
   return (
     <>
-      <HeadWithMeta singleItemDetail={singleItemDetail} />
-      <main className={styles.main}>
-        <Container maxWidth={false} disableGutters>
-          <div
-            style={{
-              position: "fixed",
-              right: "10px",
-              top: "15px",
-              zIndex: "502",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: 2,
-              }}
-            >
-              <FilterMenu>
-                <FilterMenu.Channel />
-                <FilterMenu.Time
-                  onChangeTime={setTimeStamp}
-                  shouldFetchNextOption={shouldFetchNextOption}
-                  resetShouldFetchNextOption={resetShouldFetchNextOption}
-                />
-                {/* <FilterMenu.Reason /> */}
-              </FilterMenu>
-            </div>
-          </div>
-          <LeafletMap
-            ahbap={ahbapLocations}
-            hospital={hospitalLocations}
-            food={foodLocations}
-            teleteyit={teleteyitLocations}
-            satellite={satelliteLocations}
-            sahra_kitchen={sahraKitchenLocations}
-            pharmacy={pharmacyLocations}
-            safePlaces={safePlaceLocations}
-          />
-          {/* FIXME: move it to a component */}
-          <Box
-            sx={{
-              display: "flex",
-              padding: "0",
-              borderRadius: "10px",
-              position: "absolute",
-              bottom: isMobile ? "30px" : "90px",
-              right: isMobile ? "10px" : "26px",
-              zIndex: 500,
-            }}
-          >
-            <LocaleSwitch
-              current={router.locale || "tr"}
-              onChange={onLanguageChange}
-              mobile={isMobile}
-            />
-          </Box>
-          {!isMobile && <SitesIcon></SitesIcon>}
-          {/* FIXME: Move it to a component */}
-          <Box
-            sx={{
-              position: "fixed",
-              top: { md: "15px" },
-              bottom: { xs: "88px", md: "unset" },
-              left: "50%",
-              marginLeft: "-105px",
-              zIndex: "502",
-              display: "flex",
-              flexDirection: "column",
-              rowGap: "8px",
-              width: "210px",
-            }}
-          >
-            <ScanAreaButton />
-          </Box>
-        </Container>
-        <Drawer />
-        <ClusterPopup />
-        <FooterBanner />
-        <Footer />
+      <HeadWithMeta singleItemDetail={props.apiResponse} />
+      <main id="new-layout">
+        <UIElementsOverlay />
+        <MapContent />
+        <Drawer
+          data={props.channel}
+          onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
+        />
       </main>
     </>
   );
-}
+};
+
+export default NHome;
 
 export async function getServerSideProps(context: any) {
+  const client = new ApiClient({ url: BASE_URL });
+  const searchParams = new URLSearchParams(context.query);
+  let redirect = false;
+
+  let channel: ChannelData | null = null;
+  let apiResponse: APIResponse | null = null;
+  if (context.query.id) {
+    const response = await client.fetchLocationByID(context.query.id);
+    channel = response.channel;
+    apiResponse = response._raw;
+
+    if (!response.channel) {
+      searchParams.delete("id");
+      redirect = true;
+    }
+  }
+
+  // Pass data to the page via props
   const UA = context.req.headers["user-agent"];
   const isMobile = Boolean(
     UA.match(
@@ -159,17 +77,52 @@ export async function getServerSideProps(context: any) {
     )
   );
 
-  const itemDetail = await getLocationById(context.query.id);
-
+  if (redirect) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/?" + searchParams.toString(),
+      },
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      ahbap: [],
-      singleItemDetail: {
-        ...itemDetail,
-        ...context.query,
-      },
+      channel,
+      apiResponse,
     },
   };
 }
+
+interface IStyles {
+  [key: string]: SxProps<Theme>;
+}
+
+const styles: IStyles = {
+  overlay: (theme: Theme) => ({
+    display: "flex",
+    position: "fixed",
+    flexDirection: "column",
+    top: "10px",
+    left: "60px",
+    zIndex: 1100,
+    pointerEvents: "none",
+    [theme.breakpoints.down("sm")]: {
+      top: "0px",
+      left: "0px",
+    },
+  }),
+  fixedMidBottom: () => ({
+    position: "fixed",
+    bottom: "0px",
+    left: "0px",
+    width: "100%",
+    height: "110px",
+    zIndex: 1030,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    pointerEvents: "none",
+  }),
+};

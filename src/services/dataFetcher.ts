@@ -1,4 +1,4 @@
-export const dataFetcher = async (url: string) => {
+export const dataFetcher = async <T>(url: string | URL) => {
   const response = await fetch(url);
-  return await response.json();
+  return (await response.json()) as T;
 };

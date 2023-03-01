@@ -5,3 +5,26 @@
     width: 1px;
   }
 }
+
+#new-layout .leaflet-right > .leaflet-control {
+  margin-bottom: 6px !important;
+}
+#new-layout .leaflet-bottom.leaflet-left {
+  z-index: 1070 !important;
+}
+#new-layout .leaflet-bottom.leaflet-left > .leaflet-control {
+  margin-bottom: 20px !important;
+  z-index: unset;
+}
+@media only screen and (max-width: 600px) {
+  #new-layout .leaflet-bottom.leaflet-left > .leaflet-control {
+    margin-bottom: 0px !important;
+    margin: 0px !important;
+  }
+  #new-layout .leaflet-bottom.leaflet-right {
+    z-index: 1000 !important;
+  }
+  #new-layout .leaflet-top.leaflet-right {
+    z-index: 1060 !important;
+  }
+}

@@ -8,7 +8,7 @@ Communications:
 
 To Contribute:
 
-- [Contributing](./../CONTRIBUTING_ENG.md)
+- [Contributing](CONTRIBUTING.md)
 
 ## Technologies and Systems Used In This Project
 

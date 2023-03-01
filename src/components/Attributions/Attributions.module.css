@@ -1,0 +1,12 @@
+.attribution {
+  display: flex;
+  white-space: nowrap;
+  gap: 5px;
+  color: #f5f5f500;
+  font-size: 0.75rem;
+}
+
+.attribution a {
+  background: #f5f5f570;
+  text-decoration: none;
+}

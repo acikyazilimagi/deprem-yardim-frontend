@@ -1,61 +1,98 @@
+import { useChannelFilterMenuOption } from "@/stores/urlStore";
+import { APIChannel, RT } from "@/types";
+import { useLocation } from "./useLocation";
+
 import {
-  FOOD_URL,
-  AHBAP_LOCATIONS_URL,
-  HOSPITAL_LOCATIONS_URL,
-  TELETEYIT_URL,
-  SATELLITE_URL,
-  SAHRA_KITCHEN_URL,
-  PHARMACY_URL,
-  SAFE_PLACES_URL,
-} from "@/utils/constants";
-import useLocation from "./useLocation";
+  transformFoodResponse,
+  transformBabalaResponse,
+  transformAhbapResponse,
+  transformHospitalResponse,
+  transformTeleteyitResponse,
+  transformSatelliteResponse,
+  transformPharmacyResponse,
+  transformSafePlaceResponse,
+  transformTwitterResponse,
+  transformTeyitEnkazResponse,
+  transformTeyitYardimResponse,
+  transformDepremIOResponse,
+} from "@/services/responses";
 
-// TODO: PUT THESE HOOKS INTO THEIR OWN FILES
-const getSahraExtraParams = (item: any) => ({
-  icon: "images/icon-14.png",
-  id: item.id,
-  properties: item.properties,
-  reason: item.reason,
-});
+export const transformers: Record<APIChannel, RT> = {
+  ahbap_location: transformAhbapResponse as RT,
+  eczane_excel: transformPharmacyResponse as RT,
+  guvenli_yerler_oteller: transformSafePlaceResponse as RT,
+  hastahane_locations: transformHospitalResponse as RT,
+  sahra_mutfak: transformFoodResponse as RT,
+  sicak_yemek: transformFoodResponse as RT,
+  teleteyit: transformTeleteyitResponse as RT,
+  turk_eczane: transformPharmacyResponse as RT,
+  uydu: transformSatelliteResponse as RT,
+  twitter: transformTwitterResponse as RT,
+  babala: transformBabalaResponse as RT,
+  teyit_enkaz: transformTeyitEnkazResponse as RT,
+  depremio: transformDepremIOResponse as RT,
+  teyit_yardim: transformTeyitYardimResponse as RT,
+  malatya_yemek: transformFoodResponse as RT,
+  adana_yemek: transformFoodResponse as RT,
+};
 
-const getPharmacyExtraParams = (item: any) => ({
-  icon: "images/icon-15.png",
-  id: item.id,
-  properties: item.properties,
-  reason: item.reason,
-  verified: item.is_location_verified,
-});
-
-// TODO: Remove this hook and use hooks defined above in relevant components
 export function useVerifiedLocations() {
-  const foodLocations = useLocation(FOOD_URL, "food");
-  const ahbapLocations = useLocation(AHBAP_LOCATIONS_URL, "ahbap");
-  const hospitalLocations = useLocation(HOSPITAL_LOCATIONS_URL, "hospital", {
-    getExtraParams: () => ({ icon: "images/icon-10.png" }),
+  const channelFilter = useChannelFilterMenuOption();
+
+  const foodLocations = useLocation(
+    ["sicak_yemek", "adana_yemek", "malatya_yemek", "sahra_mutfak"],
+    "yemek",
+    {
+      transformResponse: transformFoodResponse as RT,
+    }
+  );
+
+  const ahbapLocations = useLocation(["ahbap_location"], "ahbap", {
+    transformResponse: transformAhbapResponse as RT,
   });
-  const teleteyitLocations = useLocation(TELETEYIT_URL, "teleteyit", {
-    getExtraParams: () => ({ icon: "images/icon-12.png" }),
+
+  const hospitalLocations = useLocation(["hastahane_locations"], "hastane", {
+    transformResponse: transformHospitalResponse as RT,
   });
-  const satelliteLocations = useLocation(SATELLITE_URL, "satellite", {
-    getExtraParams: () => ({ icon: "images/icon-13.png" }),
+
+  const teleteyitLocations = useLocation(["teleteyit"], "teleteyit", {
+    transformResponse: transformTeleteyitResponse as RT,
   });
-  const sahraKitchenLocations = useLocation(SAHRA_KITCHEN_URL, "sahraKitchen", {
-    getExtraParams: getSahraExtraParams,
+
+  const satelliteLocations = useLocation(["uydu"], "uydu", {
+    transformResponse: transformSatelliteResponse as RT,
   });
-  const pharmacyLocations = useLocation(PHARMACY_URL, "pharmacy", {
-    getExtraParams: getPharmacyExtraParams,
+
+  const pharmacyLocations = useLocation(
+    ["eczane_excel", "turk_eczane"],
+    "eczane",
+    { transformResponse: transformPharmacyResponse as RT }
+  );
+
+  const safePlaceLocations = useLocation(
+    ["guvenli_yerler_oteller"],
+    "guvenli",
+    { transformResponse: transformSafePlaceResponse as RT }
+  );
+
+  const babalaLocations = useLocation(["babala"], "babala", {
+    disable: !["babala", null].includes(channelFilter),
+    transformResponse: transformBabalaResponse as RT,
   });
-  const safePlaceLocations = useLocation(SAFE_PLACES_URL, "safePlace", {
-    getExtraParams: () => ({ icon: "images/icon-16.png" }),
+
+  const twitterLocations = useLocation(["twitter"], "twitter", {
+    disable: !["twitter", null].includes(channelFilter),
+    transformResponse: transformTwitterResponse as RT,
   });
 
   return {
+    babalaLocations,
+    twitterLocations,
     foodLocations,
     ahbapLocations,
     hospitalLocations,
     teleteyitLocations,
     satelliteLocations,
-    sahraKitchenLocations,
     pharmacyLocations,
     safePlaceLocations,
   };

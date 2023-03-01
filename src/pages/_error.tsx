@@ -1,4 +1,4 @@
-import styles from "@/styles/Home.module.css";
+import styles from "@/styles/Error.module.css";
 import { NextPage } from "next";
 import { ErrorProps } from "next/error";
 import Image from "next/image";
@@ -39,11 +39,8 @@ const CustomErrorPage: NextPage<CustomErrorPageProps> = ({ title, detail }) => {
         />
         <h1 className={styles.errorTitle}>{title ?? t("defaults.title")}</h1>
         <p className={styles.errorText}>{detail ?? t("defaults.detail")}</p>
-        <Link href="/">
-          <span className={styles.errorLink}>{t("returnHome")}</span>
-        </Link>
-        <Link href="https://depremyardim.com">
-          <span className={styles.errorLink}>DepremYardim.com</span>
+        <Link href="">
+          <span className={styles.errorLink}>{t("defaults.returnHome")}</span>
         </Link>
       </div>
     </div>

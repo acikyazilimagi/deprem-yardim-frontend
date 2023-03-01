@@ -1,97 +1,156 @@
 {
-    "scanner": {
-        "text": "ALANI TARA"
+  "scanner": {
+    "text": "ALANI TARA"
+  },
+  "filter": {
+    "title": "Filtre",
+    "disasterVictimTitle": "Afetzede Bul",
+    "servicesTitle": "Hizmetler",
+    "helpRequestTitle": "Yardım Talepleri",
+    "reasonsTitle": "İhtiyaçlar",
+    "timestampTitle": "Zaman aralığı",
+    "channels": {
+      "all": "Tüm kanallar",
+      "twitter": "Sosyal medya",
+      "babala": "Onaylı",
+      "ahbap": "Ahbap"
     },
-    "filter": {
-        "title": "Filtre",
-        "channels": {
-            "all": "Tüm kanallar",
-            "twitter": "Sosyal medya",
-            "babala": "Onaylı",
-            "ahbap": "Ahbap"
-        },
-        "reasons": {
-            "barinma": "Barınma",
-            "elektronik": "Elektronik",
-            "enkaz": "Enkaz",
-            "erzak": "Erzak",
-            "giysi": "Giysi",
-            "guvenli-noktalar": "Güvenli noktalar",
-            "hayvanlar-icin-tedavi": "Hayvanlar için tedavi",
-            "konaklama": "Konaklama",
-            "kurtarma": "Kurtarma",
-            "lojistik": "Lojistik",
-            "su": "Su",
-            "yemek": "Yemek"
-        },
-        "time": {
-            "lastHalfHour": "Son 30 dakika",
-            "lastHour": "Son 1 saat",
-            "lastThreeHours": "Son 3 saat",
-            "lastSixHours": "Son 6 saat",
-            "lastTwelveHours": "Son 12 saat",
-            "lastDay": "Son 24 saat",
-            "lastThreeDays": "Son 3 gün",
-            "all": "Tüm zamanlar"
-        }
+    "reasons": {
+      "barinma": "Barınma",
+      "battaniye": "Battaniye",
+      "çadır": "Çadır",
+      "çocuk ihtiyaçları": "Çocuk ihtiyaçları",
+      "ekip": "Ekip",
+      "elektrik": "Elektrik",
+      "elektronik": "Elektronik",
+      "enkaz": "Enkaz",
+      "erzak": "Erzak",
+      "genel": "Genel",
+      "giyecek": "Giyecek",
+      "giyim": "Giyim",
+      "giysi": "Giysi",
+      "gıda": "Gıda",
+      "guvenli-noktalar": "Güvenli noktalar",
+      "hayvanlar-icin-tedavi": "Hayvanlar için tedavi",
+      "hijyen": "Hijyen",
+      "ilaç": "İlaç",
+      "ısınma": "Isınma",
+      "kefen": "Kefen",
+      "kişisel bakım": "Kişisel bakım",
+      "kişisel ihtiyaç": "Kişisel ihtiyaç",
+      "konaklama": "Konaklama",
+      "kurtarma": "Kurtarma",
+      "lojistik": "Lojistik",
+      "operatör": "Operatör",
+      "pet": "Pet",
+      "sağlık": "Sağlık",
+      "su": "Su",
+      "teçhizat": "Teçhizat",
+      "ulaşım": "Ulaşım",
+      "yagma": "Yağma",
+      "yakıt": "Yakıt",
+      "yemek": "Yemek"
     },
-    "tags": {
-        "safe": "Az Yoğun",
-        "low": "Az - Orta Yoğun",
-        "midLow": "Orta Yoğun",
-        "mid": "Orta - Yüksek Yoğun",
-        "midHigh": "Yüksek Yoğun",
-        "high": "Çok Yoğun"
+    "category": {
+      "afetzede": "Afetzede",
+      "barinma": "Barınma",
+      "elektronik": "Elektronik",
+      "yiyecek": "Yiyecek",
+      "saglik": "Sağlık",
+      "lojistik": "Lojistik",
+      "giyecek": "Giyecek",
+      "genel": "Genel",
+      "guvenlik": "Güvenlik"
     },
-    "cluster": {
-        "actions": {
-            "copied": "Koordinat bilgisi kopyalandı."
-        },
-        "mapButtons": {
-            "copy": "Harita Linkini Kopyala",
-            "google": "Google Haritalarda Aç",
-            "apple": "Apple Haritalarda Aç",
-            "direction": "Yol Tarifi Al"
-        },
-        "copyFullText": "İçeriği Kopyala",
-        "copiedContentSuccessfully": "İçerik başarıyla kopyalandı.",
-        "copiedMapLinkSuccessfully": "Harita linki başarıyla kopyalandı.",
-        "noticeCount": "{{count}} ihbar mevcut"
-    },
-    "map": {
-        "details": "Harita Ayrıntıları",
-        "type": "Harita Türü",
-        "base": {
-            "default": "Varsayılan",
-            "satellite": "Uydu",
-            "terrain": "Arazi"
-        },
-        "layer": {
-            "heatmap": "Isı Haritası",
-            "markers": "Depremzede Konumları",
-            "earthquakes": "Son Depremler",
-            "ahbap": "Ahbap Konumları",
-            "health": "Hastaneler",
-            "food": "Sıcak yemek",
-            "teleteyit": "Teleteyit",
-            "satellite": "Uydu",
-            "pharmacy": "Eczane",
-            "depremihtiyaccom":"Deprem İhtiyaç",
-            "guvenli_yerler_oteller": "Güvenli Yerler & Oteller",
-            "teleteyit_yardim": "Teleteyit Yardım",
-            "gecici_barinma_gida_dagitim": "Geçici Barınma ve Gıda Dağıtım",
-            "eczane_excel": "Eczane",
-            "sahra_mutfak": "Sahra Mutfak"
-        }
-    },
-    "content": {
-        "notifyTime": "Bildirim Zamanı",
-        "source": "Kaynak",
-        "helpContent": "Yardım İçeriği",
-        "showData": "Kayıtlı veriyi göster",
-        "closeBy": {
-            "title": "Diğer kayıtlar",
-            "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
-        }
+    "time": {
+      "lastHalfHour": "Son 30 dakika",
+      "lastHour": "Son 1 saat",
+      "lastThreeHours": "Son 3 saat",
+      "lastSixHours": "Son 6 saat",
+      "lastTwelveHours": "Son 12 saat",
+      "lastDay": "Son 24 saat",
+      "lastThreeDays": "Son 3 gün",
+      "all": "Tüm zamanlar"
     }
+  },
+  "tags": {
+    "safe": "Az Yoğun",
+    "low": "Az - Orta Yoğun",
+    "midLow": "Orta Yoğun",
+    "mid": "Orta - Yüksek Yoğun",
+    "midHigh": "Yüksek Yoğun",
+    "high": "Çok Yoğun"
+  },
+  "cluster": {
+    "actions": {
+      "copied": "Koordinat bilgisi kopyalandı."
+    },
+    "mapButtons": {
+      "copy": "Harita Linkini Kopyala",
+      "google": "Google Haritalarda Aç",
+      "apple": "Apple Haritalarda Aç",
+      "direction": "Yol Tarifi Al"
+    },
+    "copyFullText": "İçeriği Kopyala",
+    "copiedContentSuccessfully": "İçerik başarıyla kopyalandı.",
+    "copiedMapLinkSuccessfully": "Harita linki başarıyla kopyalandı.",
+    "noticeCount": "{{count}} ihbar mevcut"
+  },
+  "map": {
+    "details": "Harita Ayrıntıları",
+    "type": "Harita Türü",
+    "base": {
+      "default": "Varsayılan",
+      "satellite": "Uydu",
+      "terrain": "Arazi"
+    },
+    "layer": {
+      "heatmap": "Isı Haritası",
+      "markers": "Depremzede Konumları",
+      "earthquakes": "Son Depremler",
+      "ahbap": "Ahbap Konumları",
+      "health": "Hastaneler",
+      "food": "Sıcak yemek",
+      "teleteyit": "Teleteyit",
+      "satellite": "Uydu",
+      "pharmacy": "Eczane",
+      "depremihtiyaccom": "Deprem İhtiyaç",
+      "guvenli_yerler_oteller": "Güvenli Yerler & Oteller",
+      "teleteyit_yardim": "Teleteyit Yardım",
+      "gecici_barinma_gida_dagitim": "Geçici Barınma ve Gıda Dağıtım",
+      "eczane_excel": "Eczane",
+      "sahra_mutfak": "Sahra Mutfak"
+    }
+  },
+  "content": {
+    "notifyTime": "Bildirim Zamanı",
+    "source": "Kaynak",
+    "helpContent": "Yardım İçeriği",
+    "showData": "Kayıtlı veriyi göster",
+    "closeBy": {
+      "title": "Diğer kayıtlar",
+      "details": "Aşağıdaki seçeneklere tıklayarak <b>aynı konumdaki</b> diğer kayıtlara ulaşabilirsiniz."
+    },
+    "channels": {
+      "ahbap": "Ahbap Lokasyonları",
+      "babala": "Babala Verileri",
+      "deprem_io": "Deprem.io Çağrıları",
+      "deprem_ihtiyac": "depremihtiyac.com Verileri",
+      "discord": "Discord Çağrıları",
+      "dialysis": "Diyaliz Merkezleri",
+      "pharmacy": "Eczane",
+      "temporary_house": "Geçici Barınma ve Gıda Dağıtım",
+      "safe_places": "Güvenli Yerler ve Oteller",
+      "hospital": "Hastane Lokasyonları",
+      "psychological_support": "Psikolojik Destek Merkezleri",
+      "evacuation": "Tahliye Noktaları",
+      "verified_rescue": "Teyitli Enkaz Verileri",
+      "verified_relief": "Teyitli Yardım Verileri",
+      "twitter_relief": "Twitter Yardım Çağrıları",
+      "uda": "Üniversite Dayanışma Ağı ",
+      "satellite": "Uydu Görüntüsü Analizi",
+      "veterinary": "Veteriner Lokasyonları",
+      "food": "Yemek Dağıtım Lokasyonları"
+    }
+  }
 }
