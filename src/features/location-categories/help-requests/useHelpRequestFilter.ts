@@ -27,7 +27,16 @@ export const useHelpRequestFilter = create<State>()(
   persist(
     (set) => ({
       isOpen: false,
-      selectedCategories: ["barinma"],
+      selectedCategories: [
+        "barinma",
+        "elektronik",
+        "yiyecek",
+        "saglik",
+        "lojistik",
+        "giyecek",
+        "genel",
+        "guvenlik",
+      ],
       timestamp: FilterOptions[0].inMilliseconds,
       actions: {
         setTimestamp: (timestamp) => set(() => ({ timestamp })),
