@@ -1,0 +1,63 @@
+.footer {
+  width: 40rem;
+  display: flex;
+  bottom: 6rem;
+  z-index: 998;
+  margin: 10px;
+  font-weight: 400;
+  position: absolute;
+  font-size: 14px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2.5rem 2rem 1.5rem 2rem;
+  boxshadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer .dismissible span {
+  margin: auto;
+  text-align: justify;
+  text-justify: distribute;
+  letter-spacing: -0.3px;
+  width: 22rem;
+}
+
+.footer .closeButton {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  width: 30px;
+  bottom: 0;
+  margin: auto;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1055px) {
+  .footer {
+    width: 60%;
+    font-size: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .footer {
+    width: 85%;
+    padding: 2.5rem 1rem 1rem 1rem;
+  }
+
+  .footer div {
+    letter-spacing: -0.2px;
+    width: 16rem;
+  }
+  .footer .closeButton {
+    right: 0.25rem;
+    top: 0.75rem;
+  }
+}
