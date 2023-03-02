@@ -43,13 +43,16 @@ export const LocaleSwitchComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultLocale]);
 
+  const isMobileView = sizes.width < 600;
+
   return (
     <Box sx={styles.select}>
       <FormControl sx={styles.select}>
-        <TranslateIcon sx={styles.icon} />
+        <TranslateIcon sx={styles.icon} pointerEvents="none" />
         <Select
           sx={styles.select}
-          value={sizes.width < 600 ? "" : activeState}
+          value={isMobileView ? "" : activeState}
+          IconComponent={isMobileView ? () => null : undefined}
           onChange={handleChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
