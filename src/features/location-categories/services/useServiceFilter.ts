@@ -43,7 +43,16 @@ export const useServiceFilter = create<State>()(
   persist(
     (set) => ({
       isOpen: false,
-      selectedCategories: ["barinma"],
+      selectedCategories: [
+        "barinma",
+        "elektronik",
+        "yiyecek",
+        "saglik",
+        "lojistik",
+        "giyecek",
+        "genel",
+        "guvenlik",
+      ],
       actions: {
         setSelectedCategories: (selectedCategories) =>
           set(() => ({ selectedCategories })),
