@@ -4,15 +4,10 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
-import {
-  APIChannel,
-  APIResponse,
-  ClientChannel,
-  ChannelData,
-  RT,
-} from "@/types";
+import { APIChannel, APIResponse, ClientChannel, ChannelData } from "@/types";
 import { areasURL } from "@/utils/urls";
 import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
+import { transformers } from "@/services/transformers";
 
 const parseExtraParams = (extraParamsStr: string) => {
   return dJSON.parse<string, ChannelData["properties"]>(
@@ -22,7 +17,7 @@ const parseExtraParams = (extraParamsStr: string) => {
 
 type HandleLocationResponseOptions = {
   disable?: boolean;
-  transformResponse: RT;
+  transformResponse: (typeof transformers)[APIChannel];
 };
 
 export function useLocation(
@@ -68,17 +63,18 @@ export const parseChannelData = (
   item: APIResponse,
   options: HandleLocationResponseOptions
 ): ChannelData | undefined => {
-  let extraParams: ChannelData["properties"] | undefined;
+  let extraParams: ChannelData["properties"] | undefined = undefined;
+  const { extra_parameters, ...restOfItem } = item;
   try {
-    if (typeof item.extra_parameters === "string") {
-      extraParams = parseExtraParams(
-        item.extra_parameters.replaceAll(/\\"/g, '"')
-      );
+    if (typeof extra_parameters === "string") {
+      extraParams = parseExtraParams(extra_parameters.replaceAll(/\\"/g, '"'));
     }
   } catch (error) {
     console.error(error);
   }
-  return options.transformResponse({ ...item, extraParams });
+  const toTransform = { ...restOfItem, extraParams };
+  // TOFIX: remove `as never`
+  return options.transformResponse(toTransform as never);
 };
 
 const generateURL = (

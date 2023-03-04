@@ -1,5 +1,5 @@
 import { parseChannelData } from "@/hooks/useLocation";
-import { transformers } from "@/hooks/useVerifiedLocations";
+import { transformers } from "./transformers";
 import { APIChannel, APIResponse, ChannelData } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 

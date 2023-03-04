@@ -35,14 +35,17 @@ export type APIChannel =
 
 export type ClientChannel =
   | "twitter"
-  | "babala"
   | "ahbap"
-  | "yemek"
+  | "babala"
   | "teleteyit"
   | "uydu"
   | "eczane"
+  | "yemek"
   | "guvenli"
-  | "hastane";
+  | "hastane"
+  | "teyit_enkaz"
+  | "teyit_yardim"
+  | "depremio";
 
 export type Point = {
   lat: number;
@@ -75,12 +78,6 @@ export type APIResponseObject<
 > = Omit<APIResponse<TChannel>, "extra_parameters"> & {
   extraParams: T | undefined;
 };
-
-export type RT<
-  TResponse extends APIResponseObject = APIResponseObject,
-  TChannelData extends ChannelData = ChannelData
-> = (_response: TResponse) => TChannelData;
-
 export type DataProperties =
   | TwitterData
   | BabalaData
@@ -100,6 +97,11 @@ export type ChannelData = DataProperties & {
   closeByRecords?: number[];
   isVisited?: boolean;
 };
+
+export type RT<
+  TResponse extends APIResponseObject = APIResponseObject,
+  TChannelData extends ChannelData = ChannelData
+> = (_response: TResponse) => TChannelData;
 
 export type MarkerVisited = {
   [key: number]: boolean;
