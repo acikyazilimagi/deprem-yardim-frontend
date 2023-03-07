@@ -26,7 +26,7 @@ export type AhbapData = {
 };
 type AhbapChannel = APIGenericChannelProp<"ahbap_location">;
 
-export function parsePharmacyResponse(
+export function parseAhbapResponse(
   item: APIResponseBody & AhbapChannel
 ): AhbapData {
   // APIResponse -> APIResponseObject
