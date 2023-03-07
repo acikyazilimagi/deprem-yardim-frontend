@@ -24,10 +24,10 @@ export type AhbapData = {
   closeByRecords?: number[];
   isVisited?: boolean;
 };
-type AhbapChannel = APIGenericChannelProp<"ahbap_location">;
+type AhbapChannelProp = APIGenericChannelProp<"ahbap_location">;
 
 export function parseAhbapResponse(
-  item: APIResponseBody & AhbapChannel
+  item: APIResponseBody & AhbapChannelProp
 ): AhbapData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params

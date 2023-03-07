@@ -26,12 +26,12 @@ export type PharmacyData = {
   isVisited?: boolean;
 };
 
-type PharmacyChannel =
+type PharmacyChannelProp =
   | APIGenericChannelProp<"eczane_excel">
   | APIGenericChannelProp<"turk_eczane">;
 
 export function parsePharmacyResponse(
-  item: APIResponseBody & PharmacyChannel
+  item: APIResponseBody & PharmacyChannelProp
 ): PharmacyData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
