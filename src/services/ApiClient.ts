@@ -1,6 +1,5 @@
 import { parseChannelData } from "@/hooks/useLocation";
-import { transformers } from "./transformers";
-import { APIChannel, APIResponse, ChannelData } from "@/types";
+import { APIChannel, APIResponse } from "@/types";
 import { dataFetcher } from "./dataFetcher";
 
 export type Bounds = {

@@ -1,30 +1,16 @@
-import { transformFoodResponse, FoodData } from "./food";
-import { transformBabalaResponse, BabalaData } from "./babala";
-import { transformAhbapResponse, AhbapData } from "./ahbap";
-import { transformHospitalResponse, HospitalData } from "./hospital";
-import { transformTeleteyitResponse, TeleteyitData } from "./teleteyit";
-import { transformSatelliteResponse, SatelliteData } from "./satellite";
-import { transformPharmacyResponse, PharmacyData } from "./pharmacy";
-import { transformSafePlaceResponse, SafePlaceData } from "./safe-place";
-import { transformTwitterResponse, TwitterData } from "./twitter";
-import { transformTeyitEnkazResponse, TeyitEnkazData } from "./teyit-enkaz";
-import { transformTeyitYardimResponse, TeyitYardimData } from "./teyit-yardim";
-import { transformDepremIOResponse, DepremIOData } from "./depremio";
+import { FoodData } from "./food";
+import { BabalaData } from "./babala";
+import { AhbapData } from "./ahbap";
+import { HospitalData } from "./hospital";
+import { TeleteyitData } from "./teleteyit";
+import { SatelliteData } from "./satellite";
+import { PharmacyData } from "./pharmacy";
+import { SafePlaceData } from "./safe-place";
+import { TwitterData } from "./twitter";
+import { TeyitEnkazData } from "./teyit-enkaz";
+import { TeyitYardimData } from "./teyit-yardim";
+import { DepremIOData } from "./depremio";
 
-export {
-  transformFoodResponse,
-  transformBabalaResponse,
-  transformAhbapResponse,
-  transformHospitalResponse,
-  transformTeleteyitResponse,
-  transformSatelliteResponse,
-  transformPharmacyResponse,
-  transformSafePlaceResponse,
-  transformTwitterResponse,
-  transformTeyitEnkazResponse,
-  transformTeyitYardimResponse,
-  transformDepremIOResponse,
-};
 export type {
   FoodData,
   BabalaData,

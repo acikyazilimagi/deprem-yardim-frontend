@@ -4,14 +4,13 @@ import { useSetError } from "@/stores/errorStore";
 import { dataFetcher } from "@/services/dataFetcher";
 import { PartialDataError } from "@/errors";
 import dJSON from "dirty-json";
-import { APIChannel, APIResponse, ClientChannel, ChannelData } from "@/types";
+import { APIChannel, APIResponse } from "@/types";
 import { areasURL } from "@/utils/urls";
 import { useReasoningFilterMenuOption, useTimeStamp } from "@/stores/urlStore";
-import { transformers } from "@/services/transformers";
 
-const parseExtraParams = (extraParamsStr: string) => {
-  return dJSON.parse<string, ChannelData["properties"]>(
-    extraParamsStr?.replaceAll("nan", "")
+export const parseExtraParams = <TExtraParams>(extraParamsStr: string) => {
+  return dJSON.parse<string, TExtraParams>(
+    extraParamsStr?.replaceAll("nan", "").replaceAll(/\\"/g, '"')
   );
 };
 
