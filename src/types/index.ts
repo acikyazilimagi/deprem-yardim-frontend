@@ -24,6 +24,7 @@ export type APIResponseChannelProp =
   | APIGenericChannelProp<"twitter">
   | APIGenericChannelProp<"teyit_enkaz">
   | APIGenericChannelProp<"babala">
+  | APIGenericChannelProp<"Babala">
   | APIGenericChannelProp<"adana_yemek">
   | APIGenericChannelProp<"malatya_yemek">
   | APIGenericChannelProp<"depremio">

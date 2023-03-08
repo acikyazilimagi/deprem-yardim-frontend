@@ -1,15 +1,15 @@
-import { FoodData } from "./food";
-import { BabalaData } from "./babala";
-import { AhbapData } from "./ahbap";
+import { AhbapData, parseAhbapResponse } from "./ahbap";
+import { BabalaData, parseBabalaResponse } from "./babala";
+import { DepremIOData, parseDepremIOResponse } from "./depremio";
+import { FoodData, parseFoodResponse } from "./food";
 import { HospitalData } from "./hospital";
-import { TeleteyitData } from "./teleteyit";
-import { SatelliteData } from "./satellite";
-import { PharmacyData } from "./pharmacy";
+import { PharmacyData, parsePharmacyResponse } from "./pharmacy";
 import { SafePlaceData } from "./safe-place";
-import { TwitterData } from "./twitter";
+import { SatelliteData } from "./satellite";
+import { TeleteyitData } from "./teleteyit";
 import { TeyitEnkazData } from "./teyit-enkaz";
 import { TeyitYardimData } from "./teyit-yardim";
-import { DepremIOData } from "./depremio";
+import { TwitterData } from "./twitter";
 
 export type {
   FoodData,
@@ -24,4 +24,18 @@ export type {
   TeyitEnkazData,
   TeyitYardimData,
   DepremIOData,
+};
+export {
+  parseAhbapResponse,
+  parseBabalaResponse,
+  parseDepremIOResponse,
+  parseFoodResponse,
+  // parseHospitalResponse,
+  parsePharmacyResponse,
+  // parseSafePlaceResponse,
+  // parseSatelliteResponse,
+  // parseTeleteyitResponse,
+  // parseTeyitEnkazResponse,
+  // parseTeyitYardimResponse,
+  // parseTwitterResponse,
 };

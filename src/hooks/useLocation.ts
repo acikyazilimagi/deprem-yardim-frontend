@@ -57,25 +57,6 @@ export function useLocation(
 
   return locations;
 }
-
-export const parseChannelData = (
-  item: APIResponse,
-  options: HandleLocationResponseOptions
-): ChannelData | undefined => {
-  let extraParams: ChannelData["properties"] | undefined = undefined;
-  const { extra_parameters, ...restOfItem } = item;
-  try {
-    if (typeof extra_parameters === "string") {
-      extraParams = parseExtraParams(extra_parameters.replaceAll(/\\"/g, '"'));
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  const toTransform = { ...restOfItem, extraParams };
-  // TOFIX: remove `as never`
-  return options.transformResponse(toTransform as never);
-};
-
 const generateURL = (
   apiChannels: APIChannel[],
   reason: string | null,
