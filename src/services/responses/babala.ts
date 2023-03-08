@@ -41,9 +41,12 @@ export function parseBabalaResponse(
 ): BabalaData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<BabalaAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: BabalaAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<BabalaAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
   // Transform into client data
   return {
     channel: "babala",
@@ -52,7 +55,7 @@ export function parseBabalaResponse(
       full_text: item.full_text ?? "",
       timestamp: item.timestamp ?? null,
       formatted_address: item.formatted_address,
-      name: parsedExtraParams.name ?? null,
+      name: parsedExtraParams?.name ?? null,
       description: null,
       icon: "images/icon-babala.png",
     },

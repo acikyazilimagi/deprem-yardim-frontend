@@ -32,18 +32,21 @@ export function parseHospitalResponse(
 ): HospitalData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<HospitalAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: HospitalAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<HospitalAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "hastane",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
+      name: parsedExtraParams?.name ?? null,
       icon: "images/icon-10.png",
-      city: parsedExtraParams.il ?? null,
+      city: parsedExtraParams?.il ?? null,
       description: null,
     },
     reference: item.entry_id ?? null,

@@ -35,16 +35,19 @@ export function parsePharmacyResponse(
 ): PharmacyData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<PharmacyAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: PharmacyAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<PharmacyAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "eczane",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
+      name: parsedExtraParams?.name ?? null,
       reason: item.reason ?? null,
       icon: "images/icon-15.png",
       verified: item.is_location_verified ?? false,

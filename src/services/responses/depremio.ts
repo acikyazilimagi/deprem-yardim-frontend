@@ -32,18 +32,20 @@ export function parseDepremIOResponse(
 ): DepremIOData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<DepremIOAPIExtraParams>(rawExtraParams);
-
+  let parsedExtraParams: DepremIOAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<DepremIOAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
   // Transform into client data
   return {
     channel: "depremio",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
-      description: parsedExtraParams.description ?? null,
-      type: parsedExtraParams.styleUrl ?? null,
+      name: parsedExtraParams?.name ?? null,
+      description: parsedExtraParams?.description ?? null,
+      type: parsedExtraParams?.styleUrl ?? null,
       icon: "images/icon-deprem.io.png",
     },
     reference: item.entry_id ?? null,

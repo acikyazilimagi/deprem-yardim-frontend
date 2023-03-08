@@ -58,7 +58,7 @@ export type APIResponseBody = {
   id: number;
   entry_id: number;
   reason?: string;
-  extra_parameters: string;
+  extra_parameters?: string;
   full_text?: string;
   formatted_address: string;
   timestamp?: string;

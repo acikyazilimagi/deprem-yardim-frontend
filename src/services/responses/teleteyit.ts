@@ -38,22 +38,28 @@ export function parseTeleteyitResponse(
 ): TeleteyitData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<TeleteyitAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: TeleteyitAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<TeleteyitAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
+  const isimSoyisim = parsedExtraParams
+    ? parsedExtraParams["isim-soyisim"]
+    : null;
 
   // Transform into client data
   return {
     channel: "teleteyit",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams["isim-soyisim"] ?? null,
-      description: parsedExtraParams.aciklama ?? null,
+      name: isimSoyisim,
+      description: parsedExtraParams?.aciklama ?? null,
       icon: "images/icon-14.png",
       reason: item.reason ?? null,
-      city: parsedExtraParams.il ?? null,
-      district: parsedExtraParams.ilce ?? null,
-      status: parsedExtraParams.durum ?? null,
+      city: parsedExtraParams?.il ?? null,
+      district: parsedExtraParams?.ilce ?? null,
+      status: parsedExtraParams?.durum ?? null,
     },
     reference: item.entry_id ?? null,
   };

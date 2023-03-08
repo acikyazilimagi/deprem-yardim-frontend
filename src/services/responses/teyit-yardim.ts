@@ -32,18 +32,21 @@ export function parseTeyitYardimResponse(
 ): TeyitYardimData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<TeyitYardimAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: TeyitYardimAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<TeyitYardimAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "teyit_yardim",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
-      description: parsedExtraParams.description ?? null,
-      type: parsedExtraParams.styleUrl ?? null,
+      name: parsedExtraParams?.name ?? null,
+      description: parsedExtraParams?.description ?? null,
+      type: parsedExtraParams?.styleUrl ?? null,
       icon: "images/icon-yardim.png",
     },
     reference: item.entry_id ?? null,

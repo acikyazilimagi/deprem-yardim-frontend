@@ -34,16 +34,19 @@ export function parseSatelliteResponse(
 ): SatelliteData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<SatelliteAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: SatelliteAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<SatelliteAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "uydu",
     geometry: createGeometry(item),
     properties: {
-      damage: parsedExtraParams.damage ?? null,
+      damage: parsedExtraParams?.damage ?? null,
       verified: item.is_location_verified ?? false,
       icon: "images/icon-13.png",
       name: null,

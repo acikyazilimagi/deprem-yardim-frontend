@@ -31,18 +31,20 @@ export function parseAhbapResponse(
 ): AhbapData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<AhbapAPIExtraParams>(rawExtraParams);
-
+  let parsedExtraParams: AhbapAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<AhbapAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
   // Transform into client data
   return {
     channel: "ahbap",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
-      description: parsedExtraParams.description ?? null,
-      type: parsedExtraParams.styleUrl ?? null,
+      name: parsedExtraParams?.name ?? null,
+      description: parsedExtraParams?.description ?? null,
+      type: parsedExtraParams?.styleUrl ?? null,
       icon: "images/icon-ahbap.png",
     },
     reference: item.entry_id ?? null,

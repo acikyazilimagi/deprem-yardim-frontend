@@ -37,18 +37,21 @@ export function parseFoodResponse(
 ): FoodData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<FoodAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: FoodAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<FoodAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "yemek",
     geometry: createGeometry(item),
     properties: {
-      name: parsedExtraParams.name ?? null,
-      description: parsedExtraParams.description ?? null,
-      type: parsedExtraParams.styleUrl ?? null,
+      name: parsedExtraParams?.name ?? null,
+      description: parsedExtraParams?.description ?? null,
+      type: parsedExtraParams?.styleUrl ?? null,
       icon: "images/icon-21.png",
       reason: item.reason ?? null,
     },

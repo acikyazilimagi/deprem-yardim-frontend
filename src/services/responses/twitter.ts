@@ -36,9 +36,12 @@ export function parseTwitterResponse(
 ): TwitterData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<TwitterAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: TwitterAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<TwitterAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
@@ -47,9 +50,9 @@ export function parseTwitterResponse(
       icon: "images/icon-twitter.png",
       full_text: item.full_text ?? "",
       reason: item.reason ?? null,
-      screen_name: parsedExtraParams.screen_name ?? null,
-      name: parsedExtraParams.name ?? null,
-      tweet_id: parsedExtraParams.tweet_id ?? null,
+      screen_name: parsedExtraParams?.screen_name ?? null,
+      name: parsedExtraParams?.name ?? null,
+      tweet_id: parsedExtraParams?.tweet_id ?? null,
       formatted_address: item.formatted_address,
       timestamp: item.timestamp ?? null,
       description: null,

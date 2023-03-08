@@ -33,19 +33,22 @@ export function parseSafePlaceResponse(
 ): SafePlaceData {
   // APIResponse -> APIResponseObject
   // i.e. parse extra params
-  const rawExtraParams = item.extra_parameters;
-  const parsedExtraParams =
-    parseExtraParams<SafePlaceAPIExtraParams>(rawExtraParams);
+  let parsedExtraParams: SafePlaceAPIExtraParams | undefined = undefined;
+  if (item.extra_parameters) {
+    parsedExtraParams = parseExtraParams<SafePlaceAPIExtraParams>(
+      item.extra_parameters
+    );
+  }
 
   // Transform into client data
   return {
     channel: "guvenli",
     geometry: createGeometry(item),
     properties: {
-      description: parsedExtraParams.description ?? null,
+      description: parsedExtraParams?.description ?? null,
       icon: "images/icon-16.png",
       reason: item.reason ?? null,
-      name: parsedExtraParams.name ?? null,
+      name: parsedExtraParams?.name ?? null,
       verified: item.is_location_verified ?? false,
     },
     reference: item.entry_id ?? null,
