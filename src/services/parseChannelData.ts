@@ -8,6 +8,7 @@ import {
   parseHospitalResponse,
   parseSafePlaceResponse,
   parseSatelliteResponse,
+  parseTeleteyitResponse,
 } from "./responses";
 
 export const parseChannelData = ((item: APIResponse) => {
@@ -33,8 +34,9 @@ export const parseChannelData = ((item: APIResponse) => {
       return parseSafePlaceResponse(item);
     case "uydu":
       return parseSatelliteResponse(item);
-    case "teyit_yardim":
     case "teleteyit":
+      return parseTeleteyitResponse(item);
+    case "teyit_yardim":
     case "twitter":
     case "teyit_enkaz":
       return { foo: "bar" } as const;
