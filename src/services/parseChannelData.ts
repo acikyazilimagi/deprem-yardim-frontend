@@ -5,6 +5,7 @@ import {
   parseDepremIOResponse,
   parseFoodResponse,
   parsePharmacyResponse,
+  parseHospitalResponse,
 } from "./responses";
 
 export const parseChannelData = ((item: APIResponse) => {
@@ -24,9 +25,10 @@ export const parseChannelData = ((item: APIResponse) => {
       return parseBabalaResponse(item);
     case "depremio":
       return parseDepremIOResponse(item);
+    case "hastahane_locations":
+      return parseHospitalResponse(item);
     case "teyit_yardim":
     case "guvenli_yerler_oteller":
-    case "hastahane_locations":
     case "teleteyit":
     case "uydu":
     case "twitter":
@@ -34,3 +36,5 @@ export const parseChannelData = ((item: APIResponse) => {
       return { foo: "bar" } as const;
   }
 }) satisfies (_item: APIResponse) => {}; // to make sure all channels are covered
+
+export type ChannelData = ReturnType<typeof parseChannelData>;

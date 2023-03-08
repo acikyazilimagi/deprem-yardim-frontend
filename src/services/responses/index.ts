@@ -2,7 +2,7 @@ import { AhbapData, parseAhbapResponse } from "./ahbap";
 import { BabalaData, parseBabalaResponse } from "./babala";
 import { DepremIOData, parseDepremIOResponse } from "./depremio";
 import { FoodData, parseFoodResponse } from "./food";
-import { HospitalData } from "./hospital";
+import { HospitalData, parseHospitalResponse } from "./hospital";
 import { PharmacyData, parsePharmacyResponse } from "./pharmacy";
 import { SafePlaceData } from "./safe-place";
 import { SatelliteData } from "./satellite";
@@ -30,7 +30,7 @@ export {
   parseBabalaResponse,
   parseDepremIOResponse,
   parseFoodResponse,
-  // parseHospitalResponse,
+  parseHospitalResponse,
   parsePharmacyResponse,
   // parseSafePlaceResponse,
   // parseSatelliteResponse,
