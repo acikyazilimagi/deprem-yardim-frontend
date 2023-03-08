@@ -1,6 +1,6 @@
 import { createGeometry } from "@/utils/geometry";
 import { Geometry, APIResponseBody, APIGenericChannelProp } from "@/types";
-import { parseExtraParams } from "@/hooks/useLocation";
+import { parseExtraParams } from "@/services/parseExtraParams";
 
 export type BabalaAPIExtraParams = {
   additional_notes: string;

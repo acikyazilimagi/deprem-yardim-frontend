@@ -8,7 +8,7 @@ export type Geometry = {
   location: Point;
 };
 
-const apiChannels = [
+export const apiChannels = [
   "ahbap_location",
   "sicak_yemek",
   "hastahane_locations",

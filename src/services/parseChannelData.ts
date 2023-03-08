@@ -49,3 +49,4 @@ export const parseChannelData = ((item: APIResponse) => {
 }) satisfies (_item: APIResponse) => {}; // to make sure all channels are covered
 
 export type ChannelData = ReturnType<typeof parseChannelData>;
+export type ClientChannel = ChannelData["channel"];

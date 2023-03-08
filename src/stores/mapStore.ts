@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 
+import { ChannelData } from "@/services/parseChannelData";
 import { DeviceType, EVENT_TYPES } from "@/types";
 
 import { create } from "zustand";
