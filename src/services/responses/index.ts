@@ -8,7 +8,7 @@ import { SafePlaceData, parseSafePlaceResponse } from "./safe-place";
 import { SatelliteData, parseSatelliteResponse } from "./satellite";
 import { TeleteyitData, parseTeleteyitResponse } from "./teleteyit";
 import { TeyitEnkazData, parseTeyitEnkazResponse } from "./teyit-enkaz";
-import { TeyitYardimData } from "./teyit-yardim";
+import { TeyitYardimData, parseTeyitYardimResponse } from "./teyit-yardim";
 import { TwitterData } from "./twitter";
 
 export type {
@@ -36,6 +36,6 @@ export {
   parseSatelliteResponse,
   parseTeleteyitResponse,
   parseTeyitEnkazResponse,
-  // parseTeyitYardimResponse,
+  parseTeyitYardimResponse,
   // parseTwitterResponse,
 };
