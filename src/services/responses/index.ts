@@ -4,7 +4,7 @@ import { DepremIOData, parseDepremIOResponse } from "./depremio";
 import { FoodData, parseFoodResponse } from "./food";
 import { HospitalData, parseHospitalResponse } from "./hospital";
 import { PharmacyData, parsePharmacyResponse } from "./pharmacy";
-import { SafePlaceData } from "./safe-place";
+import { SafePlaceData, parseSafePlaceResponse } from "./safe-place";
 import { SatelliteData } from "./satellite";
 import { TeleteyitData } from "./teleteyit";
 import { TeyitEnkazData } from "./teyit-enkaz";
@@ -32,7 +32,7 @@ export {
   parseFoodResponse,
   parseHospitalResponse,
   parsePharmacyResponse,
-  // parseSafePlaceResponse,
+  parseSafePlaceResponse,
   // parseSatelliteResponse,
   // parseTeleteyitResponse,
   // parseTeyitEnkazResponse,

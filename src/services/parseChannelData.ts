@@ -6,6 +6,7 @@ import {
   parseFoodResponse,
   parsePharmacyResponse,
   parseHospitalResponse,
+  parseSafePlaceResponse,
 } from "./responses";
 
 export const parseChannelData = ((item: APIResponse) => {
@@ -27,8 +28,9 @@ export const parseChannelData = ((item: APIResponse) => {
       return parseDepremIOResponse(item);
     case "hastahane_locations":
       return parseHospitalResponse(item);
-    case "teyit_yardim":
     case "guvenli_yerler_oteller":
+      return parseSafePlaceResponse(item);
+    case "teyit_yardim":
     case "teleteyit":
     case "uydu":
     case "twitter":
