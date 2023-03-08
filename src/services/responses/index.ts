@@ -9,7 +9,7 @@ import { SatelliteData, parseSatelliteResponse } from "./satellite";
 import { TeleteyitData, parseTeleteyitResponse } from "./teleteyit";
 import { TeyitEnkazData, parseTeyitEnkazResponse } from "./teyit-enkaz";
 import { TeyitYardimData, parseTeyitYardimResponse } from "./teyit-yardim";
-import { TwitterData } from "./twitter";
+import { TwitterData, parseTwitterResponse } from "./twitter";
 
 export type {
   FoodData,
@@ -37,5 +37,5 @@ export {
   parseTeleteyitResponse,
   parseTeyitEnkazResponse,
   parseTeyitYardimResponse,
-  // parseTwitterResponse,
+  parseTwitterResponse,
 };
