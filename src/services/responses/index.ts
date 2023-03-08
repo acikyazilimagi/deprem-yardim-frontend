@@ -5,7 +5,7 @@ import { FoodData, parseFoodResponse } from "./food";
 import { HospitalData, parseHospitalResponse } from "./hospital";
 import { PharmacyData, parsePharmacyResponse } from "./pharmacy";
 import { SafePlaceData, parseSafePlaceResponse } from "./safe-place";
-import { SatelliteData } from "./satellite";
+import { SatelliteData, parseSatelliteResponse } from "./satellite";
 import { TeleteyitData } from "./teleteyit";
 import { TeyitEnkazData } from "./teyit-enkaz";
 import { TeyitYardimData } from "./teyit-yardim";
@@ -33,7 +33,7 @@ export {
   parseHospitalResponse,
   parsePharmacyResponse,
   parseSafePlaceResponse,
-  // parseSatelliteResponse,
+  parseSatelliteResponse,
   // parseTeleteyitResponse,
   // parseTeyitEnkazResponse,
   // parseTeyitYardimResponse,
