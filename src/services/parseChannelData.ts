@@ -9,6 +9,7 @@ import {
   parseSafePlaceResponse,
   parseSatelliteResponse,
   parseTeleteyitResponse,
+  parseTeyitEnkazResponse,
 } from "./responses";
 
 export const parseChannelData = ((item: APIResponse) => {
@@ -36,9 +37,10 @@ export const parseChannelData = ((item: APIResponse) => {
       return parseSatelliteResponse(item);
     case "teleteyit":
       return parseTeleteyitResponse(item);
+    case "teyit_enkaz":
+      return parseTeyitEnkazResponse(item);
     case "teyit_yardim":
     case "twitter":
-    case "teyit_enkaz":
       return { foo: "bar" } as const;
   }
 }) satisfies (_item: APIResponse) => {}; // to make sure all channels are covered
