@@ -8,7 +8,29 @@ export type Geometry = {
   location: Point;
 };
 
-export type APIGenericChannelProp<TChannel> = {
+const apiChannels = [
+  "ahbap_location",
+  "sicak_yemek",
+  "hastahane_locations",
+  "teleteyit",
+  "uydu",
+  "sahra_mutfak",
+  "turk_eczane",
+  "eczane_excel",
+  "guvenli_yerler_oteller",
+  "twitter",
+  "teyit_enkaz",
+  "babala",
+  "Babala",
+  "adana_yemek",
+  "malatya_yemek",
+  "depremio",
+  "teyit_yardim",
+] as const;
+
+export type APIGenericChannelProp<
+  TChannel extends (typeof apiChannels)[number]
+> = {
   channel: TChannel;
 };
 export type APIResponseChannelProp =
@@ -46,6 +68,7 @@ export type APIResponseBody = {
   is_location_verified?: boolean;
   is_need_verified: boolean;
 };
+
 export type APIResponse = APIResponseBody & APIResponseChannelProp;
 
 export type MarkerVisited = {
