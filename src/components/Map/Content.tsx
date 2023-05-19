@@ -14,11 +14,6 @@ import { useRouter } from "next/router";
 import { useMapEvents } from "@/hooks/useMapEvents";
 import { MapClusterStyle } from "@/components/Map/Cluster/ClusterStyle";
 import { latLng, latLngBounds } from "leaflet";
-import {
-  useDisasterVictimsData,
-  useHelpRequestsData,
-  useServicesData,
-} from "@/features/location-categories";
 import { LayerControl } from "./LayerControl";
 import { useMapGeographyStore } from "@/stores/mapGeographyStore";
 
@@ -33,10 +28,6 @@ export const MapContent = () => {
   const { setEventType } = useMapActions();
   const device = useDevice();
   const router = useRouter();
-
-  const { data: servicesData = [] } = useServicesData();
-  const { data: disasterVictimsData = [] } = useDisasterVictimsData();
-  const { data: helpRequestsData = [] } = useHelpRequestsData();
 
   const onMarkerClick = (_e: any, markerData: ChannelData) => {
     const query = { ...router.query, id: markerData.reference };
@@ -83,12 +74,7 @@ export const MapContent = () => {
         <MapControls />
         <TileLayer url={baseMapUrl} />
 
-        <LayerControl
-          locations={disasterVictimsData
-            .concat(servicesData)
-            .concat(helpRequestsData)}
-          onMarkerClick={onMarkerClick}
-        />
+        <LayerControl locations={[]} onMarkerClick={onMarkerClick} />
       </Map>
       <Box sx={styles.fixedMidBottom}>
         <CooldownButtonComponent />

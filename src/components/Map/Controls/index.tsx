@@ -16,13 +16,11 @@ import {
   Box,
 } from "@mui/material";
 import { LocaleSwitchComponent } from "../../LocaleSwitch/LocaleSwitch";
-import Diversity1Icon from "@mui/icons-material/Diversity1";
 import { FilterButtonComponent } from "../../Button/Filter";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import LayersIcon from "@mui/icons-material/Layers";
 import SearchIcon from "@mui/icons-material/Search";
-import WifiTetheringErrorIcon from "@mui/icons-material/WifiTetheringError";
 import { useMap } from "react-leaflet";
 import { Control } from "./Control";
 import { LayerButton } from "./LayerButton";
@@ -30,12 +28,9 @@ import { useHelpView } from "../../UserGuide/UserGuide";
 import { useTranslation } from "next-i18next";
 import { DoubleClickStopPropagation } from "@/components/DoubleClickStopPropagation";
 import {
-  FilterDisasterVictim,
-  FilterHelpRequest,
-  FilterService,
-  useDisasterVictimFilter,
-  useHelpRequestFilter,
-  useServiceFilter,
+  FilterVotingLocations,
+  useVotingLocations,
+  useVotingLocationsData,
 } from "@/features/location-categories";
 import { DataSourcesInfo } from "@/components/DataSourcesInfo/DataSourcesInfo";
 import { useState } from "react";
@@ -130,9 +125,9 @@ const HelpViewControl = () => {
 export const MapControls = () => {
   const { t } = useTranslation("home");
 
-  const disasterVictimFilter = useDisasterVictimFilter();
-  const helpRequestFilter = useHelpRequestFilter();
-  const serviceFilter = useServiceFilter();
+  useVotingLocationsData();
+
+  const votingLocationsFilter = useVotingLocations();
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
 
   return (
@@ -163,37 +158,17 @@ export const MapControls = () => {
           >
             <Stack display={"flex"} direction={"row"} columnGap={2}>
               <FilterButtonComponent
-                buttonLabel={t("filter.disasterVictimTitle")}
+                buttonLabel={t("filter.findVotingLocationsTitle")}
                 icon={<SearchIcon />}
                 onClick={() => {
-                  disasterVictimFilter.actions.setIsOpen(
-                    !disasterVictimFilter.isOpen
+                  votingLocationsFilter.actions.setIsOpen(
+                    !votingLocationsFilter.isOpen
                   );
-                }}
-              />
-
-              <FilterButtonComponent
-                buttonLabel={t("filter.helpRequestTitle")}
-                icon={<WifiTetheringErrorIcon />}
-                onClick={() => {
-                  helpRequestFilter.actions.setIsOpen(
-                    !helpRequestFilter.isOpen
-                  );
-                }}
-              />
-
-              <FilterButtonComponent
-                buttonLabel={t("filter.servicesTitle")}
-                icon={<Diversity1Icon />}
-                onClick={() => {
-                  serviceFilter.actions.setIsOpen(!serviceFilter.isOpen);
                 }}
               />
             </Stack>
             <Stack display={"flex"} direction={"row"} columnGap={2}>
-              <FilterDisasterVictim />
-              <FilterHelpRequest />
-              <FilterService />
+              <FilterVotingLocations />
             </Stack>
           </Stack>
         </Control>

@@ -3,9 +3,6 @@ import { create } from "zustand";
 import { getHashStorage } from "@/utils/zustand";
 import { persist } from "zustand/middleware";
 
-export type HelpRequestFilters = any;
-export type HelpRequestCategory = any;
-
 interface State {
   isOpen: boolean;
   selectedCityId: number | null;
@@ -20,9 +17,6 @@ interface State {
     setIsOpen: (_isOpen: boolean) => void;
   };
 }
-
-// export const votingLocationsFilters // ?
-export const helpRequestChannels: any = ["twitter", "teyit_enkaz"];
 
 export const useVotingLocations = create<State>()(
   persist(

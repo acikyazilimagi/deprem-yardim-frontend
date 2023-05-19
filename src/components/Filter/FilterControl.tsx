@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 
 type Props = Pick<
   SelectProps<any>,
-  "multiple" | "label" | "value" | "name" | "onChange"
+  "multiple" | "label" | "value" | "name" | "onChange" | "disabled"
 > & {
   selected?: string[];
 };
@@ -24,6 +24,7 @@ export const FilterControl = (props: PropsWithChildren<Props>) => {
         label={props.label}
         name={props.name}
         onChange={props.onChange}
+        disabled={props.disabled}
       >
         {props.children}
       </Select>

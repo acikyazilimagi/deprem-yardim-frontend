@@ -6,11 +6,9 @@ import { FilterOptions } from "@/utils/filterTime";
 import { MenuItem, SelectChangeEvent } from "@mui/material";
 import { useVotingLocations } from "./useVotingLocations";
 
-const cityTransformer = (id: number): string => {
-  return id.toString();
-};
+import cities from "@/data/tr-cities.json";
 
-export const FilterHelpRequest = () => {
+export const FilterVotingLocations = () => {
   const { t } = useTranslation("home");
   const {
     isOpen,
@@ -30,7 +28,7 @@ export const FilterHelpRequest = () => {
       isOpen={isOpen}
       header={
         <FilterHeader
-          title={t("filter.helpRequestTitle")}
+          title={t("filter.findVotingLocationsTitle")}
           onClose={() => {
             actions.setIsOpen(false);
           }}
@@ -39,29 +37,26 @@ export const FilterHelpRequest = () => {
     >
       <FilterControl
         value={selectedCityId}
-        label={t("filter.selectedCityId")}
+        label={t("filter.city")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
-
           if (typeof value !== "number") return;
-
           actions.setSelectedCityId(value);
         }}
       >
-        {FilterOptions.map((option, idx) => {
+        {cities.map((city) => {
           return (
-            <MenuItem key={idx} value={option.inMilliseconds}>
-              {/* cityTransformer */}
-              {/* We don't know data yet but it should be city.name */}
-              {t(`filter.time.${option.label}`)}
+            <MenuItem key={city.id} value={city.id ?? ""}>
+              {city.name}
             </MenuItem>
           );
         })}
       </FilterControl>
 
       <FilterControl
-        value={selectedDistrictId}
-        label={t("filter.selectedDistrictId")}
+        disabled={!selectedCityId}
+        value={selectedDistrictId ?? ""}
+        label={t("filter.district")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
 
@@ -70,20 +65,21 @@ export const FilterHelpRequest = () => {
           actions.setSelectedDistrictId(value);
         }}
       >
-        {FilterOptions.map((option, idx) => {
+        {cities.map((city) => {
           return (
-            <MenuItem key={idx} value={option.inMilliseconds}>
+            <MenuItem key={city.id} value={city.id}>
               {/* cityTransformer */}
               {/* We don't know data yet but it should be city.name */}
-              {t(`filter.time.${option.label}`)}
+              {city.name}
             </MenuItem>
           );
         })}
       </FilterControl>
 
       <FilterControl
-        value={selectedNeighborhoodId}
-        label={t("filter.selectedNeighborhoodId")}
+        disabled={!selectedDistrictId}
+        value={selectedNeighborhoodId ?? ""}
+        label={t("filter.neighborhood")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
 
@@ -104,8 +100,9 @@ export const FilterHelpRequest = () => {
       </FilterControl>
 
       <FilterControl
-        value={selectedSchoolId}
-        label={t("filter.selectedSchoolId")}
+        disabled={!selectedNeighborhoodId}
+        value={selectedSchoolId ?? ""}
+        label={t("filter.school")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
 

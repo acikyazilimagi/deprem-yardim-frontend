@@ -4,63 +4,15 @@
   },
   "filter": {
     "title": "Filter",
-    "disasterVictimTitle": "Find Disaster Victim",
-    "servicesTitle": "Services",
-    "helpRequestTitle": "Help Requests",
-    "reasonsTitle": "Reasons",
+    "findVotingLocationsTitle": "Find voting locations",
     "timestampTitle": "Timeframe",
+    "city": "City",
+    "district": "District",
+    "neighborhood": "Neighborhood",
+    "school": "School Name",
+    "applyOptionsLabel": "Apply Options",
     "channels": {
-      "all": "All channels",
-      "twitter": "Social media",
-      "babala": "Verified",
-      "ahbap": "Ahbap"
-    },
-    "reasons": {
-      "barinma": "Shelter",
-      "battaniye": "Blanket",
-      "çadır": "Tent",
-      "çocuk ihtiyaçları": "Needs for children",
-      "ekip": "Team",
-      "elektrik": "Electricity",
-      "elektronik": "Electronics",
-      "enkaz": "Wreckage",
-      "erzak": "Provisions",
-      "genel": "General",
-      "giyecek": "Clothing",
-      "giyim": "Clothes",
-      "giysi": "Clothes",
-      "gıda": "Food",
-      "guvenli-noktalar": "Safe-points",
-      "hayvanlar-icin-tedavi": "Animal theraphy",
-      "hijyen": "Hygiene",
-      "ilaç": "Medicine",
-      "ısınma": "Heating",
-      "kefen": "Shroud",
-      "kişisel bakım": "Personal care",
-      "kişisel ihtiyaç": "Personal needs",
-      "konaklama": "Accomodation",
-      "kurtarma": "Rescue",
-      "lojistik": "Logistics",
-      "operatör": "Operator",
-      "pet": "Pet",
-      "sağlık": "Health",
-      "su": "Water",
-      "teçhizat": "Equipment",
-      "ulaşım": "Transporation",
-      "yagma": "Looting",
-      "yakıt": "Fuel",
-      "yemek": "Meal"
-    },
-    "category": {
-      "afetzede": "Disaster Victim",
-      "barinma": "Shelter",
-      "elektronik": "Electronics",
-      "yiyecek": "Food",
-      "saglik": "Health",
-      "lojistik": "Logistics",
-      "giyecek": "Clothes",
-      "genel": "General",
-      "guvenlik": "Security"
+      "all": "All channels"
     },
     "time": {
       "lastHalfHour": "Last 30 minutes",
@@ -106,19 +58,7 @@
     },
     "layer": {
       "heatmap": "Heatmap",
-      "markers": "Markers",
-      "earthquakes": "Latest Earthquakes",
-      "ahbap": "Ahbap Locations",
-      "health": "Hospitals",
-      "food": "Hot Meal",
-      "teleteyit": "Teleteyit",
-      "satellite": "Satellite",
-      "pharmacy": "Pharmacy",
-      "depremihtiyaccom": "Earthquake Needs",
-      "guvenli_yerler_oteller": "Safe Places and Hotels",
-      "teleteyit_yardim": "Teleteyit Help",
-      "gecici_barinma_gida_dagitim": "Temporary Housing and Food Delivery",
-      "sahra_mutfak": "Sahara Kitchen"
+      "markers": "Markers"
     }
   },
   "content": {
@@ -130,26 +70,6 @@
       "title": "Other records",
       "details": "You can click the below records to access the other records in the <b>same location</b>"
     },
-    "channels": {
-      "ahbap": "Ahbap Locations",
-      "babala": "Babala Data",
-      "deprem_io": "deprem.io Calls",
-      "deprem_ihtiyac": "depremihtiyac.com Data",
-      "discord": "Discord Calls",
-      "dialysis": "Dialysis Centers",
-      "pharmacy": "Pharmacy",
-      "temporary_house": "Temporary Housing and Food Distribution",
-      "safe_places": "Safe Places and Hotels",
-      "hospital": "Hospital Locations",
-      "psychological_support": "Psychological Support Centers",
-      "evacuation": "Evacuation Locations",
-      "verified_rescue": "Verified Rescue Data",
-      "verified_relief": "Verified Relief Aid Data",
-      "twitter_relief": "Twitter Relief Aid Calls",
-      "uda": "University Solidarity Network",
-      "satellite": "Satellite Image Analysis",
-      "veterinary": "Veterinary locations",
-      "food": "Food Serving Locations"
-    }
+    "channels": {}
   }
 }
