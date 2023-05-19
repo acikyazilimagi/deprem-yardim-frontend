@@ -7,6 +7,11 @@ import { MenuItem, SelectChangeEvent } from "@mui/material";
 import { useVotingLocations } from "./useVotingLocations";
 
 import cities from "@/data/tr-cities.json";
+import cityDistricts from "@/data/tr-city-districts.json";
+
+const getDistricts = (cityID: number) => {
+  return cityDistricts.filter((district) => district.cityID === cityID);
+};
 
 export const FilterVotingLocations = () => {
   const { t } = useTranslation("home");
@@ -65,15 +70,14 @@ export const FilterVotingLocations = () => {
           actions.setSelectedDistrictId(value);
         }}
       >
-        {cities.map((city) => {
-          return (
-            <MenuItem key={city.id} value={city.id}>
-              {/* cityTransformer */}
-              {/* We don't know data yet but it should be city.name */}
-              {city.name}
-            </MenuItem>
-          );
-        })}
+        {selectedCityId &&
+          getDistricts(selectedCityId).map((district) => {
+            return (
+              <MenuItem key={district.id} value={district.id}>
+                {district.name}
+              </MenuItem>
+            );
+          })}
       </FilterControl>
 
       <FilterControl
