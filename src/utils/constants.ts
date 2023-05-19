@@ -18,25 +18,4 @@ export const CHANNEL_AHBAP_TYPES: Record<string, string> = {
   "1602": "Konaklama - Beslenme",
 };
 
-export const AHBAP_LOCATIONS_URL =
-  BASE_URL + "/feeds/areas?channel=ahbap_location&extraParams=true";
-
-export const HOSPITAL_LOCATIONS_URL =
-  BASE_URL + "/feeds/areas?channel=hastahane_locations&extraParams=true";
-
-export const FOOD_URL =
-  BASE_URL + "/feeds/areas?channel=sicak_yemek&extraParams=true";
-
-export const TELETEYIT_URL =
-  BASE_URL + "/feeds/areas?channel=teleteyit&extraParams=true";
-
-export const SATELLITE_URL =
-  BASE_URL + "/feeds/areas?channel=uydu&extraParams=true";
-
-export const PHARMACY_URL =
-  BASE_URL + "/feeds/areas?channel=turk_eczane,eczane_excel&extraParams=true";
-
-export const SAFE_PLACES_URL =
-  BASE_URL + "/feeds/areas?channel=guvenli_yerler_oteller&extraParams=true";
-
 export const NEXT_LOCALE_COOKIE = "NEXT_LOCALE";

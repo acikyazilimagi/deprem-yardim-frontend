@@ -81,6 +81,7 @@ export type RT<
   TChannelData extends ChannelData = ChannelData
 > = (_response: TResponse) => TChannelData;
 
+// Add new musahit sources channels here
 export type DataProperties =
   | TwitterData
   | BabalaData
