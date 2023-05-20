@@ -7,8 +7,7 @@ import { DrawerData } from "@/stores/mapStore";
 
 interface MapsButton {
   label: string;
-  // eslint-disable-next-line no-unused-vars
-  urlCallback: (lat: number, lng: number) => void;
+  urlCallback: (_lat: number, _lng: number) => void;
   icon: ReactNode;
   color: "primary" | "secondary" | "inherit";
 }
@@ -19,14 +18,6 @@ export const generateGoogleMapsUrl = (lat: number, lng: number) => {
 
 export const generateAppleMapsUrl = (lat: number, lng: number) => {
   return `http://maps.apple.com/?q=${lat},${lng}&ll=${lat},${lng}&z=18`;
-};
-
-export const generateTweetUrl = (tweetId: string) => {
-  return `https://twitter.com/anyuser/status/${tweetId}`;
-};
-
-export const openTweetUrl = (tweetId: string) => {
-  window.open(generateTweetUrl(tweetId), "_blank");
 };
 
 export const openGoogleMapsUrl = (lat: number, lng: number) => {
@@ -79,8 +70,8 @@ export function MapButtons({ drawerData }: Props) {
           variant="contained"
           onClick={() => {
             button.urlCallback(
-              drawerData.geometry.location.lat,
-              drawerData.geometry.location.lng
+              drawerData.location.lat,
+              drawerData.location.lng
             );
           }}
           color={button.color}

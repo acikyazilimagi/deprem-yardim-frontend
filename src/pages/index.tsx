@@ -2,11 +2,8 @@ import dynamic from "next/dynamic";
 import { Box, SxProps, Theme } from "@mui/material";
 import { HelpViewComponent } from "@/components/UserGuide/UserGuide";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ApiClient } from "@/services/ApiClient";
-import { APIResponse, ChannelData } from "@/types";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { HeadWithMeta } from "@/components/HeadWithMeta/HeadWithMeta";
-import { BASE_URL } from "@/utils/constants";
 
 const MapContent = dynamic(
   () => import("@/components/Map/Content").then((mod) => mod.MapContent),
@@ -26,22 +23,17 @@ const UIElementsOverlay = () => {
   );
 };
 
-interface INHome {
-  channel: ChannelData;
-  apiResponse: APIResponse;
-}
-
-const NHome = (props: INHome) => {
+const NHome = () => {
   const { copyToClipBoard } = useCopyToClipboard();
 
   return (
     <>
-      <HeadWithMeta singleItemDetail={props.apiResponse} />
+      <HeadWithMeta />
       <main id="new-layout">
         <UIElementsOverlay />
         <MapContent />
         <Drawer
-          data={props.channel}
+          data={null}
           onCopyBillboard={(_clipped) => copyToClipBoard(_clipped as string)}
         />
       </main>
@@ -52,22 +44,8 @@ const NHome = (props: INHome) => {
 export default NHome;
 
 export async function getServerSideProps(context: any) {
-  const client = new ApiClient({ url: BASE_URL });
   const searchParams = new URLSearchParams(context.query);
   let redirect = false;
-
-  let channel: ChannelData | null = null;
-  let apiResponse: APIResponse | null = null;
-  if (context.query.id) {
-    const response = await client.fetchLocationByID(context.query.id);
-    channel = response.channel;
-    apiResponse = response._raw;
-
-    if (!response.channel) {
-      searchParams.delete("id");
-      redirect = true;
-    }
-  }
 
   // Pass data to the page via props
   const UA = context.req.headers["user-agent"];
@@ -89,8 +67,6 @@ export async function getServerSideProps(context: any) {
     props: {
       ...(await serverSideTranslations(context.locale, ["common", "home"])),
       deviceType: isMobile ? "mobile" : "desktop",
-      channel,
-      apiResponse,
     },
   };
 }

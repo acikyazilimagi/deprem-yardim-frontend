@@ -1,11 +1,9 @@
 import styles from "./Drawer.module.css";
 import { default as MuiDrawer } from "@mui/material/Drawer";
-import { DrawerData } from "../../stores/mapStore";
+import { DrawerData } from "@/stores/mapStore";
 import { ChannelData } from "@/types";
-import { BabalaDataProperties } from "@/services/responses/babala";
-import { TwitterDataProperties } from "@/services/responses/twitter";
 import Button from "@mui/material/Button";
-import { CopyAll, OpenInNew } from "@mui/icons-material";
+import { CopyAll } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
 import formatcoords from "formatcoords";
 import { MapButtons, generateGoogleMapsUrl } from "./components/MapButtons";
@@ -16,50 +14,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Box } from "@mui/material";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { useRouter } from "next/router";
-import { getTimeAgo } from "@/utils/date";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import RoomIcon from "@mui/icons-material/Room";
 import omit from "lodash.omit";
 import Link from "next/link";
 
 const DrawerIDLabel = ({ id }: { id: number }) => {
   return <span className={styles.contentIdSection}>ID: {id}</span>;
-};
-
-const TwitterButton = ({ data }: { data: ChannelData }) => {
-  const { t } = useTranslation("home");
-
-  return (
-    <Button
-      variant="outlined"
-      className={styles.clipboard}
-      fullWidth
-      size="small"
-      onClick={() =>
-        window.open(
-          // @ts-ignore: tweet_id generic olmadığı için kızıyor, type ile fixlenebilir
-          `https://twitter.com/anyuser/status/${data.properties.tweet_id}`
-        )
-      }
-      startIcon={<OpenInNew className={styles.btnIcon} />}
-      color="secondary"
-    >
-      {t("content.source")}
-    </Button>
-  );
-};
-
-const TimeLabel = ({ timeLabel }: { timeLabel: string }) => {
-  const { t } = useTranslation("home");
-
-  return (
-    <div className={styles.contentInfo}>
-      <AccessTimeFilledIcon fontSize="small" />
-      <span>
-        {t("content.notifyTime")}: {timeLabel}
-      </span>
-    </div>
-  );
 };
 
 const Coordinates = ({ coordinates }: { coordinates: string }) => {
@@ -86,10 +46,7 @@ const GoogleMapsStuff = ({
         fullWidth
         variant="standard"
         size="small"
-        value={generateGoogleMapsUrl(
-          data.geometry.location.lat,
-          data.geometry.location.lng
-        )}
+        value={generateGoogleMapsUrl(data.location.lat, data.location.lng)}
         InputProps={{
           readOnly: true,
         }}
@@ -102,7 +59,7 @@ const GoogleMapsStuff = ({
           fullWidth
           onClick={() =>
             onCopyBillboard(
-              `https://www.google.com/maps/@${data.geometry.location.lat.toString()},${data.geometry.location.lng.toString()},22z`
+              `https://www.google.com/maps/@${data.location.lat.toString()},${data.location.lng.toString()},22z`
             )
           }
           startIcon={<CopyAll className={styles.btnIcon} />}
@@ -165,41 +122,23 @@ const DrawerContent = ({
   data,
   onCopyBillboard,
 }: {
-  data: NonNullable<DrawerProps["data"]>;
+  data: NonNullable<DrawerData>;
   onCopyBillboard: DrawerProps["onCopyBillboard"];
 }) => {
-  const router = useRouter();
-
-  const twitterBabala = data.properties as
-    | TwitterDataProperties
-    | BabalaDataProperties;
-
-  const timeLabel =
-    twitterBabala?.timestamp &&
-    getTimeAgo(twitterBabala.timestamp, router.locale);
-
-  const title = twitterBabala?.formatted_address ?? data.properties.name;
-
-  const hasSource =
-    data &&
-    data?.channel === "twitter" &&
-    (data.properties as TwitterDataProperties).tweet_id;
+  const title = data.properties.name;
 
   const formattedCoordinates = formatcoords([
-    data.geometry.location?.lng,
-    data.geometry.location?.lat,
+    data.location?.lng,
+    data.location?.lat,
   ]).format();
 
   return (
     <div className={styles.content}>
       {data?.reference && <DrawerIDLabel id={data.reference} />}
       {title && <h3 style={{ maxWidth: "45ch" }}>{title}</h3>}
-      {timeLabel && <TimeLabel timeLabel={timeLabel} />}
       <Coordinates coordinates={formattedCoordinates} />
       <MapButtons drawerData={data} />
-      <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard}>
-        {hasSource && <TwitterButton data={data} />}
-      </GoogleMapsStuff>
+      <GoogleMapsStuff data={data} onCopyBillboard={onCopyBillboard} />
       <FeedContent content={data} />
     </div>
   );

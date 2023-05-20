@@ -1,72 +1,33 @@
 import { NextSeo } from "next-seo";
 import {
   DESCRIPTION,
-  OG_EDGE_URL_DYNAMIC,
   OG_EDGE_URL_BASE,
   TITLE,
   SEO_LANG,
 } from "./HeadWithMeta.constants";
 import { OpenGraphMedia } from "next-seo/lib/types";
-import { useMemo } from "react";
-import { APIResponse } from "@/types";
-
-interface IHeadWithMeta {
-  singleItemDetail: APIResponse | null;
-}
 
 // TODO: OG_EDGE_URL should be replace with main API
-export const HeadWithMeta = (props: IHeadWithMeta) => {
-  const validateAddress =
-    props.singleItemDetail?.formatted_address !== undefined;
-  const validateEntry = props.singleItemDetail?.full_text !== undefined;
-  const validateLoc =
-    props.singleItemDetail?.lat !== undefined &&
-    props.singleItemDetail?.lng !== undefined;
-
-  const isPropsValid = validateAddress && validateEntry && validateLoc;
-
-  const ADDRESS = isPropsValid
-    ? (props.singleItemDetail?.formatted_address as string)
-    : TITLE;
-  const ENTRY = isPropsValid
-    ? (props.singleItemDetail?.full_text as string)
-    : DESCRIPTION;
-  const LOC = isPropsValid
-    ? (`${props.singleItemDetail?.lat},${props.singleItemDetail?.lng}` as string)
-    : "";
-
-  const url = useMemo(() => {
-    if (isPropsValid) return new URL(OG_EDGE_URL_BASE).href;
-
-    const dynamicURL = new URL(OG_EDGE_URL_DYNAMIC);
-    const query = new URLSearchParams();
-    query.append("loc", LOC);
-    query.append("address", ADDRESS);
-    query.append("entry", ENTRY);
-    dynamicURL.search = query.toString();
-
-    return dynamicURL.href;
-  }, [ADDRESS, ENTRY, LOC, isPropsValid]);
-
+export const HeadWithMeta = () => {
   const IMAGES: OpenGraphMedia[] = [
     {
-      url,
+      url: new URL(OG_EDGE_URL_BASE).href,
       width: 1200,
       height: 630,
-      alt: `${ADDRESS}`,
+      alt: `${TITLE}`,
       type: "image/png",
     },
   ];
 
   return (
     <NextSeo
-      title={ADDRESS}
-      description={ENTRY}
+      title={TITLE}
+      description={DESCRIPTION}
       openGraph={{
         type: "website",
         url: "https://afetharita.com/",
-        title: ADDRESS,
-        description: ENTRY,
+        title: TITLE,
+        description: DESCRIPTION,
         siteName: "Afet Haritası",
         images: IMAGES,
       }}

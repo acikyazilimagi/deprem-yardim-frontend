@@ -24,11 +24,7 @@ const useHeatmapPoints = (locations: ChannelData[]) => {
     () =>
       locations.map(
         (item) =>
-          [
-            item.geometry.location.lng,
-            item.geometry.location.lat,
-            DEFAULT_IMPORTANCY,
-          ] as Point
+          [item.location.lng, item.location.lat, DEFAULT_IMPORTANCY] as Point
       ),
     [locations]
   );

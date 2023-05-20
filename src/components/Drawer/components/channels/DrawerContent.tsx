@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./drawerContent.module.css";
+
 function DrawerContent({ children }: { children: ReactNode }) {
   return <div className={styles.drawerContent}>{children}</div>;
 }

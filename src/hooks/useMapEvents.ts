@@ -19,7 +19,7 @@ const expandCoordinatesBy = (coordinates: L.LatLngBounds, value: number) => {
 
 export const useMapEvents = () => {
   const mapZoomLevelRef = useRef(0);
-  const { setPopUpData, setEventType } = useMapActions();
+  const { setEventType } = useMapActions();
   const { actions } = useMapGeographyStore();
 
   const debounced = useDebouncedCallback(
@@ -58,11 +58,6 @@ export const useMapEvents = () => {
     zoomend: () => {
       debounced(map.getBounds(), "zoomend");
       setEventType("zoomend");
-
-      const isZoomOut = mapZoomLevelRef.current > map.getZoom();
-      if (isZoomOut) {
-        setPopUpData(null);
-      }
     },
     zoomstart: () => {
       setEventType("zoomstart");
