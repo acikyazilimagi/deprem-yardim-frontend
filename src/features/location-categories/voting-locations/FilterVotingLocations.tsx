@@ -18,8 +18,8 @@ export const FilterVotingLocations = () => {
   const {
     isOpen,
     actions,
-    selectedCityId,
-    selectedDistrictId,
+    selectedCity,
+    selectedDistrict,
     selectedNeighborhoodId,
     selectedSchoolId,
   } = useVotingLocations();
@@ -41,12 +41,12 @@ export const FilterVotingLocations = () => {
       }
     >
       <FilterControl
-        value={selectedCityId}
+        value={selectedCity?.id}
         label={t("filter.city")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
           if (typeof value !== "number") return;
-          actions.setSelectedCityId(value);
+          actions.setSelectedCity({ id: value });
         }}
       >
         {cities.map((city) => {
@@ -59,19 +59,19 @@ export const FilterVotingLocations = () => {
       </FilterControl>
 
       <FilterControl
-        disabled={!selectedCityId}
-        value={selectedDistrictId ?? ""}
+        disabled={!selectedCity?.id}
+        value={selectedDistrict?.id ?? ""}
         label={t("filter.district")}
         onChange={(event: SelectChangeEvent<number>) => {
           const { value } = event.target;
 
           if (typeof value !== "number") return;
 
-          actions.setSelectedDistrictId(value);
+          actions.setSelectedDistrict({ id: value });
         }}
       >
-        {selectedCityId &&
-          getDistricts(selectedCityId).map((district) => {
+        {selectedCity?.id &&
+          getDistricts(selectedCity?.id).map((district) => {
             return (
               <MenuItem key={district.id} value={district.id}>
                 {district.name}
@@ -81,7 +81,7 @@ export const FilterVotingLocations = () => {
       </FilterControl>
 
       <FilterControl
-        disabled={!selectedDistrictId}
+        disabled={!selectedDistrict?.id}
         value={selectedNeighborhoodId ?? ""}
         label={t("filter.neighborhood")}
         onChange={(event: SelectChangeEvent<number>) => {
