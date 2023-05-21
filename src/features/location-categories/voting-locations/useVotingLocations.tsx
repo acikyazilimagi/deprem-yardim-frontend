@@ -53,32 +53,26 @@ export const useVotingLocations = create<State>()(
 );
 
 useVotingLocations.subscribe((state, previousState) => {
-  if (state.selectedCity?.id === previousState.selectedCity?.id) return;
+  if (state.selectedDistrict?.id != previousState.selectedDistrict?.id) {
+    const district = cityDistricts.find(
+      (district) => district.id == state.selectedDistrict?.id
+    );
 
-  const city = cities.find((city) => city.id === state.selectedCity?.id);
+    if (!district || district.id == previousState.selectedDistrict?.id) return;
 
-  if (!city || city.id == previousState.selectedCity?.id) return;
+    state.actions.setSelectedDistrict(district);
 
-  state.actions.setSelectedCity(city);
+    state.actions.setSelectedNeighborhoodId(null);
+    state.actions.setSelectedSchoolId(null);
+  } else if (state.selectedCity?.id != previousState.selectedCity?.id) {
+    const city = cities.find((city) => city.id === state.selectedCity?.id);
 
-  state.actions.setSelectedDistrict(null);
-  state.actions.setSelectedNeighborhoodId(null);
-  state.actions.setSelectedSchoolId(null);
-});
+    if (!city || city.id == previousState.selectedCity?.id) return;
 
-useVotingLocations.subscribe((state, previousState) => {
-  if (!state.selectedCity?.id) return;
+    state.actions.setSelectedCity(city);
 
-  if (state.selectedDistrict?.id == previousState.selectedDistrict?.id) return;
-
-  const district = cityDistricts.find(
-    (district) => district.id == state.selectedDistrict?.id
-  );
-
-  if (!district || district.id == previousState.selectedDistrict?.id) return;
-
-  state.actions.setSelectedDistrict(district);
-
-  state.actions.setSelectedNeighborhoodId(null);
-  state.actions.setSelectedSchoolId(null);
+    state.actions.setSelectedDistrict(null);
+    state.actions.setSelectedNeighborhoodId(null);
+    state.actions.setSelectedSchoolId(null);
+  }
 });
