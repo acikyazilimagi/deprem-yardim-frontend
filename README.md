@@ -1,10 +1,8 @@
 ## To support the project
 
-[Story of Project](./docs/STORY-BEHIND.md)
-
 Communications:
 
-- [Discord Channel](https://t.co/MzLdlNPOmY)
+- [Discord Channel](https://discord.gg/itdepremyardim)
 
 To Contribute:
 
