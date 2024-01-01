@@ -1,0 +1,15 @@
+image:
+  file: .gitpod.Dockerfile
+
+ports:
+  - port: 3000
+    description: Front end
+    onOpen: open-browser
+    visibility: public
+
+tasks:
+  - before: |
+      mv .env.sample .env.development
+  - init: |
+      yarn
+      yarn dev

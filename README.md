@@ -44,3 +44,7 @@ yarn dev
 ```
 
 You can open up the [http://localhost:3000](http://localhost:3000) address on your browser to see the result.
+
+## Alternatively for local development, you can use Gitpod
+You can use Gitpod to start coding immediately
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/acikyazilimagi/deprem-yardim-frontend) 
